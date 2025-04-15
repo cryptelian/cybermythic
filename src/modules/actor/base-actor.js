@@ -9,13 +9,13 @@ import { Misc } from "../misc.js";
 import { Modifiers } from "../modifiers/modifiers.js";
 import { RollDialog } from "../roll/roll-dialog.js";
 import { MATRIX_SKILLS } from "../skills.js";
+import { AnarchyUsers } from "../users.js";
 import { ActorDamageManager } from "./actor-damage.js";
-
 
 export class AnarchyBaseActor extends Actor {
 
   static init() {
-    Hooks.on('updateActor', async (actor, updates, options, id) => await actor.onUpdateActor(updates, options));
+    Hooks.on('updateActor', (actor, updates, options, id) => AnarchyUsers.firstResponsible(actor)?.onUpdateActor(updates, options))
   }
 
   constructor(docData, context = {}) {
@@ -116,8 +116,8 @@ export class AnarchyBaseActor extends Actor {
       return []
     }
     return buttons.sort((a, b) => {
-      if (game.i18n.localize(a.labelkey) > game.i18n.localize(b.labelkey)) return 1;
-      if (game.i18n.localize(a.labelkey) < game.i18n.localize(b.labelkey)) return -1;
+      if (game.system.anarchy.hacks.i18n.localize(a.labelkey) > game.system.anarchy.hacks.i18n.localize(b.labelkey)) return 1;
+      if (game.system.anarchy.hacks.i18n.localize(a.labelkey) < game.system.anarchy.hacks.i18n.localize(b.labelkey)) return -1;
       return 0;
     })
   }
@@ -145,10 +145,12 @@ export class AnarchyBaseActor extends Actor {
     this.system.modifiers = {
       initiative: Modifiers.sumModifiers(this.items, 'other', 'initiative')
     }
-    Object.entries(this.system.monitors).forEach(kv => {
-      kv[1].maxBonus = Modifiers.sumMonitorModifiers(this.items, kv[0], 'max')
-      kv[1].resistanceBonus = Modifiers.sumMonitorModifiers(this.items, kv[0], 'resistance')
-    })
+    if (this.system.monitors) {
+      Object.entries(this.system.monitors).forEach(kv => {
+        kv[1].maxBonus = Modifiers.sumMonitorModifiers(this.items, kv[0], 'max')
+        kv[1].resistanceBonus = Modifiers.sumMonitorModifiers(this.items, kv[0], 'resistance')
+      })
+    }
     if (this.system.attributes) {
       Object.entries(this.system.attributes).forEach(kv => kv[1].total = this.getAttributeValue(kv[0]))
     }
@@ -186,13 +188,13 @@ export class AnarchyBaseActor extends Actor {
     }
   }
 
-  computePhysicalState(){
+  computePhysicalState() {
     return { value: 0, max: 0 }
   }
 
   computeMatrixState() {
     const matrixDetails = this.getMatrixDetails();
-    if (matrixDetails.hasMatrix){
+    if (matrixDetails.hasMatrix) {
       return {
         value: matrixDetails.monitor.max - matrixDetails.monitor.value,
         max: matrixDetails.monitor.max
@@ -226,7 +228,7 @@ export class AnarchyBaseActor extends Actor {
 
   async defSetMatrixMonitor(path, value) {
     if (!this.getMatrixDetails().hasMatrix) {
-      game.i18n.format(ANARCHY.actor.monitors.noMatrixMonitor, { actor: this.name })
+      game.system.anarchy.hacks.i18n.format(ANARCHY.actor.monitors.noMatrixMonitor, { actor: this.name })
     }
     else {
       await this.update({ [path]: value })
@@ -448,9 +450,9 @@ export class AnarchyBaseActor extends Actor {
       return;
     }
     if (!this.canUseEdge()) {
-      const message = game.i18n.localize(ANARCHY.common.errors.noEdgeForActor, {
+      const message = game.system.anarchy.hacks.i18n.localize(ANARCHY.common.errors.noEdgeForActor, {
         actor: this.name,
-        actorType: game.i18n.localize(ANARCHY.actorType[this.type])
+        actorType: game.system.anarchy.hacks.i18n.localize(ANARCHY.actorType[this.type])
       });
       ui.notifications.warn(message)
       throw ANARCHY.common.errors.noEdgeForActor + message;
@@ -539,7 +541,10 @@ export class AnarchyBaseActor extends Actor {
   }
 
   computeShortcuts() {
-    return this.system.favorites.map(f => this.getShortcut(f.type, f.id));
+    if (this.system.favorites) {
+      return this.system.favorites.map(f => this.getShortcut(f.type, f.id));
+    }
+    return []
   }
 
   getShortcut(type, id) {

@@ -33,19 +33,22 @@ export class AnarchyUsers {
     return (game.version ? game.users : game.users.entities).filter(filter);
   }
 
-  static oneGM() {
-    return AnarchyUsers.getUsers(u => u.isGM).at(0);
-  }
-
   static firstConnectedGM() {
-    return AnarchyUsers.getUsers(u => u.isGM && u.active).sort(Misc.ascending(u => u.id)).at(0);
+    return AnarchyUsers.getUsers(u => u.isGM && u.active).sort(Misc.ascending(u => u.id)).at(0) ?? {};
   }
 
   /**
    * @returns true pour un seul utilisateur: le premier GM connecté par ordre d'id
    */
   static isUniqueConnectedGM(user = game.user) {
-    return user.id == AnarchyUsers.firstConnectedGM()?.id;
+    return user.id == AnarchyUsers.firstConnectedGM().id;
+  }
+
+  static firstResponsible(document) {
+    if (!document.testUserPermission) {
+      return undefined
+    }
+    return AnarchyUsers.getUsers(u => u.active && document.testUserPermission(u, CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER)) == game.user
   }
 
   static getTargetTokens(user) {
