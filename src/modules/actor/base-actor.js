@@ -116,8 +116,8 @@ export class AnarchyBaseActor extends Actor {
       return []
     }
     return buttons.sort((a, b) => {
-      if (game.system.anarchy.hacks.i18n.localize(a.labelkey) > game.system.anarchy.hacks.i18n.localize(b.labelkey)) return 1;
-      if (game.system.anarchy.hacks.i18n.localize(a.labelkey) < game.system.anarchy.hacks.i18n.localize(b.labelkey)) return -1;
+      if (game.i18n.localize(a.labelkey) > game.i18n.localize(b.labelkey)) return 1;
+      if (game.i18n.localize(a.labelkey) < game.i18n.localize(b.labelkey)) return -1;
       return 0;
     })
   }
