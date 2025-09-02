@@ -37,10 +37,12 @@ export class GMManager extends Application {
       };
       const templateHTML = await renderTemplate(templatePath, templateData);
       const template = $(templateHTML)
-      const buttonGM = template.find('.gmmanager')
-      const buttonDICE = template.find('.rolldice')
+      $(html).find('form.chat-form').append(template[0]);
 
-      buttonDICE.on("click", () => {
+      const buttonDICE = $(html).find('form.chat-form .rolldice')
+
+      buttonDICE.on("click", event => {
+        event.preventDefault();
         new Dialog({
           title: game.i18n.localize("ANARCHY.chat_actions.rollDice.title"),
           content: "<div style=\"display:flex;margin:4px 0 8px 0;align-items:center;gap:8px\">" +
@@ -51,7 +53,7 @@ export class GMManager extends Application {
             submit: {
               label: game.i18n.localize("ANARCHY.common.roll.button"), icon: '<i class="fas fa-dice"></i>',
               callback: async (html) => {
-                const count = html.find('input[name="macro-roll-count-dice"]').val();
+                const count = $(html).find('input[name="macro-roll-count-dice"]').val();
                 if (!count || isNaN(count) || count <= 0) {
                   ui.notifications.warn(game.i18n.localize("ANARCHY.chat_actions.rollDice.error"));
                   return;
@@ -76,19 +78,19 @@ export class GMManager extends Application {
           },
           default: "submit"
         }).render(true);
-      });
+      })
 
-      buttonGM.on("click", () => {
+      const buttonGM = $(html).find('form.chat-form .gmmanager')
+      buttonGM.on("click", event => {
+        event.preventDefault();
         if (this._element) {
           this.close();
         } else {
           this.render(true);
         }
-      });
+      })
 
-      html.append(template);
-    }
-    );
+    })
   }
 
   onReady() {
