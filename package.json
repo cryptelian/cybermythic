@@ -10,7 +10,8 @@
     "packCompendiumsToDist": "node ./tools/packCompendiumsToDist.mjs",
     "packCompendiumsToPublic": "node ./tools/packCompendiumsToPublic.mjs",
     "unpackCompendiumsFromPublic": "node ./tools/unpackCompendiumsFromPublic.mjs",
-    "build:ninja": "VITE_SYSTEM_ID=ninjanarchy OUT_DIR=dist-ninja npx vite build && VITE_SYSTEM_ID=ninjanarchy OUT_DIR=dist-ninja node ./tools/rewriteSystemJson.mjs",
+    "build:ninja": "VITE_SYSTEM_ID=ninjanarchy OUT_DIR=dist-ninja npx vite build && VITE_SYSTEM_ID=ninjanarchy OUT_DIR=dist-ninja node ./tools/rewriteSystemJson.mjs && VITE_SYSTEM_ID=ninjanarchy OUT_DIR=dist-ninja node ./tools/packCompendiumsWithRewrite.mjs",
+    "dev:ninja": "VITE_SYSTEM_ID=ninjanarchy npx vite serve",
     "lint": "eslint \"src/**/*.js\" \"public/**/*.mjs\"",
     "lint:fix": "npm run lint -- --fix",
     "format": "prettier -w \"{src,public}/**/*.{js,mjs,css,scss,json,md}\"",
@@ -42,5 +43,12 @@
   },
   "dependencies": {
     "rollup-plugin-visualizer": "^5.12.0"
+  },
+  "overrides": {
+    "socket.io-parser": "^4.2.3",
+    "socket.io-client": "^4.7.5",
+    "ws": "^8.17.1",
+    "engine.io-client": "^6.5.4",
+    "tinymce": "^6.8.6"
   }
 }
