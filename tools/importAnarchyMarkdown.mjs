@@ -581,79 +581,44 @@ function parseMarkdown(md) {
     });
 
     // Parse Weapon tables (robust join of brand lines and variable spacing)
-    const startDamageHeader = catalog.search(/\n\s*Damage\s+Close\s+Near\s+Far\s*\n/i);
-    const weaponAreaStart = startDamageHeader >= 0 ? startDamageHeader : catalog.search(/\n\s*WEAPONS\s*\n/i);
-    const armorHeaderIdx = catalog.search(/\n\s*ARMOR\b/i);
-    const weaponTableRegion = weaponAreaStart >= 0 && armorHeaderIdx > weaponAreaStart
-      ? catalog.substring(weaponAreaStart, armorHeaderIdx)
+    const weaponHeaderMatch = catalog.match(/^\s*WEAPONS\s*$/im);
+    const weaponHeaderIdx = weaponHeaderMatch ? weaponHeaderMatch.index : -1;
+    const armorHeaderMatch = catalog.match(/^\s*ARMOR\s*$/im);
+    const armorHeaderIdx = armorHeaderMatch ? armorHeaderMatch.index : -1;
+    const weaponTableRegion = weaponHeaderIdx >= 0 && armorHeaderIdx > weaponHeaderIdx
+      ? catalog.substring(weaponHeaderIdx, armorHeaderIdx)
       : '';
     if (weaponTableRegion) {
-      const groupNames = [
-        'Heavy Pistols', 'Machine Pistols', 'Light Pistols', 'Submachine Guns', 'Assault Rifles', 'Sniper Rifles', 'Shotguns',
-        'Unarmed Combat', 'Knives/knucks/spurs', 'Staff/baton/club', 'Stun baton/staff', 'Swords/axes',
-        'Thrown weapon', 'Bow and arrow', 'Crossbow', 'Grenades'
-      ];
-      const groupSet = new Set(groupNames.map(g => g.toLowerCase()));
       const rawLines = weaponTableRegion.split(/\r?\n/);
-      const joined = [];
-      let buffer = '';
-      let parenOpen = false;
-      const openParenCount = s => (s.match(/\(/g) || []).length;
-      const closeParenCount = s => (s.match(/\)/g) || []).length;
-      for (let li = 0; li < rawLines.length; li++) {
-        const cur = rawLines[li];
-        if (!cur.trim()) continue;
-        if (!buffer) buffer = cur.trim();
-        else buffer += ' ' + cur.trim();
-        parenOpen = (openParenCount(buffer) > closeParenCount(buffer));
-        if (!parenOpen) {
-          joined.push(buffer);
-          buffer = '';
-        }
-      }
+      const joined = rawLines
+        .map(l => l.replace(/[\t ]+/g, ' ').trim())
+        .filter(l => l && !/^WEAPONS$/i.test(l) && !/^CLOSE\s+COMBAT$/i.test(l) && !/^HEAVY\s+WEAPONS$/i.test(l) && !/^PROJECTILE\s+WEAPONS$/i.test(l) && !/^DAMAGE\s+CLOSE\s+NEAR\s+FAR$/i.test(l));
       const seenWeapon = new Set();
       let joinedCount = 0;
       for (const entry of joined) {
         joinedCount++;
-        // Identify a known group at start
-        const grp = groupNames.find(g => entry.toLowerCase().startsWith(g.toLowerCase() + ' '));
-        if (!grp) continue;
-        // Extract optional brand list at end
-        const brandsMatch = entry.match(/\(([A-Za-z0-9 ,\-\/'"\.]+)\)\s*$/);
-        const brandList = (brandsMatch?.[1] ?? '').split(/,\s*/).filter(Boolean);
-        const rest = (brandsMatch ? entry.slice(0, entry.lastIndexOf('(')) : entry).slice(grp.length).trim();
-        // Tokenize rest by whitespace (tabs/spaces)
-        const cols = rest.split(/\s+/).filter(Boolean);
-        if (cols.length < 4) continue;
-        // Damage token may be two tokens (STR/2 +1P) or one (6P)
-        let dmgTok = cols[0];
-        let idxTok = 1;
-        if (/^STR\/2$/i.test(cols[0]) && /^\+?\d+[PS]$/i.test(cols[1])) { dmgTok = cols[0] + ' ' + cols[1]; idxTok = 2; }
-        const clean = v => v.replace(/\*$/, '').toUpperCase();
-        const toVal = v => (v === 'OK' ? 0 : (/^\-\d+$/.test(v) ? parseInt(v, 10) : 0));
-        const rClose = clean(cols[idxTok] ?? 'OK');
-        const rNear = clean(cols[idxTok + 1] ?? 'OK');
-        const rFar = clean(cols[idxTok + 2] ?? '-');
-        const short = toVal(rClose);
-        const medium = toVal(rNear);
+        // Row format: Group  DMG  Close Near Far (Brands)
+        const mrow = entry.match(/^(Heavy Pistols|Machine Pistols|Light Pistols|Submachine Guns|Assault Rifles|Sniper Rifles|Shotguns|Unarmed Combat|Knives\/knucks\/spurs|Staff\/baton\/club|Stun baton\/staff|Swords\/axes|Thrown weapon|Bow and arrow|Crossbow|Grenades|Stun grenades)\s+((?:STR\/2)(?:\s*\+\s*\d+)?|\d+)([PS])\s+(OK|\-\d+|\-)\s+(OK|\-\d+|\-)\s+(OK|\-\d+|\-)(?:\s*\(([^)]+)\))?$/i);
+        if (!mrow) continue;
+        const grp = mrow[1];
+        const dmgTok = mrow[2];
+        const monitor = (mrow[3] || 'S').toUpperCase() === 'P' ? 'physical' : 'stun';
+        const toVal = v => (v.toUpperCase() === 'OK' ? 0 : (/^\-\d+$/.test(v) ? parseInt(v, 10) : 0));
+        const short = toVal(mrow[4]);
+        const medium = toVal(mrow[5]);
+        const rFar = mrow[6].toUpperCase();
         const longVal = toVal(rFar);
         const max = rFar === '-' ? 'medium' : 'long';
-        // Parse damage/monitor
+        const brandList = (mrow[7] ?? '').split(/,\s*/).filter(Boolean);
         let damageAttribute = '';
         let damage = 0;
-        let monitor = 'stun';
-        const dm = dmgTok.match(/^(STR\/2)(?:\s*\+\s*(\d+))?([PS])?$/i) || dmgTok.match(/^(\d+)([PS])$/i);
-        if (dm) {
-          if ((dm[1] || '').toUpperCase() === 'STR/2') {
-            damageAttribute = 'strength';
-            damage = toInt(dm[2] ?? '0');
-            monitor = (dm[3] ?? 'S').toUpperCase() === 'P' ? 'physical' : 'stun';
-          } else {
-            damage = toInt(dm[1]);
-            monitor = (dm[2] ?? 'S').toUpperCase() === 'P' ? 'physical' : 'stun';
-          }
+        if (/^STR\/2/i.test(dmgTok)) {
+          damageAttribute = 'strength';
+          const add = dmgTok.match(/\+\s*(\d+)/);
+          damage = toInt(add?.[1] ?? '0');
+        } else {
+          damage = toInt(dmgTok);
         }
-        const skill = /Thrown|Bow|Crossbow/i.test(grp) ? 'projectileWeapons' : (/Unarmed|Knives|Staff|Stun baton|Swords/i.test(grp) ? 'closeCombat' : 'firearms');
         const names = brandList.length ? brandList : [grp];
         for (const n of names) {
           const nm = n.trim();
@@ -662,7 +627,7 @@ function parseMarkdown(md) {
           seenWeapon.add(key);
           items.push({
             ...baseItemDoc(nm, 'weapon'),
-            system: { skill, specialization: '', strength: damageAttribute === 'strength', damage, damageAttribute, noArmor: false, monitor, defense: '', area: '', drain: 0, range: { max, short, medium, long: longVal }, modifiers: [], inactive: false, references: { sourceReference: 'Anarchy Catalog', description: entry.trim(), gmnotes: '' } }
+            system: { skill: (/Thrown|Bow|Crossbow/i.test(grp) ? 'projectileWeapons' : (/Unarmed|Knives|Staff|Stun baton|Swords/i.test(grp) ? 'closeCombat' : 'firearms')), specialization: '', strength: damageAttribute === 'strength', damage, damageAttribute, noArmor: false, monitor, defense: '', area: '', drain: 0, range: { max, short, medium, long: longVal }, modifiers: [], inactive: false, references: { sourceReference: 'Anarchy Catalog', description: entry.trim(), gmnotes: '' } }
           });
         }
       }
