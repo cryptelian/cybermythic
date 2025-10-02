@@ -64,6 +64,10 @@ When Foundry starts in the backend (Node.js), it will detect the necessary files
 
 When you connect to Foundry from a browser (frontend), Vite will intercept all requests and redirect them to Foundry, except for requests to `systems/anarchy`. These files will be served by the Vite project.
 
+### Developer style guide
+
+See `docs/style-guide.md` for tokens, naming, file layout, and lint/format rules.
+
 ## Note on Vite Server and Foundry Interaction
 
 The Vite server is configured to handle specific API calls (e.g., to **systems/anarchy**) directly, enhancing development efficiency. All other requests are forwarded to the local Foundry server, ensuring that the environment replicates the production setup as closely as possible.
@@ -75,13 +79,13 @@ Compendium sources are located in `src/packs`. Content are written in a yaml for
 Commands are available to manage them:
 
 Compile compendiums to the dist folder:
+
 ```bash
 node ./tools/packCompendiumsToDist.mjs
 ```
 
 Extract compendiums from the dist folder (for example, after changing the content on the running server, to update the source files):
+
 ```bash
 node ./tools/unpackCompendiumsFromDist.mjs
 ```
-
-
