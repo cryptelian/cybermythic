@@ -346,49 +346,55 @@ function buildCharacterFromSection(section) {
     }
   }
 
-  // Parse Weapons table subset if present
-  const weaponsBlockRx = /(\nWEAPONS\s*\n)([\s\S]*?)(\n(UNARMED|ARMOR|GEAR|CONTACTS)\b)/i;
+  // Parse Weapons table subset if present (keep UNARMED within the weapons block)
+  const weaponsBlockRx = /(\nWEAPONS\s*\n)([\s\S]*?)(\n(ARMOR|GEAR|CONTACTS|CUES|QUALITIES)\b)/i;
   const weaponsBlock = section.text.match(weaponsBlockRx)?.[2] ?? '';
-  const weaponEntries = [];
-  const lines = weaponsBlock.split(/\r?\n/).map(normalizeSpaces).filter(Boolean);
-  // Simple pairwise parser for alternating name/damage-range lines
+  const lines = weaponsBlock.split(/\r?\n/).map(l => l.replace(/[\t ]+/g, ' ').trim()).filter(Boolean);
+  let pendingName = '';
   for (let i = 0; i < lines.length; i++) {
-    const nameLine = lines[i];
-    const dmgLine = lines[i + 1] || '';
-    if (/^DAM\b/i.test(nameLine) || /^CLOSE\b/i.test(nameLine)) continue;
-    const rangeMatch = dmgLine.match(/^(\d+|STR\/2\s*\+?\s*\d*|STR\/2)\s*([PS])\s+([A-Z\-0-9]+)\s+([A-Z\-0-9]+)\s+([A-Z\-0-9]+)/i)
-      || dmgLine.match(/^(\d+|STR\/2\s*\+?\s*\d*|STR\/2)([PS])?\s+OK|-/i);
-    if (!rangeMatch) continue;
-    const name = nameLine.replace(/\s{2,}.*/, '').trim();
-    weaponEntries.push({ name, dmgLine });
-    i++;
-  }
-  for (const entry of weaponEntries) {
-    const { name, dmgLine } = entry;
-    // Extract damage
-    const dmgm = dmgLine.match(/^(STR\/2(?:\s*\+\s*(\d+))?|\d+)([PS])/i);
-    let damageAttribute = '';
-    let damage = 0;
-    let monitor = 'stun';
-    if (dmgm) {
-      monitor = (dmgm[3] || 'S').toUpperCase() === 'P' ? 'physical' : 'stun';
-      if (/^STR\/2/i.test(dmgm[1])) {
-        damageAttribute = 'strength';
-        damage = toInt(dmgm[2] ?? '0');
-      } else {
-        damage = toInt(dmgm[1] ?? '0');
+    const line = lines[i];
+    if (/^WEAPONS$/i.test(line) || /^DAMAGE\s+CLOSE\s+NEAR\s+FAR$/i.test(line)) continue;
+    if (/^UNARMED$/i.test(line)) { pendingName = 'Unarmed'; continue; }
+    // If line contains both name and damage columns
+    let m = line.match(/^(.*?)[\s]+((?:STR\/2)(?:\s*\+\s*\d+)?|\d+)([PS])\s+(OK|\-\d+|\-)\s+(OK|\-\d+|\-)\s+(OK|\-\d+|\-)$/i);
+    let name = undefined; let dmgBase = undefined; let monitor = 'stun'; let short = 0; let medium = 0; let longVal = 0; let damageAttribute = '';
+    if (m) {
+      name = m[1].trim();
+      dmgBase = m[2];
+      monitor = (m[3] || 'S').toUpperCase() === 'P' ? 'physical' : 'stun';
+      const toVal = v => (v.toUpperCase() === 'OK' ? 0 : (/^\-\d+$/.test(v) ? parseInt(v, 10) : 0));
+      short = toVal(m[4]); medium = toVal(m[5]); longVal = toVal(m[6]);
+    }
+    else {
+      // Maybe a pure damage line following a header name (e.g., UNARMED)
+      const dm = line.match(/^((?:STR\/2)(?:\s*\+\s*\d+)?|\d+)([PS])\s+(OK|\-\d+|\-)\s+(OK|\-\d+|\-)\s+(OK|\-\d+|\-)$/i);
+      if (dm && pendingName) {
+        name = pendingName;
+        dmgBase = dm[1];
+        monitor = (dm[2] || 'S').toUpperCase() === 'P' ? 'physical' : 'stun';
+        const toVal = v => (v.toUpperCase() === 'OK' ? 0 : (/^\-\d+$/.test(v) ? parseInt(v, 10) : 0));
+        short = toVal(dm[3]); medium = toVal(dm[4]); longVal = toVal(dm[5]);
+        pendingName = '';
+      }
+      else {
+        // This might be a name-only line; set as pending
+        if (!/^ARMOR$|^GEAR$|^CONTACTS$|^CUES$|^QUALITIES$/i.test(line)) {
+          pendingName = line;
+        }
+        continue;
       }
     }
-    // Extract ranges (Close/Near/Far) tokens like OK, -2, -
-    const tokens = dmgLine.split(/\s+/);
-    const okIdx = tokens.findIndex(t => /OK|\-\d+|\-/i.test(t));
-    const tri = tokens.slice(okIdx, okIdx + 3).map(t => t.toUpperCase());
-    const toVal = v => (v === 'OK' ? 0 : (/^\-\d+$/.test(v) ? parseInt(v, 10) : 0));
-    const short = toVal(tri[0] ?? 'OK');
-    const medium = toVal(tri[1] ?? 'OK');
-    const farToken = tri[2] ?? '-';
-    const longVal = toVal(farToken);
-    const max = farToken === '-' ? 'medium' : 'long';
+    // Compute damage numeric and attribute
+    let damage = 0;
+    if (/^STR\/2/i.test(dmgBase)) {
+      damageAttribute = 'strength';
+      const add = dmgBase.match(/\+\s*(\d+)/);
+      damage = toInt(add?.[1] ?? '0');
+    }
+    else {
+      damage = toInt(dmgBase);
+    }
+    const max = longVal === 0 && (m ? m[6] : '') === '-' ? 'medium' : 'long';
     actor.items.push({
       ...baseItemDoc(name, 'weapon'),
       system: {
@@ -405,10 +411,22 @@ function buildCharacterFromSection(section) {
         range: { max, short, medium, long: longVal },
         modifiers: [],
         inactive: false,
-        references: { sourceReference: 'Anarchy Full.md', description: dmgLine.trim(), gmnotes: '' }
+        references: { sourceReference: 'Anarchy Full.md', description: line.trim(), gmnotes: '' }
       }
     });
   }
+
+  // Parse Qualities section (names only if present)
+  const qualBlockRx = /(\nQUALITIES\s*\n)([\s\S]*?)(\n(WEAPONS|ARMOR|GEAR|CONTACTS|CUES)\b)/i;
+  const qualBlock = section.text.match(qualBlockRx)?.[2] ?? '';
+  qualBlock.split(/\r?\n/).map(normalizeSpaces).filter(Boolean).forEach(q => {
+    if (q && !/^\(.*\)$/.test(q)) {
+      actor.items.push({
+        ...baseItemDoc(q, 'quality'),
+        system: { modifiers: [], inactive: false, references: { sourceReference: 'Anarchy Full.md', description: '', gmnotes: '' }, positive: true }
+      });
+    }
+  });
 
   // Parse GEAR block as lines
   const gearBlockRx = /(\nGEAR\s*\n)([\s\S]*?)(\n(CONTACTS|CUES|QUALITIES|WEAPONS|ARMOR)\b)/i;
