@@ -703,6 +703,33 @@ function parseMarkdown(md) {
     }
   }
 
+  // 3) Build skills compendium from encountered actor skills
+  const skillIndex = new Map();
+  for (const actor of actors) {
+    for (const it of actor.items ?? []) {
+      if (it.type === 'skill') {
+        const key = (it.system?.code || it.name || '').toLowerCase();
+        if (!skillIndex.has(key)) {
+          const compSkill = baseItemDoc(it.name, 'skill');
+          compSkill.system = {
+            inactive: false,
+            references: { sourceReference: 'Built from character sheets', description: '', gmnotes: '' },
+            code: it.system?.code || key.replace(/[^a-z0-9]+/g, ''),
+            attribute: it.system?.attribute || 'knowledge',
+            value: 0,
+            specialization: '',
+            hasDrain: !!it.system?.hasDrain,
+            hasConvergence: !!it.system?.hasConvergence,
+            isSocial: !!it.system?.isSocial,
+            listspecialization: []
+          };
+          items.push(compSkill);
+          skillIndex.set(key, compSkill._id);
+        }
+      }
+    }
+  }
+
   return { actors, items };
 }
 
