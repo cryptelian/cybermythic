@@ -161,6 +161,16 @@
       }
     },
     {
+      "name": "anarchy-wiki",
+      "label": "Anarchy: Wiki",
+      "type": "JournalEntry",
+      "system": "anarchy",
+      "ownership": {
+        "PLAYER": "OBSERVER",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
       "name": "gm-info",
       "label": "Gamemaster information",
       "type": "JournalEntry",

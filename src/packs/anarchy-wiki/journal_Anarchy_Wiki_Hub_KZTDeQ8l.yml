@@ -1,0 +1,29 @@
+_id: BMHUnr6bR1HSmHBq
+name: Anarchy Wiki Hub
+folder: null
+sort: 0
+flags: {}
+pages:
+  - name: Welcome
+    type: text
+    title:
+      show: true
+      level: 1
+    text:
+      format: 1
+      content: <p>Use this wiki to centralize rules, gear, amps, and NPC notes. Tag
+        pages and cross-link to items and actors via UUID.</p>
+      markdown: ""
+    _id: qJLsxaGiq8zIefse
+    image: {}
+    video:
+      controls: true
+      volume: 0.5
+    src: null
+    system: {}
+    sort: 0
+    ownership:
+      default: -1
+    flags: {}
+ownership:
+  default: 0

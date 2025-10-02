@@ -414,7 +414,30 @@ function parseMarkdown(md) {
       const heading = lines[hIdx].trim();
       const content = lines.slice(hIdx + 1, nIdx).join('\n');
       if (/STRENGTH\s+AGILITY\s+WILLPOWER\s+LOGIC\s+CHARISMA\s+EDGE/i.test(content)) {
-        actors.push(buildCharacterFromSection({ heading, text: content }));
+        const actor = buildCharacterFromSection({ heading, text: content });
+        // Attach simple gear items from GEAR section comma list
+        const gearMatch = content.match(/\nGEAR[\s\S]*?\n([^\n]+)\n\s*CONTACTS/i);
+        if (gearMatch) {
+          const gearList = gearMatch[1].split(/,\s*/).map(s => s.trim()).filter(Boolean);
+          for (const g of gearList) {
+            actor.items.push({
+              ...baseItemDoc(g, 'gear'),
+              system: { inactive: false, references: { sourceReference: 'Anarchy Full.md', description: '', gmnotes: '' } }
+            });
+          }
+        }
+        // Attach contacts lines under CONTACTS until next blank or next all-caps
+        const contactsMatch = content.match(/\nCONTACTS\s*\n([\s\S]*?)\n\s*[A-Z][A-Z ]{2,}\s*$/i);
+        if (contactsMatch) {
+          const clines = contactsMatch[1].split(/\r?\n/).map(s => s.trim()).filter(Boolean);
+          for (const cLine of clines) {
+            actor.items.push({
+              ...baseItemDoc(cLine, 'contact'),
+              system: { inactive: false, references: { sourceReference: 'Anarchy Full.md', description: cLine, gmnotes: '' } }
+            });
+          }
+        }
+        actors.push(actor);
       }
     }
   }
@@ -624,6 +647,7 @@ function plannedPacks() {
     { name: 'anarchy-items-skills', label: 'Anarchy: Skills', type: 'Item', system: SYSTEM_ID, ownership: { PLAYER: 'NONE', ASSISTANT: 'OWNER' } },
     { name: 'anarchy-items-metatypes', label: 'Anarchy: Metatypes', type: 'Item', system: SYSTEM_ID, ownership: { PLAYER: 'NONE', ASSISTANT: 'OWNER' } },
     { name: 'anarchy-items-cyberdecks', label: 'Anarchy: Cyberdecks', type: 'Item', system: SYSTEM_ID, ownership: { PLAYER: 'NONE', ASSISTANT: 'OWNER' } },
+    { name: 'anarchy-wiki', label: 'Anarchy: Wiki', type: 'JournalEntry', system: SYSTEM_ID, ownership: { PLAYER: 'OBSERVER', ASSISTANT: 'OWNER' } },
   ];
 }
 
@@ -678,6 +702,37 @@ async function main() {
   for (const doc of actors.concat(items)) {
     const dir = path.join(outRoot, targetPackDirFor(doc));
     writeOps.push(writeYamlDocs([doc], dir));
+  }
+  // Seed wiki hub if missing
+  const wikiDir = path.join(outRoot, 'anarchy-wiki');
+  await ensureDir(wikiDir);
+  const wikiHubPath = path.join(wikiDir, `journal_Anarchy_Wiki_Hub_${generateId().slice(0,8)}.yml`);
+  if (!(await fileExists(wikiHubPath))) {
+    const wikiDoc = {
+      _id: generateId(),
+      name: 'Anarchy Wiki Hub',
+      folder: null,
+      sort: 0,
+      flags: {},
+      pages: [
+        {
+          name: 'Welcome',
+          type: 'text',
+          title: { show: true, level: 1 },
+          text: { format: 1, content: '<p>Use this wiki to centralize rules, gear, amps, and NPC notes. Tag pages and cross-link to items and actors via UUID.</p>', markdown: '' },
+          _id: generateId(),
+          image: {},
+          video: { controls: true, volume: 0.5 },
+          src: null,
+          system: {},
+          sort: 0,
+          ownership: { default: -1 },
+          flags: {}
+        }
+      ],
+      ownership: { default: 0 }
+    };
+    await fs.writeFile(wikiHubPath, YAML.stringify(wikiDoc), 'utf8');
   }
   await Promise.all(writeOps);
 
