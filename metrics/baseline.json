@@ -1,0 +1,47 @@
+{
+  "timestamp": "2025-10-02T07:54:55.409Z",
+  "buildMs": 1569,
+  "css": {
+    "files": [
+      {
+        "path": "dist/style/anarchy-dark.css",
+        "bytes": 8990,
+        "gzipBytes": 1751
+      },
+      {
+        "path": "dist/style/anarchy-darkglass.css",
+        "bytes": 12013,
+        "gzipBytes": 2218
+      },
+      {
+        "path": "dist/style/anarchy-shadowrun.css",
+        "bytes": 9045,
+        "gzipBytes": 1635
+      },
+      {
+        "path": "dist/style/anarchy.css",
+        "bytes": 22549,
+        "gzipBytes": 4729
+      },
+      {
+        "path": "dist/style.css",
+        "bytes": 49846,
+        "gzipBytes": 5100
+      }
+    ],
+    "totalBytes": 102443,
+    "totalGzipBytes": 15433
+  },
+  "system": {
+    "id": "anarchy",
+    "version": "13.0.0",
+    "compatibility": {
+      "minimum": 11,
+      "verified": 13
+    }
+  },
+  "git": {
+    "tag": null,
+    "commit": "7921425"
+  }
+}
