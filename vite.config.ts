@@ -35,7 +35,8 @@ const config: UserConfig = {
     css: {
         preprocessorOptions: {
             scss: {
-                additionalData: `@use "src/styles/build/optimization" as *;`,
+                // Correct partial name (underscore) and path within includePaths
+                additionalData: `@use "build/_optimization" as *;`,
                 includePaths: ['src/styles'],
                 sourceMap: true,
             }
@@ -56,7 +57,6 @@ const config: UserConfig = {
             output: {
                 manualChunks: {
                     'character-enhanced': ['src/styles/components/_character-enhanced.scss'],
-                    'themes': ['src/styles/themes/_optimized-themes.scss'],
                     'utilities': ['src/styles/components/_utility-components.scss']
                 },
                 assetFileNames: (assetInfo) => {

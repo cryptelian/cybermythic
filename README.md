@@ -61,6 +61,21 @@ For a private build of `ninjanarchy`:
 npm run build:ninja
 ```
 
+## Switching between main and ninjanarchy
+
+- Main (default `anarchy`):
+  - Dev: `npm run dev:main`
+  - Build: `npm run build:main`
+- Ninjanarchy (uses `.env.ninja` via `--mode ninja`):
+  - Dev: `npm run dev:ninja`
+  - Build to repo-local dir: `npm run build:ninja`
+  - Build to external side repo dir:
+    ```bash
+    OUT_DIR=/absolute/path/to/your/side-repo npm run build:ninja:to
+    ```
+
+Environment is mode-based; `VITE_SYSTEM_ID`, `VITE_ENABLE_INTEGRATIONS`, and `OUT_DIR` are read from `.env.ninja` when using `--mode ninja`.
+
 ## Foundry Configuration
 
 Ensure Foundry is running locally on port 30000 to allow seamless interaction between the Vite server and Foundry.

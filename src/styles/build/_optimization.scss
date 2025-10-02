@@ -35,15 +35,19 @@ $include-accessibility: true !default;
   }
 }
 
+// NOTE: Dynamic `@use` is not allowed by Sass. This mixin is a no-op placeholder
+// to preserve API without breaking compilation. Include components explicitly in
+// entry stylesheets instead of using dynamic imports.
 @mixin include-component($component-name, $include-flag) {
   @if $include-flag {
-    @use '../components/#{$component-name}';
+    // no-op; import components explicitly in your stylesheet
   }
 }
 
+// NOTE: Dynamic `@use` is not allowed. Import themes explicitly in entry files.
 @mixin include-theme($theme-name, $include-flag) {
   @if $include-flag {
-    @use '../themes/#{$theme-name}';
+    // no-op; import themes explicitly in your stylesheet
   }
 }
 
