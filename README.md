@@ -49,6 +49,10 @@ npx vite build
 
 This command compiles your JavaScript and assets into static files ready for production deployment. These files are in `./dist` directory.
 
+### Releases & changelog
+
+Releases are automated via Release Please. Merge the release PR it opens on `main`/`master` to tag a release and publish artifacts. The `download` URL in `public/system.json` is injected during the release job.
+
 ## Foundry Configuration
 
 Ensure Foundry is running locally on port 30000 to allow seamless interaction between the Vite server and Foundry.
