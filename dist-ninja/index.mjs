@@ -1,7 +1,7 @@
-var vt = Object.defineProperty;
-var Rt = (r, e, t) => e in r ? vt(r, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : r[e] = t;
-var _ = (r, e, t) => Rt(r, typeof e != "symbol" ? e + "" : e, t);
-const o = {
+var Rt = Object.defineProperty;
+var Mt = (o, e, t) => e in o ? Rt(o, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : o[e] = t;
+var x = (o, e, t) => Mt(o, typeof e != "symbol" ? e + "" : e, t);
+const n = {
   TYPES: {
     Actor: {
       character: "TYPES.Actor.character",
@@ -503,12 +503,12 @@ const o = {
       always: "ANARCHY.modifier.condition.always"
     }
   }
-}, z = class z {
+}, W = class W {
   static ascending(e = (t) => t) {
-    return (t, a) => z.sortingBy(e(t), e(a));
+    return (t, s) => W.sortingBy(e(t), e(s));
   }
   static descending(e = (t) => t) {
-    return (t, a) => z.sortingBy(e(a), e(t));
+    return (t, s) => W.sortingBy(e(s), e(t));
   }
   static sortingBy(e, t) {
     return e > t ? 1 : e < t ? -1 : 0;
@@ -517,17 +517,17 @@ const o = {
     return (t) => e.indexOf(t);
   }
   static ascendingBySortedArray(e) {
-    return z.ascending(z.bySortedArray(e));
+    return W.ascending(W.bySortedArray(e));
   }
-  static sortedMap(e, t = (a, s) => 0) {
+  static sortedMap(e, t = (s, a) => 0) {
     return Object.keys(e).sort(t).reduce(
-      (a, s) => (a[s] = e[s], a),
+      (s, a) => (s[a] = e[a], s),
       {}
     );
   }
   static reindexIds(e) {
     let t = 1;
-    return e.forEach((a) => a.id = t++), e;
+    return e.forEach((s) => s.id = t++), e;
   }
   static distinct(e) {
     return [...new Set(e)];
@@ -535,8 +535,8 @@ const o = {
   static sum() {
     return (e, t) => e + t;
   }
-  static sumValues(e, t = (a) => a) {
-    return e.map(t).filter((a) => a != null).reduce(z.sum(), 0);
+  static sumValues(e, t = (s) => s) {
+    return e.map(t).filter((s) => s != null).reduce(W.sum(), 0);
   }
   static divint(e, t) {
     return Math.floor(e / t);
@@ -545,107 +545,107 @@ const o = {
     return Math.ceil(e / t);
   }
   static join(e, t = "") {
-    return e.reduce(z.joiner(t));
+    return e.reduce(W.joiner(t));
   }
   static joiner(e = "") {
-    return (t, a) => t + e + a;
+    return (t, s) => t + e + s;
   }
-  static classify(e, t = (a) => a.type) {
-    let a = {};
-    return z.classifyInto(a, e, t), a;
+  static classify(e, t = (s) => s.type) {
+    let s = {};
+    return W.classifyInto(s, e, t), s;
   }
   static classifyFirst(e, t) {
-    let a = {};
-    for (const s of e) {
-      const i = t(s);
-      a[i] || (a[i] = s);
+    let s = {};
+    for (const a of e) {
+      const i = t(a);
+      s[i] || (s[i] = a);
     }
-    return a;
+    return s;
   }
-  static classifyInto(e, t, a = (s) => s.type) {
-    for (const s of t) {
-      const i = a(s);
-      let n = e[i];
-      n || (n = [], e[i] = n), n.push(s);
+  static classifyInto(e, t, s = (a) => a.type) {
+    for (const a of t) {
+      const i = s(a);
+      let r = e[i];
+      r || (r = [], e[i] = r), r.push(a);
     }
   }
   static showControlWhen(e, t) {
     t ? e.show() : e.hide();
   }
-  static minmax(e, t, a) {
-    return Math.max(t, Math.min(e, a));
+  static minmax(e, t, s) {
+    return Math.max(t, Math.min(e, s));
   }
 };
-_(z, "isString", (e) => typeof e == "string" || e instanceof String);
-let f = z;
-const et = {
+x(W, "isString", (e) => typeof e == "string" || e instanceof String);
+let A = W;
+const st = {
   keyword: "keywords",
   disposition: "dispositions",
   cue: "cues"
-}, p = class p {
+}, f = class f {
   // this method is the place to add settings-based entries in the enums
   static init() {
-    p.hbsAttributes = p.mapObjetToKeyValue(o.attributes).filter((e) => e.value != "knowledge" && e.value != "noAttribute"), p.hbsItemTypes = p.mapObjetToKeyValue(o.itemType), p.hbsCapacities = p.mapObjetToKeyValue(o.capacity), p.hbsMonitors = p.mapObjetToKeyValue(o.monitor), p.hbsMonitorLetters = p.mapObjetToKeyValue(o.monitorLetter), p.hbsShadowampCategories = p.mapObjetToKeyValue(o.shadowampCategory), p.hbsAreas = p.mapObjetToKeyValue(o.area), p.hbsRanges = p.mapObjetToKeyValue(o.range), p.hbsVehicleCategories = p.mapObjetToKeyValue(o.vehicleCategory), p.sortedAttributeKeys = Object.keys(o.attributes), p.registerHandleBarHelpers();
+    f.hbsAttributes = f.mapObjetToKeyValue(n.attributes).filter((e) => e.value != "knowledge" && e.value != "noAttribute"), f.hbsItemTypes = f.mapObjetToKeyValue(n.itemType), f.hbsCapacities = f.mapObjetToKeyValue(n.capacity), f.hbsMonitors = f.mapObjetToKeyValue(n.monitor), f.hbsMonitorLetters = f.mapObjetToKeyValue(n.monitorLetter), f.hbsShadowampCategories = f.mapObjetToKeyValue(n.shadowampCategory), f.hbsAreas = f.mapObjetToKeyValue(n.area), f.hbsRanges = f.mapObjetToKeyValue(n.range), f.hbsVehicleCategories = f.mapObjetToKeyValue(n.vehicleCategory), f.sortedAttributeKeys = Object.keys(n.attributes), f.registerHandleBarHelpers();
   }
   static registerHandleBarHelpers() {
-    Handlebars.registerHelper("sortedAttributes", (e) => f.sortedMap(e, f.ascendingBySortedArray(p.sortedAttributeKeys)));
+    Handlebars.registerHelper("sortedAttributes", (e) => A.sortedMap(e, A.ascendingBySortedArray(f.sortedAttributeKeys)));
   }
-  static getEnums(e = (a) => !0, t = !1) {
+  static getEnums(e = (s) => !0, t = !1) {
     return {
-      attributes: p.getAttributes(e),
-      itemTypes: p.hbsItemTypes,
-      capacities: p.hbsCapacities,
-      monitors: p.hbsMonitors,
-      shadowampCategories: p.hbsShadowampCategories,
-      skills: game.system.anarchy.skills.getSkills({ withKnowledge: t }).map((a) => ({ value: a.code, label: game.i18n.localize(a.labelkey), labelkey: a.labelkey })),
-      areas: p.hbsAreas,
-      ranges: p.hbsRanges,
-      vehicleCategories: p.hbsVehicleCategories
+      attributes: f.getAttributes(e),
+      itemTypes: f.hbsItemTypes,
+      capacities: f.hbsCapacities,
+      monitors: f.hbsMonitors,
+      shadowampCategories: f.hbsShadowampCategories,
+      skills: game.system.anarchy.skills.getSkills({ withKnowledge: t }).map((s) => ({ value: s.code, label: game.i18n.localize(s.labelkey), labelkey: s.labelkey })),
+      areas: f.hbsAreas,
+      ranges: f.hbsRanges,
+      vehicleCategories: f.hbsVehicleCategories
     };
   }
   static getAttributes(e = (t) => !0) {
-    return p.hbsAttributes.filter((t) => e(t.value));
+    return f.hbsAttributes.filter((t) => e(t.value));
   }
   static getActorWordTypes() {
-    return et;
+    return st;
   }
   static getMonitors() {
-    return p.hbsMonitors;
+    return f.hbsMonitors;
   }
   static getMonitorLetters() {
-    return p.hbsMonitorLetters;
+    return f.hbsMonitorLetters;
   }
   static getActorWordTypePlural(e) {
-    return et[e];
+    return st[e];
   }
   static localizeAttribute(e) {
-    return o.attributes[e] ? game.i18n.localize(o.attributes[e]) : game.i18n.localize(o.attributes.noAttribute);
+    return n.attributes[e] ? game.i18n.localize(n.attributes[e]) : game.i18n.localize(n.attributes.noAttribute);
   }
-  static getFromList(e, t, a = "value", s = "labelkey") {
-    const i = e.find((n) => n[a] == t);
-    return i ? i[s] : void 0;
+  static getFromList(e, t, s = "value", a = "labelkey") {
+    const i = e.find((r) => r[s] == t);
+    return i ? i[a] : void 0;
   }
-  static mapObjetToKeyValue(e, t = "value", a = "labelkey") {
+  static mapObjetToKeyValue(e, t = "value", s = "labelkey") {
     return Object.entries(e).map(
-      (s) => {
+      (a) => {
         const i = {};
-        return i[t] = s[0], i[a] = s[1], i;
+        return i[t] = a[0], i[s] = a[1], i;
       }
     );
   }
 };
-_(p, "ENUMS"), _(p, "hbsAttributes"), _(p, "hbsItemTypes"), _(p, "hbsCapacities"), _(p, "hbsMonitors"), _(p, "hbsMonitorLetters"), _(p, "hbsShadowampCategories"), _(p, "hbsAreas"), _(p, "hbsRanges"), _(p, "sortedAttributeKeys");
-let S = p;
-const Mt = { BASE_URL: "/systems/ninjanarchy/", DEV: !1, MODE: "production", PROD: !0, SSR: !1, VITE_SYSTEM_ID: "ninjanarchy" }, Ht = (() => {
+x(f, "ENUMS"), x(f, "hbsAttributes"), x(f, "hbsItemTypes"), x(f, "hbsCapacities"), x(f, "hbsMonitors"), x(f, "hbsMonitorLetters"), x(f, "hbsShadowampCategories"), x(f, "hbsAreas"), x(f, "hbsRanges"), x(f, "sortedAttributeKeys");
+let H = f;
+const Tt = { BASE_URL: "/systems/ninjanarchy/", DEV: !1, MODE: "production", PROD: !0, SSR: !1, VITE_SYSTEM_ID: "ninjanarchy" }, Ht = (() => {
   try {
-    const e = typeof import.meta < "u" && import.meta && Mt ? "ninjanarchy" : void 0;
+    const e = typeof import.meta < "u" && import.meta && Tt ? "ninjanarchy" : void 0;
     if (e && String(e).trim().length > 0)
       return String(e).trim();
   } catch {
   }
-  const r = typeof globalThis < "u" && globalThis.game && globalThis.game.system && globalThis.game.system.id ? String(globalThis.game.system.id).trim() : void 0;
-  return r && r.length > 0 ? r : "anarchy";
-})(), g = Ht, ie = "Anarchy", Ge = `system.${g}`, L = g, ue = `systems/${g}`, pt = `${ue}/style`, h = `systems/${g}/templates`, G = `${ue}/icons`, k = `${G}/skills`, P = "Anarchy | ", St = 3, Nt = 2, Tt = 6, Et = 5, Dt = 4, ft = 8, c = {
+  const o = typeof globalThis < "u" && globalThis.game && globalThis.game.system && globalThis.game.system.id ? String(globalThis.game.system.id).trim() : void 0;
+  return o && o.length > 0 ? o : "anarchy";
+})(), d = Ht, oe = "Anarchy", Ue = `system.${d}`, _ = d, ue = `systems/${d}`, At = `${ue}/style`, y = `systems/${d}/templates`, L = `${ue}/icons`, w = `${L}/skills`, h = "Anarchy | ", Et = 3, Nt = 2, Dt = 6, It = 5, zt = 4, bt = 8, l = {
   actorTypes: {
     character: "character",
     vehicle: "vehicle",
@@ -709,7 +709,7 @@ const Mt = { BASE_URL: "/systems/ninjanarchy/", DEV: !1, MODE: "production", PRO
     rect: "rect",
     ray: "ray"
   }
-}, E = {
+}, D = {
   rollType: {
     attributeAction: "attributeAction",
     defense: "defense",
@@ -744,121 +744,121 @@ const Mt = { BASE_URL: "/systems/ninjanarchy/", DEV: !1, MODE: "production", PRO
   }
 };
 globalThis.ANARCHY_CONSTANTS = {
-  SYSTEM_NAME: g,
-  SYSTEM_DESCRIPTION: ie,
-  SYSTEM_SOCKET: Ge,
-  SYSTEM_SCOPE: L,
+  SYSTEM_NAME: d,
+  SYSTEM_DESCRIPTION: oe,
+  SYSTEM_SOCKET: Ue,
+  SYSTEM_SCOPE: _,
   SYSTEM_PATH: ue,
-  STYLE_PATH: pt,
-  TEMPLATES_PATH: h,
-  ICONS_PATH: G,
-  ICONS_SKILLS_PATH: k,
-  LOG_HEAD: P,
-  ANARCHY_DICE_BONUS: St,
+  STYLE_PATH: At,
+  TEMPLATES_PATH: y,
+  ICONS_PATH: L,
+  ICONS_SKILLS_PATH: w,
+  LOG_HEAD: h,
+  ANARCHY_DICE_BONUS: Et,
   SPECIALIZATION_BONUS: Nt,
-  PLAYER_MAX_ANARCHY: Tt,
-  TARGET_SUCCESS: Et,
-  TARGET_SUCCESS_EDGE: Dt,
-  BASE_MONITOR: ft,
-  TEMPLATE: c,
-  ANARCHY_SYSTEM: E
+  PLAYER_MAX_ANARCHY: Dt,
+  TARGET_SUCCESS: It,
+  TARGET_SUCCESS_EDGE: zt,
+  BASE_MONITOR: bt,
+  TEMPLATE: l,
+  ANARCHY_SYSTEM: D
 };
 class K {
-  static checkSufficient(e, t, a) {
-    if (t > a) {
-      const s = game.i18n.format(o.common.errors.insufficient, {
+  static checkSufficient(e, t, s) {
+    if (t > s) {
+      const a = game.i18n.format(n.common.errors.insufficient, {
         resource: game.i18n.localize(e),
         required: t,
-        available: a
+        available: s
       });
-      throw ui.notifications.error(s), s;
+      throw ui.notifications.error(a), a;
     }
   }
-  static checkOutOfRange(e, t, a, s) {
-    if (t < a || t > s) {
-      const i = game.i18n.format(o.common.errors.outOfRange, {
+  static checkOutOfRange(e, t, s, a) {
+    if (t < s || t > a) {
+      const i = game.i18n.format(n.common.errors.outOfRange, {
         resource: game.i18n.localize(e),
         value: t,
-        min: a,
-        max: s
+        min: s,
+        max: a
       });
       throw ui.notifications.error(i), i;
     }
   }
   static checkUserGM() {
     if (!game.user.isGM) {
-      const e = game.i18n.localize(o.common.errors.onlyGM);
+      const e = game.i18n.localize(n.common.errors.onlyGM);
       throw ui.notifications.error(e), e;
     }
   }
   static checkItemType(e, t) {
     if (e.type != t) {
-      const a = game.i18n.format(o.common.errors.expectedType, {
-        type: game.i18n.localize(e.type ? o.itemType.singular[e.type] : e.type),
+      const s = game.i18n.format(n.common.errors.expectedType, {
+        type: game.i18n.localize(e.type ? n.itemType.singular[e.type] : e.type),
         expectedType: game.i18n.localize(t)
+      });
+      throw ui.notifications.error(s), s;
+    }
+  }
+  static checkActorCanReceiveDamage(e, t, s) {
+    if (!t) {
+      const a = game.i18n.format(n.common.errors.actorCannotReceiveDamage, {
+        actor: s.name,
+        damageType: game.i18n.format("ANARCHY.actor.monitors." + e)
       });
       throw ui.notifications.error(a), a;
     }
   }
-  static checkActorCanReceiveDamage(e, t, a) {
-    if (!t) {
-      const s = game.i18n.format(o.common.errors.actorCannotReceiveDamage, {
-        actor: a.name,
-        damageType: game.i18n.format("ANARCHY.actor.monitors." + e)
-      });
-      throw ui.notifications.error(s), s;
-    }
-  }
   static checkWeaponDefense(e, t) {
     if (!e.getDefense()) {
-      const s = game.i18n.format(o.common.errors.noDefenseOnWeapon, { actor: t.name, weapon: e.name });
-      throw ui.notifications.error(s), s;
+      const a = game.i18n.format(n.common.errors.noDefenseOnWeapon, { actor: t.name, weapon: e.name });
+      throw ui.notifications.error(a), a;
     }
   }
-  static checkTargetsCount(e, t, a) {
+  static checkTargetsCount(e, t, s) {
     if (e > 0 && t.length > e) {
-      const s = game.i18n.format(o.common.errors.maxTargetsExceedeed, {
+      const a = game.i18n.format(n.common.errors.maxTargetsExceedeed, {
         weapon: this.name,
-        area: game.i18n.localize(o.area[a]),
+        area: game.i18n.localize(n.area[s]),
         count: t.length,
         max: e
       });
-      throw ui.notifications.error(s), s;
+      throw ui.notifications.error(a), a;
     }
   }
   static checkMatrixMonitor(e) {
     if (!e.hasMatrixMonitor()) {
-      const t = game.i18n.format(o.actor.monitors.noMatrixMonitor, {
+      const t = game.i18n.format(n.actor.monitors.noMatrixMonitor, {
         actor: e.name
       });
       throw ui.notifications.warn(t), t;
     }
   }
-  static checkActorDefenseAction(e, t, a) {
+  static checkActorDefenseAction(e, t, s) {
     if (!e) {
-      const s = game.i18n.format(o.common.errors.actorDoesNotHaveDefense, {
+      const a = game.i18n.format(n.common.errors.actorDoesNotHaveDefense, {
         actor: t.name,
-        defense: game.i18n.localize(a.labelkey),
-        actorType: game.i18n.localize(o.actorType[t.type])
+        defense: game.i18n.localize(s.labelkey),
+        actorType: game.i18n.localize(n.actorType[t.type])
       });
-      throw ui.notifications.error(s), s;
+      throw ui.notifications.error(a), a;
     }
   }
 }
-const tt = "Users.blindMessageToGM";
-class I {
+const at = "Users.blindMessageToGM";
+class Y {
   static init() {
-    j.register(tt, {
-      callback: (e) => I.blindMessageToGM(e),
+    j.register(at, {
+      callback: (e) => Y.blindMessageToGM(e),
       condition: (e) => e.isGM
     });
   }
   static blindMessageToGM(e) {
-    j.call(tt, e) || ChatMessage.create({
+    j.call(at, e) || ChatMessage.create({
       user: e.user,
       whisper: ChatMessage.getWhisperRecipients("GM"),
       blind: !0,
-      content: game.i18n.format(o.chat.blindMessageToGM, {
+      content: game.i18n.format(n.chat.blindMessageToGM, {
         user: game.user.name,
         message: e.content
       })
@@ -868,17 +868,17 @@ class I {
     return (game.version ? game.users : game.users.entities).filter(e);
   }
   static firstConnectedGM() {
-    return I.getUsers((e) => e.isGM && e.active).sort(f.ascending((e) => e.id)).at(0) ?? {};
+    return Y.getUsers((e) => e.isGM && e.active).sort(A.ascending((e) => e.id)).at(0) ?? {};
   }
   /**
    * @returns true pour un seul utilisateur: le premier GM connecté par ordre d'id
    */
   static isUniqueConnectedGM(e = game.user) {
-    return e.id == I.firstConnectedGM().id;
+    return e.id == Y.firstConnectedGM().id;
   }
   static firstResponsible(e) {
     if (e.testUserPermission)
-      return I.getUsers((t) => t.active && e.testUserPermission(t, CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER)) == game.user;
+      return Y.getUsers((t) => t.active && e.testUserPermission(t, CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER)) == game.user;
   }
   static getTargetTokens(e) {
     return Array.from(e.targets);
@@ -895,7 +895,7 @@ class I {
 }
 class j {
   constructor() {
-    this.remoteCalls = {}, game.socket.on(Ge, async (e) => this.onSocketMessage(e));
+    this.remoteCalls = {}, game.socket.on(Ue, async (e) => this.onSocketMessage(e));
   }
   static async register(e, t) {
     game.system.anarchy.remoteCall._register(e, t);
@@ -904,83 +904,83 @@ class j {
     if (this.remoteCalls[e])
       throw `RemoteCall msg ${e} is already registered`;
     foundry.utils.mergeObject(t, {
-      callback: (a) => {
-        console.log(P + "RemoteCall [", e, "] (", a, ")");
+      callback: (s) => {
+        console.log(h + "RemoteCall [", e, "] (", s, ")");
       },
-      condition: (a) => !0,
+      condition: (s) => !0,
       multiple: !1
       /* true if multiple users should handle the message */
-    }, { overwrite: !1 }), this.remoteCalls[e] = t, console.log(P + "RemoteCall registered", e);
+    }, { overwrite: !1 }), this.remoteCalls[e] = t, console.log(h + "RemoteCall registered", e);
   }
   static call(e, t) {
     return game.system.anarchy.remoteCall._remoteCall(e, t);
   }
   _remoteCall(e, t) {
-    const a = this.remoteCalls[e];
-    return !a || a.condition(game.user) || !a.multiple && I.isUniqueConnectedGM() ? !1 : (game.socket.emit(Ge, { msg: e, data: t }), !0);
+    const s = this.remoteCalls[e];
+    return !s || s.condition(game.user) || !s.multiple && Y.isUniqueConnectedGM() ? !1 : (game.socket.emit(Ue, { msg: e, data: t }), !0);
   }
   async onSocketMessage(e) {
     const t = this.remoteCalls[e.msg];
     if (t) {
-      const a = t.condition(game.user), s = t.multiple, i = I.isUniqueConnectedGM();
-      a && (s || i) ? t.callback(e.data) : console.log(P + "RemoteCall.onSocketMessage(", e, ") ignored :", a, s, i);
+      const s = t.condition(game.user), a = t.multiple, i = Y.isUniqueConnectedGM();
+      s && (a || i) ? t.callback(e.data) : console.log(h + "RemoteCall.onSocketMessage(", e, ") ignored :", s, a, i);
     } else
-      console.log(P + "RemoteCall: No callback registered for", e);
+      console.log(h + "RemoteCall: No callback registered for", e);
   }
 }
-const Ve = "parent-message-id", me = "message-data", ze = "can-use-edge", Be = "owning-actor", at = "ChatManager.removeChatMessage", st = "ChatManager.removeChatMessageFamily", Yt = [
-  { selector: ".anarchy-button.click-edge-reroll", controlVisibility: !0, handler: async (r, e) => await M.edgeReroll(r) },
-  { selector: ".anarchy-button.click-defend-attack", controlVisibility: !0, handler: async (r, e) => await M.defendAttack(r) },
-  { selector: ".anarchy-button.click-defend-pilot-attack", controlVisibility: !0, handler: async (r, e) => await M.defendPilotAttack(r) },
-  { selector: ".anarchy-button.click-apply-attack-damage", controlVisibility: !0, handler: async (r, e) => await M.applyAttack(r) },
-  { selector: "img.open-actor-sheet", controlVisibility: !1, handler: async (r, e) => await M.openActorSheet(r, e) }
+const Ve = "parent-message-id", me = "message-data", Be = "can-use-edge", Ke = "owning-actor", it = "ChatManager.removeChatMessage", ot = "ChatManager.removeChatMessageFamily", Ot = [
+  { selector: ".anarchy-button.click-edge-reroll", controlVisibility: !0, handler: async (o, e) => await M.edgeReroll(o) },
+  { selector: ".anarchy-button.click-defend-attack", controlVisibility: !0, handler: async (o, e) => await M.defendAttack(o) },
+  { selector: ".anarchy-button.click-defend-pilot-attack", controlVisibility: !0, handler: async (o, e) => await M.defendPilotAttack(o) },
+  { selector: ".anarchy-button.click-apply-attack-damage", controlVisibility: !0, handler: async (o, e) => await M.applyAttack(o) },
+  { selector: "img.open-actor-sheet", controlVisibility: !1, handler: async (o, e) => await M.openActorSheet(o, e) }
 ];
 class M {
   static async init() {
-    Hooks.on("renderChatMessage", async (e, t, a) => await M.onRenderChatMessage(e, t, a)), j.register(st, {
+    Hooks.on("renderChatMessage", async (e, t, s) => await M.onRenderChatMessage(e, t, s)), j.register(ot, {
       callback: (e) => this.removeFamily(e),
       condition: (e) => e.isGM
-    }), j.register(at, {
+    }), j.register(it, {
       callback: (e) => M.removeChatMessage(e),
       condition: (e) => e.isGM
     });
   }
-  static async onRenderChatMessage(e, t, a) {
-    const s = M.getChatMessageFromHtml(t), i = M.hasRight(s);
-    Yt.forEach((n) => {
-      const l = t.find(n.selector);
-      !n.controlVisibility || i ? (l.show(), l.click(async (m) => await n.handler(M.getChatMessage(m), m))) : (l.hide(), l.click(async (m) => {
+  static async onRenderChatMessage(e, t, s) {
+    const a = M.getChatMessageFromHtml(t), i = M.hasRight(a);
+    Ot.forEach((r) => {
+      const c = t.find(r.selector);
+      !r.controlVisibility || i ? (c.show(), c.click(async (m) => await r.handler(M.getChatMessage(m), m))) : (c.hide(), c.click(async (m) => {
       }));
     });
   }
   static async openActorSheet(e, t) {
-    var n;
-    const a = $(t.currentTarget).closest("img.open-actor-sheet"), s = a.attr("data-token-id");
-    if (s) {
-      const l = canvas.tokens.get(s);
-      if (l != null && l.actor) {
-        l.actor.sheet.render(!0);
+    var r;
+    const s = $(t.currentTarget).closest("img.open-actor-sheet"), a = s.attr("data-token-id");
+    if (a) {
+      const c = canvas.tokens.get(a);
+      if (c != null && c.actor) {
+        c.actor.sheet.render(!0);
         return;
       }
     }
-    const i = a.attr("data-actor-id");
-    return (n = game.actors.get(i)) == null ? void 0 : n.sheet.render(!0);
+    const i = s.attr("data-actor-id");
+    return (r = game.actors.get(i)) == null ? void 0 : r.sheet.render(!0);
   }
   static async edgeReroll(e) {
-    if (e.getFlag(L, ze)) {
-      const t = e.getFlag(L, me);
+    if (e.getFlag(_, Be)) {
+      const t = e.getFlag(_, me);
       await game.system.anarchy.rollManager.edgeReroll(t), M.removeFamily(e.id);
     } else
-      ui.notifications.info(game.i18n.localize(o.common.errors.cannotUseEdgeAnymore));
+      ui.notifications.info(game.i18n.localize(n.common.errors.cannotUseEdgeAnymore));
   }
   static defendAttack(e) {
-    return game.system.anarchy.combatManager.onClickDefendAttack(e.getFlag(L, me));
+    return game.system.anarchy.combatManager.onClickDefendAttack(e.getFlag(_, me));
   }
   static defendPilotAttack(e) {
-    return game.system.anarchy.combatManager.onClickPilotDefendAttack(e.getFlag(L, me));
+    return game.system.anarchy.combatManager.onClickPilotDefendAttack(e.getFlag(_, me));
   }
   static applyAttack(e) {
-    return game.system.anarchy.combatManager.onClickApplyAttackDamage(e.getFlag(L, me));
+    return game.system.anarchy.combatManager.onClickApplyAttackDamage(e.getFlag(_, me));
   }
   static getChatMessage(e) {
     const t = $(e.currentTarget).closest(".chat-message").attr("data-message-id");
@@ -993,22 +993,22 @@ class M {
   /**
    * Method in charge of preparing ANARCHY flags to be set on Document, for ChatMessage
    */
-  static prepareFlag(e, t, a) {
-    e[L] == null ? e[L] = { [t]: a } : e[L][t] = a;
+  static prepareFlag(e, t, s) {
+    e[_] == null ? e[_] = { [t]: s } : e[_][t] = s;
   }
   static removeFamily(e) {
     var t;
-    j.call(st, e) || (game.messages.filter((a) => a.getFlag(L, Ve) == e).forEach((a) => a.delete()), (t = game.messages.get(e)) == null || t.delete());
+    j.call(ot, e) || (game.messages.filter((s) => s.getFlag(_, Ve) == e).forEach((s) => s.delete()), (t = game.messages.get(e)) == null || t.delete());
   }
   static removeChatMessage(e) {
     var t;
-    j.call(at, e) || (t = game.messages.get(e)) == null || t.delete();
+    j.call(it, e) || (t = game.messages.get(e)) == null || t.delete();
   }
   static messageActorRights(e, t = CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER) {
-    var a;
+    var s;
     return {
       actorId: e == null ? void 0 : e.id,
-      tokenId: (a = e == null ? void 0 : e.token) == null ? void 0 : a.id,
+      tokenId: (s = e == null ? void 0 : e.token) == null ? void 0 : s.id,
       right: t ?? CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER
     };
   }
@@ -1021,19 +1021,19 @@ class M {
     };
   }
   static hasRight(e, t = CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER) {
-    const a = e.getFlag(L, Be);
-    if (a) {
-      const s = M.readActorRights(a);
-      if (s)
-        return s.actor ? s.actor.testUserPermission(game.user, Math.min(s.right, t)) : !0;
+    const s = e.getFlag(_, Ke);
+    if (s) {
+      const a = M.readActorRights(s);
+      if (a)
+        return a.actor ? a.actor.testUserPermission(game.user, Math.min(a.right, t)) : !0;
     }
     return !1;
   }
   static getToken(e) {
-    return e ? game.scenes.map((t) => t.tokens.find((a) => a.id == e)).find((t) => t != null) : void 0;
+    return e ? game.scenes.map((t) => t.tokens.find((s) => s.id == e)).find((t) => t != null) : void 0;
   }
 }
-const Ot = [
+const Yt = [
   "fas fa-dice",
   "fas fa-dice-one",
   "fas fa-dice-two",
@@ -1042,12 +1042,12 @@ const Ot = [
   "fas fa-dice-five",
   "fas fa-dice-six"
 ];
-class u {
+class p {
   static fontAwesome(e) {
     return `<i class="${e}"></i>`;
   }
   static iconSystemPath(e, t) {
-    return u.iconPath(`${pt}/${e}`, t);
+    return p.iconPath(`${At}/${e}`, t);
   }
   static iconPath(e, t) {
     return `<img class="${t}" src="${e}" />`;
@@ -1055,242 +1055,242 @@ class u {
   static iconD6(e) {
     if (e < 0 || e > 6)
       throw `Dice ${e} is out of dice range [1..6] or 0 for multidice`;
-    return u.fontAwesome(Ot[e]);
+    return p.fontAwesome(Yt[e]);
   }
 }
-globalThis.ANARCHY_ICONS = u;
-const ae = o.actor.monitors, oe = o.actor.counters, Ke = {
+globalThis.ANARCHY_ICONS = p;
+const se = n.actor.monitors, re = n.actor.counters, qe = {
   armor: {
     path: "system.monitors.armor.value",
-    monitor: (r) => r.system.monitors.armor,
-    iconChecked: u.fontAwesome("fas fa-shield-slash"),
-    iconUnchecked: u.fontAwesome("fas fa-shield-alt"),
-    iconHit: u.fontAwesome("fas fa-bahai"),
-    resource: ae.armor
+    monitor: (o) => o.system.monitors.armor,
+    iconChecked: p.fontAwesome("fas fa-shield-slash"),
+    iconUnchecked: p.fontAwesome("fas fa-shield-alt"),
+    iconHit: p.fontAwesome("fas fa-bahai"),
+    resource: se.armor
   },
   stun: {
     path: "system.monitors.stun.value",
-    monitor: (r) => r.system.monitors.stun,
-    iconChecked: u.fontAwesome("fas fa-grimace"),
-    iconUnchecked: u.fontAwesome("far fa-smile"),
-    iconHit: u.fontAwesome("fas fa-bahai"),
-    resource: ae.stun,
-    overflow: (r) => c.monitors.physical,
+    monitor: (o) => o.system.monitors.stun,
+    iconChecked: p.fontAwesome("fas fa-grimace"),
+    iconUnchecked: p.fontAwesome("far fa-smile"),
+    iconHit: p.fontAwesome("fas fa-bahai"),
+    resource: se.stun,
+    overflow: (o) => l.monitors.physical,
     useArmor: !0
   },
   physical: {
     path: "system.monitors.physical.value",
-    monitor: (r) => r.system.monitors.physical,
-    iconChecked: u.fontAwesome("fas fa-heartbeat"),
-    iconUnchecked: u.fontAwesome("far fa-heart"),
-    iconHit: u.fontAwesome("fas fa-bahai"),
-    resource: ae.physical,
+    monitor: (o) => o.system.monitors.physical,
+    iconChecked: p.fontAwesome("fas fa-heartbeat"),
+    iconUnchecked: p.fontAwesome("far fa-heart"),
+    iconHit: p.fontAwesome("fas fa-bahai"),
+    resource: se.physical,
     useArmor: !0
   },
   structure: {
     path: "system.monitors.structure.value",
-    monitor: (r) => r.system.monitors.structure,
-    iconChecked: u.fontAwesome("fas fa-car-crash"),
-    iconUnchecked: u.fontAwesome("fas fa-car-alt"),
-    iconHit: u.fontAwesome("fas fa-bahai"),
-    resource: ae.structure
+    monitor: (o) => o.system.monitors.structure,
+    iconChecked: p.fontAwesome("fas fa-car-crash"),
+    iconUnchecked: p.fontAwesome("fas fa-car-alt"),
+    iconHit: p.fontAwesome("fas fa-bahai"),
+    resource: se.structure
   },
   matrix: {
     path: "system.monitors.matrix.value",
-    monitor: (r) => r.getMatrixMonitor(),
-    iconChecked: u.fontAwesome("fas fa-laptop-medical"),
-    iconUnchecked: u.fontAwesome("fas fa-laptop"),
-    iconHit: u.fontAwesome("fas fa-laptop-code"),
-    overflow: (r) => r.getMatrixOverflow(),
-    recomputeOverflow: (r) => 3,
-    resource: ae.matrix
+    monitor: (o) => o.getMatrixMonitor(),
+    iconChecked: p.fontAwesome("fas fa-laptop-medical"),
+    iconUnchecked: p.fontAwesome("fas fa-laptop"),
+    iconHit: p.fontAwesome("fas fa-laptop-code"),
+    overflow: (o) => o.getMatrixOverflow(),
+    recomputeOverflow: (o) => 3,
+    resource: se.matrix
   },
   marks: {
     path: void 0,
-    monitor: (r) => ({ value: 0, max: 5 }),
-    iconChecked: u.fontAwesome("fas fa-bookmark"),
-    iconUnchecked: u.fontAwesome("far fa-bookmark"),
-    iconHit: u.fontAwesome("fas fa-fingerprint"),
-    resource: ae.marks
+    monitor: (o) => ({ value: 0, max: 5 }),
+    iconChecked: p.fontAwesome("fas fa-bookmark"),
+    iconUnchecked: p.fontAwesome("far fa-bookmark"),
+    iconHit: p.fontAwesome("fas fa-fingerprint"),
+    resource: se.marks
   },
   convergence: {
     path: void 0,
-    monitor: (r) => ({ value: 0, max: 5 }),
-    iconChecked: u.fontAwesome("far fa-eye"),
-    iconUnchecked: u.fontAwesome("fas fa-eye-slash"),
-    iconHit: u.fontAwesome("fas fa-eye"),
-    resource: ae.convergence
+    monitor: (o) => ({ value: 0, max: 5 }),
+    iconChecked: p.fontAwesome("far fa-eye"),
+    iconUnchecked: p.fontAwesome("fas fa-eye-slash"),
+    iconHit: p.fontAwesome("fas fa-eye"),
+    resource: se.convergence
   },
   anarchy: {
     path: "system.counters.anarchy.value",
-    monitor: (r) => ({
-      value: r.system.counters.anarchy.value,
+    monitor: (o) => ({
+      value: o.system.counters.anarchy.value,
       max: 6
     }),
-    iconChecked: u.iconSystemPath("anarchy-point.webp", "checkbar-img"),
-    iconUnchecked: u.iconSystemPath("anarchy-point-off.webp", "checkbar-img"),
-    resource: oe.anarchy
+    iconChecked: p.iconSystemPath("anarchy-point.webp", "checkbar-img"),
+    iconUnchecked: p.iconSystemPath("anarchy-point-off.webp", "checkbar-img"),
+    resource: re.anarchy
   },
   plot: {
     path: "system.counters.anarchy.value",
-    monitor: (r) => {
-      const e = r.system.counters.anarchy.value;
+    monitor: (o) => {
+      const e = o.system.counters.anarchy.value;
       return { value: e, max: e + 1 };
     },
-    iconChecked: u.iconSystemPath("danger-point.webp", "checkbar-img"),
-    iconUnchecked: u.iconSystemPath("danger-point-off.webp", "checkbar-img"),
-    resource: oe.anarchy
+    iconChecked: p.iconSystemPath("danger-point.webp", "checkbar-img"),
+    iconUnchecked: p.iconSystemPath("danger-point-off.webp", "checkbar-img"),
+    resource: re.anarchy
   },
   sceneAnarchy: {
     path: "system.counters.sceneAnarchy.value",
-    monitor: (r) => ({ value: r.system.counters.sceneAnarchy.value, max: 3 }),
-    iconChecked: u.iconSystemPath("anarchy-point-scene.webp", "checkbar-img"),
-    iconUnchecked: u.iconSystemPath("anarchy-point-off.webp", "checkbar-img"),
-    resource: oe.sceneAnarchy
+    monitor: (o) => ({ value: o.system.counters.sceneAnarchy.value, max: 3 }),
+    iconChecked: p.iconSystemPath("anarchy-point-scene.webp", "checkbar-img"),
+    iconUnchecked: p.iconSystemPath("anarchy-point-off.webp", "checkbar-img"),
+    resource: re.sceneAnarchy
   },
   edge: {
     path: "system.counters.edge.value",
-    monitor: (r) => ({
-      value: r.system.counters.edge.value,
-      max: r.getAttributeValue(c.attributes.edge)
+    monitor: (o) => ({
+      value: o.system.counters.edge.value,
+      max: o.getAttributeValue(l.attributes.edge)
     }),
-    iconChecked: u.fontAwesome("fas fa-star"),
-    iconUnchecked: u.fontAwesome("far fa-star"),
-    resource: oe.edge
+    iconChecked: p.fontAwesome("fas fa-star"),
+    iconUnchecked: p.fontAwesome("far fa-star"),
+    resource: re.edge
   },
   credibility: {
     path: "system.counters.social.credibility.value",
-    monitor: (r) => ({
-      value: r.system.counters.social.credibility.value,
-      max: r.system.counters.social.credibility.max
+    monitor: (o) => ({
+      value: o.system.counters.social.credibility.value,
+      max: o.system.counters.social.credibility.max
     }),
-    iconChecked: u.fontAwesome("fas fa-handshake"),
-    iconUnchecked: u.fontAwesome("far fa-handshake"),
-    resource: oe.social.credibility
+    iconChecked: p.fontAwesome("fas fa-handshake"),
+    iconUnchecked: p.fontAwesome("far fa-handshake"),
+    resource: re.social.credibility
   },
   rumor: {
     path: "system.counters.social.rumor.value",
-    monitor: (r) => ({
-      value: r.system.counters.social.rumor.value,
-      max: r.system.counters.social.rumor.max
+    monitor: (o) => ({
+      value: o.system.counters.social.rumor.value,
+      max: o.system.counters.social.rumor.max
     }),
-    iconChecked: u.fontAwesome("fas fa-grimace"),
-    iconUnchecked: u.fontAwesome("far fa-grimace"),
-    resource: oe.social.rumor
+    iconChecked: p.fontAwesome("fas fa-grimace"),
+    iconUnchecked: p.fontAwesome("far fa-grimace"),
+    resource: re.social.rumor
   }
-}, U = foundry.utils.mergeObject(Ke, {});
-class d {
+}, V = foundry.utils.mergeObject(qe, {});
+class u {
   static init() {
-    Handlebars.registerHelper("iconCheckbar", d.iconCheckbar), Handlebars.registerHelper("iconCheckbarHit", d.iconHit);
+    Handlebars.registerHelper("iconCheckbar", u.iconCheckbar), Handlebars.registerHelper("iconCheckbarHit", u.iconHit);
   }
   static hackCheckbars(e) {
     if (e) {
-      const t = foundry.utils.mergeObject(Ke, {});
-      foundry.utils.mergeObject(t, e, { recursive: !0 }), foundry.utils.mergeObject(U, t, { overwrite: !0 });
+      const t = foundry.utils.mergeObject(qe, {});
+      foundry.utils.mergeObject(t, e, { recursive: !0 }), foundry.utils.mergeObject(V, t, { overwrite: !0 });
     }
   }
   static iconCheckbar(e, t) {
-    return t ? d.iconChecked(e) : d.iconUnchecked(e);
+    return t ? u.iconChecked(e) : u.iconUnchecked(e);
   }
   static iconChecked(e) {
     var t;
-    return (t = U[e]) == null ? void 0 : t.iconChecked;
+    return (t = V[e]) == null ? void 0 : t.iconChecked;
   }
   static iconUnchecked(e) {
     var t;
-    return (t = U[e]) == null ? void 0 : t.iconUnchecked;
+    return (t = V[e]) == null ? void 0 : t.iconUnchecked;
   }
   static iconHit(e) {
-    var t, a;
-    return ((t = U[e]) == null ? void 0 : t.iconHit) ?? ((a = U[e]) == null ? void 0 : a.iconChecked);
+    var t, s;
+    return ((t = V[e]) == null ? void 0 : t.iconHit) ?? ((s = V[e]) == null ? void 0 : s.iconChecked);
   }
   static useArmor(e) {
     var t;
-    return (t = U[e]) == null ? void 0 : t.useArmor;
+    return (t = V[e]) == null ? void 0 : t.useArmor;
   }
   static max(e, t) {
-    var s;
-    const a = (s = U[t]) == null ? void 0 : s.monitor(e);
-    return ((a == null ? void 0 : a.max) ?? 0) + ((a == null ? void 0 : a.maxBonus) ?? 0);
+    var a;
+    const s = (a = V[t]) == null ? void 0 : a.monitor(e);
+    return ((s == null ? void 0 : s.max) ?? 0) + ((s == null ? void 0 : s.maxBonus) ?? 0);
   }
   static value(e, t) {
-    var s;
-    const a = (s = U[t]) == null ? void 0 : s.monitor(e);
-    return (a == null ? void 0 : a.value) ?? 0;
+    var a;
+    const s = (a = V[t]) == null ? void 0 : a.monitor(e);
+    return (s == null ? void 0 : s.value) ?? 0;
   }
   static resistance(e, t) {
-    var s;
-    const a = (s = U[t]) == null ? void 0 : s.monitor(e);
-    return ((a == null ? void 0 : a.resistance) ?? 0) + ((a == null ? void 0 : a.resistanceBonus) ?? 0);
+    var a;
+    const s = (a = V[t]) == null ? void 0 : a.monitor(e);
+    return ((s == null ? void 0 : s.resistance) ?? 0) + ((s == null ? void 0 : s.resistanceBonus) ?? 0);
   }
   static newValue(e, t) {
     return e + (t ? 0 : 1);
   }
-  static async switchMonitorCheck(e, t, a, s, i = void 0, n = void 0) {
-    await d.setCounter(e, t, d.newValue(a, s), i, n);
+  static async switchMonitorCheck(e, t, s, a, i = void 0, r = void 0) {
+    await u.setCounter(e, t, u.newValue(s, a), i, r);
   }
-  static async addCounter(e, t, a, s = void 0) {
-    if (a != 0) {
-      const i = d.getCounterValue(e, t, s) ?? 0;
-      await d.setCounter(e, t, i + a, s);
+  static async addCounter(e, t, s, a = void 0) {
+    if (s != 0) {
+      const i = u.getCounterValue(e, t, a) ?? 0;
+      await u.setCounter(e, t, i + s, a);
     }
   }
-  static async setCounter(e, t, a, s = void 0, i = void 0) {
+  static async setCounter(e, t, s, a = void 0, i = void 0) {
     switch (t) {
-      case c.monitors.marks:
-        return await d.setActorMarks(e, a, s, i);
-      case c.monitors.matrix:
-        return K.checkMatrixMonitor(e), await d.setCheckbar(e, t, a, i);
-      case c.monitors.convergence:
-        return await d.setActorConvergence(e, a);
-      case c.monitors.anarchy:
-        return await d.setAnarchy(e, a);
-      case c.monitors.sceneAnarchy:
-        return await d.setSceneAnarchy(e, a);
+      case l.monitors.marks:
+        return await u.setActorMarks(e, s, a, i);
+      case l.monitors.matrix:
+        return K.checkMatrixMonitor(e), await u.setCheckbar(e, t, s, i);
+      case l.monitors.convergence:
+        return await u.setActorConvergence(e, s);
+      case l.monitors.anarchy:
+        return await u.setAnarchy(e, s);
+      case l.monitors.sceneAnarchy:
+        return await u.setSceneAnarchy(e, s);
     }
-    return await d.setCheckbar(e, t, a);
+    return await u.setCheckbar(e, t, s);
   }
-  static getCounterValue(e, t, a) {
+  static getCounterValue(e, t, s) {
     switch (t) {
-      case c.monitors.marks:
-        return d.getActorMarks(e, a);
-      case c.monitors.convergence:
-        return d.getActorConvergence(e);
-      case c.monitors.anarchy:
-        return d.getAnarchy(e, t);
+      case l.monitors.marks:
+        return u.getActorMarks(e, s);
+      case l.monitors.convergence:
+        return u.getActorConvergence(e);
+      case l.monitors.anarchy:
+        return u.getAnarchy(e, t);
     }
-    return d.value(e, t);
+    return u.value(e, t);
   }
-  static async setCheckbar(e, t, a) {
-    if (a == d.getCounterValue(e, t))
+  static async setCheckbar(e, t, s) {
+    if (s == u.getCounterValue(e, t))
       return;
-    const s = U[t];
-    if (s.path) {
-      const i = d.max(e, t);
+    const a = V[t];
+    if (a.path) {
+      const i = u.max(e, t);
       if (i <= 0)
         return;
-      await d._manageOverflow(s, e, t, a, i), a = Math.min(a, i), K.checkOutOfRange(s.resource, a, 0, i), await e.setCheckbarValue(s.path, a);
+      await u._manageOverflow(a, e, t, s, i), s = Math.min(s, i), K.checkOutOfRange(a.resource, s, 0, i), await e.setCheckbarValue(a.path, s);
     }
   }
-  static async _manageOverflow(e, t, a, s, i) {
-    if (s > i) {
-      const n = e.overflow ? e.overflow(t) : void 0, l = e.recomputeOverflow ? e.recomputeOverflow(s - i) : s - i;
-      n && l > 0 && (d._notifyOverflow(t, a, l, n), await d.addCounter(t, n, l));
+  static async _manageOverflow(e, t, s, a, i) {
+    if (a > i) {
+      const r = e.overflow ? e.overflow(t) : void 0, c = e.recomputeOverflow ? e.recomputeOverflow(a - i) : a - i;
+      r && c > 0 && (u._notifyOverflow(t, s, c, r), await u.addCounter(t, r, c));
     }
   }
-  static _notifyOverflow(e, t, a, s) {
-    ui.notifications.warn(game.i18n.format(o.actor.monitors.overflow, {
+  static _notifyOverflow(e, t, s, a) {
+    ui.notifications.warn(game.i18n.format(n.actor.monitors.overflow, {
       actor: e.name,
       monitor: game.i18n.format("ANARCHY.actor.monitors." + t),
-      overflow: a,
-      overflowMonitor: game.i18n.format("ANARCHY.actor.monitors." + s)
+      overflow: s,
+      overflowMonitor: game.i18n.format("ANARCHY.actor.monitors." + a)
     }));
   }
-  static async _manageStunOverflow(e, t, a) {
-    await d.addCounter(e, c.monitors.physical, t - a);
+  static async _manageStunOverflow(e, t, s) {
+    await u.addCounter(e, l.monitors.physical, t - s);
   }
-  static async _manageMatrixOverflow(e, t, a) {
-    await d.addCounter(e, c.monitors.stun, t - a);
+  static async _manageMatrixOverflow(e, t, s) {
+    await u.addCounter(e, l.monitors.stun, t - s);
   }
   static async setAnarchy(e, t) {
     if (e.hasOwnAnarchy()) {
@@ -1298,52 +1298,52 @@ class d {
         await game.system.anarchy.gmAnarchy.setAnarchy(t), e.render();
         return;
       }
-      await d._setAnarchyMonitor(e, c.monitors.anarchy, t);
+      await u._setAnarchyMonitor(e, l.monitors.anarchy, t);
     }
   }
   static async setSceneAnarchy(e, t) {
-    await d._setAnarchyMonitor(e, c.monitors.sceneAnarchy, t);
+    await u._setAnarchyMonitor(e, l.monitors.sceneAnarchy, t);
   }
-  static async _setAnarchyMonitor(e, t, a) {
-    const s = d.value(e, t);
-    await d.setCheckbar(e, t, a), game.user.isGM || d.notifyAnarchyChange(e, t, s, a);
+  static async _setAnarchyMonitor(e, t, s) {
+    const a = u.value(e, t);
+    await u.setCheckbar(e, t, s), game.user.isGM || u.notifyAnarchyChange(e, t, a, s);
   }
   static getAnarchy(e, t) {
-    return !game.user.isGM && (!e.hasOwnAnarchy() || e.hasGMAnarchy()) || t == oe.anarchy && (!e.hasOwnAnarchy() || e.hasGMAnarchy()) ? 0 : d.value(e, t);
+    return !game.user.isGM && (!e.hasOwnAnarchy() || e.hasGMAnarchy()) || t == re.anarchy && (!e.hasOwnAnarchy() || e.hasGMAnarchy()) ? 0 : u.value(e, t);
   }
-  static notifyAnarchyChange(e, t, a, s) {
-    I.blindMessageToGM({
+  static notifyAnarchyChange(e, t, s, a) {
+    Y.blindMessageToGM({
       from: game.user.id,
       content: game.i18n.format(
-        o.gmManager.playerChangedAnarchy,
+        n.gmManager.playerChangedAnarchy,
         {
           user: game.user.name,
           actor: e.name,
-          monitor: game.i18n.localize(o.actor.counters[t]),
-          from: a,
-          to: s
+          monitor: game.i18n.localize(n.actor.counters[t]),
+          from: s,
+          to: a
         }
       )
     });
   }
   static getActorMarks(e, t) {
-    var a;
-    return ((a = d._findActorMarks(e.getMatrixMarks(), t)) == null ? void 0 : a.marks) ?? 0;
+    var s;
+    return ((s = u._findActorMarks(e.getMatrixMarks(), t)) == null ? void 0 : s.marks) ?? 0;
   }
-  static async addActorMark(e, t, a = void 0) {
-    const s = d._findActorMarks(e.getMatrixMarks(), t);
-    d.setActorMarks(e, (s.marks ?? 0) + 1, t, a);
+  static async addActorMark(e, t, s = void 0) {
+    const a = u._findActorMarks(e.getMatrixMarks(), t);
+    u.setActorMarks(e, (a.marks ?? 0) + 1, t, s);
   }
-  static async setActorMarks(e, t, a, s = void 0) {
+  static async setActorMarks(e, t, s, a = void 0) {
     if (e.canReceiveMarks()) {
       let i = deepClone(e.getMatrixMarks());
-      K.checkOutOfRange(U.marks.resource, t, 0, d.max(e, "marks"));
-      const n = d._findActorMarks(i, a);
-      n.marks == null && i.push(n), n.marks = Math.max(0, t), i = i.filter((l) => l.marks > 0), await e.setCheckbarValue("system.monitors.matrix.marks", i);
+      K.checkOutOfRange(V.marks.resource, t, 0, u.max(e, "marks"));
+      const r = u._findActorMarks(i, s);
+      r.marks == null && i.push(r), r.marks = Math.max(0, t), i = i.filter((c) => c.marks > 0), await e.setCheckbarValue("system.monitors.matrix.marks", i);
     }
   }
   static _findActorMarks(e, t) {
-    return e.find((a) => a.actorId == t) ?? { actorId: t };
+    return e.find((s) => s.actorId == t) ?? { actorId: t };
   }
   static getActorConvergence(e) {
     game.system.anarchy.gmConvergence.getConvergence(e);
@@ -1352,15 +1352,15 @@ class d {
     await game.system.anarchy.gmConvergence.setConvergence(e, t);
   }
 }
-const Ie = "anarchy-gm", It = "scene-anarchy-gm", rt = "GMAnarchy.addAnarchy";
-class _t {
+const Oe = "anarchy-gm", xt = "scene-anarchy-gm", rt = "GMAnarchy.addAnarchy";
+class Pt {
   constructor() {
-    game.settings.register(g, Ie, {
+    game.settings.register(d, Oe, {
       scope: "world",
       config: !1,
       default: 1,
       type: Number
-    }), game.settings.register(g, It, {
+    }), game.settings.register(d, xt, {
       scope: "world",
       config: !1,
       default: 0,
@@ -1368,7 +1368,7 @@ class _t {
     }), j.register(rt, {
       callback: (e) => game.system.anarchy.gmAnarchy.addAnarchy(e),
       condition: (e) => e.isGM
-    }), this.anarchy = game.settings.get(g, Ie);
+    }), this.anarchy = game.settings.get(d, Oe);
   }
   getAnarchy() {
     return {
@@ -1383,7 +1383,7 @@ class _t {
       user: game.user,
       whisper: ChatMessage.getWhisperRecipients("GM"),
       content: game.i18n.format(
-        o.gmManager.gmReceivedAnarchy,
+        n.gmManager.gmReceivedAnarchy,
         {
           anarchy: t,
           actor: e.name
@@ -1395,10 +1395,10 @@ class _t {
     await this.addAnarchy(-t);
   }
   async addAnarchy(e) {
-    j.call(rt, e) || (K.checkSufficient(o.actor.counters.plot, -e, this.anarchy), await this.setAnarchy(this.anarchy + e));
+    j.call(rt, e) || (K.checkSufficient(n.actor.counters.plot, -e, this.anarchy), await this.setAnarchy(this.anarchy + e));
   }
   async setAnarchy(e) {
-    this.anarchy = e, game.settings.set(g, Ie, e), await this._rebuild(), this._syncGMAnarchySheets();
+    this.anarchy = e, game.settings.set(d, Oe, e), await this._rebuild(), this._syncGMAnarchySheets();
   }
   async activateListeners(e) {
     this.toolbar = e.find(".gm-anarchy-bar"), await this._rebuild();
@@ -1407,8 +1407,8 @@ class _t {
     this.toolbar.find(".checkbar-root").replaceWith(await this._renderBar()), this.toolbar.find("a.click-checkbar-element").click(async (e) => await this._onClickAnarchyCheckbar(e));
   }
   async _onClickAnarchyCheckbar(e) {
-    const t = Number.parseInt($(e.currentTarget).attr("data-index")), a = $(e.currentTarget).attr("data-checked") == "true", s = d.newValue(t, a);
-    await this.setAnarchy(s);
+    const t = Number.parseInt($(e.currentTarget).attr("data-index")), s = $(e.currentTarget).attr("data-checked") == "true", a = u.newValue(t, s);
+    await this.setAnarchy(a);
   }
   async _renderBar() {
     return await renderTemplate("systems/anarchy/templates/monitors/anarchy.hbs", {
@@ -1417,16 +1417,16 @@ class _t {
       value: this.getAnarchy().value,
       max: this.getAnarchy().max,
       scene: 0,
-      labelkey: o.actor.counters.plot
+      labelkey: n.actor.counters.plot
     });
   }
   _syncGMAnarchySheets() {
-    var a, s;
-    const e = game.actors.filter((i) => !i.token || i.token.isLinked), t = (((s = (a = game.canvas) == null ? void 0 : a.tokens) == null ? void 0 : s.getDocuments()) ?? []).filter((i) => !i.isLinked).map((i) => i.actor);
+    var s, a;
+    const e = game.actors.filter((i) => !i.token || i.token.isLinked), t = (((a = (s = game.canvas) == null ? void 0 : s.tokens) == null ? void 0 : a.getDocuments()) ?? []).filter((i) => !i.isLinked).map((i) => i.actor);
     e.concat(t).filter((i) => !i.hasPlayerOwner).forEach((i) => i.render());
   }
 }
-class xt {
+class _t {
   constructor(e, t) {
     this.getDocElement = e, this.initial = t.initial ?? { left: 200, top: 200 }, this.maxPos = t.maxPos ?? { left: 200, top: 100 }, this.minPos = t.minPos ?? { left: 2, top: 2 }, this.settings = t.settings, game.settings.register(this.settings.system, this.settings.keyPosition, {
       scope: "client",
@@ -1462,7 +1462,7 @@ class xt {
     e.onmousedown = (t) => this._dragMouseDown(e, t);
   }
   _dragMouseDown(e, t) {
-    t = t || window.event, t.preventDefault(), this.drag.leftEvent = t.clientX, this.drag.topEvent = t.clientY, document.onmouseup = (a) => this._closeDragElement(e, a), document.onmousemove = (a) => this._elementDrag(e, a);
+    t = t || window.event, t.preventDefault(), this.drag.leftEvent = t.clientX, this.drag.topEvent = t.clientY, document.onmouseup = (s) => this._closeDragElement(e, s), document.onmousemove = (s) => this._elementDrag(e, s);
   }
   _elementDrag(e, t) {
     t = t || window.event, t.preventDefault(), this.drag.leftPos = this.drag.leftEvent - t.clientX, this.drag.topPos = this.drag.topEvent - t.clientY, this.drag.leftEvent = t.clientX, this.drag.topEvent = t.clientY, this._setPositionStyle(e, {
@@ -1472,22 +1472,22 @@ class xt {
   }
   _closeDragElement(e, t) {
     e.onmousedown = null, document.onmouseup = null, document.onmousemove = null;
-    const a = {
+    const s = {
       top: e.offsetTop - this.drag.topPos,
       left: e.offsetLeft - this.drag.leftPos
     };
-    let s = this._constrain(a);
-    (s.left != this.drag.leftPos || s.top != this.drag.topPos) && this._setPositionStyle(e, s), this._savePosition(s);
+    let a = this._constrain(s);
+    (a.left != this.drag.leftPos || a.top != this.drag.topPos) && this._setPositionStyle(e, a), this._savePosition(a);
   }
   setPosition(e) {
     e = e ?? this.position;
     let t = this;
-    return new Promise((a) => {
-      function s() {
+    return new Promise((s) => {
+      function a() {
         let i = t.getDocElement(document);
-        i ? (t._setPositionStyle(i, t._constrain(e)), a()) : setTimeout(s, 30);
+        i ? (t._setPositionStyle(i, t._constrain(e)), s()) : setTimeout(a, 30);
       }
-      s();
+      a();
     });
   }
   _setPositionStyle(e, t) {
@@ -1500,29 +1500,29 @@ class xt {
     };
   }
 }
-const Ue = "gm-difficulty-pools", Pt = `${g}.${Ue}`;
-class $t {
+const Ge = "gm-difficulty-pools", $t = `${d}.${Ge}`;
+class Lt {
   constructor() {
-    Hooks.on("updateSetting", async (e, t, a, s) => this.onUpdateSetting(e, t, a, s)), Hooks.once("ready", () => this.onReady());
+    Hooks.on("updateSetting", async (e, t, s, a) => this.onUpdateSetting(e, t, s, a)), Hooks.once("ready", () => this.onReady());
   }
   onReady() {
-    game.settings.register(g, Ue, {
+    game.settings.register(d, Ge, {
       scope: "world",
-      name: game.i18n.localize(o.settings.gmDifficulty.name),
-      hint: game.i18n.localize(o.settings.gmDifficulty.hint),
+      name: game.i18n.localize(n.settings.gmDifficulty.name),
+      hint: game.i18n.localize(n.settings.gmDifficulty.hint),
       config: !0,
-      default: game.i18n.localize(o.settings.gmDifficulty.default),
+      default: game.i18n.localize(n.settings.gmDifficulty.default),
       type: String
     }), this.loadDifficultySettings();
   }
-  async onUpdateSetting(e, t, a, s) {
-    game.user.isGM && e.key == Pt && (this.loadDifficultySettings(), this._rebuild(), game.system.anarchy.gmManager.render(!1));
+  async onUpdateSetting(e, t, s, a) {
+    game.user.isGM && e.key == $t && (this.loadDifficultySettings(), this._rebuild(), game.system.anarchy.gmManager.render(!1));
   }
   loadDifficultySettings() {
-    const e = game.settings.get(g, Ue);
+    const e = game.settings.get(d, Ge);
     this.difficultyPools = e.split(",").map((t) => {
-      const a = t.split(":");
-      return a[1] ? { difficulty: a[0], pool: a[1] } : { pool: Number(a[0]) };
+      const s = t.split(":");
+      return s[1] ? { difficulty: s[0], pool: s[1] } : { pool: Number(s[0]) };
     });
   }
   getDifficultyData() {
@@ -1540,36 +1540,36 @@ class $t {
     });
   }
   async _onClickDifficulty(e) {
-    const t = $(e.currentTarget).attr("data-pool"), a = $(e.currentTarget).attr("data-difficulty"), s = new Roll(`${t}d6cs>=5`);
-    await s.evaluate();
-    const i = game.i18n.format(o.settings.gmDifficulty.chatMessage, {
+    const t = $(e.currentTarget).attr("data-pool"), s = $(e.currentTarget).attr("data-difficulty"), a = new Roll(`${t}d6cs>=5`);
+    await a.evaluate();
+    const i = game.i18n.format(n.settings.gmDifficulty.chatMessage, {
       pool: t,
-      difficulty: a ?? t,
-      success: s.total
-    }), n = await s.toMessage({ flavor: i }, { create: !1 });
-    ChatMessage.create(n);
+      difficulty: s ?? t,
+      success: a.total
+    }), r = await a.toMessage({ flavor: i }, { create: !1 });
+    ChatMessage.create(r);
   }
 }
-const Lt = "gm-manager", Gt = "gm-manager-position", Vt = { top: 200, left: 200 }, Ut = "systems/anarchy/templates/app/gm-manager.hbs";
+const Ut = "gm-manager", Vt = "gm-manager-position", Gt = { top: 200, left: 200 }, jt = "systems/anarchy/templates/app/gm-manager.hbs";
 class Ft extends Application {
   constructor(e, t) {
-    super(), this.gmAnarchy = e, this.gmConvergence = t, this.gmDifficulty = new $t(), this.handleDrag = new xt(
-      (a) => a.getElementById("gm-manager"),
+    super(), this.gmAnarchy = e, this.gmConvergence = t, this.gmDifficulty = new Lt(), this.handleDrag = new _t(
+      (s) => s.getElementById("gm-manager"),
       {
-        initial: Vt,
+        initial: Gt,
         maxPos: { left: 200, top: 100 },
         settings: {
-          system: g,
-          keyPosition: Gt
+          system: d,
+          keyPosition: Vt
         }
       }
-    ), Hooks.once("ready", () => this.onReady()), Hooks.on("renderChatLog", async (a, s, i) => {
-      const n = "systems/anarchy/templates/app/chat-tools.hbs", l = {
+    ), Hooks.once("ready", () => this.onReady()), Hooks.on("renderChatLog", async (s, a, i) => {
+      const r = "systems/anarchy/templates/app/chat-tools.hbs", c = {
         title: game.i18n.localize("ANARCHY.gmManager.title"),
         rollDice: game.i18n.localize("ANARCHY.chat_actions.rollDice.title"),
         isGM: game.user.isGM
-      }, m = await renderTemplate(n, l), y = $(m);
-      $(s).find("form.chat-form").append(y[0]), $(s).find("form.chat-form .rolldice").on("click", (le) => {
+      }, m = await renderTemplate(r, c), g = $(m);
+      $(a).find("form.chat-form").append(g[0]), $(a).find("form.chat-form .rolldice").on("click", (le) => {
         le.preventDefault(), new Dialog({
           title: game.i18n.localize("ANARCHY.chat_actions.rollDice.title"),
           content: '<div style="display:flex;margin:4px 0 8px 0;align-items:center;gap:8px">' + game.i18n.localize("ANARCHY.chat_actions.rollDice.instruction") + '<input class="roll-dice-value" name="macro-roll-count-dice" type="number" value="3" /></div>',
@@ -1586,18 +1586,18 @@ class Ft extends Application {
                 }
                 const te = new Roll(`${J}d6cs>4`);
                 await te.evaluate({ async: !0 });
-                const bt = te.terms[0].results.filter((wt) => wt.result == 1).length, Ct = game.i18n.format("ANARCHY.chat_actions.rollDice.result", {
+                const vt = te.terms[0].results.filter((St) => St.result == 1).length, wt = game.i18n.format("ANARCHY.chat_actions.rollDice.result", {
                   count: J,
                   success: te.total,
-                  ones: bt
-                }), kt = await te.toMessage({ flavor: Ct }, { create: !1 });
+                  ones: vt
+                }), kt = await te.toMessage({ flavor: wt }, { create: !1 });
                 ChatMessage.create(kt);
               }
             }
           },
           default: "submit"
         }).render(!0);
-      }), $(s).find("form.chat-form .gmmanager").on("click", (le) => {
+      }), $(a).find("form.chat-form .gmmanager").on("click", (le) => {
         le.preventDefault(), this._element ? this.close() : this.render(!0);
       });
     });
@@ -1608,7 +1608,7 @@ class Ft extends Application {
   /* -------------------------------------------- */
   static get defaultOptions() {
     let e = super.defaultOptions;
-    return e.id = Lt, e.title = game.i18n.localize(o.gmManager.title), e.template = Ut, e.popOut = !1, e.resizable = !1, e.height = "auto", e.width = "auto", e;
+    return e.id = Ut, e.title = game.i18n.localize(n.gmManager.title), e.template = jt, e.popOut = !1, e.resizable = !1, e.height = "auto", e.width = "auto", e;
   }
   async render(e, t) {
     game.user.isGM && await super.render(e, t);
@@ -1618,7 +1618,7 @@ class Ft extends Application {
       anarchy: this.gmAnarchy.getAnarchy(),
       convergences: this.gmConvergence.getConvergences(),
       difficultyPools: this.gmDifficulty.getDifficultyData(),
-      ANARCHY: o,
+      ANARCHY: n,
       options: {
         classes: [game.system.anarchy.styles.selectCssClass()]
       }
@@ -1628,78 +1628,78 @@ class Ft extends Application {
     super.activateListeners(e), e.find(".app-title-bar").mousedown((t) => this.handleDrag.onMouseDown(t)), e.find(".gm-manager-hide-button").mousedown((t) => this.close()), this.gmAnarchy.activateListeners(e), this.gmConvergence.activateListeners(e), this.gmDifficulty.activateListeners(e);
   }
 }
-function V(r, e, t, a, s, i = (n) => !0) {
+function U(o, e, t, s, a, i = (r) => !0) {
   return {
-    code: r,
-    labelkey: o.attributeAction[r],
-    attributeFunction1: e ?? ((n) => {
+    code: o,
+    labelkey: n.attributeAction[o],
+    attributeFunction1: e ?? ((r) => {
     }),
-    attributeFunction2: t ?? ((n) => {
+    attributeFunction2: t ?? ((r) => {
     }),
-    icon: a,
-    actorTypes: s,
+    icon: s,
+    actorTypes: a,
     condition: i
   };
 }
-function he(r, e) {
+function he(o, e) {
   return {
-    code: r,
-    labelkey: o.defense[r],
+    code: o,
+    labelkey: n.defense[o],
     actionCode: e
   };
 }
-const N = c.attributes, D = c.actorTypes, O = E.actions, ge = E.defenses, _e = [
-  V(O.defense, (r) => N.agility, (r) => N.logic, u.fontAwesome("fas fa-shield-alt"), [D.character]),
-  V(O.defense, (r) => N.autopilot, (r) => N.handling, u.fontAwesome("fas fa-tachometer-alt"), [D.vehicle]),
+const E = l.attributes, I = l.actorTypes, O = D.actions, ge = D.defenses, Ye = [
+  U(O.defense, (o) => E.agility, (o) => E.logic, p.fontAwesome("fas fa-shield-alt"), [I.character]),
+  U(O.defense, (o) => E.autopilot, (o) => E.handling, p.fontAwesome("fas fa-tachometer-alt"), [I.vehicle]),
   // TODO: add a way to pilot a vehicle to fallback defense of controled vehicle
-  V(O.resistTorture, (r) => N.strength, (r) => N.willpower, u.fontAwesome("fas fa-angry"), [D.character]),
-  V(O.perception, (r) => N.logic, (r) => N.willpower, u.fontAwesome("fas fa-eye"), [D.character]),
-  V(O.perception, (r) => N.autopilot, void 0, u.fontAwesome("fas fa-video"), [D.vehicle]),
-  V(O.perception, (r) => r.getMatrixLogic(), (r) => r.getMatrixLogic(), u.fontAwesome("fas fa-video"), [D.device, D.sprite, D.ic]),
-  V(O.composure, (r) => N.charisma, (r) => N.willpower, u.fontAwesome("fas fa-meh"), [D.character]),
-  V(O.judgeIntentions, (r) => N.charisma, (r) => N.charisma, u.fontAwesome("fas fa-theater-masks"), [D.character]),
-  V(O.memory, (r) => N.logic, (r) => N.logic, u.fontAwesome("fas fa-brain"), [D.character]),
-  V(O.catch, (r) => N.agility, (r) => N.agility, u.fontAwesome("fas fa-baseball-ball"), [D.character]),
-  V(O.lift, (r) => N.strength, (r) => N.strength, u.fontAwesome("fas fa-dumbbell"), [D.character]),
-  V(O.matrixDefense, (r) => r.getMatrixLogic(), (r) => r.getMatrixFirewall(), u.fontAwesome("fas fa-shield-virus"), [D.character, D.sprite, D.ic, D.device, D.vehicle]),
-  V(O.astralDefense, (r) => N.logic, (r) => N.willpower, u.fontAwesome("fas fa-shield-virus"), [D.character])
-], ke = [
+  U(O.resistTorture, (o) => E.strength, (o) => E.willpower, p.fontAwesome("fas fa-angry"), [I.character]),
+  U(O.perception, (o) => E.logic, (o) => E.willpower, p.fontAwesome("fas fa-eye"), [I.character]),
+  U(O.perception, (o) => E.autopilot, void 0, p.fontAwesome("fas fa-video"), [I.vehicle]),
+  U(O.perception, (o) => o.getMatrixLogic(), (o) => o.getMatrixLogic(), p.fontAwesome("fas fa-video"), [I.device, I.sprite, I.ic]),
+  U(O.composure, (o) => E.charisma, (o) => E.willpower, p.fontAwesome("fas fa-meh"), [I.character]),
+  U(O.judgeIntentions, (o) => E.charisma, (o) => E.charisma, p.fontAwesome("fas fa-theater-masks"), [I.character]),
+  U(O.memory, (o) => E.logic, (o) => E.logic, p.fontAwesome("fas fa-brain"), [I.character]),
+  U(O.catch, (o) => E.agility, (o) => E.agility, p.fontAwesome("fas fa-baseball-ball"), [I.character]),
+  U(O.lift, (o) => E.strength, (o) => E.strength, p.fontAwesome("fas fa-dumbbell"), [I.character]),
+  U(O.matrixDefense, (o) => o.getMatrixLogic(), (o) => o.getMatrixFirewall(), p.fontAwesome("fas fa-shield-virus"), [I.character, I.sprite, I.ic, I.device, I.vehicle]),
+  U(O.astralDefense, (o) => E.logic, (o) => E.willpower, p.fontAwesome("fas fa-shield-virus"), [I.character])
+], ve = [
   he(ge.physicalDefense, O.defense),
   he(ge.physicalResistance, O.resistTorture),
   he(ge.socialDefense, O.composure),
   he(ge.matrixDefense, O.matrixDefense),
   he(ge.mentalResistance, O.perception)
 ];
-class Y {
+class z {
   static init() {
-    Handlebars.registerHelper("fixedDefenseCode", (e) => Y.fixedDefenseCode(e));
+    Handlebars.registerHelper("fixedDefenseCode", (e) => z.fixedDefenseCode(e));
   }
   static all(e = void 0) {
-    return e ? _e.filter(e) : _e;
+    return e ? Ye.filter(e) : Ye;
   }
   static getActorActions(e) {
-    return _e.filter((t) => t.actorTypes.includes(e.type) && t.condition(e));
+    return Ye.filter((t) => t.actorTypes.includes(e.type) && t.condition(e));
   }
   static fixedDefenseCode(e) {
-    return E.fixedDefenseCode[e] ?? e;
+    return D.fixedDefenseCode[e] ?? e;
   }
   static getActorDefenses(e) {
-    return ke.map((t) => {
-      const a = Y.getActorAction(e, t.actionCode);
-      return Y._convertToDefense(a, t);
+    return ve.map((t) => {
+      const s = z.getActorAction(e, t.actionCode);
+      return z._convertToDefense(s, t);
     }).filter((t) => t == null ? void 0 : t.code);
   }
   static getDefenseAttributeAction(e) {
     var t;
-    return (t = ke.find((a) => a.code == e)) == null ? void 0 : t.actionCode;
+    return (t = ve.find((s) => s.code == e)) == null ? void 0 : t.actionCode;
   }
   static getActorAction(e, t) {
-    return Y.getActorActions(e).find((a) => a.code == t);
+    return z.getActorActions(e).find((s) => s.code == t);
   }
   static getActorDefense(e, t) {
-    t = Y.fixedDefenseCode(t);
-    const a = ke.find((i) => i.code == t), s = Y.getActorAction(e, a.actionCode);
-    return K.checkActorDefenseAction(s, e, a), Y._convertToDefense(s, a);
+    t = z.fixedDefenseCode(t);
+    const s = ve.find((i) => i.code == t), a = z.getActorAction(e, s.actionCode);
+    return K.checkActorDefenseAction(a, e, s), z._convertToDefense(a, s);
   }
   static _convertToDefense(e, t) {
     return e ? foundry.utils.mergeObject(
@@ -1709,85 +1709,85 @@ class Y {
     ) : void 0;
   }
   static getDefenses() {
-    return ke;
+    return ve;
   }
   static prepareShortcut(e, t) {
-    const a = Y.getActorActions(e).find((s) => s.code == t);
-    if (a)
+    const s = z.getActorActions(e).find((a) => a.code == t);
+    if (s)
       return {
-        icon: a.icon,
-        label: game.i18n.localize(a.labelkey),
-        callback: (s) => s.actor.rollAttributeAction(t)
+        icon: s.icon,
+        label: game.i18n.localize(s.labelkey),
+        callback: (a) => a.actor.rollAttributeAction(t)
       };
   }
 }
-const qe = {
+const Qe = {
   canMark: !1,
   marks: [],
   value: 0,
   max: 0,
   resistance: 0
-}, x = {
+}, P = {
   connectionMode: {
     disconnected: "disconnected",
     augmented: "augmented",
     virtual: "virtual"
   }
 };
-class ye {
+class pe {
   static resolveConnectionMode(e) {
     switch (e) {
-      case x.connectionMode.disconnected:
-      case x.connectionMode.augmented:
-      case x.connectionMode.virtual:
+      case P.connectionMode.disconnected:
+      case P.connectionMode.augmented:
+      case P.connectionMode.virtual:
         return e;
       case void 0:
       default:
-        return x.connectionMode.disconnected;
+        return P.connectionMode.disconnected;
     }
   }
   static getNextConnectionMode(e) {
     switch (e) {
-      case x.connectionMode.disconnected:
-        return x.connectionMode.augmented;
-      case x.connectionMode.augmented:
-        return x.connectionMode.virtual;
+      case P.connectionMode.disconnected:
+        return P.connectionMode.augmented;
+      case P.connectionMode.augmented:
+        return P.connectionMode.virtual;
       default:
-      case x.connectionMode.virtual:
-        return x.connectionMode.disconnected;
+      case P.connectionMode.virtual:
+        return P.connectionMode.disconnected;
     }
   }
 }
-const it = [c.itemType.shadowamp, c.itemType.weapon, c.itemType.cyberdeck];
-class A {
+const nt = [l.itemType.shadowamp, l.itemType.weapon, l.itemType.cyberdeck];
+class b {
   constructor() {
     this.modifiers = {
-      groups: S.mapObjetToKeyValue(o.modifier.group, "key", "label"),
-      roll: A._buildGroupOptions("roll"),
-      attribute: A._buildGroupOptions("attribute"),
-      monitor: A._buildGroupOptions("monitor"),
-      other: A._buildGroupOptions("other")
+      groups: H.mapObjetToKeyValue(n.modifier.group, "key", "label"),
+      roll: b._buildGroupOptions("roll"),
+      attribute: b._buildGroupOptions("attribute"),
+      monitor: b._buildGroupOptions("monitor"),
+      other: b._buildGroupOptions("other")
     }, Hooks.once("ready", () => this.onReady());
   }
   static _buildGroupOptions(e) {
     switch (e) {
       case "attribute":
         return {
-          label: o.modifier.group[e],
-          effects: S.hbsAttributes.map((t) => ({ key: t.value, label: t.labelkey })),
+          label: n.modifier.group[e],
+          effects: H.hbsAttributes.map((t) => ({ key: t.value, label: t.labelkey })),
           categories: []
         };
     }
     return {
-      label: o.modifier.group[e],
-      effects: S.mapObjetToKeyValue(o.modifier[e].effect, "key", "label"),
-      categories: S.mapObjetToKeyValue(o.modifier[e].category, "key", "label")
+      label: n.modifier.group[e],
+      effects: H.mapObjetToKeyValue(n.modifier[e].effect, "key", "label"),
+      categories: H.mapObjetToKeyValue(n.modifier[e].category, "key", "label")
     };
   }
   async onReady() {
-    Handlebars.registerHelper("modifierHasSubCategory", (e, t, a) => this.hasSubCategory(e, t, a)), Handlebars.registerHelper("modifierSelectOption", (e, t) => this.getSelectOptions(e, t));
+    Handlebars.registerHelper("modifierHasSubCategory", (e, t, s) => this.hasSubCategory(e, t, s)), Handlebars.registerHelper("modifierSelectOption", (e, t) => this.getSelectOptions(e, t));
   }
-  hasSubCategory(e, t, a) {
+  hasSubCategory(e, t, s) {
     switch (e) {
       case "roll":
         return !0;
@@ -1795,14 +1795,14 @@ class A {
     return !1;
   }
   getSelectOptions(e, t) {
-    var a, s;
+    var s, a;
     switch (e) {
       case "group":
         return this.modifiers.groups;
       case "effect":
-        return (a = this.modifiers[t.hash.group]) == null ? void 0 : a.effects;
+        return (s = this.modifiers[t.hash.group]) == null ? void 0 : s.effects;
       case "category":
-        return (s = this.modifiers[t.hash.group]) == null ? void 0 : s.categories;
+        return (a = this.modifiers[t.hash.group]) == null ? void 0 : a.categories;
       case "subCategory":
         switch (t.hash.group) {
           case "roll":
@@ -1815,12 +1815,12 @@ class A {
   getSelectRollSubCategories(e) {
     switch (e) {
       case "attribute":
-        return S.getAttributes().map((a) => ({ key: a.value, label: a.labelkey }));
+        return H.getAttributes().map((s) => ({ key: s.value, label: s.labelkey }));
       case "skill":
-        return game.system.anarchy.skills.getSkills().map((a) => ({ key: a.code, label: a.labelkey }));
+        return game.system.anarchy.skills.getSkills().map((s) => ({ key: s.code, label: s.labelkey }));
       case "attributeAction":
-        const t = Y.all().map((a) => ({ key: a.code, label: a.labelkey }));
-        return f.distinct(t.map((a) => a.key)).map((a) => t.find((s) => s.key == a));
+        const t = z.all().map((s) => ({ key: s.code, label: s.labelkey }));
+        return A.distinct(t.map((s) => s.key)).map((s) => t.find((a) => a.key == s));
     }
     return [];
   }
@@ -1828,56 +1828,56 @@ class A {
     return { modifiers: this.modifiers };
   }
   static buildRollModifiersFilter(e, t) {
-    return (a) => {
-      var s;
-      if (a.group == "roll" && a.effect == t)
-        switch (a.category) {
+    return (s) => {
+      var a;
+      if (s.group == "roll" && s.effect == t)
+        switch (s.category) {
           case "attribute":
-            return [e.attribute1, e.attribute2].includes(a.subCategory);
+            return [e.attribute1, e.attribute2].includes(s.subCategory);
           case "skill":
-            return a.subCategory == ((s = e.skill) == null ? void 0 : s.system.code);
+            return s.subCategory == ((a = e.skill) == null ? void 0 : a.system.code);
           case "attributeAction":
-            return a.subCategory == e.attributeAction || a.subCategory == Y.getDefenseAttributeAction(e.defenseAction);
+            return s.subCategory == e.attributeAction || s.subCategory == z.getDefenseAttributeAction(e.defenseAction);
         }
       return !1;
     };
   }
-  static computeRollModifiers(e, t, a) {
-    const s = A.buildRollModifiersFilter(t, a), i = (y) => y.group == "roll" && y.effect == a && s(y), n = A._activeItems(e).map((y) => A.itemModifiers(y, i)).reduce((y, W) => y.concat(W), []).sort(f.descending((y) => y.modifier.value)), l = A.$sumShadowampModifiers(n.filter((y) => it.includes(y.item.type)).map((y) => y.modifier.value)), m = f.sumValues(n.filter((y) => !it.includes(y.item.type)).map((y) => y.modifier.value));
+  static computeRollModifiers(e, t, s) {
+    const a = b.buildRollModifiersFilter(t, s), i = (g) => g.group == "roll" && g.effect == s && a(g), r = b._activeItems(e).map((g) => b.itemModifiers(g, i)).reduce((g, F) => g.concat(F), []).sort(A.descending((g) => g.modifier.value)), c = b.$sumShadowampModifiers(r.filter((g) => nt.includes(g.item.type)).map((g) => g.modifier.value)), m = A.sumValues(r.filter((g) => !nt.includes(g.item.type)).map((g) => g.modifier.value));
     return {
-      value: l + m,
-      sources: n
+      value: c + m,
+      sources: r
     };
   }
   static $sumShadowampModifiers(e) {
-    const t = e.find((i) => i > 3) ?? 0, a = f.sumValues(e.filter((i) => i < 0)), s = Math.min(3, f.sumValues(e.filter((i) => i > 0 && i <= 3)));
-    return a + Math.max(s, t);
+    const t = e.find((i) => i > 3) ?? 0, s = A.sumValues(e.filter((i) => i < 0)), a = Math.min(3, A.sumValues(e.filter((i) => i > 0 && i <= 3)));
+    return s + Math.max(a, t);
   }
-  static computeModifiers(e, t, a = void 0, s = void 0) {
-    const i = A._createFilter(t, a, s), n = A._activeItems(e).map((m) => A.itemModifiers(m, i)).reduce((m, y) => m.concat(y), []);
+  static computeModifiers(e, t, s = void 0, a = void 0) {
+    const i = b._createFilter(t, s, a), r = b._activeItems(e).map((m) => b.itemModifiers(m, i)).reduce((m, g) => m.concat(g), []);
     return {
-      value: f.sumValues(n, (m) => m.modifier.value),
-      sources: n
+      value: A.sumValues(r, (m) => m.modifier.value),
+      sources: r
     };
   }
-  static sumMonitorModifiers(e, t, a) {
-    return A.sumModifiers(A._activeItems(e), "monitor", t, a);
+  static sumMonitorModifiers(e, t, s) {
+    return b.sumModifiers(b._activeItems(e), "monitor", t, s);
   }
-  static sumModifiers(e, t, a, s) {
-    const i = A._createFilter(t, a, s), n = A._activeItems(e).map((l) => A.itemModifiers(l, i)).reduce((l, m) => l.concat(m), []);
-    return f.sumValues(n, (l) => l.modifier.value);
+  static sumModifiers(e, t, s, a) {
+    const i = b._createFilter(t, s, a), r = b._activeItems(e).map((c) => b.itemModifiers(c, i)).reduce((c, m) => c.concat(m), []);
+    return A.sumValues(r, (c) => c.modifier.value);
   }
-  static _createFilter(e, t, a) {
-    return (s) => s.group == e && s.effect == (t ?? s.effect) && s.category == (a ?? s.category);
+  static _createFilter(e, t, s) {
+    return (a) => a.group == e && a.effect == (t ?? a.effect) && a.category == (s ?? a.category);
   }
-  static countModifiers(e, t, a = void 0, s = void 0) {
-    const i = A._createFilter(t, a, s);
-    return A._activeItems(e).map((l) => A.itemModifiers(l, i)).reduce((l, m) => l.concat(m), []).count;
+  static countModifiers(e, t, s = void 0, a = void 0) {
+    const i = b._createFilter(t, s, a);
+    return b._activeItems(e).map((c) => b.itemModifiers(c, i)).reduce((c, m) => c.concat(m), []).count;
   }
   static itemModifiers(e, t) {
-    return A._listItemModifiers(e, t).map((a) => A._itemModifier(e, a));
+    return b._listItemModifiers(e, t).map((s) => b._itemModifier(e, s));
   }
-  static _listItemModifiers(e, t = (a) => !0) {
+  static _listItemModifiers(e, t = (s) => !0) {
     return (e.system.modifiers ?? []).filter(t);
   }
   static _itemModifier(e, t) {
@@ -1890,7 +1890,7 @@ class A {
     return e.filter((t) => t.isActive());
   }
 }
-const ot = {
+const ct = {
   highlighted: ["far fa-times-circle", "fas fa-dice-one", "fas fa-dice-two", "fas fa-dice-three", "fas fa-dice-four", "fas fa-dice-five", "fas fa-dice-six"],
   dimmed: ["far fa-times-circle", "far fa-dice-one", "far fa-dice-two", "far fa-dice-three", "far fa-dice-four", "far fa-dice-five", "far fa-dice-six"]
 };
@@ -1905,7 +1905,7 @@ class B {
   }
   static array(e, t) {
     if (e > t) throw `min>max: ${e} > ${t}`;
-    return Array(t - e + 1).fill().map((a, s) => e + s);
+    return Array(t - e + 1).fill().map((s, a) => e + a);
   }
   static isActive(e, t) {
     return t <= e && e < 0 || 0 < e && e <= t;
@@ -1914,8 +1914,8 @@ class B {
     return B.isActive(e, t) ? "active" : "inactive";
   }
   static fasClass(e, t) {
-    const a = B.isActive(e, t) ? ot.highlighted : ot.dimmed;
-    return B.$getFas(a, Math.abs(e));
+    const s = B.isActive(e, t) ? ct.highlighted : ct.dimmed;
+    return B.$getFas(s, Math.abs(e));
   }
   static colorClass(e, t) {
     return e == 0 || !t ? e < 0 ? "fixed-dice-malus" : "fixed-dice-bonus" : e < 0 ? "variable-dice-malus" : "variable-dice-bonus";
@@ -1923,21 +1923,21 @@ class B {
   static $getFas(e, t) {
     return e[t > 6 ? t % 6 : t];
   }
-  static async diceCursor({ value: e, min: t, max: a, editable: s }) {
+  static async diceCursor({ value: e, min: t, max: s, editable: a }) {
     return await renderTemplate("systems/anarchy/templates/roll/parts/dice-cursor.hbs", {
       value: e,
       min: t,
-      max: a,
-      editable: s
+      max: s,
+      editable: a
     });
   }
 }
-class jt {
+class Wt {
   static getMalus(e, t) {
     return Math.min(0, -Math.floor((7 - t) / 2));
   }
 }
-const b = {
+const C = {
   /**
    * Hook to declare template data migrations
    */
@@ -1975,57 +1975,57 @@ const b = {
    * Hook allowing to provide alternate anarchy hack (TODO: document)
    */
   ANARCHY_HACK: "anarchy-hack"
-}, At = `${g}.${b.ANARCHY_HACK}`, pe = {
-  id: g,
+}, Ct = `${d}.${C.ANARCHY_HACK}`, ye = {
+  id: d,
   name: "Standard Shadowrun Anarchy",
   hack: {
-    checkbars: () => U
+    checkbars: () => V
   }
 };
-globalThis.ANARCHY_HOOKS = b;
-globalThis.SETTING_KEY_ANARCHY_HACK = At;
-globalThis.SHADOWRUN_ANARCHY_NO_HACK = pe;
+globalThis.ANARCHY_HOOKS = C;
+globalThis.SETTING_KEY_ANARCHY_HACK = Ct;
+globalThis.SHADOWRUN_ANARCHY_NO_HACK = ye;
 class Z {
   constructor() {
-    this.hooks = [], this.hacks = {}, this.hackNames = {}, this.hookMethods = {}, this._register(b.ANARCHY_HACK), this._register(b.PROVIDE_BASE_ESSENCE), Hooks.on(b.ANARCHY_HACK, (e) => e(pe)), Hooks.on(b.PROVIDE_BASE_ESSENCE, (e) => e(pe, (t) => 6)), Hooks.on(b.PROVIDE_MALUS_ESSENCE, (e) => e(pe, (t, a) => jt.getMalus(t, a))), Hooks.on("updateSetting", async (e, t, a, s) => this.onUpdateSetting(e, t, a, s)), Hooks.once("ready", () => this.onReady());
+    this.hooks = [], this.hacks = {}, this.hackNames = {}, this.hookMethods = {}, this._register(C.ANARCHY_HACK), this._register(C.PROVIDE_BASE_ESSENCE), Hooks.on(C.ANARCHY_HACK, (e) => e(ye)), Hooks.on(C.PROVIDE_BASE_ESSENCE, (e) => e(ye, (t) => 6)), Hooks.on(C.PROVIDE_MALUS_ESSENCE, (e) => e(ye, (t, s) => Wt.getMalus(t, s))), Hooks.on("updateSetting", async (e, t, s, a) => this.onUpdateSetting(e, t, s, a)), Hooks.once("ready", () => this.onReady());
   }
   async onReady() {
-    Hooks.callAll(b.ANARCHY_HACK, (e) => {
+    Hooks.callAll(C.ANARCHY_HACK, (e) => {
       this.hacks[e.id] = e, this.hackNames[e.id] = e.name;
-    }), game.settings.register(g, b.ANARCHY_HACK, {
+    }), game.settings.register(d, C.ANARCHY_HACK, {
       scope: "world",
-      name: game.i18n.localize(o.settings.anarchyHack.name),
-      hint: game.i18n.localize(o.settings.anarchyHack.hint),
+      name: game.i18n.localize(n.settings.anarchyHack.name),
+      hint: game.i18n.localize(n.settings.anarchyHack.hint),
       config: !0,
-      default: pe.id,
+      default: ye.id,
       choices: this.hackNames,
       type: String
     }), this.applySelectedAnarchyHack();
   }
-  async onUpdateSetting(e, t, a, s) {
-    e.key == At && this.applySelectedAnarchyHack();
+  async onUpdateSetting(e, t, s, a) {
+    e.key == Ct && this.applySelectedAnarchyHack();
   }
   applySelectedAnarchyHack() {
     const e = this.getSelectedHack();
-    e && (d.hackCheckbars(e.hack.checkbars()), [
-      b.PROVIDE_BASE_ESSENCE,
-      b.PROVIDE_MALUS_ESSENCE
-    ].forEach((a) => this.selectHookMethod(e, a)));
+    e && (u.hackCheckbars(e.hack.checkbars()), [
+      C.PROVIDE_BASE_ESSENCE,
+      C.PROVIDE_MALUS_ESSENCE
+    ].forEach((s) => this.selectHookMethod(e, s)));
   }
   selectHookMethod(e, t) {
-    Hooks.callAll(t, (a, s) => {
-      a == e && (this.hookMethods[t] = s);
+    Hooks.callAll(t, (s, a) => {
+      s == e && (this.hookMethods[t] = a);
     });
   }
   getSelectedHack() {
-    return this.hacks[game.settings.get(g, b.ANARCHY_HACK)];
+    return this.hacks[game.settings.get(d, C.ANARCHY_HACK)];
   }
   getHookMethod(e, t) {
     return this.hookMethods[e] ?? t;
   }
   callHookMethod(e, ...t) {
-    const a = this.hookMethods[e];
-    return a ? a(...t) : void 0;
+    const s = this.hookMethods[e];
+    return s ? s(...t) : void 0;
   }
   static instance() {
     return game.system.anarchy.hooks;
@@ -2034,12 +2034,12 @@ class Z {
     Z.instance()._register(e);
   }
   _register(e) {
-    if (console.log(P + "HooksManager.register", e), !e.startsWith(g + "-"))
+    if (console.log(h + "HooksManager.register", e), !e.startsWith(d + "-"))
       throw "For safety Anarchy Hooks names must be prefixed by anarchy'-'";
     this.hooks.push(e);
   }
 }
-const C = {
+const v = {
   pool: "pool",
   reroll: "reroll",
   rerollForced: "rerollForced",
@@ -2051,26 +2051,26 @@ const C = {
   risk: "risk",
   opponentPool: "opponentPool",
   opponentReroll: "opponentReroll"
-}, Wt = [
+}, Bt = [
   // attribute1
   {
     code: "attribute1",
     options: {
       order: 1,
-      category: C.pool,
-      hbsTemplateRoll: `${h}/roll/parts/select-attribute.hbs`
+      category: v.pool,
+      hbsTemplateRoll: `${y}/roll/parts/select-attribute.hbs`
     },
-    condition: (r) => Object.values(E.rollType).includes(r.mode),
-    isUsed: (r) => !0,
-    factory: (r) => {
+    condition: (o) => Object.values(D.rollType).includes(o.mode),
+    isUsed: (o) => !0,
+    factory: (o) => {
       var t;
-      const e = r.attribute1 ?? ((t = r.skill) == null ? void 0 : t.system.attribute);
+      const e = o.attribute1 ?? ((t = o.skill) == null ? void 0 : t.system.attribute);
       return {
-        labelkey: e ? o.attributes[e] : o.attributes.noAttributes,
-        value: r.actor.getAttributeValue(e, r.activeItem),
-        flags: { editable: r.skill },
+        labelkey: e ? n.attributes[e] : n.attributes.noAttributes,
+        value: o.actor.getAttributeValue(e, o.activeItem),
+        flags: { editable: o.skill },
         selected: e,
-        choices: S.getAttributes((a) => r.attributes.includes(a))
+        choices: H.getAttributes((s) => o.attributes.includes(s))
       };
     }
   },
@@ -2079,21 +2079,21 @@ const C = {
     code: "attribute2",
     options: {
       order: 1,
-      category: C.pool,
-      hbsTemplateRoll: `${h}/roll/parts/select-attribute.hbs`,
-      hbsTemplateChat: `${h}/chat/parts/pool-attribute2.hbs`
+      category: v.pool,
+      hbsTemplateRoll: `${y}/roll/parts/select-attribute.hbs`,
+      hbsTemplateChat: `${y}/chat/parts/pool-attribute2.hbs`
     },
-    condition: (r) => [E.rollType.attribute, E.rollType.attributeAction, E.rollType.defense].includes(r.mode),
-    isUsed: (r) => r.used,
-    onChecked: (r, e) => r.used = !!e,
-    factory: (r) => {
-      const e = r.attribute2;
+    condition: (o) => [D.rollType.attribute, D.rollType.attributeAction, D.rollType.defense].includes(o.mode),
+    isUsed: (o) => o.used,
+    onChecked: (o, e) => o.used = !!e,
+    factory: (o) => {
+      const e = o.attribute2;
       return {
-        labelkey: e ? o.attributes[e] : o.attributes.noAttributes,
-        value: r.actor.getAttributeValue(e, r.activeItem),
-        flags: { editable: E.rollType.attribute == r.mode },
+        labelkey: e ? n.attributes[e] : n.attributes.noAttributes,
+        value: o.actor.getAttributeValue(e, o.activeItem),
+        flags: { editable: D.rollType.attribute == o.mode },
         selected: e,
-        choices: S.getAttributes((t) => r.attributes.includes(t))
+        choices: H.getAttributes((t) => o.attributes.includes(t))
       };
     }
   },
@@ -2103,15 +2103,15 @@ const C = {
     options: {
       flags: {},
       order: 3,
-      category: C.pool,
-      hbsTemplateRoll: `${h}/roll/parts/input-numeric.hbs`
+      category: v.pool,
+      hbsTemplateRoll: `${y}/roll/parts/input-numeric.hbs`
     },
-    condition: (r) => ["skill", "weapon"].includes(r.mode),
-    factory: (r) => {
+    condition: (o) => ["skill", "weapon"].includes(o.mode),
+    factory: (o) => {
       var e, t;
       return {
-        label: (e = r.skill) == null ? void 0 : e.name,
-        value: ((t = r.skill) == null ? void 0 : t.system.value) ?? 0
+        label: (e = o.skill) == null ? void 0 : e.name,
+        value: ((t = o.skill) == null ? void 0 : t.system.value) ?? 0
       };
     }
   },
@@ -2122,20 +2122,20 @@ const C = {
       flags: { optional: !0 },
       value: 2,
       order: 4,
-      category: C.pool,
-      hbsTemplateRoll: `${h}/roll/parts/check-option.hbs`
+      category: v.pool,
+      hbsTemplateRoll: `${y}/roll/parts/check-option.hbs`
     },
-    isUsed: (r) => r.used,
-    condition: (r) => {
+    isUsed: (o) => o.used,
+    condition: (o) => {
       var e;
-      return r.mode == "skill" && r.specialization || r.mode == "weapon" && ((e = r.skill) == null ? void 0 : e.system.specialization);
+      return o.mode == "skill" && o.specialization || o.mode == "weapon" && ((e = o.skill) == null ? void 0 : e.system.specialization);
     },
-    onChecked: (r, e) => {
-      r.used = e, r.value = e ? 2 : 0;
+    onChecked: (o, e) => {
+      o.used = e, o.value = e ? 2 : 0;
     },
-    factory: (r) => ({
-      label: r.specialization ?? r.skill.system.specialization,
-      used: r.specialization != null,
+    factory: (o) => ({
+      label: o.specialization ?? o.skill.system.specialization,
+      used: o.specialization != null,
       value: 2
     })
   },
@@ -2145,18 +2145,18 @@ const C = {
     options: {
       flags: { editDice: !0, editable: !0 },
       order: 5,
-      category: C.pool,
+      category: v.pool,
       value: 0,
-      labelkey: o.common.roll.modifiers.social.credibility,
-      hbsTemplateRoll: `${h}/roll/parts/input-numeric.hbs`
+      labelkey: n.common.roll.modifiers.social.credibility,
+      hbsTemplateRoll: `${y}/roll/parts/input-numeric.hbs`
     },
-    condition: (r) => {
+    condition: (o) => {
       var e;
-      return ((e = r.skill) == null ? void 0 : e.system.isSocial) && r.actor.getCredibilityValue() > 0;
+      return ((e = o.skill) == null ? void 0 : e.system.isSocial) && o.actor.getCredibilityValue() > 0;
     },
-    factory: (r) => ({
+    factory: (o) => ({
       min: 0,
-      max: Math.min(r.actor.getCredibilityValue(), 3)
+      max: Math.min(o.actor.getCredibilityValue(), 3)
     })
   },
   // modifiers bonus
@@ -2164,14 +2164,14 @@ const C = {
     code: "poolModifiers",
     options: {
       flags: { editDice: !0, editable: !0 },
-      labelkey: o.common.roll.modifiers.poolModifiers,
+      labelkey: n.common.roll.modifiers.poolModifiers,
       order: 5,
-      category: C.pool,
-      hbsTemplateRoll: `${h}/roll/parts/input-numeric.hbs`,
+      category: v.pool,
+      hbsTemplateRoll: `${y}/roll/parts/input-numeric.hbs`,
       min: -4,
       max: 4
     },
-    factory: (r) => ne.computeRollModifiers(C.pool, r)
+    factory: (o) => ne.computeRollModifiers(v.pool, o)
   },
   // wounds
   {
@@ -2179,17 +2179,17 @@ const C = {
     options: {
       flags: { optional: !0 },
       order: 10,
-      category: C.pool,
-      labelkey: o.common.roll.modifiers.wounds,
-      hbsTemplateRoll: `${h}/roll/parts/input-numeric.hbs`
+      category: v.pool,
+      labelkey: n.common.roll.modifiers.wounds,
+      hbsTemplateRoll: `${y}/roll/parts/input-numeric.hbs`
     },
-    isUsed: (r) => r.used,
-    condition: (r) => r.actor.getWounds(),
-    onChecked: (r, e) => {
-      r.used = e, r.value = e ? -r.wounds : 0;
+    isUsed: (o) => o.used,
+    condition: (o) => o.actor.getWounds(),
+    onChecked: (o, e) => {
+      o.used = e, o.value = e ? -o.wounds : 0;
     },
-    factory: (r) => {
-      const e = r.actor.getWounds();
+    factory: (o) => {
+      const e = o.actor.getWounds();
       return {
         wounds: e,
         min: -e,
@@ -2205,16 +2205,16 @@ const C = {
     options: {
       flags: { editDice: !1, editable: !1 },
       order: 24,
-      category: C.pool,
+      category: v.pool,
       value: 1,
-      labelkey: o.common.roll.modifiers.virtualReality,
-      hbsTemplateRoll: `${h}/roll/parts/input-numeric.hbs`,
+      labelkey: n.common.roll.modifiers.virtualReality,
+      hbsTemplateRoll: `${y}/roll/parts/input-numeric.hbs`,
       min: 1,
       max: 1
     },
-    condition: (r) => r.actor.isMatrixSkill(r.skill) && r.actor.isMatrixConnected(x.connectionMode.virtual),
-    factory: (r) => ({
-      flags: { used: r.actor.isMatrixSkill(r.skill) && r.actor.isMatrixConnected(x.connectionMode.virtual) }
+    condition: (o) => o.actor.isMatrixSkill(o.skill) && o.actor.isMatrixConnected(P.connectionMode.virtual),
+    factory: (o) => ({
+      flags: { used: o.actor.isMatrixSkill(o.skill) && o.actor.isMatrixConnected(P.connectionMode.virtual) }
     })
   },
   // other modifiers
@@ -2223,10 +2223,10 @@ const C = {
     options: {
       flags: { editDice: !0, editable: !0 },
       order: 25,
-      category: C.pool,
+      category: v.pool,
       value: 0,
-      labelkey: o.common.roll.modifiers.other,
-      hbsTemplateRoll: `${h}/roll/parts/input-numeric.hbs`,
+      labelkey: n.common.roll.modifiers.other,
+      hbsTemplateRoll: `${y}/roll/parts/input-numeric.hbs`,
       min: -5,
       max: 5
     }
@@ -2237,18 +2237,18 @@ const C = {
     options: {
       flags: { editDice: !0, editable: !0, forceDisplay: !0 },
       order: 40,
-      category: C.drain,
-      labelkey: o.common.roll.modifiers.drain,
-      hbsTemplateRoll: `${h}/roll/parts/input-numeric.hbs`,
+      category: v.drain,
+      labelkey: n.common.roll.modifiers.drain,
+      hbsTemplateRoll: `${y}/roll/parts/input-numeric.hbs`,
       min: 0,
       max: 6
     },
-    condition: (r) => {
+    condition: (o) => {
       var e;
-      return (r.mode == "skill" || r.mode == "weapon") && ((e = r.skill) == null ? void 0 : e.system.hasDrain);
+      return (o.mode == "skill" || o.mode == "weapon") && ((e = o.skill) == null ? void 0 : e.system.hasDrain);
     },
-    factory: (r) => ({
-      value: r.mode == "weapon" && r.weapon.hasDrain ? r.weapon.system.drain : 1
+    factory: (o) => ({
+      value: o.mode == "weapon" && o.weapon.hasDrain ? o.weapon.system.drain : 1
     })
   },
   // convergence
@@ -2257,18 +2257,18 @@ const C = {
     options: {
       flags: { editDice: !1, optional: !0, used: !0, hideParameter: !0 },
       order: 40,
-      category: C.convergence,
+      category: v.convergence,
       value: 1,
-      labelkey: o.common.roll.modifiers.convergence,
-      hbsTemplateRoll: `${h}/roll/parts/check-option.hbs`
+      labelkey: n.common.roll.modifiers.convergence,
+      hbsTemplateRoll: `${y}/roll/parts/check-option.hbs`
     },
-    isUsed: (r) => r.used,
-    condition: (r) => {
+    isUsed: (o) => o.used,
+    condition: (o) => {
       var e;
-      return (r.mode == "skill" || r.mode == "weapon") && ((e = r.skill) == null ? void 0 : e.system.hasConvergence);
+      return (o.mode == "skill" || o.mode == "weapon") && ((e = o.skill) == null ? void 0 : e.system.hasConvergence);
     },
-    onChecked: (r, e) => {
-      r.used = e, r.value = e ? 1 : 0;
+    onChecked: (o, e) => {
+      o.used = e, o.value = e ? 1 : 0;
     }
   },
   // glitch
@@ -2277,18 +2277,18 @@ const C = {
     options: {
       flags: { editDice: !0, editable: !0, forceDisplay: !0 },
       order: 50,
-      category: C.glitch,
-      labelkey: o.common.roll.modifiers.glitch,
-      hbsTemplateRoll: `${h}/roll/parts/input-numeric.hbs`,
-      hbsTemplateChat: `${h}/chat/parts/glitch.hbs`,
+      category: v.glitch,
+      labelkey: n.common.roll.modifiers.glitch,
+      hbsTemplateRoll: `${y}/roll/parts/input-numeric.hbs`,
+      hbsTemplateChat: `${y}/chat/parts/glitch.hbs`,
       min: 0,
       max: 5
     },
-    isUsed: (r) => r.value > 0,
-    factory: (r) => {
-      const e = r.actor.getWounds(), t = ne.computeRollModifiers(C.glitch, r);
+    isUsed: (o) => o.value > 0,
+    factory: (o) => {
+      const e = o.actor.getWounds(), t = ne.computeRollModifiers(v.glitch, o);
       return {
-        value: (e == 0 ? 0 : 1) + (r.glitch ?? 0) + t.value
+        value: (e == 0 ? 0 : 1) + (o.glitch ?? 0) + t.value
       };
     }
   },
@@ -2298,17 +2298,17 @@ const C = {
     options: {
       flags: { editDice: !0, editable: !0 },
       order: 50,
-      category: C.glitch,
+      category: v.glitch,
       value: 0,
-      labelkey: o.common.roll.modifiers.social.rumor,
-      hbsTemplateRoll: `${h}/roll/parts/input-numeric.hbs`,
-      hbsTemplateChat: `${h}/chat/parts/glitch.hbs`,
+      labelkey: n.common.roll.modifiers.social.rumor,
+      hbsTemplateRoll: `${y}/roll/parts/input-numeric.hbs`,
+      hbsTemplateChat: `${y}/chat/parts/glitch.hbs`,
       min: 0,
       max: 1
     },
-    condition: (r) => {
+    condition: (o) => {
       var e;
-      return ((e = r.skill) == null ? void 0 : e.system.isSocial) && r.actor.getRumorValue() > 0;
+      return ((e = o.skill) == null ? void 0 : e.system.isSocial) && o.actor.getRumorValue() > 0;
     }
   },
   // rerolls
@@ -2317,32 +2317,32 @@ const C = {
     options: {
       flags: { editDice: !0, editable: !0 },
       order: 30,
-      category: C.reroll,
-      labelkey: o.common.roll.modifiers.reroll,
-      hbsTemplateRoll: `${h}/roll/parts/input-numeric.hbs`,
+      category: v.reroll,
+      labelkey: n.common.roll.modifiers.reroll,
+      hbsTemplateRoll: `${y}/roll/parts/input-numeric.hbs`,
       min: 0,
       max: 4
     },
-    factory: (r) => ne.computeRollModifiers(C.reroll, r)
+    factory: (o) => ne.computeRollModifiers(v.reroll, o)
   },
   // reduction from opponent
   {
     code: "reduced",
     options: {
       order: 29,
-      category: C.pool,
-      labelkey: o.common.roll.modifiers.reduced,
-      hbsTemplateRoll: `${h}/roll/parts/input-numeric.hbs`,
+      category: v.pool,
+      labelkey: n.common.roll.modifiers.reduced,
+      hbsTemplateRoll: `${y}/roll/parts/input-numeric.hbs`,
       min: -4,
       max: 0
     },
-    condition: (r) => {
+    condition: (o) => {
       var e;
-      return (((e = r.attackRoll) == null ? void 0 : e.param.opponentPool) ?? 0) != 0;
+      return (((e = o.attackRoll) == null ? void 0 : e.param.opponentPool) ?? 0) != 0;
     },
-    factory: (r) => {
+    factory: (o) => {
       var t;
-      const e = -(((t = r.attackRoll) == null ? void 0 : t.param.opponentPool) ?? 0);
+      const e = -(((t = o.attackRoll) == null ? void 0 : t.param.opponentPool) ?? 0);
       return {
         flags: { editDice: !0, used: !0 },
         value: e
@@ -2354,16 +2354,16 @@ const C = {
     code: "rerollForced",
     options: {
       order: 31,
-      category: C.rerollForced,
-      labelkey: o.common.roll.modifiers.rerollForced,
-      hbsTemplateRoll: `${h}/roll/parts/input-numeric.hbs`,
+      category: v.rerollForced,
+      labelkey: n.common.roll.modifiers.rerollForced,
+      hbsTemplateRoll: `${y}/roll/parts/input-numeric.hbs`,
       min: -5,
       max: 0
     },
-    factory: (r) => {
+    factory: (o) => {
       var t;
-      const e = ne.computeRollModifiers(C.successReroll, r);
-      return e.value = -e.value - (((t = r.attackRoll) == null ? void 0 : t.param.opponentReroll) ?? 0), foundry.utils.mergeObject(e, {
+      const e = ne.computeRollModifiers(v.successReroll, o);
+      return e.value = -e.value - (((t = o.attackRoll) == null ? void 0 : t.param.opponentReroll) ?? 0), foundry.utils.mergeObject(e, {
         flags: { editDice: !0, used: !0, editable: !0 }
       });
     }
@@ -2374,17 +2374,17 @@ const C = {
     options: {
       flags: { optional: !0, isAnarchy: !0, forceDisplay: !0 },
       order: 70,
-      category: C.pool,
+      category: v.pool,
       value: 0,
       min: 0,
       max: 3,
-      labelkey: o.common.roll.modifiers.anarchyDisposition,
-      hbsTemplateRoll: `${h}/roll/parts/check-option.hbs`
+      labelkey: n.common.roll.modifiers.anarchyDisposition,
+      hbsTemplateRoll: `${y}/roll/parts/check-option.hbs`
     },
-    isUsed: (r) => r.used,
-    condition: (r) => r.actor.getAnarchyValue() > 0,
-    onChecked: (r, e) => {
-      r.used = e, r.value = e ? 3 : 0;
+    isUsed: (o) => o.used,
+    condition: (o) => o.actor.getAnarchyValue() > 0,
+    onChecked: (o, e) => {
+      o.used = e, o.value = e ? 3 : 0;
     }
   },
   // anarchy take risks
@@ -2393,16 +2393,16 @@ const C = {
     options: {
       flags: { optional: !0, isAnarchy: !0, forceDisplay: !0 },
       order: 70,
-      category: C.risk,
+      category: v.risk,
       value: 0,
-      labelkey: o.common.roll.modifiers.anarchyRisk,
-      hbsTemplateRoll: `${h}/roll/parts/check-option.hbs`,
-      hbsTemplateChat: `${h}/chat/parts/anarchy-risk.hbs`
+      labelkey: n.common.roll.modifiers.anarchyRisk,
+      hbsTemplateRoll: `${y}/roll/parts/check-option.hbs`,
+      hbsTemplateChat: `${y}/chat/parts/anarchy-risk.hbs`
     },
-    isUsed: (r) => r.used,
-    condition: (r) => r.actor.getAnarchyValue() > 0,
-    onChecked: (r, e) => {
-      r.used = e, r.value = e ? 1 : 0;
+    isUsed: (o) => o.used,
+    condition: (o) => o.actor.getAnarchyValue() > 0,
+    onChecked: (o, e) => {
+      o.used = e, o.value = e ? 1 : 0;
     }
   },
   // edge
@@ -2412,14 +2412,14 @@ const C = {
       flags: { optional: !0, forceDisplay: !0 },
       value: 0,
       order: 70,
-      category: C.edge,
-      labelkey: o.common.roll.modifiers.edge,
-      hbsTemplateRoll: `${h}/roll/parts/check-option.hbs`
+      category: v.edge,
+      labelkey: n.common.roll.modifiers.edge,
+      hbsTemplateRoll: `${y}/roll/parts/check-option.hbs`
     },
-    isUsed: (r) => r.used,
-    condition: (r) => r.options.canUseEdge && r.actor.getRemainingEdge(),
-    onChecked: (r, e) => {
-      r.used = e, r.value = e ? 1 : 0;
+    isUsed: (o) => o.used,
+    condition: (o) => o.options.canUseEdge && o.actor.getRemainingEdge(),
+    onChecked: (o, e) => {
+      o.used = e, o.value = e ? 1 : 0;
     }
   },
   // reduce opponent pool
@@ -2428,14 +2428,14 @@ const C = {
     options: {
       flags: { editDice: !0, editable: !0, forceDisplay: !0 },
       order: 100,
-      category: C.opponentPool,
-      labelkey: o.common.roll.modifiers.opponentPool,
-      hbsTemplateRoll: `${h}/roll/parts/input-numeric.hbs`,
+      category: v.opponentPool,
+      labelkey: n.common.roll.modifiers.opponentPool,
+      hbsTemplateRoll: `${y}/roll/parts/input-numeric.hbs`,
       min: 0,
       max: 4
     },
-    factory: (r) => ne.computeRollModifiers(C.opponentPool, r),
-    condition: (r) => !r.attributeAction
+    factory: (o) => ne.computeRollModifiers(v.opponentPool, o),
+    condition: (o) => !o.attributeAction
   },
   // force opponent rerolls
   {
@@ -2443,39 +2443,39 @@ const C = {
     options: {
       flags: { editDice: !0, editable: !0, forceDisplay: !0 },
       order: 100,
-      category: C.opponentReroll,
+      category: v.opponentReroll,
       value: 0,
-      labelkey: o.common.roll.modifiers.opponentReroll,
-      hbsTemplateRoll: `${h}/roll/parts/input-numeric.hbs`,
+      labelkey: n.common.roll.modifiers.opponentReroll,
+      hbsTemplateRoll: `${y}/roll/parts/input-numeric.hbs`,
       min: 0,
       max: 4
     },
-    factory: (r) => ne.computeRollModifiers(C.opponentReroll, r),
-    condition: (r) => !r.attributeAction
+    factory: (o) => ne.computeRollModifiers(v.opponentReroll, o),
+    condition: (o) => !o.attributeAction
   }
 ];
 class ne {
   constructor() {
-    this.registeredParameters = {}, Z.register(b.REGISTER_ROLL_PARAMETERS), Z.register(b.MODIFY_ROLL_PARAMETER), Hooks.on(b.MODIFY_ROLL_PARAMETER, (e) => this._validate(e)), Hooks.once(b.REGISTER_ROLL_PARAMETERS, (e) => Wt.forEach(
+    this.registeredParameters = {}, Z.register(C.REGISTER_ROLL_PARAMETERS), Z.register(C.MODIFY_ROLL_PARAMETER), Hooks.on(C.MODIFY_ROLL_PARAMETER, (e) => this._validate(e)), Hooks.once(C.REGISTER_ROLL_PARAMETERS, (e) => Bt.forEach(
       (t) => e(t)
     )), Hooks.once("ready", () => this.onReady());
   }
   async onReady() {
-    Hooks.callAll(b.REGISTER_ROLL_PARAMETERS, async (t) => {
-      Hooks.callAll(b.MODIFY_ROLL_PARAMETER, t), t.ignore || await this._register(t);
+    Hooks.callAll(C.REGISTER_ROLL_PARAMETERS, async (t) => {
+      Hooks.callAll(C.MODIFY_ROLL_PARAMETER, t), t.ignore || await this._register(t);
     });
-    const e = f.distinct([].concat(Object.values(this.registeredParameters).map((t) => t.options.hbsTemplateRoll)).concat(Object.values(this.registeredParameters).map((t) => t.options.hbsTemplateChat)).filter((t) => t != null));
-    await loadTemplates(f.distinct(e)), await loadTemplates([`${h}/roll/parts/parameter-label.hbs`]);
+    const e = A.distinct([].concat(Object.values(this.registeredParameters).map((t) => t.options.hbsTemplateRoll)).concat(Object.values(this.registeredParameters).map((t) => t.options.hbsTemplateChat)).filter((t) => t != null));
+    await loadTemplates(A.distinct(e)), await loadTemplates([`${y}/roll/parts/parameter-label.hbs`]);
   }
   _validate(e) {
-    e.code || (console.error(`${P} RollParameter does not have a code`, e), e.ignore = !0);
+    e.code || (console.error(`${h} RollParameter does not have a code`, e), e.ignore = !0);
   }
   async _register(e) {
     if (this.registeredParameters[e.code]) {
-      console.error(`${P} RollParameter ${e.code} is already registered`, e);
+      console.error(`${h} RollParameter ${e.code} is already registered`, e);
       return;
     }
-    e.onChecked || (e.onChecked = (t, a) => t.used = a), e.onValue = (t, a) => t.value = a, this.registeredParameters[e.code] = e;
+    e.onChecked || (e.onChecked = (t, s) => t.used = s), e.onValue = (t, s) => t.value = s, this.registeredParameters[e.code] = e;
   }
   async _optionalLoadTemplate(e) {
     e && await loadTemplates([e]);
@@ -2484,8 +2484,8 @@ class ne {
     return Object.values(this.registeredParameters).filter((t) => !t.condition || t.condition(e)).map((t) => this._computeParameter(t, e));
   }
   compute(e) {
-    const t = e.filter((i) => this.isParameterUsed(i)), a = f.classify(t, (i) => i.category), s = {};
-    return Object.values(a).forEach((i) => s[i[0].category] = f.sumValues(i, (n) => n.value ?? (n.optional ? 1 : 0))), s;
+    const t = e.filter((i) => this.isParameterUsed(i)), s = A.classify(t, (i) => i.category), a = {};
+    return Object.values(s).forEach((i) => a[i[0].category] = A.sumValues(i, (r) => r.value ?? (r.optional ? 1 : 0))), a;
   }
   isParameterUsed(e) {
     const t = this.findParameter(e.code);
@@ -2495,21 +2495,21 @@ class ne {
     return this.registeredParameters[e];
   }
   _computeParameter(e, t) {
-    const a = {
+    const s = {
       code: e.code,
       onChecked: e.onChecked,
       onValue: e.onValue,
       isUsed: e.isUsed
     };
-    return foundry.utils.mergeObject(a, e.options), e.factory && foundry.utils.mergeObject(a, e.factory(t, e.options)), foundry.utils.mergeObject(a, {
-      used: a.used || a.value,
-      min: a.min ?? 0,
-      max: a.max ?? a.value ?? 0
-    }), a;
+    return foundry.utils.mergeObject(s, e.options), e.factory && foundry.utils.mergeObject(s, e.factory(t, e.options)), foundry.utils.mergeObject(s, {
+      used: s.used || s.value,
+      min: s.min ?? 0,
+      max: s.max ?? s.value ?? 0
+    }), s;
   }
   static computeRollModifiers(e, t) {
-    const a = (i) => i.type != c.itemType.weapon || t.weapon && i.id == t.weapon.id, s = t.actor.items.filter(a);
-    return A.computeRollModifiers(s, t, e);
+    const s = (i) => i.type != l.itemType.weapon || t.weapon && i.id == t.weapon.id, a = t.actor.items.filter(s);
+    return b.computeRollModifiers(a, t, e);
   }
 }
 class R extends Dialog {
@@ -2528,10 +2528,10 @@ class R extends Dialog {
     ]);
   }
   static prepareActorRoll(e, t = void 0) {
-    var a;
+    var s;
     return {
       actor: e,
-      tokenId: (a = e.token) == null ? void 0 : a.id,
+      tokenId: (s = e.token) == null ? void 0 : s.id,
       attributes: e.getUsableAttributes(t),
       options: {
         canUseEdge: e.canUseEdge()
@@ -2539,88 +2539,88 @@ class R extends Dialog {
     };
   }
   static async rollAttribute(e, t) {
-    const a = foundry.utils.mergeObject(R.prepareActorRoll(e), {
-      mode: E.rollType.attribute,
+    const s = foundry.utils.mergeObject(R.prepareActorRoll(e), {
+      mode: D.rollType.attribute,
       attribute1: t
     });
-    await R.create(a);
+    await R.create(s);
   }
   static async rollAttributeAction(e, t) {
-    const a = foundry.utils.mergeObject(R.prepareActorRoll(e), {
-      mode: E.rollType.attributeAction,
+    const s = foundry.utils.mergeObject(R.prepareActorRoll(e), {
+      mode: D.rollType.attributeAction,
       attributeAction: t.code,
       attribute1: t.attributeFunction1(e),
       attribute2: t.attributeFunction2(e)
     });
-    await R.create(a);
+    await R.create(s);
   }
   static async rollAttribute(e, t) {
-    const a = foundry.utils.mergeObject(R.prepareActorRoll(e), {
-      mode: E.rollType.attribute,
-      attribute1: t
-    });
-    await R.create(a);
-  }
-  static async rollSkill(e, t, a) {
     const s = foundry.utils.mergeObject(R.prepareActorRoll(e), {
-      mode: E.rollType.skill,
-      skill: t,
-      attribute1: (t == null ? void 0 : t.system.attribute) ?? c.attributes.agility,
-      specialization: a
+      mode: D.rollType.attribute,
+      attribute1: t
     });
     await R.create(s);
   }
-  static async rollWeapon(e, t, a, s) {
+  static async rollSkill(e, t, s) {
+    const a = foundry.utils.mergeObject(R.prepareActorRoll(e), {
+      mode: D.rollType.skill,
+      skill: t,
+      attribute1: (t == null ? void 0 : t.system.attribute) ?? l.attributes.agility,
+      specialization: s
+    });
+    await R.create(a);
+  }
+  static async rollWeapon(e, t, s, a) {
     const i = foundry.utils.mergeObject(R.prepareActorRoll(e), {
-      mode: E.rollType.weapon,
-      weapon: a,
+      mode: D.rollType.weapon,
+      weapon: s,
       skill: t,
       attribute1: (t == null ? void 0 : t.system.attribute) ?? e.getPhysicalAgility(),
       specialization: t == null ? void 0 : t.system.specialization,
-      targeting: s
+      targeting: a
     });
     await R.create(i);
   }
-  static async rollDefense(e, t, a, s = void 0) {
+  static async rollDefense(e, t, s, a = void 0) {
     const i = foundry.utils.mergeObject(R.prepareActorRoll(e), {
-      mode: E.rollType.defense,
+      mode: D.rollType.defense,
       attribute1: t.attributeFunction1(e),
       attribute2: t.attributeFunction2(e),
       defenseAction: t.code,
-      attackRoll: a.attackRoll,
-      tokenId: a.defenderTokenId,
-      choiceChatMessageId: a.choiceChatMessageId
+      attackRoll: s.attackRoll,
+      tokenId: s.defenderTokenId,
+      choiceChatMessageId: s.choiceChatMessageId
     });
     await R.create(i);
   }
   static async itemAttributeRoll(e, t) {
-    const a = foundry.utils.mergeObject(R.prepareActorRoll(e.actor), {
-      mode: E.rollType.attribute,
+    const s = foundry.utils.mergeObject(R.prepareActorRoll(e.actor), {
+      mode: D.rollType.attribute,
       item: e,
       attribute1: t,
       attributes: e.actor.getUsableAttributes(e)
     });
-    await R.create(a);
+    await R.create(s);
   }
   static async create(e) {
-    const t = game.system.anarchy.rollParameters.build(e).sort(f.ascending((i) => i.order ?? 200));
+    const t = game.system.anarchy.rollParameters.build(e).sort(A.ascending((i) => i.order ?? 200));
     foundry.utils.mergeObject(e, {
-      ENUMS: S.getEnums((i) => e.attributes.includes(i)),
-      ANARCHY: o,
+      ENUMS: H.getEnums((i) => e.attributes.includes(i)),
+      ANARCHY: n,
       parameters: t
     });
-    const a = await renderTemplate(`${h}/roll/roll-dialog-title.hbs`, e), s = await renderTemplate(`${h}/roll/roll-dialog.hbs`, e);
-    new R(a, s, e).render(!0);
+    const s = await renderTemplate(`${y}/roll/roll-dialog-title.hbs`, e), a = await renderTemplate(`${y}/roll/roll-dialog.hbs`, e);
+    new R(s, a, e).render(!0);
   }
-  constructor(e, t, a) {
-    const s = {
+  constructor(e, t, s) {
+    const a = {
       title: e,
       content: t,
       default: "roll",
       buttons: {
         roll: {
-          label: game.i18n.localize(o.common.roll.button),
-          callback: async () => await game.system.anarchy.rollManager.roll(a)
+          label: game.i18n.localize(n.common.roll.button),
+          callback: async () => await game.system.anarchy.rollManager.roll(s)
         }
       }
     }, i = {
@@ -2629,40 +2629,40 @@ class R extends Dialog {
       height: "fit-content",
       "z-index": 99999
     };
-    super(s, i), this.roll = a;
+    super(a, i), this.roll = s;
   }
   activateListeners(e) {
     super.activateListeners(e), this.html = e, this.bringToTop(), this.html.find(".select-attribute-parameter").change(async (t) => {
-      const a = this._getRollParameter(t), s = this._getEventItem(t, this.roll.actor), i = t.currentTarget.value, n = this.roll.actor.getAttributeValue(i, s);
-      this.roll[a.code] = i, await this._setParameterSelectedOption(a, i, n);
+      const s = this._getRollParameter(t), a = this._getEventItem(t, this.roll.actor), i = t.currentTarget.value, r = this.roll.actor.getAttributeValue(i, a);
+      this.roll[s.code] = i, await this._setParameterSelectedOption(s, i, r);
     }), this.html.find(".check-optional").click(async (t) => {
-      const a = this._getRollParameter(t);
-      a.onChecked(a, t.currentTarget.checked), a.category == C.pool && await this._updateParameterValue(a, a.value);
+      const s = this._getRollParameter(t);
+      s.onChecked(s, t.currentTarget.checked), s.category == v.pool && await this._updateParameterValue(s, s.value);
     }), this.activateDiceParameterClick(), this.html.find("input.parameter-value:not(:disabled)").on("input", async (t) => {
-      const a = this._getRollParameter(t), s = Number.parseInt(t.currentTarget.value) ?? 0;
-      await this._updateParameterValue(a, s);
+      const s = this._getRollParameter(t), a = Number.parseInt(t.currentTarget.value) ?? 0;
+      await this._updateParameterValue(s, a);
     }), this.html.find(".select-option-parameter").change(async (t) => {
-      const a = this._getRollParameter(t), s = t.currentTarget.value, i = Number.parseInt(s);
-      await this._setParameterSelectedOption(a, s, i);
+      const s = this._getRollParameter(t), a = t.currentTarget.value, i = Number.parseInt(a);
+      await this._setParameterSelectedOption(s, a, i);
     });
   }
   activateDiceParameterClick() {
     this.html.find(".input-cursor-parameter a").click(async (e) => {
-      var a;
+      var s;
       const t = this._getRollParameter(e);
-      if ((a = t.flags) != null && a.editDice) {
-        const s = Number.parseInt(this.html.find(e.currentTarget).attr("data-dice")) ?? 0, i = t.value != s || s == 0 ? s : s > 0 ? s - 1 : s + 1;
+      if ((s = t.flags) != null && s.editDice) {
+        const a = Number.parseInt(this.html.find(e.currentTarget).attr("data-dice")) ?? 0, i = t.value != a || a == 0 ? a : a > 0 ? a - 1 : a + 1;
         await this._updateParameterValue(t, i);
       }
     });
   }
-  async _setParameterSelectedOption(e, t, a) {
-    e.onChecked(e, t), e.max = a, await this._updateParameterValue(e, a);
+  async _setParameterSelectedOption(e, t, s) {
+    e.onChecked(e, t), e.max = s, await this._updateParameterValue(e, s);
   }
   async _updateParameterValue(e, t) {
     e.onValue(e, t), this.html.find(`.parameter[data-parameter-code='${e.code}'] .parameter-value`).text(t);
-    const a = await this.renderDiceCursor(e);
-    this.html.find(`.parameter[data-parameter-code='${e.code}'] .input-cursor-parameter`).empty().append(a), this.activateDiceParameterClick(), this.html.find(`.parameter[data-parameter-code='${e.code}'] input.parameter-value`).val(e.value);
+    const s = await this.renderDiceCursor(e);
+    this.html.find(`.parameter[data-parameter-code='${e.code}'] .input-cursor-parameter`).empty().append(s), this.activateDiceParameterClick(), this.html.find(`.parameter[data-parameter-code='${e.code}'] input.parameter-value`).val(e.value);
   }
   async renderDiceCursor(e) {
     var t;
@@ -2672,226 +2672,226 @@ class R extends Dialog {
     return this.html.find(`.parameter[data-parameter-code='${e.code}'] select.select-option-parameter option:selected`).text();
   }
   _getEventItem(e, t) {
-    const a = this.html.find(e.currentTarget).closest(".parameter").attr("data-item-id");
-    return a ? t.items.get(a) : void 0;
+    const s = this.html.find(e.currentTarget).closest(".parameter").attr("data-item-id");
+    return s ? t.items.get(s) : void 0;
   }
   _getRollParameter(e) {
     const t = this.html.find(e.currentTarget).closest(".parameter").attr("data-parameter-code");
-    return this.roll.parameters.find((a) => a.code == t);
+    return this.roll.parameters.find((s) => s.code == t);
   }
 }
-const Re = "selected-skill-list", zt = `${g}.${Re}`, w = c.attributes, se = E.defenses, xe = "shadowrun-anarchy-en", nt = { code: "knowledge", attribute: w.knowledge, icon: `${k}/knowledge.svg` }, de = [
-  { code: "athletics", attribute: w.strength, icon: `${k}/athletics.svg` },
-  { code: "acrobatics", attribute: w.agility, icon: `${k}/escape-artist.svg`, lang: "fr" },
-  { code: "closeCombat", attribute: w.agility, icon: `${k}/close-combat.svg`, defense: se.physicalDefense },
-  { code: "projectileWeapons", attribute: w.agility, icon: `${k}/projectile-weapons.svg`, defense: se.physicalDefense },
-  { code: "firearms", attribute: w.agility, icon: `${k}/firearms.svg`, defense: se.physicalDefense },
-  { code: "heavyWeapons", attribute: w.agility, icon: `${k}/heavy-weapons.svg`, defense: se.physicalDefense },
-  { code: "vehicleWeapons", attribute: w.agility, icon: `${k}/vehicle-weapons.svg`, defense: se.physicalDefense },
-  { code: "stealth", attribute: w.agility, icon: `${k}/stealth.svg` },
-  { code: "pilotingGround", attribute: w.agility, icon: `${k}/piloting-ground-steering-wheel.svg` },
-  { code: "pilotingOther", attribute: w.agility, icon: `${k}/piloting-other.svg` },
-  { code: "escapeArtist", attribute: w.agility, icon: `${k}/escape-artist.svg`, lang: "en" },
-  { code: "conjuring", attribute: w.willpower, hasDrain: !0, icon: `${k}/conjuring.svg` },
-  { code: "sorcery", attribute: w.willpower, hasDrain: !0, icon: `${k}/sorcery.svg` },
-  { code: "astralCombat", attribute: w.willpower, icon: `${k}/astral-combat.svg`, defense: se.astralDefense },
-  { code: "survival", attribute: w.willpower, icon: `${k}/survival.svg` },
-  { code: "biotech", attribute: w.logic, icon: `${k}/biotech.svg` },
-  { code: "hacking", attribute: w.logic, hasConvergence: !0, icon: `${k}/hacking.svg`, defense: se.matrixDefense },
-  { code: "electronics", attribute: w.logic, icon: `${k}/electronics.svg` },
-  { code: "engineering", attribute: w.logic, icon: `${k}/engineering.svg` },
-  { code: "tasking", attribute: w.logic, hasDrain: !0, icon: `${k}/tasking.svg` },
-  { code: "tracking", attribute: w.logic, icon: `${k}/tracking.svg` },
-  { code: "animals", attribute: w.charisma, icon: `${k}/animals.svg`, lang: "fr" },
-  { code: "con", attribute: w.charisma, isSocial: !0, icon: `${k}/con-art.svg` },
-  { code: "etiquette", attribute: w.charisma, isSocial: !0, icon: `${k}/etiquette.svg`, lang: "fr" },
-  { code: "intimidation", attribute: w.charisma, isSocial: !0, icon: `${k}/intimidation.svg` },
-  { code: "negotiation", attribute: w.charisma, isSocial: !0, icon: `${k}/negotiation.svg` },
-  { code: "disguise", attribute: w.charisma, icon: `${k}/disguise.svg`, lang: "en" }
-], Bt = ["tasking", "hacking"];
-class Kt {
+const Se = "selected-skill-list", Kt = `${d}.${Se}`, k = l.attributes, ae = D.defenses, xe = "shadowrun-anarchy-en", lt = { code: "knowledge", attribute: k.knowledge, icon: `${w}/knowledge.svg` }, de = [
+  { code: "athletics", attribute: k.strength, icon: `${w}/athletics.svg` },
+  { code: "acrobatics", attribute: k.agility, icon: `${w}/escape-artist.svg`, lang: "fr" },
+  { code: "closeCombat", attribute: k.agility, icon: `${w}/close-combat.svg`, defense: ae.physicalDefense },
+  { code: "projectileWeapons", attribute: k.agility, icon: `${w}/projectile-weapons.svg`, defense: ae.physicalDefense },
+  { code: "firearms", attribute: k.agility, icon: `${w}/firearms.svg`, defense: ae.physicalDefense },
+  { code: "heavyWeapons", attribute: k.agility, icon: `${w}/heavy-weapons.svg`, defense: ae.physicalDefense },
+  { code: "vehicleWeapons", attribute: k.agility, icon: `${w}/vehicle-weapons.svg`, defense: ae.physicalDefense },
+  { code: "stealth", attribute: k.agility, icon: `${w}/stealth.svg` },
+  { code: "pilotingGround", attribute: k.agility, icon: `${w}/piloting-ground-steering-wheel.svg` },
+  { code: "pilotingOther", attribute: k.agility, icon: `${w}/piloting-other.svg` },
+  { code: "escapeArtist", attribute: k.agility, icon: `${w}/escape-artist.svg`, lang: "en" },
+  { code: "conjuring", attribute: k.willpower, hasDrain: !0, icon: `${w}/conjuring.svg` },
+  { code: "sorcery", attribute: k.willpower, hasDrain: !0, icon: `${w}/sorcery.svg` },
+  { code: "astralCombat", attribute: k.willpower, icon: `${w}/astral-combat.svg`, defense: ae.astralDefense },
+  { code: "survival", attribute: k.willpower, icon: `${w}/survival.svg` },
+  { code: "biotech", attribute: k.logic, icon: `${w}/biotech.svg` },
+  { code: "hacking", attribute: k.logic, hasConvergence: !0, icon: `${w}/hacking.svg`, defense: ae.matrixDefense },
+  { code: "electronics", attribute: k.logic, icon: `${w}/electronics.svg` },
+  { code: "engineering", attribute: k.logic, icon: `${w}/engineering.svg` },
+  { code: "tasking", attribute: k.logic, hasDrain: !0, icon: `${w}/tasking.svg` },
+  { code: "tracking", attribute: k.logic, icon: `${w}/tracking.svg` },
+  { code: "animals", attribute: k.charisma, icon: `${w}/animals.svg`, lang: "fr" },
+  { code: "con", attribute: k.charisma, isSocial: !0, icon: `${w}/con-art.svg` },
+  { code: "etiquette", attribute: k.charisma, isSocial: !0, icon: `${w}/etiquette.svg`, lang: "fr" },
+  { code: "intimidation", attribute: k.charisma, isSocial: !0, icon: `${w}/intimidation.svg` },
+  { code: "negotiation", attribute: k.charisma, isSocial: !0, icon: `${w}/negotiation.svg` },
+  { code: "disguise", attribute: k.charisma, icon: `${w}/disguise.svg`, lang: "en" }
+], qt = ["tasking", "hacking"];
+class Qt {
   constructor() {
-    this.skillSets = {}, Z.register(b.PROVIDE_SKILL_SET), Hooks.on(
-      b.PROVIDE_SKILL_SET,
+    this.skillSets = {}, Z.register(C.PROVIDE_SKILL_SET), Hooks.on(
+      C.PROVIDE_SKILL_SET,
       (e) => e(xe, "Shadowrun Anarchy EN", de.filter((t) => !t.lang || t.lang == "en"), { lang: "en" })
     ), Hooks.on(
-      b.PROVIDE_SKILL_SET,
+      C.PROVIDE_SKILL_SET,
       (e) => e("shadowrun-anarchy-fr", "Shadowrun Anarchy FR", de.filter((t) => !t.lang || t.lang == "fr"), { lang: "fr" })
-    ), Hooks.on("updateSetting", async (e, t, a, s) => this.onUpdateSetting(e, t, a, s)), Hooks.once("ready", () => this.onReady());
+    ), Hooks.on("updateSetting", async (e, t, s, a) => this.onUpdateSetting(e, t, s, a)), Hooks.once("ready", () => this.onReady());
   }
   async onReady() {
-    this.$prepareSkill(nt), Hooks.callAll(b.PROVIDE_SKILL_SET, (t, a, s, i) => {
-      const n = this.$prepareSkillSet(t, a, s, i);
-      n && (this.skillSets[n.id] = n);
+    this.$prepareSkill(lt), Hooks.callAll(C.PROVIDE_SKILL_SET, (t, s, a, i) => {
+      const r = this.$prepareSkillSet(t, s, a, i);
+      r && (this.skillSets[r.id] = r);
     });
     const e = Object.fromEntries(Object.values(this.skillSets).map((t) => [t.id, t.name]));
-    game.settings.register(g, Re, {
+    game.settings.register(d, Se, {
       scope: "world",
-      name: game.i18n.localize(o.settings.skillSet.name),
-      hint: game.i18n.localize(o.settings.skillSet.hint),
+      name: game.i18n.localize(n.settings.skillSet.name),
+      hint: game.i18n.localize(n.settings.skillSet.hint),
       config: !0,
       default: xe,
       choices: e,
       type: String
-    }), this.selectedSkills = game.settings.get(g, Re);
+    }), this.selectedSkills = game.settings.get(d, Se);
   }
-  async onUpdateSetting(e, t, a, s) {
-    e.key == zt && (this.selectedSkills = game.settings.get(g, Re));
+  async onUpdateSetting(e, t, s, a) {
+    e.key == Kt && (this.selectedSkills = game.settings.get(d, Se));
   }
   get(e) {
     return this.getSkills({ withKnowledge: !0 }).find((t) => t.code == e);
   }
   getSkills(e = { withKnowledge: !1 }) {
-    const t = this.$getConfiguredSkills().sort(f.ascending((a) => a.label));
-    return e.withKnowledge ? [nt, ...t] : t;
+    const t = this.$getConfiguredSkills().sort(A.ascending((s) => s.label));
+    return e.withKnowledge ? [lt, ...t] : t;
   }
   $getConfiguredSkills() {
     return (this.skillSets[this.selectedSkills] ?? this.skillSets[xe]).skills;
   }
-  $prepareSkillSet(e, t, a, s) {
-    const i = foundry.utils.mergeObject({ id: e, name: t, skills: a }, s);
+  $prepareSkillSet(e, t, s, a) {
+    const i = foundry.utils.mergeObject({ id: e, name: t, skills: s }, a);
     if (this.$validateSkillSet(i))
-      return i.skills.forEach((n) => {
-        this.$prepareSkill(n);
+      return i.skills.forEach((r) => {
+        this.$prepareSkill(r);
       }), i;
   }
   $prepareSkill(e) {
-    e.labelkey = e.labelkey ?? o.skill[e.code], e.icon = e.icon ?? `${ue}/icons/skills/skills.svg`;
+    e.labelkey = e.labelkey ?? n.skill[e.code], e.icon = e.icon ?? `${ue}/icons/skills/skills.svg`;
   }
   $validateSkillSet(e) {
-    function t(a, s = "") {
-      if (!a)
-        throw s;
+    function t(s, a = "") {
+      if (!s)
+        throw a;
     }
     try {
       t(e.id && e.name, "Skills list does not have an id or name");
-      const a = this.skillSets[e.id];
-      t(!a, `Skills list ${e.id} is already registered under name ${a == null ? void 0 : a.name}`), t(Array.isArray(e.skills), "Missing skills array"), e.skills.forEach((i) => {
-        t(i.code, `Missing skill code for ${i} in ${e.id}`), t(i.labelkey || o.skill[i.code], `Missing skill localization key for ${i.code}`), t(i.attribute, `Missing skill attribute for ${i.code}`);
+      const s = this.skillSets[e.id];
+      t(!s, `Skills list ${e.id} is already registered under name ${s == null ? void 0 : s.name}`), t(Array.isArray(e.skills), "Missing skills array"), e.skills.forEach((i) => {
+        t(i.code, `Missing skill code for ${i} in ${e.id}`), t(i.labelkey || n.skill[i.code], `Missing skill localization key for ${i.code}`), t(i.attribute, `Missing skill attribute for ${i.code}`);
       });
-      const s = e.skills.map((i) => i.code);
-      return t(e.skills.length == f.distinct(s).length, `Duplicate skill codes in ${s}`), !0;
-    } catch (a) {
-      return console.warn(a + (e.id ? ` in list ${e.id}` : " in unidentified list"), e), !1;
+      const a = e.skills.map((i) => i.code);
+      return t(e.skills.length == A.distinct(a).length, `Duplicate skill codes in ${a}`), !0;
+    } catch (s) {
+      return console.warn(s + (e.id ? ` in list ${e.id}` : " in unidentified list"), e), !1;
     }
   }
 }
-const Fe = "damage-mode", qt = `${g}.${Fe}`, we = {}, Pe = {};
-class v {
+const je = "damage-mode", Xt = `${d}.${je}`, we = {}, Pe = {};
+class S {
   static init() {
-    Z.register(b.PROVIDE_DAMAGE_MODE), Hooks.on("updateSetting", async (e, t, a, s) => v.onUpdateSetting(e, t, a, s)), Hooks.on(b.PROVIDE_DAMAGE_MODE, (e) => {
-      e("resistanceArmorMonitor", o.settings.damageMode.values.resistanceArmorMonitor, v.sufferDamageResistanceArmorMonitor), e("armorResistanceMonitor", o.settings.damageMode.values.armorResistanceMonitor, v.sufferDamageArmorResistanceMonitor), e("armorGivesResistance", o.settings.damageMode.values.armorGivesResistance, v.sufferDamageArmorAsResistance_Earthdawn), e("armorGiveResistanceHitsAvoid", o.settings.damageMode.values.armorGiveResistanceHitsAvoid, v.sufferDamageArmorAsResistance_Cyberpunk);
-    }), Hooks.once("ready", () => v.onReady());
+    Z.register(C.PROVIDE_DAMAGE_MODE), Hooks.on("updateSetting", async (e, t, s, a) => S.onUpdateSetting(e, t, s, a)), Hooks.on(C.PROVIDE_DAMAGE_MODE, (e) => {
+      e("resistanceArmorMonitor", n.settings.damageMode.values.resistanceArmorMonitor, S.sufferDamageResistanceArmorMonitor), e("armorResistanceMonitor", n.settings.damageMode.values.armorResistanceMonitor, S.sufferDamageArmorResistanceMonitor), e("armorGivesResistance", n.settings.damageMode.values.armorGivesResistance, S.sufferDamageArmorAsResistance_Earthdawn), e("armorGiveResistanceHitsAvoid", n.settings.damageMode.values.armorGiveResistanceHitsAvoid, S.sufferDamageArmorAsResistance_Cyberpunk);
+    }), Hooks.once("ready", () => S.onReady());
   }
   static onReady() {
-    v._registerDamageModeSetting(), v._selectDamageMode();
+    S._registerDamageModeSetting(), S._selectDamageMode();
   }
   static _registerDamageModeSetting() {
-    Hooks.callAll(b.PROVIDE_DAMAGE_MODE, (e, t, a) => {
-      we[e] = game.i18n.localize(t), Pe[e] = a;
-    }), game.settings.register(g, Fe, {
+    Hooks.callAll(C.PROVIDE_DAMAGE_MODE, (e, t, s) => {
+      we[e] = game.i18n.localize(t), Pe[e] = s;
+    }), game.settings.register(d, je, {
       scope: "world",
-      name: game.i18n.localize(o.settings.damageMode.name),
-      hint: game.i18n.localize(o.settings.damageMode.hint),
+      name: game.i18n.localize(n.settings.damageMode.name),
+      hint: game.i18n.localize(n.settings.damageMode.hint),
       config: !0,
       default: Object.keys(we)[0],
       choices: we,
       type: String
     });
   }
-  static async onUpdateSetting(e, t, a, s) {
-    e.key == qt && v._selectDamageMode();
+  static async onUpdateSetting(e, t, s, a) {
+    e.key == Xt && S._selectDamageMode();
   }
   static _selectDamageMode() {
-    let e = game.settings.get(g, Fe);
-    Pe[e] || (e = Object.keys(we)[0]), v.damageModeCode = e, v.damageModeMethod = Pe[e];
+    let e = game.settings.get(d, je);
+    Pe[e] || (e = Object.keys(we)[0]), S.damageModeCode = e, S.damageModeMethod = Pe[e];
   }
-  static async sufferDamage(e, t, a, s, i, n, l) {
+  static async sufferDamage(e, t, s, a, i, r, c) {
     const m = e.getDamageMonitor(t);
-    K.checkActorCanReceiveDamage(t, m, e), await (v.damageModeMethod ?? v.sufferDamageResistanceArmorMonitor)(e, m, a, s, i, n), await e.applyArmorDamage(t, A.sumModifiers([l], "other", "damageArmor"));
+    K.checkActorCanReceiveDamage(t, m, e), await (S.damageModeMethod ?? S.sufferDamageResistanceArmorMonitor)(e, m, s, a, i, r), await e.applyArmorDamage(t, b.sumModifiers([c], "other", "damageArmor"));
   }
   static async sufferMarks(e, t) {
-    await d.addCounter(e, c.monitors.marks, 1, t.id);
+    await u.addCounter(e, l.monitors.marks, 1, t.id);
   }
-  static async sufferDamageResistanceArmorMonitor(e, t, a, s, i, n) {
-    if (t == c.monitors.marks) {
-      await v.sufferMarks(e, n);
+  static async sufferDamageResistanceArmorMonitor(e, t, s, a, i, r) {
+    if (t == l.monitors.marks) {
+      await S.sufferMarks(e, r);
       return;
     }
-    const l = d.resistance(e, t);
+    const c = u.resistance(e, t);
     let m = 0;
     if (i) {
-      const y = Math.min(l, a), W = Math.min(l - y, s);
-      m = a - y, d.useArmor(t) && (m -= await v.damageToArmor(e, m)), m += s - W;
+      const g = Math.min(c, s), F = Math.min(c - g, a);
+      m = s - g, u.useArmor(t) && (m -= await S.damageToArmor(e, m)), m += a - F;
     } else
-      m = a + s - l, d.useArmor(t) && (m -= await v.damageToArmor(e, m));
-    m > 0 && await d.addCounter(e, t, m);
+      m = s + a - c, u.useArmor(t) && (m -= await S.damageToArmor(e, m));
+    m > 0 && await u.addCounter(e, t, m);
   }
-  static async sufferDamageArmorResistanceMonitor(e, t, a, s, i, n) {
-    if (t == c.monitors.marks) {
-      await v.sufferMarks(e, n);
+  static async sufferDamageArmorResistanceMonitor(e, t, s, a, i, r) {
+    if (t == l.monitors.marks) {
+      await S.sufferMarks(e, r);
       return;
     }
-    let l = 0;
-    return d.useArmor(t) ? i ? (a -= await v.damageToArmor(e, a), l = s + a) : (l = s + a, l -= await v.damageToArmor(e, l)) : l = a + s, l -= d.resistance(e, t), l > 0 && await d.addCounter(e, t, l), l;
+    let c = 0;
+    return u.useArmor(t) ? i ? (s -= await S.damageToArmor(e, s), c = a + s) : (c = a + s, c -= await S.damageToArmor(e, c)) : c = s + a, c -= u.resistance(e, t), c > 0 && await u.addCounter(e, t, c), c;
   }
-  static async sufferDamageArmorAsResistance_Cyberpunk(e, t, a, s, i, n) {
-    if (t == c.monitors.marks) {
-      await v.sufferMarks(e, n);
+  static async sufferDamageArmorAsResistance_Cyberpunk(e, t, s, a, i, r) {
+    if (t == l.monitors.marks) {
+      await S.sufferMarks(e, r);
       return;
     }
-    let l = a + s;
-    if (d.useArmor(t) && l > 0) {
-      const m = i ? s : 0, y = Math.max(0, v._computeArmorResistance(e) - m);
-      y > 0 && (await d.addCounter(e, "armor", 1), l -= y);
+    let c = s + a;
+    if (u.useArmor(t) && c > 0) {
+      const m = i ? a : 0, g = Math.max(0, S._computeArmorResistance(e) - m);
+      g > 0 && (await u.addCounter(e, "armor", 1), c -= g);
     }
-    return l -= d.resistance(e, t), l > 0 && await d.addCounter(e, t, l), Math.max(l, 0);
+    return c -= u.resistance(e, t), c > 0 && await u.addCounter(e, t, c), Math.max(c, 0);
   }
-  static async sufferDamageArmorAsResistance_Earthdawn(e, t, a, s, i, n) {
-    if (t == c.monitors.marks) {
-      await v.sufferMarks(e, n);
+  static async sufferDamageArmorAsResistance_Earthdawn(e, t, s, a, i, r) {
+    if (t == l.monitors.marks) {
+      await S.sufferMarks(e, r);
       return;
     }
-    let l = a + s;
-    if (d.useArmor(t) && !i && l > 0) {
-      const m = v._computeArmorResistance(e);
-      m > 0 && (await d.addCounter(e, "armor", 1), l -= m);
+    let c = s + a;
+    if (u.useArmor(t) && !i && c > 0) {
+      const m = S._computeArmorResistance(e);
+      m > 0 && (await u.addCounter(e, "armor", 1), c -= m);
     }
-    return l -= v._computeStrengthResistance(e, t), l -= d.resistance(e, t), l > 0 && await d.addCounter(e, t, l), l;
+    return c -= S._computeStrengthResistance(e, t), c -= u.resistance(e, t), c > 0 && await u.addCounter(e, t, c), c;
   }
   static async damageToArmor(e, t) {
     if (t > 0) {
-      const a = d.max(e, c.monitors.armor), s = d.getCounterValue(e, c.monitors.armor), i = Math.min(a - s, t), n = d.resistance(e, c.monitors.armor), l = Math.max(0, i - n);
-      return l > 0 && await d.addCounter(e, c.monitors.armor, l), i;
+      const s = u.max(e, l.monitors.armor), a = u.getCounterValue(e, l.monitors.armor), i = Math.min(s - a, t), r = u.resistance(e, l.monitors.armor), c = Math.max(0, i - r);
+      return c > 0 && await u.addCounter(e, l.monitors.armor, c), i;
     } else
       return 0;
   }
   static _computeArmorResistance(e) {
-    const t = d.max(e, "armor"), a = d.getCounterValue(e, "armor"), s = Math.max(0, t - a);
-    return Math.max(0, Math.ceil(s / 3));
+    const t = u.max(e, "armor"), s = u.getCounterValue(e, "armor"), a = Math.max(0, t - s);
+    return Math.max(0, Math.ceil(a / 3));
   }
   static _computeStrengthResistance(e, t) {
     switch (t) {
-      case c.monitors.matrix:
+      case l.monitors.matrix:
         return 0;
     }
-    const a = e.getAttributeValue(c.attributes.strength);
-    return Math.max(0, Math.floor(a / 4));
+    const s = e.getAttributeValue(l.attributes.strength);
+    return Math.max(0, Math.floor(s / 4));
   }
 }
-class H extends Actor {
+class T extends Actor {
   static init() {
-    Hooks.on("updateActor", (e, t, a, s) => {
+    Hooks.on("updateActor", (e, t, s, a) => {
       var i;
-      return (i = I.firstResponsible(e)) == null ? void 0 : i.onUpdateActor(t, a);
+      return (i = Y.firstResponsible(e)) == null ? void 0 : i.onUpdateActor(t, s);
     });
   }
   constructor(e, t = {}) {
-    var a;
-    if (!((a = t.anarchy) != null && a.ready)) {
-      const s = game.system.anarchy.actorClasses[e.type];
-      if (foundry.utils.mergeObject(t, { anarchy: { ready: !0 } }), s)
-        return e.img || (e.img = s.defaultIcon), new s(e, t);
+    var s;
+    if (!((s = t.anarchy) != null && s.ready)) {
+      const a = game.system.anarchy.actorClasses[e.type];
+      if (foundry.utils.mergeObject(t, { anarchy: { ready: !0 } }), a)
+        return e.img || (e.img = a.defaultIcon), new a(e, t);
     }
     t.anarchy = void 0, super(e, t);
   }
@@ -2901,36 +2901,36 @@ class H extends Actor {
   static get defaultIcon() {
   }
   static padWordListToMin(e, t) {
-    for (let a = e.length; a < t; a++)
+    for (let s = e.length; s < t; s++)
       e.push({
         word: "",
-        id: a + 1,
+        id: s + 1,
         audio: "",
         no_delete: !1
       });
-    for (let a = 0; a < t; a++)
-      e[a].no_delete = !0;
+    for (let s = 0; s < t; s++)
+      e[s].no_delete = !0;
     return e;
   }
   static sortSkills(e, t) {
-    return t ? t.sort((a, s) => {
-      const i = a.system.code === "knowledge" || a.system.attribute === "knowledge", n = s.system.code === "knowledge" || s.system.attribute === "knowledge";
-      if (i && !n) return 1;
-      if (!n && i) return -1;
-      if (i && n)
-        return a.name > s.name ? 1 : a.name > s.name ? -1 : 0;
-      const l = e.getAttributeValue(a.system.attribute) + a.system.value, m = e.getAttributeValue(s.system.attribute) + s.system.value;
-      return l > m ? -1 : l < m ? 1 : 0;
+    return t ? t.sort((s, a) => {
+      const i = s.system.code === "knowledge" || s.system.attribute === "knowledge", r = a.system.code === "knowledge" || a.system.attribute === "knowledge";
+      if (i && !r) return 1;
+      if (!r && i) return -1;
+      if (i && r)
+        return s.name > a.name ? 1 : s.name > a.name ? -1 : 0;
+      const c = e.getAttributeValue(s.system.attribute) + s.system.value, m = e.getAttributeValue(a.system.attribute) + a.system.value;
+      return c > m ? -1 : c < m ? 1 : 0;
     }) : [];
   }
   static sortQualities(e) {
-    return e ? e.sort((t, a) => t.system.positive === a.system.positive ? t.name > a.name ? 1 : t.name < a.name ? -1 : 0 : t.system.positive ? -1 : a.system.positive ? 1 : 0) : [];
+    return e ? e.sort((t, s) => t.system.positive === s.system.positive ? t.name > s.name ? 1 : t.name < s.name ? -1 : 0 : t.system.positive ? -1 : s.system.positive ? 1 : 0) : [];
   }
   static sortShadowamps(e) {
-    return e ? e.sort((t, a) => t.system.level > a.system.level ? -1 : t.system.level < a.system.level || t.name > a.name ? 1 : t.name < a.name ? -1 : 0) : [];
+    return e ? e.sort((t, s) => t.system.level > s.system.level ? -1 : t.system.level < s.system.level || t.name > s.name ? 1 : t.name < s.name ? -1 : 0) : [];
   }
   static sortAttributeButton(e) {
-    return e ? e.sort((t, a) => game.i18n.localize(t.labelkey) > game.i18n.localize(a.labelkey) ? 1 : game.i18n.localize(t.labelkey) < game.i18n.localize(a.labelkey) ? -1 : 0) : [];
+    return e ? e.sort((t, s) => game.i18n.localize(t.labelkey) > game.i18n.localize(s.labelkey) ? 1 : game.i18n.localize(t.labelkey) < game.i18n.localize(s.labelkey) ? -1 : 0) : [];
   }
   getAllowedUsers(e = CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER) {
     return game.users.filter((t) => this.testUserPermission(t, e));
@@ -2948,16 +2948,16 @@ class H extends Actor {
     return !this.hasPlayerOwner;
   }
   isVehicle() {
-    return this.type == c.actorTypes.vehicle;
+    return this.type == l.actorTypes.vehicle;
   }
   prepareData() {
     super.prepareData(), this.cleanupFavorites();
   }
   prepareDerivedData() {
     this.prepareMatrixMonitor(), this.system.modifiers = {
-      initiative: A.sumModifiers(this.items, "other", "initiative")
+      initiative: b.sumModifiers(this.items, "other", "initiative")
     }, this.system.monitors && Object.entries(this.system.monitors).forEach((e) => {
-      e[1].maxBonus = A.sumMonitorModifiers(this.items, e[0], "max"), e[1].resistanceBonus = A.sumMonitorModifiers(this.items, e[0], "resistance");
+      e[1].maxBonus = b.sumMonitorModifiers(this.items, e[0], "max"), e[1].resistanceBonus = b.sumMonitorModifiers(this.items, e[0], "resistance");
     }), this.system.attributes && Object.entries(this.system.attributes).forEach((e) => e[1].total = this.getAttributeValue(e[0])), this.system.state = this.computeState();
   }
   getAttributes() {
@@ -2974,8 +2974,8 @@ class H extends Actor {
     e.hasMatrix && (this.system.monitors.matrix.max = this._getMonitorMax(e.logic), this.system.monitors.matrix.canMark = !0);
   }
   async onUpdateActor(e, t) {
-    var a, s;
-    ((a = e.system) == null ? void 0 : a.monitors) != null && ((s = e.system) == null ? void 0 : s.state) == null && this.update({ "system.state": this.computeState() });
+    var s, a;
+    ((s = e.system) == null ? void 0 : s.monitors) != null && ((a = e.system) == null ? void 0 : a.state) == null && this.update({ "system.state": this.computeState() });
   }
   computeState() {
     return {
@@ -2998,7 +2998,7 @@ class H extends Actor {
       hasMatrix: !1,
       logic: void 0,
       firewall: void 0,
-      monitor: qe,
+      monitor: Qe,
       overflow: void 0
     };
   }
@@ -3025,90 +3025,90 @@ class H extends Actor {
     return !1;
   }
   isMatrixSkill(e) {
-    return Bt.includes(e == null ? void 0 : e.system.code);
+    return qt.includes(e == null ? void 0 : e.system.code);
   }
   async nextConnectionMode(e) {
   }
   async defSetMatrixMonitor(e, t) {
-    this.getMatrixDetails().hasMatrix ? await this.update({ [e]: t }) : game.system.anarchy.hacks.i18n.format(o.actor.monitors.noMatrixMonitor, { actor: this.name });
+    this.getMatrixDetails().hasMatrix ? await this.update({ [e]: t }) : game.system.anarchy.hacks.i18n.format(n.actor.monitors.noMatrixMonitor, { actor: this.name });
   }
   async setCheckbarValue(e, t) {
     if (e.startsWith("system.monitors.matrix.")) {
-      const a = this.getMatrixDetails();
-      return a.setMatrixMonitor ? await a.setMatrixMonitor(e, t) : await this.defSetMatrixMonitor(e, t);
+      const s = this.getMatrixDetails();
+      return s.setMatrixMonitor ? await s.setMatrixMonitor(e, t) : await this.defSetMatrixMonitor(e, t);
     }
     return await this.update({ [e]: t });
   }
   _getMonitorMax(e) {
     const t = this.getAttributeValue(e);
-    return t == 0 ? 0 : ft + f.divup(t, 2);
+    return t == 0 ? 0 : bt + A.divup(t, 2);
   }
   getAttributeActions() {
-    return Y.getActorActions(this);
+    return z.getActorActions(this);
   }
   getUsableAttributes(e = void 0) {
-    const t = (e ? [e] : this.items).map((s) => s.getUsableAttributes()).reduce((s, i) => s.concat(i), []), a = f.distinct(this.getAttributes().concat(t));
-    return a.sort(f.ascendingBySortedArray(S.sortedAttributeKeys)), a;
+    const t = (e ? [e] : this.items).map((a) => a.getUsableAttributes()).reduce((a, i) => a.concat(i), []), s = A.distinct(this.getAttributes().concat(t));
+    return s.sort(A.ascendingBySortedArray(H.sortedAttributeKeys)), s;
   }
   getAttributeValue(e, t = void 0) {
-    let a = 0;
+    let s = 0;
     if (e = this.getCorrespondingAttribute(e), e) {
       if (this.getAttributes().includes(e))
-        a = this.system.attributes[e].value;
+        s = this.system.attributes[e].value;
       else if (t) {
-        if (this.isEmerged() && e == c.attributes.firewall)
-          return this.getAttributeValue(c.attributes.logic);
-        a = (t == null ? void 0 : t.getAttributeValue(e)) ?? 0;
+        if (this.isEmerged() && e == l.attributes.firewall)
+          return this.getAttributeValue(l.attributes.logic);
+        s = (t == null ? void 0 : t.getAttributeValue(e)) ?? 0;
       } else {
-        const s = this.items.filter((i) => i.isActive() && i.getAttributes().includes(e));
-        if (s.length > 0) {
-          const i = s.map((n) => n.getAttributeValue(e) ?? 0);
-          a = Math.max(...i);
+        const a = this.items.filter((i) => i.isActive() && i.getAttributes().includes(e));
+        if (a.length > 0) {
+          const i = a.map((r) => r.getAttributeValue(e) ?? 0);
+          s = Math.max(...i);
         }
       }
-      a += A.sumModifiers(this.items, "attribute", e);
+      s += b.sumModifiers(this.items, "attribute", e);
     }
-    return a;
+    return s;
   }
   getDamageMonitor(e) {
     switch (e) {
-      case c.monitors.matrix:
-      case c.monitors.marks:
+      case l.monitors.matrix:
+      case l.monitors.marks:
         return e;
     }
   }
   async applyArmorDamage(e, t = 0) {
     switch (e) {
-      case c.monitors.physical:
-      case c.monitors.stun:
-        await v.damageToArmor(this, t);
+      case l.monitors.physical:
+      case l.monitors.stun:
+        await S.damageToArmor(this, t);
     }
   }
   async rollAttribute(e) {
     await R.rollAttribute(this, e);
   }
   async rollAttributeAction(e) {
-    const t = Y.getActorAction(this, e);
+    const t = z.getActorAction(this, e);
     await R.rollAttributeAction(this, t);
   }
   async rollSkill(e, t) {
     await R.rollSkill(this, e, t);
   }
   async rollWeapon(e) {
-    var i, n, l;
+    var i, r, c;
     K.checkWeaponDefense(e, this);
-    const t = (i = e.validateTargets(this)) == null ? void 0 : i.map((m) => m.id), a = {
-      attackerTokenId: (l = (n = game.scenes.current) == null ? void 0 : n.tokens.find((m) => {
-        var y;
-        return ((y = m.actor) == null ? void 0 : y.id) == this.id;
-      })) == null ? void 0 : l.id,
+    const t = (i = e.validateTargets(this)) == null ? void 0 : i.map((m) => m.id), s = {
+      attackerTokenId: (c = (r = game.scenes.current) == null ? void 0 : r.tokens.find((m) => {
+        var g;
+        return ((g = m.actor) == null ? void 0 : g.id) == this.id;
+      })) == null ? void 0 : c.id,
       targetedTokenIds: t
-    }, s = this.items.find((m) => e.isWeaponSkill(m));
-    await R.rollWeapon(this, s, e, a);
+    }, a = this.items.find((m) => e.isWeaponSkill(m));
+    await R.rollWeapon(this, a, e, s);
   }
   async rollDefense(e) {
-    const t = e.attack.defense, a = Y.getActorDefense(this, t);
-    await R.rollDefense(this, a, e);
+    const t = e.attack.defense, s = z.getActorDefense(this, t);
+    await R.rollDefense(this, s, e);
   }
   async rollPilotDefense(e) {
   }
@@ -3116,14 +3116,14 @@ class H extends Actor {
   }
   async rollConvergence(e) {
   }
-  async switchMonitorCheck(e, t, a, s = void 0) {
-    await d.switchMonitorCheck(this, e, t, a, s);
+  async switchMonitorCheck(e, t, s, a = void 0) {
+    await u.switchMonitorCheck(this, e, t, s, a);
   }
-  async addCounter(e, t, a = void 0) {
-    await d.addCounter(this, e, t, a);
+  async addCounter(e, t, s = void 0) {
+    await u.addCounter(this, e, t, s);
   }
-  async setCounter(e, t, a = void 0) {
-    await d.setCounter(this, e, t, a);
+  async setCounter(e, t, s = void 0) {
+    await u.setCounter(this, e, t, s);
   }
   canPilotVehicle() {
     return !1;
@@ -3139,11 +3139,11 @@ class H extends Actor {
   }
   canApplyDamage(e) {
     switch (e) {
-      case c.monitors.matrix:
-      case c.monitors.marks:
+      case l.monitors.matrix:
+      case l.monitors.marks:
         return this.hasMatrixMonitor();
-      case c.monitors.physical:
-      case c.monitors.stun:
+      case l.monitors.physical:
+      case l.monitors.stun:
         return this.getDamageMonitor(e) != null;
     }
     return !1;
@@ -3155,18 +3155,18 @@ class H extends Actor {
     return !1;
   }
   async addActorMark(e) {
-    await d.addActorMark(this, e);
+    await u.addActorMark(this, e);
   }
   getActorMarks(e) {
     var t;
-    return (t = d.getActorMarks(this, e)) == null ? void 0 : t.marks;
+    return (t = u.getActorMarks(this, e)) == null ? void 0 : t.marks;
   }
   async onEnterCombat() {
-    const e = A.sumModifiers(this.items, "other", "sceneAnarchy");
-    e > 0 && await d.setCounter(this, c.monitors.sceneAnarchy, e);
+    const e = b.sumModifiers(this.items, "other", "sceneAnarchy");
+    e > 0 && await u.setCounter(this, l.monitors.sceneAnarchy, e);
   }
   async onLeaveCombat() {
-    await d.setCounter(this, c.monitors.sceneAnarchy, 0);
+    await u.setCounter(this, l.monitors.sceneAnarchy, 0);
   }
   getCelebrityValue() {
     return 0;
@@ -3192,10 +3192,10 @@ class H extends Actor {
     return this.getAnarchy().value ?? 0;
   }
   async spendCredibility(e) {
-    await d.addCounter(this, c.counters.social.credibility, -e);
+    await u.addCounter(this, l.counters.social.credibility, -e);
   }
   async spendRumor(e) {
-    await d.addCounter(this, c.counters.social.rumor, -e);
+    await u.addCounter(this, l.counters.social.rumor, -e);
   }
   async spendAnarchy(e) {
     e && !this.hasPlayerOwner && await game.system.anarchy.gmAnarchy.npcConsumesAnarchy(this, e);
@@ -3205,29 +3205,29 @@ class H extends Actor {
     return ((t = (e = this.system.counters) == null ? void 0 : e.edge) == null ? void 0 : t.value) ?? 0;
   }
   canUseEdge() {
-    return this.getAttributes().includes(c.attributes.edge);
+    return this.getAttributes().includes(l.attributes.edge);
   }
   async spendEdge(e) {
     if (e != 0) {
       if (!this.canUseEdge()) {
-        const t = game.system.anarchy.hacks.i18n.localize(o.common.errors.noEdgeForActor, {
+        const t = game.system.anarchy.hacks.i18n.localize(n.common.errors.noEdgeForActor, {
           actor: this.name,
-          actorType: game.system.anarchy.hacks.i18n.localize(o.actorType[this.type])
+          actorType: game.system.anarchy.hacks.i18n.localize(n.actorType[this.type])
         });
-        throw ui.notifications.warn(t), o.common.errors.noEdgeForActor + t;
+        throw ui.notifications.warn(t), n.common.errors.noEdgeForActor + t;
       }
-      await d.addCounter(this, c.counters.edge, -e);
+      await u.addCounter(this, l.counters.edge, -e);
     }
   }
   getSkillValue(e, t = void 0) {
-    const a = this.items.get(e), s = this.getAttributeValue(a.system.attribute);
-    return a.system.value + s + (t && a.system.specialization ? 2 : 0);
+    const s = this.items.get(e), a = this.getAttributeValue(s.system.attribute);
+    return s.system.value + a + (t && s.system.specialization ? 2 : 0);
   }
   getWounds() {
     return 0;
   }
   async removeOtherMetatype(e) {
-    const t = this.items.filter((a) => a.isMetatype() && a.id != (e == null ? void 0 : e.id)).map((a) => a.id);
+    const t = this.items.filter((s) => s.isMetatype() && s.id != (e == null ? void 0 : e.id)).map((s) => s.id);
     this.deleteEmbeddedDocuments("Item", t);
   }
   /**
@@ -3237,12 +3237,12 @@ class H extends Actor {
     if ((e == null ? void 0 : e.id) == this.id)
       return;
     e != null && e.hasPlayerOwner;
-    let a = this;
+    let s = this;
     if (t == "copy") {
-      const s = this.clone();
-      a = (await Actor.createDocuments([s]))[0];
+      const a = this.clone();
+      s = (await Actor.createDocuments([a]))[0];
     }
-    await a.update({ "system.ownerId": (e == null ? void 0 : e.id) ?? "" }), e == null || e.render(), this.render();
+    await s.update({ "system.ownerId": (e == null ? void 0 : e.id) ?? "" }), e == null || e.render(), this.render();
   }
   getOwnerActor() {
     if (this.system.ownerId)
@@ -3252,8 +3252,8 @@ class H extends Actor {
     return game.actors.filter((e) => e.system.ownerId == this.id);
   }
   hasFavorite(e, t) {
-    const a = H._prepareFavorite(e, t);
-    return !!this.system.favorites.find((s) => H._isSameFavorite(a, s));
+    const s = T._prepareFavorite(e, t);
+    return !!this.system.favorites.find((a) => T._isSameFavorite(s, a));
   }
   static _prepareFavorite(e, t) {
     return { type: e, id: t };
@@ -3261,9 +3261,9 @@ class H extends Actor {
   static _isSameFavorite(e, t) {
     return e.id == t.id && e.type == t.type;
   }
-  async switchFavorite(e, t, a) {
-    const s = H._prepareFavorite(t, a), i = this.system.favorites.filter((n) => !H._isSameFavorite(s, n));
-    e && i.push(s), this.update({ "system.favorites": i });
+  async switchFavorite(e, t, s) {
+    const a = T._prepareFavorite(t, s), i = this.system.favorites.filter((r) => !T._isSameFavorite(a, r));
+    e && i.push(a), this.update({ "system.favorites": i });
   }
   async cleanupFavorites() {
     const e = this.computeShortcuts().filter((t) => !t.callback);
@@ -3276,89 +3276,89 @@ class H extends Actor {
     return this.system.favorites ? this.system.favorites.map((e) => this.getShortcut(e.type, e.id)) : [];
   }
   getShortcut(e, t) {
-    var s;
-    const a = H._prepareFavorite(e, t);
+    var a;
+    const s = T._prepareFavorite(e, t);
     if (e == "attributeAction") {
-      const i = Y.prepareShortcut(this, t);
+      const i = z.prepareShortcut(this, t);
       if (i)
-        return foundry.utils.mergeObject(i, a);
-    } else if (Object.values(c.itemType).includes(e)) {
-      const i = (s = this.items.get(t)) == null ? void 0 : s.prepareShortcut();
+        return foundry.utils.mergeObject(i, s);
+    } else if (Object.values(l.itemType).includes(e)) {
+      const i = (a = this.items.get(t)) == null ? void 0 : a.prepareShortcut();
       if (i)
-        return foundry.utils.mergeObject(i, a);
+        return foundry.utils.mergeObject(i, s);
     }
-    return a;
+    return s;
   }
 }
-class $e {
+class _e {
   static async confirmDeleteItem(e, t = () => {
   }) {
     new Dialog({
-      title: game.i18n.localize(o.common.confirmation.del),
-      content: game.i18n.format(o.common.confirmation.delItem, {
+      title: game.i18n.localize(n.common.confirmation.del),
+      content: game.i18n.format(n.common.confirmation.delItem, {
         name: e.name,
-        type: game.i18n.localize(o.itemType.singular[e.type])
+        type: game.i18n.localize(n.itemType.singular[e.type])
       }),
       buttons: {
         delete: {
-          icon: u.fontAwesome("fas fa-check"),
-          label: game.i18n.localize(o.common.del),
+          icon: p.fontAwesome("fas fa-check"),
+          label: game.i18n.localize(n.common.del),
           callback: t
         },
         cancel: {
-          icon: u.fontAwesome("fas fa-times"),
-          label: game.i18n.localize(o.common.cancel)
+          icon: p.fontAwesome("fas fa-times"),
+          label: game.i18n.localize(n.common.cancel)
         }
       },
       default: "cancel"
     }).render(!0);
   }
-  static async confirmDetachOwnerActor(e, t, a = () => {
+  static async confirmDetachOwnerActor(e, t, s = () => {
   }) {
     new Dialog({
-      title: game.i18n.localize(o.common.confirmation.del),
-      content: game.i18n.format(o.common.confirmation.delOwner, {
+      title: game.i18n.localize(n.common.confirmation.del),
+      content: game.i18n.format(n.common.confirmation.delOwner, {
         name: e.name
       }),
       buttons: {
         delete: {
-          icon: u.fontAwesome("fas fa-check"),
-          label: game.i18n.localize(o.common.del),
-          callback: a
+          icon: p.fontAwesome("fas fa-check"),
+          label: game.i18n.localize(n.common.del),
+          callback: s
         },
         cancel: {
-          icon: u.fontAwesome("fas fa-times"),
-          label: game.i18n.localize(o.common.cancel)
+          icon: p.fontAwesome("fas fa-times"),
+          label: game.i18n.localize(n.common.cancel)
         }
       },
       default: "cancel"
     }).render(!0);
   }
-  static async confirmAttachOrCopy(e, t, a = () => {
-  }, s = () => {
+  static async confirmAttachOrCopy(e, t, s = () => {
+  }, a = () => {
   }) {
     new Dialog({
-      title: game.i18n.localize(o.common.confirmation.attach),
-      content: game.i18n.format(o.common.confirmation.attachOrCopy, {
+      title: game.i18n.localize(n.common.confirmation.attach),
+      content: game.i18n.format(n.common.confirmation.attachOrCopy, {
         ownerName: e.name,
-        ownerType: game.i18n.localize(o.actorType[e.type]),
+        ownerType: game.i18n.localize(n.actorType[e.type]),
         ownedName: t.name,
-        ownedType: game.i18n.localize(o.actorType[t.type])
+        ownedType: game.i18n.localize(n.actorType[t.type])
       }),
       buttons: {
         attach: {
-          icon: u.fontAwesome("fas fa-user-tag"),
-          label: game.i18n.localize(o.common.attach),
-          callback: a
-        },
-        attachCopy: {
-          icon: u.fontAwesome("fas fa-user-plus"),
-          label: game.i18n.localize(o.common.attachCopy),
+          icon: p.fontAwesome("fas fa-user-tag"),
+          label: game.i18n.localize(n.common.attach),
           callback: s
         },
+        attachCopy: {
+          icon: p.fontAwesome("fas fa-user-plus"),
+          label: game.i18n.localize(n.common.attachCopy),
+          callback: a
+        },
         cancel: {
-          icon: u.fontAwesome("fas fa-times"),
-          label: game.i18n.localize(o.common.cancel)
+          icon: p.fontAwesome("fas fa-times"),
+          label: game.i18n.localize(n.common.cancel)
         }
       },
       default: "cancel"
@@ -3366,42 +3366,42 @@ class $e {
   }
 }
 class Xe extends Dialog {
-  static async selectActor(e, t, a = async (i) => {
-  }, s = async () => {
+  static async selectActor(e, t, s = async (i) => {
+  }, a = async () => {
   }) {
-    let i = { classes: ["select-actor"], width: 300, height: 300, "z-index": 99999 }, n = {
+    let i = { classes: ["select-actor"], width: 300, height: 300, "z-index": 99999 }, r = {
       title: e,
-      content: await renderTemplate(`${h}/dialog/select-actor.hbs`, {
+      content: await renderTemplate(`${y}/dialog/select-actor.hbs`, {
         actors: t
       }),
       buttons: {
         cancel: {
-          icon: u.fontAwesome("fas fa-times"),
-          label: game.i18n.localize(o.common.cancel),
+          icon: p.fontAwesome("fas fa-times"),
+          label: game.i18n.localize(n.common.cancel),
           callback: async () => {
-            await s();
+            await a();
           }
         }
       },
       default: "cancel"
     };
-    new Xe(n, i, t, a).render(!0);
+    new Xe(r, i, t, s).render(!0);
   }
-  constructor(e, t, a, s) {
-    super(e, t), this.actors = a, this.onActorSelected = s;
+  constructor(e, t, s, a) {
+    super(e, t), this.actors = s, this.onActorSelected = a;
   }
   /* -------------------------------------------- */
   activateListeners(e) {
     super.activateListeners(e), e.find(".click-select-actor").click((t) => this.onSelectActor(t));
   }
   async onSelectActor(e) {
-    const t = $(e.currentTarget).attr("data-actor-id"), a = this.actors.find((s) => s.id == t);
-    a && (this.onActorSelected(a), this.close());
+    const t = $(e.currentTarget).attr("data-actor-id"), s = this.actors.find((a) => a.id == t);
+    s && (this.onActorSelected(s), this.close());
   }
 }
 class Ae extends ActorSheet {
   get template() {
-    return `${h}/actor/${this.actor.type}.hbs`;
+    return `${y}/actor/${this.actor.type}.hbs`;
   }
   /** @override */
   static get defaultOptions() {
@@ -3424,29 +3424,29 @@ class Ae extends ActorSheet {
           owner: this.document.isOwner,
           cssClass: this.isEditable ? "editable" : "locked"
         },
-        ENUMS: foundry.utils.mergeObject({ attributeAction: this.actor.getAttributeActions() }, S.getEnums()),
-        ANARCHY: o
+        ENUMS: foundry.utils.mergeObject({ attributeAction: this.actor.getAttributeActions() }, H.getEnums()),
+        ANARCHY: n
       }
     );
-    return t.options.classes.push(`actor-${this.actor.type}`), t.options.classes = f.distinct(t.options.classes), t.system = this.actor.system, f.classifyInto(t.items, this.actor.items), t;
+    return t.options.classes.push(`actor-${this.actor.type}`), t.options.classes = A.distinct(t.options.classes), t.system = this.actor.system, A.classifyInto(t.items, this.actor.items), t;
   }
   activateListeners(e) {
     super.activateListeners(e), e.find(".click-item-add").click(async (t) => {
       t.stopPropagation(), await this.createNewItem(this.getEventItemType(t));
     }), e.find(".click-item-edit").click(async (t) => {
-      var a;
-      t.stopPropagation(), (a = this.getEventItem(t)) == null || a.sheet.render(!0);
+      var s;
+      t.stopPropagation(), (s = this.getEventItem(t)) == null || s.sheet.render(!0);
     }), e.find(".click-item-activate").click(async (t) => {
       t.stopPropagation();
-      const a = this.getEventItem(t), s = a.system.inactive;
-      await a.update({ "system.inactive": !s });
+      const s = this.getEventItem(t), a = s.system.inactive;
+      await s.update({ "system.inactive": !a });
     }), e.find("a.click-matrix-connectionMode").click(async (t) => {
       t.stopPropagation(), await this.actor.nextConnectionMode(this.getEventItem(t));
     }), e.find(".click-item-delete").click(async (t) => {
       t.stopPropagation();
-      const a = this.getEventItem(t);
-      $e.confirmDeleteItem(a, async () => {
-        await this.actor.deleteEmbeddedDocuments("Item", [a.id]);
+      const s = this.getEventItem(t);
+      _e.confirmDeleteItem(s, async () => {
+        await this.actor.deleteEmbeddedDocuments("Item", [s.id]);
       });
     }), e.find(".click-favorite").click(async (t) => {
       t.stopPropagation(), this.onClickFavorite({
@@ -3459,19 +3459,19 @@ class Ae extends ActorSheet {
     }), e.find(".click-owner-actor-unlink").click(async (t) => {
       t.stopPropagation(), this.detachFromOwner(this.actor.getOwnerActor(), this.actor);
     }), e.find(".click-owned-actor-view").click(async (t) => {
-      var a;
-      t.stopPropagation(), (a = this.getEventOwnedActor(t)) == null || a.sheet.render(!0);
+      var s;
+      t.stopPropagation(), (s = this.getEventOwnedActor(t)) == null || s.sheet.render(!0);
     }), e.find(".click-owned-actor-unlink").click(async (t) => {
       t.stopPropagation(), this.detachFromOwner(this.actor, this.getEventOwnedActor(t));
     }), e.find("a.click-checkbar-element").click(async (t) => {
       t.stopPropagation();
-      const a = this.getEventItem(t), s = a ?? this.actor, i = this.getEventMonitorCode(t), n = i == "marks" ? $(t.currentTarget).closest(".anarchy-marks").attr("data-actor-id") : void 0;
-      await s.switchMonitorCheck(
+      const s = this.getEventItem(t), a = s ?? this.actor, i = this.getEventMonitorCode(t), r = i == "marks" ? $(t.currentTarget).closest(".anarchy-marks").attr("data-actor-id") : void 0;
+      await a.switchMonitorCheck(
         i,
         this.getEventIndex(t),
         this.isEventChecked(t),
-        n,
-        a
+        r,
+        s
       );
     }), e.find("a.click-add-mark-actor").click(async (t) => {
       t.stopPropagation(), this.onClickAddMark();
@@ -3517,30 +3517,30 @@ class Ae extends ActorSheet {
     return game.actors.get(t);
   }
   async createNewItem(e) {
-    const t = game.i18n.format(o.common.newName, { type: game.i18n.localize(o.itemType.singular[e]) });
+    const t = game.i18n.format(n.common.newName, { type: game.i18n.localize(n.itemType.singular[e]) });
     await this.actor.createEmbeddedDocuments("Item", [{ name: t, type: e }], { renderSheet: !0 });
   }
   async onClickFavorite(e) {
     const t = e.isFavorite != "true";
-    e.skillId ? await this.actor.switchFavorite(t, c.itemType.skill, e.skillId, e.specialization) : e.weaponId ? await this.actor.switchFavorite(t, c.itemType.weapon, e.weaponId) : e.attributeAction ? await this.actor.switchFavorite(t, "attributeAction", e.attributeAction) : console.warn("Favorite not supported", e);
+    e.skillId ? await this.actor.switchFavorite(t, l.itemType.skill, e.skillId, e.specialization) : e.weaponId ? await this.actor.switchFavorite(t, l.itemType.weapon, e.weaponId) : e.attributeAction ? await this.actor.switchFavorite(t, "attributeAction", e.attributeAction) : console.warn("Favorite not supported", e);
   }
   detachFromOwner(e, t) {
-    $e.confirmDetachOwnerActor(e, t, async () => {
+    _e.confirmDetachOwnerActor(e, t, async () => {
       await t.attachToOwnerActor(), this.render(!0);
     });
   }
   async _onDropActor(e, t) {
-    const a = fromUuidSync(t.uuid);
-    (a == null ? void 0 : a.id) != this.actor.id && $e.confirmAttachOrCopy(
+    const s = fromUuidSync(t.uuid);
+    (s == null ? void 0 : s.id) != this.actor.id && _e.confirmAttachOrCopy(
       this.actor,
-      a,
-      async () => await a.attachToOwnerActor(this.actor),
-      async () => await a.attachToOwnerActor(this.actor, "copy")
+      s,
+      async () => await s.attachToOwnerActor(this.actor),
+      async () => await s.attachToOwnerActor(this.actor, "copy")
     ), super._onDropActor(e, t);
   }
   async onClickAddMark() {
     if (this.actor.canReceiveMarks()) {
-      const e = game.i18n.format(o.common.selection.actorSettingMarks, { name: this.actor.name });
+      const e = game.i18n.format(n.common.selection.actorSettingMarks, { name: this.actor.name });
       await Xe.selectActor(
         e,
         game.actors.filter((t) => !this.actor.getActorMarks(t.id) && t.canSetMarks()),
@@ -3549,9 +3549,9 @@ class Ae extends ActorSheet {
     }
   }
 }
-class Ye extends Ae {
+class Ie extends Ae {
   get template() {
-    return `${h}/actor/character.hbs`;
+    return `${y}/actor/character.hbs`;
   }
   /** @override */
   static get defaultOptions() {
@@ -3592,11 +3592,11 @@ class Ye extends Ae {
       t.stopPropagation();
     }), e.find(".change-word-value").change(async (t) => {
       t.stopPropagation();
-      const a = t.currentTarget.value;
+      const s = t.currentTarget.value;
       await this.actor.updateWord(
         this.getEventWordType(t),
         this.getEventWordId(t),
-        a
+        s
       );
     }), e.find(".click-word-delete").click(async (t) => {
       t.stopPropagation(), this.actor.deleteWord(
@@ -3608,7 +3608,7 @@ class Ye extends Ae {
     });
   }
   createNewWord(e) {
-    const t = game.i18n.localize(o.common.newEntry);
+    const t = game.i18n.localize(n.common.newEntry);
     this.actor.createWord(e, t);
   }
   getEventWordType(e) {
@@ -3618,9 +3618,9 @@ class Ye extends Ae {
     return $(e.currentTarget).closest(".define-wordType").attr("data-word-id");
   }
 }
-class je extends Ye {
+class Fe extends Ie {
   get template() {
-    return `${h}/actor/character-enhanced.hbs`;
+    return `${y}/actor/character-enhanced.hbs`;
   }
   /** @override */
   static get defaultOptions() {
@@ -3633,26 +3633,26 @@ class je extends Ye {
     super.activateListeners(e);
     const t = this.actor._id;
     e.find(".click-section").on("click", function() {
-      const a = $(this).data("class");
-      e.find(`.${a}`).toggleClass("closed"), localStorage.setItem(`${t}-${a}`, e.find(`.${a}`).hasClass("closed") ? "closed" : null);
+      const s = $(this).data("class");
+      e.find(`.${s}`).toggleClass("closed"), localStorage.setItem(`${t}-${s}`, e.find(`.${s}`).hasClass("closed") ? "closed" : null);
     });
   }
-  static ifTabClosed(e, t, a) {
-    return localStorage.getItem(`${e}-section-${t}`) === "closed" ? a.fn(this) : a.inverse(this);
+  static ifTabClosed(e, t, s) {
+    return localStorage.getItem(`${e}-section-${t}`) === "closed" ? s.fn(this) : s.inverse(this);
   }
-  static actorTabClosed(e, t, a) {
+  static actorTabClosed(e, t, s) {
     return localStorage.getItem(`${e}-section-${t}`) === "closed" ? "closed" : "";
   }
 }
-class Xt {
+class Zt {
   static monitor(e) {
-    return game.i18n.localize(S.getFromList(S.getMonitors(), e) ?? "");
+    return game.i18n.localize(H.getFromList(H.getMonitors(), e) ?? "");
   }
   static letter(e) {
-    return game.i18n.localize(S.getFromList(S.getMonitorLetters(), e) ?? "");
+    return game.i18n.localize(H.getFromList(H.getMonitorLetters(), e) ?? "");
   }
 }
-class Qt {
+class Jt {
   static toLowerCaseNoAccent(e) {
     return e == null ? void 0 : e.normalize("NFD").toLowerCase().replace(/[\u0300-\u036f]/g, "");
   }
@@ -3662,17 +3662,17 @@ class Qt {
 }
 class q extends Item {
   static init() {
-    Hooks.on("createItem", (e, t, a) => e.onCreateItem(t, a));
+    Hooks.on("createItem", (e, t, s) => e.onCreateItem(t, s));
   }
   async onCreateItem(e, t) {
   }
   constructor(e, t = {}) {
-    var a;
-    if (!((a = t.anarchy) != null && a.ready)) {
+    var s;
+    if (!((s = t.anarchy) != null && s.ready)) {
       foundry.utils.mergeObject(t, { anarchy: { ready: !0 } });
-      const s = game.system.anarchy.itemClasses[e.type];
-      if (s)
-        return e.img || (e.img = s.defaultIcon), new s(e, t);
+      const a = game.system.anarchy.itemClasses[e.type];
+      if (a)
+        return e.img || (e.img = a.defaultIcon), new a(e, t);
     }
     t.anarchy = void 0, super(e, t);
   }
@@ -3698,7 +3698,7 @@ class q extends Item {
     return !1;
   }
   getMatrixMonitor() {
-    return qe;
+    return Qe;
   }
   async nextConnectionMode() {
   }
@@ -3706,13 +3706,13 @@ class q extends Item {
     return await this.update({ [e]: t });
   }
   isMetatype() {
-    return this.type == c.itemType.metatype;
+    return this.type == l.itemType.metatype;
   }
   isCyberdeck() {
-    return this.type == c.itemType.cyberdeck;
+    return this.type == l.itemType.cyberdeck;
   }
   isWeapon() {
-    return this.type == c.itemType.weapon;
+    return this.type == l.itemType.weapon;
   }
   isActive() {
     return !this.system.inactive;
@@ -3724,14 +3724,14 @@ class q extends Item {
   async rollAttribute(e) {
     this.parent && await R.itemAttributeRoll(this, e);
   }
-  async switchMonitorCheck(e, t, a, s = void 0) {
-    await d.switchMonitorCheck(this.parent, e, t, a, s, this);
+  async switchMonitorCheck(e, t, s, a = void 0) {
+    await u.switchMonitorCheck(this.parent, e, t, s, a, this);
   }
   async setCounter(e, t) {
-    await d.setCounter(this, e, t);
+    await u.setCounter(this, e, t);
   }
   async addActorMark(e) {
-    await d.addActorMark(this, e);
+    await u.addActorMark(this, e);
   }
   async createModifier(e = {}) {
     e = foundry.utils.mergeObject(e, {
@@ -3744,50 +3744,50 @@ class q extends Item {
     }), this._mutateModifiers((t) => t.concat([e]));
   }
   async deleteModifier(e) {
-    await this._mutateModifiers((t) => t.filter((a) => a.id != e));
+    await this._mutateModifiers((t) => t.filter((s) => s.id != e));
   }
-  async changeModifierSelection(e, t, a) {
-    let s = this._computeModifierImpact(t, a);
-    this._applyModifierUpdate(e, s);
+  async changeModifierSelection(e, t, s) {
+    let a = this._computeModifierImpact(t, s);
+    this._applyModifierUpdate(e, a);
   }
   _computeModifierImpact(e, t) {
     switch (e) {
       case "group":
-        return (a) => {
-          a.group != t && (a.group = t, a.effect = "", a.category = "", a.subCategory = "");
+        return (s) => {
+          s.group != t && (s.group = t, s.effect = "", s.category = "", s.subCategory = "");
         };
       case "effect":
-        return (a) => a.effect = t;
+        return (s) => s.effect = t;
       case "category":
-        return (a) => {
-          a.category != t && (a.category = t, a.subCategory = "");
+        return (s) => {
+          s.category != t && (s.category = t, s.subCategory = "");
         };
       case "subCategory":
-        return (a) => a.subCategory = t;
+        return (s) => s.subCategory = t;
     }
-    return (a) => {
+    return (s) => {
     };
   }
   async changeModifierValue(e, t) {
-    this._applyModifierUpdate(e, (a) => a.value = Number(t));
+    this._applyModifierUpdate(e, (s) => s.value = Number(t));
   }
   async changeModifierCondition(e, t) {
-    this._applyModifierUpdate(e, (a) => a.condition = t);
+    this._applyModifierUpdate(e, (s) => s.condition = t);
   }
-  async _applyModifierUpdate(e, t = (a) => {
+  async _applyModifierUpdate(e, t = (s) => {
   }) {
-    await this._mutateModifiers((a) => a.map((s) => (s.id == e && t(s), s)));
+    await this._mutateModifiers((s) => s.map((a) => (a.id == e && t(a), a)));
   }
   async _mutateModifiers(e = (t) => t) {
     const t = e(this.system.modifiers);
-    f.reindexIds(t), await this.update({ "system.modifiers": t });
+    A.reindexIds(t), await this.update({ "system.modifiers": t });
   }
   prepateShortcut() {
   }
 }
-class Qe extends q {
+class Ze extends q {
   static get defaultIcon() {
-    return `${G}/skills/skills.svg`;
+    return `${L}/skills/skills.svg`;
   }
   static prepareSkill(e) {
     const t = game.system.anarchy.skills.get(e);
@@ -3801,7 +3801,7 @@ class Qe extends q {
           hasConvergence: !1
         }
       };
-    const a = {
+    const s = {
       img: t.icon,
       system: {
         code: t.code,
@@ -3810,7 +3810,7 @@ class Qe extends q {
         hasConvergence: !!t.hasConvergence
       }
     };
-    return t.code != "knowledge" && (a.name = game.i18n.localize(t.labelkey)), a;
+    return t.code != "knowledge" && (s.name = game.i18n.localize(t.labelkey)), s;
   }
   isKnowledgeSkill() {
     return this.system.code == "knowledge";
@@ -3826,28 +3826,28 @@ class Qe extends q {
     };
   }
 }
-const ct = {
+const mt = {
   none: { targets: 1, adjust: [0] },
   shotgun: { targets: 2, adjust: [0, -2] },
   circle: { targets: void 0 },
   cone: { targets: void 0 },
   rect: { targets: void 0 },
   ray: { targets: void 0 }
-}, Zt = {
+}, es = {
   code: "weapon-range",
   options: {
     flags: { editable: !0 },
     order: 20,
-    category: C.pool,
-    labelkey: o.common.roll.modifiers.weaponRange,
-    hbsTemplateRoll: `${h}/roll/parts/select-option.hbs`,
+    category: v.pool,
+    labelkey: n.common.roll.modifiers.weaponRange,
+    hbsTemplateRoll: `${y}/roll/parts/select-option.hbs`,
     hbsTemplateChat: void 0
     //``
   },
-  isUsed: (r) => !0,
-  condition: (r) => r.weapon,
-  factory: (r) => {
-    const e = r.weapon.getRanges(), t = e.map((a) => a.value);
+  isUsed: (o) => !0,
+  condition: (o) => o.weapon,
+  factory: (o) => {
+    const e = o.weapon.getRanges(), t = e.map((s) => s.value);
     return {
       value: e[0].value,
       min: Math.min(...t),
@@ -3856,22 +3856,22 @@ const ct = {
       selected: game.i18n.localize(e[0].labelkey)
     };
   }
-}, Jt = {
+}, ts = {
   code: "weapon-area",
   options: {
     used: !0,
     order: 20,
-    category: C.pool,
-    labelkey: o.common.roll.modifiers.weaponArea,
-    hbsTemplateRoll: `${h}/roll/parts/input-numeric.hbs`,
+    category: v.pool,
+    labelkey: n.common.roll.modifiers.weaponArea,
+    hbsTemplateRoll: `${y}/roll/parts/input-numeric.hbs`,
     hbsTemplateChat: void 0
     //``
   },
-  isUsed: (r) => r.used,
-  condition: (r) => r.weapon && r.weapon.getArea() != c.area.none,
-  factory: (r) => {
-    var a;
-    const e = ((a = r.targeting.targetedTokenIds) == null ? void 0 : a.length) ?? 1, t = r.weapon.getAreaModifier(e);
+  isUsed: (o) => o.used,
+  condition: (o) => o.weapon && o.weapon.getArea() != l.area.none,
+  factory: (o) => {
+    var s;
+    const e = ((s = o.targeting.targetedTokenIds) == null ? void 0 : s.length) ?? 1, t = o.weapon.getAreaModifier(e);
     return {
       value: t,
       min: Math.min(0, t),
@@ -3880,14 +3880,14 @@ const ct = {
     };
   }
 };
-class Q extends q {
+class X extends q {
   static init() {
-    Hooks.once(b.REGISTER_ROLL_PARAMETERS, (e) => {
-      e(Jt), e(Zt);
+    Hooks.once(C.REGISTER_ROLL_PARAMETERS, (e) => {
+      e(ts), e(es);
     });
   }
   static get defaultIcon() {
-    return `${G}/weapons/mac-10.svg`;
+    return `${L}/weapons/mac-10.svg`;
   }
   isWeaponSkill(e) {
     return e.type == "skill" && e.system.code === this.system.skill;
@@ -3899,22 +3899,22 @@ class Q extends q {
     return this.getWeaponSkill().system.hasConvergence;
   }
   getWeaponSkill() {
-    var a;
-    const e = (a = this.actor) == null ? void 0 : a.items.find((s) => this.isWeaponSkill(s));
+    var s;
+    const e = (s = this.actor) == null ? void 0 : s.items.find((a) => this.isWeaponSkill(a));
     if (e)
       return e;
-    const t = game.items.find((s) => this.isWeaponSkill(s));
-    return t || Qe.prepareSkill(this.system.skill);
+    const t = game.items.find((a) => this.isWeaponSkill(a));
+    return t || Ze.prepareSkill(this.system.skill);
   }
   getDefense() {
-    return Y.fixedDefenseCode(this.system.defense);
+    return z.fixedDefenseCode(this.system.defense);
   }
   getDamage() {
     if (!this.parent)
       return;
     const e = this.system.damageAttribute ? this.parent.getAttributeValue(this.system.damageAttribute) ?? 0 : 0;
     return {
-      value: Q.damageValue(
+      value: X.damageValue(
         this.system.monitor,
         this.system.damage,
         this.system.damageAttribute,
@@ -3922,34 +3922,34 @@ class Q extends q {
       ),
       monitor: this.system.monitor,
       noArmor: this.system.noArmor,
-      armorMode: Q.armorMode(this.system.monitor, this.system.noArmor)
+      armorMode: X.armorMode(this.system.monitor, this.system.noArmor)
     };
   }
-  static damageValue(e, t, a, s) {
-    if (e == c.monitors.marks)
+  static damageValue(e, t, s, a) {
+    if (e == l.monitors.marks)
       return 1;
-    if (t = Number(t), a)
-      if (s !== void 0)
-        t = t + Math.ceil(Number(s) / 2);
+    if (t = Number(t), s)
+      if (a !== void 0)
+        t = t + Math.ceil(Number(a) / 2);
       else
-        return console.warn("Weapon not attached to an actor"), game.i18n.localize(o.item.weapon.weaponWithoutActor);
+        return console.warn("Weapon not attached to an actor"), game.i18n.localize(n.item.weapon.weaponWithoutActor);
     return t;
   }
   getDamageCode() {
-    return Q.damageCode(
+    return X.damageCode(
       this.system.monitor,
       this.system.damage,
       this.system.damageAttribute
     );
   }
-  static damageCode(e, t, a) {
-    if (e == c.monitors.marks)
+  static damageCode(e, t, s) {
+    if (e == l.monitors.marks)
       return "1";
-    let s = "";
-    return a && o.attributes[a] && (s += game.i18n.localize(o.attributes[a]).substring(0, 3).toUpperCase() + "/2 + "), s += String(t), s;
+    let a = "";
+    return s && n.attributes[s] && (a += game.i18n.localize(n.attributes[s]).substring(0, 3).toUpperCase() + "/2 + "), a += String(t), a;
   }
   static armorMode(e, t) {
-    return d.useArmor(e) ? t ? "noArmor" : "withArmor" : "";
+    return u.useArmor(e) ? t ? "noArmor" : "withArmor" : "";
   }
   getRanges() {
     let e = [
@@ -3958,7 +3958,7 @@ class Q extends q {
     return this.system.range.max != "short" && e.push(this._getRange("medium")), this.system.range.max == "long" && e.push(this._getRange("long")), e;
   }
   _getRange(e) {
-    return { value: this.system.range[e], labelkey: S.getFromList(S.getEnums().ranges, e) };
+    return { value: this.system.range[e], labelkey: H.getFromList(H.getEnums().ranges, e) };
   }
   prepareShortcut() {
     return {
@@ -3968,33 +3968,33 @@ class Q extends q {
     };
   }
   validateTargets(e) {
-    var n;
-    const t = (n = this.getDamage()) == null ? void 0 : n.monitor, a = I.getTargetTokens(game.user), s = a.filter((l) => {
+    var r;
+    const t = (r = this.getDamage()) == null ? void 0 : r.monitor, s = Y.getTargetTokens(game.user), a = s.filter((c) => {
       var m;
-      return (m = l.actor) == null ? void 0 : m.canReceiveDamage(t);
-    }), i = a.filter((l) => {
+      return (m = c.actor) == null ? void 0 : m.canReceiveDamage(t);
+    }), i = s.filter((c) => {
       var m;
-      return !((m = l.actor) != null && m.canReceiveDamage(t));
-    }).map((l) => l.name);
-    return i.length > 0 && ui.notifications.info(game.i18n.format(o.common.errors.ignoredTargets, {
-      targets: i.reduce(f.joiner(", "))
-    })), s.length == 0 ? ui.notifications.info(game.i18n.format(o.common.errors.noTargetSelected, {
-      weapon: this.name ?? game.i18n.localize(o.itemType.singular.weapon)
-    })) : this.checkWeaponTargetsCount(s), s;
+      return !((m = c.actor) != null && m.canReceiveDamage(t));
+    }).map((c) => c.name);
+    return i.length > 0 && ui.notifications.info(game.i18n.format(n.common.errors.ignoredTargets, {
+      targets: i.reduce(A.joiner(", "))
+    })), a.length == 0 ? ui.notifications.info(game.i18n.format(n.common.errors.noTargetSelected, {
+      weapon: this.name ?? game.i18n.localize(n.itemType.singular.weapon)
+    })) : this.checkWeaponTargetsCount(a), a;
   }
   checkWeaponTargetsCount(e) {
-    const t = this.system.area, a = ct[t] ?? {};
-    K.checkTargetsCount(a.targets ?? 0, e, t);
+    const t = this.system.area, s = mt[t] ?? {};
+    K.checkTargetsCount(s.targets ?? 0, e, t);
   }
   getAreaModifier(e) {
-    const t = this.getArea(), a = ct[t] ?? {};
-    return a.targets && a.adjust && e <= a.targets ? a.adjust[e - 1] ?? 0 : 0;
+    const t = this.getArea(), s = mt[t] ?? {};
+    return s.targets && s.adjust && e <= s.targets ? s.adjust[e - 1] ?? 0 : 0;
   }
   getArea() {
-    return this.system.area == "" ? c.area.none : this.system.area ?? c.area.none;
+    return this.system.area == "" ? l.area.none : this.system.area ?? l.area.none;
   }
 }
-const ea = [
+const ss = [
   // -- monitors
   "systems/anarchy/templates/monitors/anarchy-actor.hbs",
   "systems/anarchy/templates/monitors/armor.hbs",
@@ -4131,90 +4131,1788 @@ const ea = [
   "systems/anarchy/templates/app/gm-difficulty.hbs",
   "systems/anarchy/templates/app/gm-difficulty-buttons.hbs"
 ];
-class Ne {
+class He {
   constructor() {
     Hooks.once("ready", () => this.onReady());
   }
   async onReady() {
-    this.registerBasicHelpers(), await loadTemplates(f.distinct(ea));
+    this.registerBasicHelpers(), await loadTemplates(A.distinct(ss));
   }
   registerBasicHelpers() {
-    Handlebars.registerHelper("concat", (...e) => f.join(e.slice(0, -1))), Handlebars.registerHelper("substring", (e, t, a) => e == null ? void 0 : e.substring(t, a)), Handlebars.registerHelper("toUpperCase", Qt.toUpperCaseNoAccent), Handlebars.registerHelper("weaponDamageLetter", Xt.letter), Handlebars.registerHelper("weaponDamageCode", Q.damageCode), Handlebars.registerHelper("weaponDamageValue", Q.damageValue), Handlebars.registerHelper("weaponArmorMode", Q.armorMode), Handlebars.registerHelper("skillValue", (e, t) => e.getSkillValue(t, !1)), Handlebars.registerHelper("specializationValue", (e, t) => e.getSkillValue(t, !0)), Handlebars.registerHelper("for", Ne.hbsForLoop), Handlebars.registerHelper("modulo", (e, t) => e % t), Handlebars.registerHelper("divint", f.divint), Handlebars.registerHelper("divup", f.divup), Handlebars.registerHelper("sum", (e, t) => e + t), Handlebars.registerHelper("times", (e, t) => e * t), Handlebars.registerHelper("diff", (e, t) => e - t), Handlebars.registerHelper("min", (e, t) => Math.min(e, t)), Handlebars.registerHelper("max", (e, t) => Math.max(e, t)), Handlebars.registerHelper("either", (e, t) => e || t), Handlebars.registerHelper("isInteger", (e) => e !== void 0 && Number.isInteger(e)), Handlebars.registerHelper("actorAttribute", (e, t, a = void 0) => t.getAttributeValue(e, a)), Handlebars.registerHelper("localizeAttribute", S.localizeAttribute), Handlebars.registerHelper("iconFA", u.fontAwesome), Handlebars.registerHelper("iconSrc", u.iconSystemPath), Handlebars.registerHelper("iconPath", u.iconPath), Handlebars.registerHelper("iconD6", u.iconD6), Handlebars.registerHelper("getActor", (e) => game.actors.get(e)), Handlebars.registerHelper("actorHasFavorite", (e, t) => Ne.checkHasFavorite(e, t)), Handlebars.registerHelper("padWordListToMin", H.padWordListToMin), Handlebars.registerHelper("sortSkills", H.sortSkills), Handlebars.registerHelper("sortShadowamps", H.sortShadowamps), Handlebars.registerHelper("sortQualities", H.sortQualities), Handlebars.registerHelper("sortAttributeButton", H.sortAttributeButton), Handlebars.registerHelper("range", function(e, t) {
-      let a = [];
-      for (let s = e; s <= t; s++)
-        a.push(s);
-      return a;
-    }), Handlebars.registerHelper("ifGte", function(e, t, a) {
-      return e >= t ? a.fn(this) : a.inverse(this);
-    }), Handlebars.registerHelper("ifTabClosed", je.ifTabClosed), Handlebars.registerHelper("actorTabClosed", je.actorTabClosed), Handlebars.registerHelper("length", function(e) {
+    Handlebars.registerHelper("concat", (...e) => A.join(e.slice(0, -1))), Handlebars.registerHelper("substring", (e, t, s) => e == null ? void 0 : e.substring(t, s)), Handlebars.registerHelper("toUpperCase", Jt.toUpperCaseNoAccent), Handlebars.registerHelper("weaponDamageLetter", Zt.letter), Handlebars.registerHelper("weaponDamageCode", X.damageCode), Handlebars.registerHelper("weaponDamageValue", X.damageValue), Handlebars.registerHelper("weaponArmorMode", X.armorMode), Handlebars.registerHelper("skillValue", (e, t) => e.getSkillValue(t, !1)), Handlebars.registerHelper("specializationValue", (e, t) => e.getSkillValue(t, !0)), Handlebars.registerHelper("for", He.hbsForLoop), Handlebars.registerHelper("modulo", (e, t) => e % t), Handlebars.registerHelper("divint", A.divint), Handlebars.registerHelper("divup", A.divup), Handlebars.registerHelper("sum", (e, t) => e + t), Handlebars.registerHelper("times", (e, t) => e * t), Handlebars.registerHelper("diff", (e, t) => e - t), Handlebars.registerHelper("min", (e, t) => Math.min(e, t)), Handlebars.registerHelper("max", (e, t) => Math.max(e, t)), Handlebars.registerHelper("either", (e, t) => e || t), Handlebars.registerHelper("isInteger", (e) => e !== void 0 && Number.isInteger(e)), Handlebars.registerHelper("actorAttribute", (e, t, s = void 0) => t.getAttributeValue(e, s)), Handlebars.registerHelper("localizeAttribute", H.localizeAttribute), Handlebars.registerHelper("iconFA", p.fontAwesome), Handlebars.registerHelper("iconSrc", p.iconSystemPath), Handlebars.registerHelper("iconPath", p.iconPath), Handlebars.registerHelper("iconD6", p.iconD6), Handlebars.registerHelper("getActor", (e) => game.actors.get(e)), Handlebars.registerHelper("actorHasFavorite", (e, t) => He.checkHasFavorite(e, t)), Handlebars.registerHelper("padWordListToMin", T.padWordListToMin), Handlebars.registerHelper("sortSkills", T.sortSkills), Handlebars.registerHelper("sortShadowamps", T.sortShadowamps), Handlebars.registerHelper("sortQualities", T.sortQualities), Handlebars.registerHelper("sortAttributeButton", T.sortAttributeButton), Handlebars.registerHelper("range", function(e, t) {
+      let s = [];
+      for (let a = e; a <= t; a++)
+        s.push(a);
+      return s;
+    }), Handlebars.registerHelper("ifGte", function(e, t, s) {
+      return e >= t ? s.fn(this) : s.inverse(this);
+    }), Handlebars.registerHelper("ifTabClosed", Fe.ifTabClosed), Handlebars.registerHelper("actorTabClosed", Fe.actorTabClosed), Handlebars.registerHelper("length", function(e) {
       return (e == null ? void 0 : e.length) || 0;
     });
   }
-  static hbsForLoop(e, t, a) {
-    let s = "";
+  static hbsForLoop(e, t, s) {
+    let a = "";
     for (let i = e; i < t; ++i)
-      s += a.fn(i);
-    return s;
+      a += s.fn(i);
+    return a;
   }
   static checkHasFavorite(e, t) {
-    const a = game.actors.get(e);
-    return a == null ? void 0 : a.hasFavorite(t.hash.type, t.hash.id);
+    const s = game.actors.get(e);
+    return s == null ? void 0 : s.hasFavorite(t.hash.type, t.hash.id);
   }
 }
-const lt = "default-css-class", We = "style-anarchy-shadowrun", ta = [
-  { name: "Shadowrun Anarchy", cssClass: We },
-  { name: "Dark", cssClass: "style-dark" },
-  { name: "Dark glass", cssClass: "style-darkglass" }
+const $e = "default-css-class", We = "style-anarchy-shadowrun", dt = [
+  {
+    id: "anarchy-shadowrun",
+    name: "Shadowrun Anarchy",
+    cssClass: We,
+    description: "The classic Shadowrun Anarchy theme with cyberpunk aesthetics",
+    author: "Anarchy System",
+    version: "2.0.0",
+    category: "official",
+    accessibility: {
+      highContrast: !1,
+      reducedMotion: !1,
+      largeText: !1
+    },
+    preview: {
+      primaryColor: "#f4d03f",
+      backgroundColor: "#ffffff",
+      textColor: "#1a1a1a"
+    }
+  },
+  {
+    id: "dark",
+    name: "Dark",
+    cssClass: "style-dark",
+    description: "A sleek dark theme optimized for low-light environments",
+    author: "Anarchy System",
+    version: "2.0.0",
+    category: "official",
+    accessibility: {
+      highContrast: !1,
+      reducedMotion: !1,
+      largeText: !1
+    },
+    preview: {
+      primaryColor: "#f4d03f",
+      backgroundColor: "#1a0f0f",
+      textColor: "#e6d4a3"
+    }
+  },
+  {
+    id: "darkglass",
+    name: "Dark Glass",
+    cssClass: "style-darkglass",
+    description: "A sophisticated dark theme with glass-like transparency effects",
+    author: "Anarchy System",
+    version: "2.0.0",
+    category: "official",
+    accessibility: {
+      highContrast: !1,
+      reducedMotion: !1,
+      largeText: !1
+    },
+    preview: {
+      primaryColor: "#3498db",
+      backgroundColor: "#0d0d0d",
+      textColor: "#f2f2f2"
+    }
+  }
 ];
-class aa {
+class as {
   constructor() {
-    this.availableStyles = {}, Z.register(b.REGISTER_STYLES), Hooks.once(b.REGISTER_STYLES, (e) => ta.forEach((t) => e(t.cssClass, t.name))), Hooks.once("ready", () => this.onReady());
+    this.availableStyles = {}, this.themeMetadata = /* @__PURE__ */ new Map(), this.themeSettings = /* @__PURE__ */ new Map(), this.currentTheme = null, this.themeChangeCallbacks = /* @__PURE__ */ new Set(), this.initializeThemes(), Z.register(C.REGISTER_STYLES), Hooks.once(C.REGISTER_STYLES, (e) => {
+      dt.forEach((t) => {
+        e(t.cssClass, t.name), this.registerThemeMetadata(t);
+      });
+    }), Hooks.once("ready", () => this.onReady()), Hooks.on("updateSetting", (e, t, s, a) => {
+      e.key === `${d}.${$e}` && this.onThemeChanged(t);
+    });
   }
   async onReady() {
-    Hooks.callAll(b.REGISTER_STYLES, (e, t) => this.availableStyles[e] = t), console.log(P + "Loaded styles", this.availableStyles), game.settings.register(g, lt, {
+    console.groupCollapsed(h + "Styles.onReady"), Hooks.callAll(C.REGISTER_STYLES, (e, t) => this.availableStyles[e] = t), console.info(h + "Styles.onReady | registered styles", this.availableStyles), await this.registerEnhancedSettings(), this.currentTheme = this.selectCssClass(), this.applyTheme(this.currentTheme), console.groupEnd();
+  }
+  async registerEnhancedSettings() {
+    game.settings.register(d, $e, {
       scope: "world",
-      name: game.i18n.localize(o.settings.defaultCssClass.name),
-      hint: game.i18n.localize(o.settings.defaultCssClass.hint),
+      name: game.i18n.localize(n.settings.defaultCssClass.name),
+      hint: game.i18n.localize(n.settings.defaultCssClass.hint),
       config: !0,
       default: We,
       choices: this.availableStyles,
-      type: String
+      type: String,
+      onChange: (e) => this.onThemeChanged(e)
+    }), game.settings.register(d, "theme-customizations", {
+      scope: "world",
+      name: "Theme Customizations",
+      hint: "Advanced theme customization settings",
+      config: !1,
+      default: {},
+      type: Object
+    }), game.settings.register(d, "user-theme-preferences", {
+      scope: "client",
+      name: "User Theme Preferences",
+      hint: "Personal theme preferences and accessibility settings",
+      config: !1,
+      default: {
+        accessibility: {
+          highContrast: !1,
+          reducedMotion: !1,
+          largeText: !1
+        },
+        customizations: {}
+      },
+      type: Object
     });
   }
   selectCssClass() {
-    const e = game.settings.get(g, lt);
+    const e = game.settings.get(d, $e);
     return this.availableStyles[e] ? e : We;
   }
+  // =============================================================================
+  // ENHANCED THEME MANAGEMENT METHODS
+  // =============================================================================
+  initializeThemes() {
+    console.groupCollapsed(h + "Styles.initializeThemes"), dt.forEach((e) => {
+      this.themeMetadata.set(e.id, e), this.themeSettings.set(e.id, {
+        customizations: {},
+        userPreferences: {},
+        lastUsed: null
+      }), console.info(h + `Registered theme: ${e.name} v${e.version}`);
+    }), console.groupEnd();
+  }
+  registerThemeMetadata(e) {
+    this.themeMetadata.set(e.id, e), this.themeSettings.set(e.id, {
+      customizations: {},
+      userPreferences: {},
+      lastUsed: null
+    });
+  }
+  // Enhanced theme application
+  applyTheme(e) {
+    console.groupCollapsed(h + "Styles.applyTheme", e);
+    const t = this.getThemeIdFromClass(e), s = this.themeMetadata.get(t);
+    if (!s) {
+      console.warn(h + "Theme not found:", t), console.groupEnd();
+      return;
+    }
+    this.applyThemeClass(e), this.applyUserCustomizations(t), this.applyAccessibilitySettings(), this.updateThemeUsage(t), this.notifyThemeChange(s), console.info(h + "Applied theme:", s.name), console.groupEnd();
+  }
+  applyThemeClass(e) {
+    const t = Array.from(document.body.classList).filter((a) => a.startsWith("style-"));
+    t.forEach((a) => document.body.classList.remove(a)), document.body.classList.add(e);
+    const s = document.getElementById("gm-manager");
+    s && (t.forEach((a) => s.classList.remove(a)), s.classList.add(e));
+  }
+  applyUserCustomizations(e) {
+    const s = game.settings.get(d, "theme-customizations")[e];
+    if (s) {
+      const a = document.documentElement;
+      Object.entries(s).forEach(([i, r]) => {
+        a.style.setProperty(`--${i}`, r);
+      });
+    }
+  }
+  applyAccessibilitySettings() {
+    const t = game.settings.get(d, "user-theme-preferences").accessibility || {}, s = document.documentElement;
+    t.highContrast ? s.classList.add("accessibility-high-contrast") : s.classList.remove("accessibility-high-contrast"), t.reducedMotion ? s.classList.add("accessibility-reduced-motion") : s.classList.remove("accessibility-reduced-motion"), t.largeText ? s.classList.add("accessibility-large-text") : s.classList.remove("accessibility-large-text");
+  }
+  updateThemeUsage(e) {
+    const t = this.themeSettings.get(e);
+    t && (t.lastUsed = (/* @__PURE__ */ new Date()).toISOString(), this.themeSettings.set(e, t));
+  }
+  onThemeChanged(e) {
+    console.info(h + "Theme changed to:", e), this.currentTheme = e, this.applyTheme(e);
+  }
+  notifyThemeChange(e) {
+    this.themeChangeCallbacks.forEach((t) => {
+      try {
+        t(e);
+      } catch (s) {
+        console.error(h + "Theme change callback error:", s);
+      }
+    });
+  }
+  // =============================================================================
+  // THEME METADATA AND UTILITIES
+  // =============================================================================
+  getThemeIdFromClass(e) {
+    return e.replace("style-", "");
+  }
+  getThemeMetadata(e) {
+    return this.themeMetadata.get(e);
+  }
+  getAllThemes() {
+    return Array.from(this.themeMetadata.values());
+  }
+  getThemesByCategory(e) {
+    return this.getAllThemes().filter((t) => t.category === e);
+  }
+  // =============================================================================
+  // THEME CUSTOMIZATION METHODS
+  // =============================================================================
+  setThemeCustomization(e, t, s) {
+    const a = game.settings.get(d, "theme-customizations");
+    a[e] || (a[e] = {}), a[e][t] = s, game.settings.set(d, "theme-customizations", a), this.getThemeIdFromClass(this.currentTheme) === e && document.documentElement.style.setProperty(`--${t}`, s), console.info(h + `Theme customization set: ${e}.${t} = ${s}`);
+  }
+  getThemeCustomization(e, t) {
+    var a;
+    return (a = game.settings.get(d, "theme-customizations")[e]) == null ? void 0 : a[t];
+  }
+  resetThemeCustomizations(e) {
+    const t = game.settings.get(d, "theme-customizations");
+    delete t[e], game.settings.set(d, "theme-customizations", t), this.getThemeIdFromClass(this.currentTheme) === e && this.applyTheme(this.currentTheme), console.info(h + `Reset customizations for theme: ${e}`);
+  }
+  // =============================================================================
+  // ACCESSIBILITY METHODS
+  // =============================================================================
+  setAccessibilitySetting(e, t) {
+    const s = game.settings.get(d, "user-theme-preferences");
+    s.accessibility[e] = t, game.settings.set(d, "user-theme-preferences", s), this.applyAccessibilitySettings(), console.info(h + `Accessibility setting changed: ${e} = ${t}`);
+  }
+  getAccessibilitySetting(e) {
+    var s;
+    return ((s = game.settings.get(d, "user-theme-preferences").accessibility) == null ? void 0 : s[e]) || !1;
+  }
+  // =============================================================================
+  // CSS CUSTOM PROPERTY UTILITIES
+  // =============================================================================
+  getCSSVariable(e) {
+    return getComputedStyle(document.documentElement).getPropertyValue(`--${e}`).trim();
+  }
+  setCSSVariable(e, t) {
+    document.documentElement.style.setProperty(`--${e}`, t), console.info(h + `CSS variable set: --${e} = ${t}`);
+  }
+  // =============================================================================
+  // THEME VALIDATION AND DEBUGGING
+  // =============================================================================
+  validateTheme(e) {
+    const t = this.themeMetadata.get(e);
+    if (!t)
+      return { valid: !1, errors: ["Theme not found"] };
+    const s = [];
+    t.name || s.push("Theme name is required"), t.cssClass || s.push("Theme CSS class is required"), t.version || s.push("Theme version is required");
+    const a = document.createElement("div");
+    a.className = t.cssClass, document.body.appendChild(a);
+    const i = getComputedStyle(a).getPropertyValue("--anarchy-background-attributes");
+    return document.body.removeChild(a), i || s.push("Theme CSS not loaded or invalid"), {
+      valid: s.length === 0,
+      errors: s,
+      theme: t
+    };
+  }
+  debugCurrentTheme() {
+    const e = this.getThemeIdFromClass(this.currentTheme), t = this.themeMetadata.get(e), s = this.validateTheme(e);
+    return console.group(h + "Theme Debug Info"), console.info("Current Theme:", t), console.info("Validation:", s), console.info("CSS Variables:", this.getCurrentThemeVariables()), console.info("Customizations:", this.themeSettings.get(e)), console.groupEnd(), {
+      theme: t,
+      validation: s,
+      variables: this.getCurrentThemeVariables(),
+      customizations: this.themeSettings.get(e)
+    };
+  }
+  getCurrentThemeVariables() {
+    const e = getComputedStyle(document.documentElement), t = {};
+    for (let s = 0; s < e.length; s++) {
+      const a = e[s];
+      a.startsWith("--") && (t[a] = e.getPropertyValue(a).trim());
+    }
+    return t;
+  }
+  // =============================================================================
+  // THEME CHANGE CALLBACK SYSTEM
+  // =============================================================================
+  onThemeChange(e) {
+    return this.themeChangeCallbacks.add(e), () => this.themeChangeCallbacks.delete(e);
+  }
+  // =============================================================================
+  // IMPORT/EXPORT UTILITIES
+  // =============================================================================
+  exportThemeData() {
+    return {
+      themes: Array.from(this.themeMetadata.values()),
+      currentTheme: this.currentTheme,
+      customizations: game.settings.get(d, "theme-customizations"),
+      userPreferences: game.settings.get(d, "user-theme-preferences"),
+      systemInfo: {
+        version: game.system.version,
+        timestamp: (/* @__PURE__ */ new Date()).toISOString()
+      }
+    };
+  }
+  importThemeCustomizations(e) {
+    e.customizations && game.settings.set(d, "theme-customizations", e.customizations), e.userPreferences && game.settings.set(d, "user-theme-preferences", e.userPreferences), this.applyTheme(this.currentTheme), ui.notifications.info("Theme customizations imported successfully.");
+  }
 }
-const Te = "glitch", fe = "risk", mt = "reroll", dt = "rerollRemoved", sa = "removed", Ee = `${ue}/style/danger-point.webp`, ve = `${ue}/style/anarchy-point.webp`, X = class X {
+class is {
+  constructor(e) {
+    this.styles = e;
+  }
+  // =============================================================================
+  // THEME ANALYSIS UTILITIES
+  // =============================================================================
+  /**
+   * Analyze theme contrast ratios for accessibility
+   */
+  analyzeThemeContrast(e) {
+    const t = this.styles.getThemeMetadata(e);
+    if (!t)
+      throw new Error(`Theme ${e} not found`);
+    const s = this.styles.currentTheme;
+    this.styles.applyTheme(t.cssClass);
+    const a = {
+      themeId: e,
+      themeName: t.name,
+      contrastRatios: {},
+      accessibility: {
+        wcagAA: !0,
+        wcagAAA: !0,
+        issues: []
+      }
+    };
+    return [
+      { bg: "--background-primary", fg: "--text-primary", name: "Primary Text" },
+      { bg: "--background-secondary", fg: "--text-secondary", name: "Secondary Text" },
+      { bg: "--anarchy-background-attributes", fg: "--text-primary", name: "Attribute Text" },
+      { bg: "--interactive-primary", fg: "--text-inverse", name: "Button Text" }
+    ].forEach((r) => {
+      const c = this.styles.getCSSVariable(r.bg.replace("--", "")), m = this.styles.getCSSVariable(r.fg.replace("--", ""));
+      if (c && m) {
+        const g = this.calculateContrastRatio(c, m);
+        a.contrastRatios[r.name] = {
+          ratio: g,
+          wcagAA: g >= 4.5,
+          wcagAAA: g >= 7,
+          background: c,
+          foreground: m
+        }, g < 4.5 && (a.accessibility.wcagAA = !1, a.accessibility.issues.push(`${r.name} fails WCAG AA (${g.toFixed(2)}:1)`)), g < 7 && (a.accessibility.wcagAAA = !1);
+      }
+    }), this.styles.applyTheme(s), a;
+  }
+  /**
+   * Calculate contrast ratio between two colors
+   */
+  calculateContrastRatio(e, t) {
+    const s = this.getRelativeLuminance(e), a = this.getRelativeLuminance(t), i = Math.max(s, a), r = Math.min(s, a);
+    return (i + 0.05) / (r + 0.05);
+  }
+  /**
+   * Get relative luminance (simplified)
+   */
+  getRelativeLuminance(e) {
+    if (e.includes("hsl")) {
+      const t = e.match(/hsl\([^,]+,\s*[^,]+,\s*(\d+)%/);
+      if (t)
+        return parseInt(t[1]) / 100;
+    }
+    return 0.5;
+  }
+  // =============================================================================
+  // THEME PERFORMANCE UTILITIES
+  // =============================================================================
+  /**
+   * Measure theme application performance
+   */
+  measureThemePerformance(e, t = 5) {
+    const s = [];
+    for (let a = 0; a < t; a++) {
+      const i = performance.now();
+      this.styles.applyTheme(e);
+      const r = performance.now();
+      s.push(r - i);
+    }
+    return {
+      average: s.reduce((a, i) => a + i) / s.length,
+      min: Math.min(...s),
+      max: Math.max(...s),
+      measurements: s
+    };
+  }
+  /**
+   * Analyze CSS variable usage across themes
+   */
+  analyzeVariableUsage() {
+    const e = {
+      totalVariables: 0,
+      themeVariables: {},
+      commonVariables: [],
+      uniqueVariables: {},
+      redundancy: 0
+    }, t = this.styles.getAllThemes(), s = {};
+    t.forEach((r) => {
+      const c = this.styles.currentTheme;
+      this.styles.applyTheme(r.cssClass);
+      const m = this.styles.getCurrentThemeVariables();
+      s[r.id] = Object.keys(m), e.themeVariables[r.id] = Object.keys(m).length, this.styles.applyTheme(c);
+    });
+    const a = /* @__PURE__ */ new Set();
+    Object.values(s).forEach((r) => {
+      r.forEach((c) => a.add(c));
+    }), e.totalVariables = a.size, e.commonVariables = Array.from(a).filter((r) => Object.values(s).every((c) => c.includes(r))), Object.entries(s).forEach(([r, c]) => {
+      e.uniqueVariables[r] = c.filter((m) => !e.commonVariables.includes(m));
+    });
+    const i = Object.values(e.themeVariables).reduce((r, c) => r + c, 0);
+    return e.redundancy = Math.round((1 - e.totalVariables / i) * 100), e;
+  }
+  // =============================================================================
+  // THEME GENERATION UTILITIES
+  // =============================================================================
+  /**
+   * Generate a new theme based on an existing theme with color modifications
+   */
+  generateThemeVariant(e, t, s = {}) {
+    const a = this.styles.getThemeMetadata(e);
+    if (!a)
+      throw new Error(`Base theme ${e} not found`);
+    const i = `${e}-${t.toLowerCase().replace(/\s+/g, "-")}`, r = {
+      ...a,
+      id: i,
+      name: `${a.name} (${t})`,
+      cssClass: `style-${i}`,
+      description: `${a.description} - ${t} variant`,
+      version: `${a.version}-variant`,
+      category: "generated",
+      baseTheme: e,
+      modifications: s
+    };
+    return s.primaryColor && (r.preview.primaryColor = s.primaryColor), s.backgroundColor && (r.preview.backgroundColor = s.backgroundColor), s.textColor && (r.preview.textColor = s.textColor), r;
+  }
+  /**
+   * Create accessibility-enhanced theme variant
+   */
+  createAccessibilityVariant(e, t = {}) {
+    const s = this.styles.getThemeMetadata(e);
+    if (!s)
+      throw new Error(`Base theme ${e} not found`);
+    const i = this.generateThemeVariant(e, "Accessible");
+    return i.accessibility = {
+      ...s.accessibility,
+      ...t,
+      highContrast: t.highContrast || !1,
+      reducedMotion: t.reducedMotion || !1,
+      largeText: t.largeText || !1
+    }, i.accessibility.highContrast && (i.preview.backgroundColor = "#000000", i.preview.textColor = "#ffffff", i.preview.primaryColor = "#ffff00"), i;
+  }
+  // =============================================================================
+  // THEME VALIDATION UTILITIES
+  // =============================================================================
+  /**
+   * Comprehensive theme validation
+   */
+  validateAllThemes() {
+    const e = {
+      valid: 0,
+      invalid: 0,
+      themes: {},
+      summary: {
+        totalThemes: 0,
+        validationErrors: [],
+        recommendations: []
+      }
+    }, t = this.styles.getAllThemes();
+    return e.summary.totalThemes = t.length, t.forEach((s) => {
+      const a = this.styles.validateTheme(s.id);
+      e.themes[s.id] = a, a.valid ? e.valid++ : (e.invalid++, e.summary.validationErrors.push(...a.errors.map((i) => `${s.name}: ${i}`)));
+      try {
+        const i = this.analyzeThemeContrast(s.id);
+        e.themes[s.id].contrast = i, i.accessibility.wcagAA || e.summary.recommendations.push(`${s.name}: Consider improving contrast ratios for better accessibility`);
+      } catch (i) {
+        console.warn(h + `Could not analyze contrast for theme ${s.name}:`, i);
+      }
+    }), e;
+  }
+  // =============================================================================
+  // THEME EXPORT/IMPORT UTILITIES
+  // =============================================================================
+  /**
+   * Export theme configuration for sharing
+   */
+  exportThemeConfiguration(e) {
+    const t = this.styles.getThemeMetadata(e);
+    if (!t)
+      throw new Error(`Theme ${e} not found`);
+    const s = this.styles.getThemeCustomization(e);
+    return {
+      theme: {
+        ...t,
+        exportedAt: (/* @__PURE__ */ new Date()).toISOString(),
+        systemVersion: game.system.version
+      },
+      customizations: s,
+      variables: this.extractThemeVariables(e)
+    };
+  }
+  /**
+   * Extract all CSS variables for a specific theme
+   */
+  extractThemeVariables(e) {
+    const t = this.styles.getThemeMetadata(e);
+    if (!t)
+      return {};
+    const s = this.styles.currentTheme;
+    this.styles.applyTheme(t.cssClass);
+    const a = this.styles.getCurrentThemeVariables();
+    return this.styles.applyTheme(s), a;
+  }
+  // =============================================================================
+  // DEBUGGING AND DEVELOPMENT UTILITIES
+  // =============================================================================
+  /**
+   * Generate theme development report
+   */
+  generateDevelopmentReport() {
+    const e = {
+      timestamp: (/* @__PURE__ */ new Date()).toISOString(),
+      systemVersion: game.system.version,
+      currentTheme: this.styles.currentTheme,
+      themes: {},
+      performance: {},
+      validation: {},
+      variableAnalysis: {},
+      recommendations: []
+    };
+    return this.styles.getAllThemes().forEach((s) => {
+      e.themes[s.id] = {
+        metadata: s,
+        validation: this.styles.validateTheme(s.id)
+      };
+      try {
+        e.performance[s.id] = this.measureThemePerformance(s.cssClass, 3);
+      } catch (a) {
+        console.warn(h + `Performance analysis failed for ${s.name}:`, a);
+      }
+      try {
+        e.themes[s.id].contrast = this.analyzeThemeContrast(s.id);
+      } catch (a) {
+        console.warn(h + `Contrast analysis failed for ${s.name}:`, a);
+      }
+    }), e.variableAnalysis = this.analyzeVariableUsage(), e.recommendations = this.generateRecommendations(e), e;
+  }
+  /**
+   * Generate recommendations based on analysis
+   */
+  generateRecommendations(e) {
+    const t = [];
+    return Object.entries(e.performance).forEach(([s, a]) => {
+      a.average > 50 && t.push({
+        type: "performance",
+        theme: s,
+        message: `Theme application is slow (${a.average.toFixed(2)}ms average)`,
+        suggestion: "Consider optimizing CSS selectors and reducing complexity"
+      });
+    }), Object.entries(e.themes).forEach(([s, a]) => {
+      a.contrast && !a.contrast.accessibility.wcagAA && t.push({
+        type: "accessibility",
+        theme: s,
+        message: "Theme fails WCAG AA contrast requirements",
+        suggestion: "Increase contrast between text and background colors",
+        details: a.contrast.accessibility.issues
+      });
+    }), e.variableAnalysis.redundancy > 30 && t.push({
+      type: "optimization",
+      theme: "all",
+      message: `High variable redundancy detected (${e.variableAnalysis.redundancy}%)`,
+      suggestion: "Consider consolidating similar variables across themes"
+    }), t;
+  }
+  // =============================================================================
+  // THEME TESTING UTILITIES
+  // =============================================================================
+  /**
+   * Test theme switching functionality
+   */
+  testThemeSwitching() {
+    const e = {
+      success: !0,
+      errors: [],
+      switchTimes: {},
+      totalTime: 0
+    }, t = this.styles.getAllThemes(), s = this.styles.currentTheme;
+    try {
+      t.forEach((a) => {
+        const i = performance.now();
+        try {
+          this.styles.applyTheme(a.cssClass);
+          const r = performance.now();
+          e.switchTimes[a.id] = r - i, e.totalTime += r - i;
+        } catch (r) {
+          e.success = !1, e.errors.push(`Failed to apply theme ${a.name}: ${r.message}`);
+        }
+      });
+    } finally {
+      this.styles.applyTheme(s);
+    }
+    return e;
+  }
+  /**
+   * Test CSS variable accessibility
+   */
+  testCSSVariableAccess() {
+    const e = {
+      accessible: [],
+      inaccessible: [],
+      total: 0
+    }, t = this.styles.getCurrentThemeVariables();
+    return Object.keys(t).forEach((s) => {
+      e.total++;
+      try {
+        const a = this.styles.getCSSVariable(s.replace("--", ""));
+        a && a !== "" ? e.accessible.push(s) : e.inaccessible.push(s);
+      } catch {
+        e.inaccessible.push(s);
+      }
+    }), e;
+  }
+  // =============================================================================
+  // DEVELOPMENT HELPERS
+  // =============================================================================
+  /**
+   * Log comprehensive theme information
+   */
+  logThemeInfo(e) {
+    const t = this.styles.getThemeMetadata(e);
+    if (!t) {
+      console.error(h + `Theme ${e} not found`);
+      return;
+    }
+    console.group(h + `Theme Info: ${t.name}`), console.info("Metadata:", t), console.info("Validation:", this.styles.validateTheme(e)), console.info("Contrast Analysis:", this.analyzeThemeContrast(e)), console.info("Performance:", this.measureThemePerformance(t.cssClass, 3)), console.groupEnd();
+  }
+  /**
+   * Create theme comparison report
+   */
+  compareThemes(e, t) {
+    const s = this.styles.getThemeMetadata(e), a = this.styles.getThemeMetadata(t);
+    if (!s || !a)
+      throw new Error("One or both themes not found");
+    const i = {
+      themes: [s.name, a.name],
+      differences: {
+        metadata: {},
+        variables: {},
+        performance: {}
+      },
+      recommendations: []
+    };
+    ["category", "author", "version"].forEach((g) => {
+      s[g] !== a[g] && (i.differences.metadata[g] = {
+        [s.name]: s[g],
+        [a.name]: a[g]
+      });
+    });
+    const c = this.measureThemePerformance(s.cssClass, 3), m = this.measureThemePerformance(a.cssClass, 3);
+    if (i.differences.performance = {
+      [s.name]: c.average,
+      [a.name]: m.average,
+      difference: Math.abs(c.average - m.average)
+    }, i.differences.performance.difference > 20) {
+      const g = c.average > m.average ? s.name : a.name;
+      i.recommendations.push(`${g} is significantly slower and could benefit from optimization`);
+    }
+    return i;
+  }
+}
+class os {
+  constructor(e) {
+    this.styles = e, this.customizations = /* @__PURE__ */ new Map(), this.presets = /* @__PURE__ */ new Map(), this.activeCustomizations = /* @__PURE__ */ new Set(), this.initializeCustomizations(), Hooks.once("ready", () => this.onReady()), Hooks.on("renderApplication", (t, s, a) => this.onRenderApplication(t, s, a));
+  }
+  async onReady() {
+    console.groupCollapsed(h + "UICustomization.onReady"), await this.registerCustomizationSettings(), await this.loadUserCustomizations(), this.applyAllCustomizations(), console.groupEnd();
+  }
+  // =============================================================================
+  // CUSTOMIZATION SETTINGS REGISTRATION
+  // =============================================================================
+  async registerCustomizationSettings() {
+    game.settings.register(d, "ui-layout-preferences", {
+      scope: "client",
+      name: "UI Layout Preferences",
+      hint: "Customization settings for UI layout and positioning",
+      config: !1,
+      default: {
+        sheetWidth: "auto",
+        sheetHeight: "auto",
+        compactMode: !1,
+        hideUnusedSections: !1,
+        sectionOrder: "default",
+        tabLayout: "horizontal"
+      },
+      type: Object
+    }), game.settings.register(d, "hud-customization", {
+      scope: "client",
+      name: "HUD Customization",
+      hint: "Customization settings for HUD elements and positioning",
+      config: !1,
+      default: {
+        hudPosition: "default",
+        hudSize: "medium",
+        showShortcuts: !0,
+        shortcutPosition: "left",
+        gmManagerPosition: "top-left",
+        gmManagerSize: "medium",
+        hideInactiveElements: !1
+      },
+      type: Object
+    }), game.settings.register(d, "visual-customization", {
+      scope: "client",
+      name: "Visual Customization",
+      hint: "Visual appearance customization settings",
+      config: !1,
+      default: {
+        animationSpeed: "normal",
+        shadowIntensity: "medium",
+        borderRadius: "default",
+        spacing: "default",
+        fontSize: "default",
+        iconSize: "default",
+        transparency: "default"
+      },
+      type: Object
+    }), game.settings.register(d, "component-visibility", {
+      scope: "client",
+      name: "Component Visibility",
+      hint: "Show/hide specific UI components",
+      config: !1,
+      default: {
+        showPassportImages: !0,
+        showItemImages: !0,
+        showSkillIcons: !0,
+        showAttributeLabels: !0,
+        showTooltips: !0,
+        showAnimations: !0,
+        showShadows: !0,
+        showGradients: !0
+      },
+      type: Object
+    }), game.settings.register(d, "advanced-ui-settings", {
+      scope: "client",
+      name: "Advanced UI Settings",
+      hint: "Advanced UI customization options",
+      config: !1,
+      default: {
+        customCSS: "",
+        componentOverrides: {},
+        layoutTemplates: {},
+        colorOverrides: {},
+        fontOverrides: {}
+      },
+      type: Object
+    });
+  }
+  // =============================================================================
+  // CUSTOMIZATION INITIALIZATION
+  // =============================================================================
+  initializeCustomizations() {
+    console.groupCollapsed(h + "UICustomization.initializeCustomizations"), this.registerBuiltInPresets(), this.registerCustomizationCategories(), console.groupEnd();
+  }
+  registerBuiltInPresets() {
+    this.presets.set("compact", {
+      name: "Compact Layout",
+      description: "Optimized for smaller screens and minimal space usage",
+      settings: {
+        "ui-layout-preferences": {
+          compactMode: !0,
+          hideUnusedSections: !0,
+          tabLayout: "vertical"
+        },
+        "visual-customization": {
+          spacing: "tight",
+          fontSize: "small",
+          iconSize: "small"
+        },
+        "component-visibility": {
+          showPassportImages: !1,
+          showShadows: !1,
+          showGradients: !1
+        }
+      }
+    }), this.presets.set("accessibility", {
+      name: "Accessibility Enhanced",
+      description: "Optimized for accessibility and screen readers",
+      settings: {
+        "visual-customization": {
+          fontSize: "large",
+          spacing: "loose",
+          shadowIntensity: "none",
+          borderRadius: "minimal"
+        },
+        "component-visibility": {
+          showTooltips: !0,
+          showAnimations: !1,
+          showShadows: !1
+        }
+      }
+    }), this.presets.set("performance", {
+      name: "Performance Optimized",
+      description: "Reduced visual effects for better performance",
+      settings: {
+        "visual-customization": {
+          animationSpeed: "fast",
+          shadowIntensity: "light",
+          transparency: "minimal"
+        },
+        "component-visibility": {
+          showAnimations: !1,
+          showShadows: !1,
+          showGradients: !1
+        }
+      }
+    }), this.presets.set("immersive", {
+      name: "Immersive Experience",
+      description: "Enhanced visual effects for maximum immersion",
+      settings: {
+        "visual-customization": {
+          animationSpeed: "slow",
+          shadowIntensity: "strong",
+          transparency: "enhanced"
+        },
+        "component-visibility": {
+          showAnimations: !0,
+          showShadows: !0,
+          showGradients: !0
+        }
+      }
+    });
+  }
+  registerCustomizationCategories() {
+    this.customizations.set("layout", {
+      name: "Layout & Positioning",
+      description: "Customize sheet layouts, sizes, and positioning",
+      options: [
+        { key: "sheetWidth", name: "Sheet Width", type: "select", values: ["auto", "compact", "wide", "full"] },
+        { key: "sheetHeight", name: "Sheet Height", type: "select", values: ["auto", "compact", "tall", "full"] },
+        { key: "compactMode", name: "Compact Mode", type: "boolean" },
+        { key: "tabLayout", name: "Tab Layout", type: "select", values: ["horizontal", "vertical"] }
+      ]
+    }), this.customizations.set("visual", {
+      name: "Visual Appearance",
+      description: "Customize colors, fonts, and visual effects",
+      options: [
+        { key: "fontSize", name: "Font Size", type: "select", values: ["small", "default", "large", "xl"] },
+        { key: "iconSize", name: "Icon Size", type: "select", values: ["small", "default", "large"] },
+        { key: "spacing", name: "Element Spacing", type: "select", values: ["tight", "default", "loose"] },
+        { key: "borderRadius", name: "Border Radius", type: "select", values: ["none", "minimal", "default", "rounded"] },
+        { key: "shadowIntensity", name: "Shadow Intensity", type: "select", values: ["none", "light", "medium", "strong"] },
+        { key: "animationSpeed", name: "Animation Speed", type: "select", values: ["none", "fast", "normal", "slow"] }
+      ]
+    }), this.customizations.set("components", {
+      name: "Component Visibility",
+      description: "Show or hide specific UI components",
+      options: [
+        { key: "showPassportImages", name: "Show Passport Images", type: "boolean" },
+        { key: "showItemImages", name: "Show Item Images", type: "boolean" },
+        { key: "showSkillIcons", name: "Show Skill Icons", type: "boolean" },
+        { key: "showTooltips", name: "Show Tooltips", type: "boolean" },
+        { key: "showAnimations", name: "Show Animations", type: "boolean" },
+        { key: "showShadows", name: "Show Shadows", type: "boolean" }
+      ]
+    }), this.customizations.set("hud", {
+      name: "HUD Elements",
+      description: "Customize HUD positioning and behavior",
+      options: [
+        { key: "hudSize", name: "HUD Size", type: "select", values: ["small", "medium", "large"] },
+        { key: "shortcutPosition", name: "Shortcut Position", type: "select", values: ["left", "right", "top", "bottom"] },
+        { key: "gmManagerPosition", name: "GM Manager Position", type: "select", values: ["top-left", "top-right", "bottom-left", "bottom-right"] },
+        { key: "hideInactiveElements", name: "Hide Inactive Elements", type: "boolean" }
+      ]
+    });
+  }
+  // =============================================================================
+  // CUSTOMIZATION APPLICATION
+  // =============================================================================
+  async loadUserCustomizations() {
+    const e = game.settings.get(d, "ui-layout-preferences"), t = game.settings.get(d, "hud-customization"), s = game.settings.get(d, "visual-customization"), a = game.settings.get(d, "component-visibility"), i = game.settings.get(d, "advanced-ui-settings");
+    this.userCustomizations = {
+      layout: e,
+      hud: t,
+      visual: s,
+      components: a,
+      advanced: i
+    };
+  }
+  applyAllCustomizations() {
+    console.groupCollapsed(h + "UICustomization.applyAllCustomizations"), this.applyLayoutCustomizations(), this.applyVisualCustomizations(), this.applyComponentVisibility(), this.applyHUDCustomizations(), this.applyAdvancedCustomizations(), console.groupEnd();
+  }
+  applyLayoutCustomizations() {
+    const e = this.userCustomizations.layout, t = document.documentElement;
+    if (e.sheetWidth !== "auto") {
+      const s = {
+        compact: "600px",
+        wide: "900px",
+        full: "100vw"
+      };
+      t.style.setProperty("--sheet-width", s[e.sheetWidth]);
+    }
+    if (e.sheetHeight !== "auto") {
+      const s = {
+        compact: "500px",
+        tall: "800px",
+        full: "100vh"
+      };
+      t.style.setProperty("--sheet-height", s[e.sheetHeight]);
+    }
+    e.compactMode ? document.body.classList.add("ui-compact-mode") : document.body.classList.remove("ui-compact-mode"), e.tabLayout === "vertical" ? document.body.classList.add("ui-vertical-tabs") : document.body.classList.remove("ui-vertical-tabs"), console.info(h + "Applied layout customizations:", e);
+  }
+  applyVisualCustomizations() {
+    const e = this.userCustomizations.visual, t = document.documentElement, s = {
+      small: "0.85",
+      default: "1",
+      large: "1.15",
+      xl: "1.3"
+    };
+    e.fontSize !== "default" && t.style.setProperty("--font-scale", s[e.fontSize]);
+    const a = {
+      small: "0.8",
+      default: "1",
+      large: "1.2"
+    };
+    e.iconSize !== "default" && t.style.setProperty("--icon-scale", a[e.iconSize]);
+    const i = {
+      tight: "0.75",
+      default: "1",
+      loose: "1.25"
+    };
+    e.spacing !== "default" && t.style.setProperty("--spacing-scale", i[e.spacing]);
+    const r = {
+      none: "0px",
+      minimal: "2px",
+      default: "6px",
+      rounded: "12px"
+    };
+    e.borderRadius !== "default" && t.style.setProperty("--border-radius-override", r[e.borderRadius]);
+    const c = {
+      none: "0",
+      light: "0.5",
+      medium: "1",
+      strong: "1.5"
+    };
+    e.shadowIntensity !== "medium" && t.style.setProperty("--shadow-intensity", c[e.shadowIntensity]);
+    const m = {
+      none: "0ms",
+      fast: "100ms",
+      normal: "200ms",
+      slow: "400ms"
+    };
+    e.animationSpeed !== "normal" && t.style.setProperty("--animation-duration", m[e.animationSpeed]), console.info(h + "Applied visual customizations:", e);
+  }
+  applyComponentVisibility() {
+    const e = this.userCustomizations.components;
+    Object.entries(e).forEach(([t, s]) => {
+      const a = `hide-${t.replace(/([A-Z])/g, "-$1").toLowerCase().replace("show-", "")}`;
+      s ? document.body.classList.remove(a) : document.body.classList.add(a);
+    }), console.info(h + "Applied component visibility:", e);
+  }
+  applyHUDCustomizations() {
+    const e = this.userCustomizations.hud, t = {
+      small: "0.8",
+      medium: "1",
+      large: "1.2"
+    };
+    e.hudSize !== "medium" && document.documentElement.style.setProperty("--hud-scale", t[e.hudSize]);
+    const s = document.getElementById("gm-manager");
+    s && e.gmManagerPosition !== "top-left" && (s.classList.remove("position-top-left", "position-top-right", "position-bottom-left", "position-bottom-right"), s.classList.add(`position-${e.gmManagerPosition}`));
+    const a = document.querySelector(".anarchy-shortcuts");
+    a && e.shortcutPosition !== "left" && (a.classList.remove("position-left", "position-right", "position-top", "position-bottom"), a.classList.add(`position-${e.shortcutPosition}`)), console.info(h + "Applied HUD customizations:", e);
+  }
+  applyAdvancedCustomizations() {
+    const e = this.userCustomizations.advanced, t = document.documentElement;
+    e.customCSS && this.injectCustomCSS(e.customCSS), e.componentOverrides && Object.entries(e.componentOverrides).forEach(([s, a]) => {
+      Object.entries(a).forEach(([i, r]) => {
+        t.style.setProperty(`--${s}-${i}`, r);
+      });
+    }), e.colorOverrides && Object.entries(e.colorOverrides).forEach(([s, a]) => {
+      t.style.setProperty(`--${s}`, a);
+    }), console.info(h + "Applied advanced customizations:", e);
+  }
+  // =============================================================================
+  // CUSTOMIZATION METHODS
+  // =============================================================================
+  setCustomization(e, t, s) {
+    const a = this.getCategorySettingKey(e), i = game.settings.get(d, a);
+    i[t] = s, game.settings.set(d, a, i), this.userCustomizations[e][t] = s, this.applySpecificCustomization(e, t, s), console.info(h + `Customization set: ${e}.${t} = ${s}`);
+  }
+  getCustomization(e, t) {
+    var s;
+    return (s = this.userCustomizations[e]) == null ? void 0 : s[t];
+  }
+  applySpecificCustomization(e, t, s) {
+    switch (e) {
+      case "visual":
+        this.applyVisualCustomization(t, s);
+        break;
+      case "layout":
+        this.applyLayoutCustomization(t, s);
+        break;
+      case "components":
+        this.applyComponentCustomization(t, s);
+        break;
+      case "hud":
+        this.applyHUDCustomization(t, s);
+        break;
+    }
+  }
+  applyVisualCustomization(e, t) {
+    const s = document.documentElement;
+    switch (e) {
+      case "fontSize":
+        const a = { small: "0.85", default: "1", large: "1.15", xl: "1.3" }[t];
+        s.style.setProperty("--font-scale", a);
+        break;
+      case "iconSize":
+        const i = { small: "0.8", default: "1", large: "1.2" }[t];
+        s.style.setProperty("--icon-scale", i);
+        break;
+      case "spacing":
+        const r = { tight: "0.75", default: "1", loose: "1.25" }[t];
+        s.style.setProperty("--spacing-scale", r);
+        break;
+      case "animationSpeed":
+        const c = { none: "0ms", fast: "100ms", normal: "200ms", slow: "400ms" }[t];
+        s.style.setProperty("--animation-duration", c);
+        break;
+    }
+  }
+  applyLayoutCustomization(e, t) {
+    switch (e) {
+      case "compactMode":
+        t ? document.body.classList.add("ui-compact-mode") : document.body.classList.remove("ui-compact-mode");
+        break;
+      case "tabLayout":
+        t === "vertical" ? document.body.classList.add("ui-vertical-tabs") : document.body.classList.remove("ui-vertical-tabs");
+        break;
+    }
+  }
+  applyComponentCustomization(e, t) {
+    const s = `hide-${e.replace(/([A-Z])/g, "-$1").toLowerCase().replace("show-", "")}`;
+    t ? document.body.classList.remove(s) : document.body.classList.add(s);
+  }
+  applyHUDCustomization(e, t) {
+    switch (e) {
+      case "gmManagerPosition":
+        const s = document.getElementById("gm-manager");
+        s && (s.classList.remove("position-top-left", "position-top-right", "position-bottom-left", "position-bottom-right"), s.classList.add(`position-${t}`));
+        break;
+      case "hudSize":
+        const a = { small: "0.8", medium: "1", large: "1.2" }[t];
+        document.documentElement.style.setProperty("--hud-scale", a);
+        break;
+    }
+  }
+  // =============================================================================
+  // PRESET MANAGEMENT
+  // =============================================================================
+  applyPreset(e) {
+    const t = this.presets.get(e);
+    if (!t)
+      throw new Error(`Preset ${e} not found`);
+    console.groupCollapsed(h + `Applying preset: ${t.name}`), Object.entries(t.settings).forEach(([s, a]) => {
+      game.settings.set(d, s, a);
+      const i = this.getSettingCategory(s);
+      i && (this.userCustomizations[i] = { ...this.userCustomizations[i], ...a });
+    }), this.applyAllCustomizations(), ui.notifications.info(`Applied preset: ${t.name}`), console.groupEnd();
+  }
+  getAvailablePresets() {
+    return Array.from(this.presets.entries()).map(([e, t]) => ({
+      id: e,
+      ...t
+    }));
+  }
+  // =============================================================================
+  // UTILITY METHODS
+  // =============================================================================
+  getCategorySettingKey(e) {
+    return {
+      layout: "ui-layout-preferences",
+      hud: "hud-customization",
+      visual: "visual-customization",
+      components: "component-visibility",
+      advanced: "advanced-ui-settings"
+    }[e];
+  }
+  getSettingCategory(e) {
+    return {
+      "ui-layout-preferences": "layout",
+      "hud-customization": "hud",
+      "visual-customization": "visual",
+      "component-visibility": "components",
+      "advanced-ui-settings": "advanced"
+    }[e];
+  }
+  injectCustomCSS(e) {
+    const t = document.getElementById("anarchy-custom-css");
+    if (t && t.remove(), e.trim()) {
+      const s = document.createElement("style");
+      s.id = "anarchy-custom-css", s.textContent = e, document.head.appendChild(s);
+    }
+  }
+  onRenderApplication(e, t, s) {
+    (e.constructor.name.includes("Sheet") || e.constructor.name.includes("Dialog")) && this.applyCustomizationsToElement(t[0]);
+  }
+  applyCustomizationsToElement(e) {
+    const t = this.userCustomizations.visual;
+    t.fontSize !== "default" && e.style.setProperty("--local-font-scale", "var(--font-scale, 1)"), t.spacing !== "default" && e.style.setProperty("--local-spacing-scale", "var(--spacing-scale, 1)");
+  }
+  // =============================================================================
+  // EXPORT/IMPORT CUSTOMIZATIONS
+  // =============================================================================
+  exportCustomizations() {
+    return {
+      customizations: this.userCustomizations,
+      presets: Array.from(this.presets.entries()),
+      metadata: {
+        exportedAt: (/* @__PURE__ */ new Date()).toISOString(),
+        systemVersion: game.system.version,
+        foundryVersion: game.version
+      }
+    };
+  }
+  importCustomizations(e) {
+    if (!e.customizations)
+      throw new Error("Invalid customization data");
+    Object.entries(e.customizations).forEach(([t, s]) => {
+      const a = this.getCategorySettingKey(t);
+      a && game.settings.set(d, a, s);
+    }), this.loadUserCustomizations(), this.applyAllCustomizations(), ui.notifications.info("UI customizations imported successfully.");
+  }
+  resetAllCustomizations() {
+    [
+      "ui-layout-preferences",
+      "hud-customization",
+      "visual-customization",
+      "component-visibility",
+      "advanced-ui-settings"
+    ].forEach((a) => {
+      const i = game.settings.settings.get(`${d}.${a}`);
+      i && game.settings.set(d, a, i.default);
+    }), this.injectCustomCSS(""), document.body.classList.remove("ui-compact-mode", "ui-vertical-tabs");
+    const t = document.documentElement;
+    ["--font-scale", "--icon-scale", "--spacing-scale", "--border-radius-override", "--shadow-intensity", "--animation-duration"].forEach((a) => t.style.removeProperty(a)), this.loadUserCustomizations(), this.applyAllCustomizations(), ui.notifications.info("All UI customizations reset to defaults.");
+  }
+  // =============================================================================
+  // DEBUGGING AND ANALYSIS
+  // =============================================================================
+  debugCustomizations() {
+    return console.group(h + "UI Customization Debug"), console.info("Current Customizations:", this.userCustomizations), console.info("Available Presets:", this.getAvailablePresets()), console.info("Active CSS Variables:", this.getActiveCustomizationVariables()), console.info("Applied Classes:", this.getAppliedCustomizationClasses()), console.groupEnd(), {
+      customizations: this.userCustomizations,
+      presets: this.getAvailablePresets(),
+      cssVariables: this.getActiveCustomizationVariables(),
+      appliedClasses: this.getAppliedCustomizationClasses()
+    };
+  }
+  getActiveCustomizationVariables() {
+    const e = getComputedStyle(document.documentElement), t = {};
+    return ["--font-scale", "--icon-scale", "--spacing-scale", "--border-radius-override", "--shadow-intensity", "--animation-duration", "--hud-scale"].forEach((a) => {
+      const i = e.getPropertyValue(a);
+      i && (t[a] = i.trim());
+    }), t;
+  }
+  getAppliedCustomizationClasses() {
+    return Array.from(document.body.classList).filter((e) => e.startsWith("ui-") || e.startsWith("hide-") || e.startsWith("position-"));
+  }
+}
+class Je extends Dialog {
+  constructor(e, t = {}) {
+    const s = {
+      title: "UI/HUD Customization",
+      content: "",
+      buttons: {
+        apply: {
+          label: "Apply",
+          callback: (i) => this.onApply(i)
+        },
+        reset: {
+          label: "Reset All",
+          callback: () => this.onReset()
+        },
+        export: {
+          label: "Export",
+          callback: () => this.onExport()
+        },
+        import: {
+          label: "Import",
+          callback: () => this.onImport()
+        },
+        close: {
+          label: "Close"
+        }
+      },
+      default: "apply"
+    }, a = {
+      classes: ["anarchy-dialog", "ui-customization-dialog"],
+      width: 600,
+      height: "auto",
+      resizable: !0,
+      ...t
+    };
+    super(s, a), this.uiCustomization = e, this.currentSettings = {};
+  }
+  async getData() {
+    return await this.uiCustomization.loadUserCustomizations(), this.currentSettings = this.uiCustomization.userCustomizations, {
+      customizations: this.uiCustomization.customizations,
+      presets: this.uiCustomization.getAvailablePresets(),
+      currentSettings: this.currentSettings,
+      categories: Array.from(this.uiCustomization.customizations.entries())
+    };
+  }
+  async _renderInner(e) {
+    return `
+      <div class="ui-customization-content">
+        <div class="customization-tabs">
+          <nav class="tab-navigation">
+            <button class="tab-button active" data-tab="presets">Presets</button>
+            <button class="tab-button" data-tab="layout">Layout</button>
+            <button class="tab-button" data-tab="visual">Visual</button>
+            <button class="tab-button" data-tab="components">Components</button>
+            <button class="tab-button" data-tab="hud">HUD</button>
+            <button class="tab-button" data-tab="advanced">Advanced</button>
+          </nav>
+          
+          <div class="tab-content">
+            <!-- Presets Tab -->
+            <div class="tab-panel active" data-tab="presets">
+              <h3>Quick Presets</h3>
+              <p>Apply pre-configured customization sets for common use cases.</p>
+              <div class="preset-grid">
+                {{#each presets}}
+                <div class="preset-card" data-preset="{{id}}">
+                  <h4>{{name}}</h4>
+                  <p>{{description}}</p>
+                  <button class="apply-preset-btn" data-preset="{{id}}">Apply</button>
+                </div>
+                {{/each}}
+              </div>
+            </div>
+            
+            <!-- Layout Tab -->
+            <div class="tab-panel" data-tab="layout">
+              <h3>Layout & Positioning</h3>
+              <div class="customization-grid">
+                <div class="setting-group">
+                  <label>Sheet Width</label>
+                  <select name="layout.sheetWidth">
+                    <option value="auto">Auto</option>
+                    <option value="compact">Compact</option>
+                    <option value="wide">Wide</option>
+                    <option value="full">Full Width</option>
+                  </select>
+                </div>
+                <div class="setting-group">
+                  <label>Sheet Height</label>
+                  <select name="layout.sheetHeight">
+                    <option value="auto">Auto</option>
+                    <option value="compact">Compact</option>
+                    <option value="tall">Tall</option>
+                    <option value="full">Full Height</option>
+                  </select>
+                </div>
+                <div class="setting-group">
+                  <label>
+                    <input type="checkbox" name="layout.compactMode"> Compact Mode
+                  </label>
+                </div>
+                <div class="setting-group">
+                  <label>Tab Layout</label>
+                  <select name="layout.tabLayout">
+                    <option value="horizontal">Horizontal</option>
+                    <option value="vertical">Vertical</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Visual Tab -->
+            <div class="tab-panel" data-tab="visual">
+              <h3>Visual Appearance</h3>
+              <div class="customization-grid">
+                <div class="setting-group">
+                  <label>Font Size</label>
+                  <select name="visual.fontSize">
+                    <option value="small">Small</option>
+                    <option value="default">Default</option>
+                    <option value="large">Large</option>
+                    <option value="xl">Extra Large</option>
+                  </select>
+                </div>
+                <div class="setting-group">
+                  <label>Icon Size</label>
+                  <select name="visual.iconSize">
+                    <option value="small">Small</option>
+                    <option value="default">Default</option>
+                    <option value="large">Large</option>
+                  </select>
+                </div>
+                <div class="setting-group">
+                  <label>Element Spacing</label>
+                  <select name="visual.spacing">
+                    <option value="tight">Tight</option>
+                    <option value="default">Default</option>
+                    <option value="loose">Loose</option>
+                  </select>
+                </div>
+                <div class="setting-group">
+                  <label>Animation Speed</label>
+                  <select name="visual.animationSpeed">
+                    <option value="none">None</option>
+                    <option value="fast">Fast</option>
+                    <option value="normal">Normal</option>
+                    <option value="slow">Slow</option>
+                  </select>
+                </div>
+                <div class="setting-group">
+                  <label>Shadow Intensity</label>
+                  <select name="visual.shadowIntensity">
+                    <option value="none">None</option>
+                    <option value="light">Light</option>
+                    <option value="medium">Medium</option>
+                    <option value="strong">Strong</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Components Tab -->
+            <div class="tab-panel" data-tab="components">
+              <h3>Component Visibility</h3>
+              <div class="customization-grid">
+                <div class="setting-group">
+                  <label>
+                    <input type="checkbox" name="components.showPassportImages"> Show Passport Images
+                  </label>
+                </div>
+                <div class="setting-group">
+                  <label>
+                    <input type="checkbox" name="components.showItemImages"> Show Item Images
+                  </label>
+                </div>
+                <div class="setting-group">
+                  <label>
+                    <input type="checkbox" name="components.showSkillIcons"> Show Skill Icons
+                  </label>
+                </div>
+                <div class="setting-group">
+                  <label>
+                    <input type="checkbox" name="components.showTooltips"> Show Tooltips
+                  </label>
+                </div>
+                <div class="setting-group">
+                  <label>
+                    <input type="checkbox" name="components.showAnimations"> Show Animations
+                  </label>
+                </div>
+                <div class="setting-group">
+                  <label>
+                    <input type="checkbox" name="components.showShadows"> Show Shadows
+                  </label>
+                </div>
+              </div>
+            </div>
+            
+            <!-- HUD Tab -->
+            <div class="tab-panel" data-tab="hud">
+              <h3>HUD Elements</h3>
+              <div class="customization-grid">
+                <div class="setting-group">
+                  <label>HUD Size</label>
+                  <select name="hud.hudSize">
+                    <option value="small">Small</option>
+                    <option value="medium">Medium</option>
+                    <option value="large">Large</option>
+                  </select>
+                </div>
+                <div class="setting-group">
+                  <label>GM Manager Position</label>
+                  <select name="hud.gmManagerPosition">
+                    <option value="top-left">Top Left</option>
+                    <option value="top-right">Top Right</option>
+                    <option value="bottom-left">Bottom Left</option>
+                    <option value="bottom-right">Bottom Right</option>
+                  </select>
+                </div>
+                <div class="setting-group">
+                  <label>Shortcut Position</label>
+                  <select name="hud.shortcutPosition">
+                    <option value="left">Left</option>
+                    <option value="right">Right</option>
+                    <option value="top">Top</option>
+                    <option value="bottom">Bottom</option>
+                  </select>
+                </div>
+                <div class="setting-group">
+                  <label>
+                    <input type="checkbox" name="hud.hideInactiveElements"> Hide Inactive Elements
+                  </label>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Advanced Tab -->
+            <div class="tab-panel" data-tab="advanced">
+              <h3>Advanced Customization</h3>
+              <div class="customization-grid">
+                <div class="setting-group full-width">
+                  <label>Custom CSS</label>
+                  <textarea name="advanced.customCSS" rows="10" placeholder="Enter custom CSS rules..."></textarea>
+                  <small>Advanced users can add custom CSS rules here. Use with caution.</small>
+                </div>
+                <div class="setting-group">
+                  <button type="button" class="validate-css-btn">Validate CSS</button>
+                  <button type="button" class="clear-css-btn">Clear CSS</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="customization-preview">
+          <h4>Live Preview</h4>
+          <div class="preview-area">
+            <div class="preview-sheet">
+              <div class="preview-header">
+                <div class="preview-passport">
+                  <img src="systems/anarchy/img/sample-character.webp" alt="Preview">
+                </div>
+                <div class="preview-info">
+                  <h3>Sample Character</h3>
+                  <div class="preview-attributes">
+                    <div class="attribute-box">
+                      <span class="attribute-label">AGI</span>
+                      <span class="attribute-value">4</span>
+                    </div>
+                    <div class="attribute-box">
+                      <span class="attribute-label">STR</span>
+                      <span class="attribute-value">3</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="preview-content">
+                <div class="preview-section">
+                  <h4>Skills</h4>
+                  <div class="preview-item">
+                    <img src="systems/anarchy/icons/skills/athletics.svg" alt="Athletics">
+                    <span>Athletics</span>
+                    <span class="skill-rating">6</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+  activateListeners(e) {
+    super.activateListeners(e), e.find(".tab-button").click((t) => {
+      const s = $(t.currentTarget).data("tab");
+      this.switchTab(e, s);
+    }), e.find(".apply-preset-btn").click((t) => {
+      const s = $(t.currentTarget).data("preset");
+      this.applyPreset(s);
+    }), e.find('select, input[type="checkbox"], textarea').change((t) => {
+      this.updateLivePreview(e);
+    }), e.find(".validate-css-btn").click(() => {
+      this.validateCustomCSS(e);
+    }), e.find(".clear-css-btn").click(() => {
+      e.find('textarea[name="advanced.customCSS"]').val(""), this.updateLivePreview(e);
+    });
+  }
+  switchTab(e, t) {
+    e.find(".tab-button").removeClass("active"), e.find(`.tab-button[data-tab="${t}"]`).addClass("active"), e.find(".tab-panel").removeClass("active"), e.find(`.tab-panel[data-tab="${t}"]`).addClass("active");
+  }
+  updateLivePreview(e) {
+    const t = new FormData(e.find("form")[0]), s = {};
+    for (let [a, i] of t.entries()) {
+      const [r, c] = a.split(".");
+      s[r] || (s[r] = {}), e.find(`input[name="${a}"]`).attr("type") === "checkbox" ? s[r][c] = e.find(`input[name="${a}"]`).is(":checked") : s[r][c] = i;
+    }
+    this.applyPreviewSettings(e, s);
+  }
+  applyPreviewSettings(e, t) {
+    var a, i, r;
+    const s = e.find(".preview-area");
+    if ((a = t.visual) != null && a.fontSize) {
+      const c = { small: "0.85", default: "1", large: "1.15", xl: "1.3" }[t.visual.fontSize];
+      s.css("--font-scale", c);
+    }
+    if ((i = t.visual) != null && i.iconSize) {
+      const c = { small: "0.8", default: "1", large: "1.2" }[t.visual.iconSize];
+      s.css("--icon-scale", c);
+    }
+    if ((r = t.visual) != null && r.spacing) {
+      const c = { tight: "0.75", default: "1", loose: "1.25" }[t.visual.spacing];
+      s.css("--spacing-scale", c);
+    }
+    t.components && Object.entries(t.components).forEach(([c, m]) => {
+      const g = `hide-${c.replace(/([A-Z])/g, "-$1").toLowerCase().replace("show-", "")}`;
+      m ? s.removeClass(g) : s.addClass(g);
+    });
+  }
+  async onApply(e) {
+    console.groupCollapsed(h + "UICustomizationDialog.onApply");
+    const t = new FormData(e.find("form")[0]), s = {};
+    for (let [a, i] of t.entries()) {
+      const [r, c] = a.split(".");
+      s[r] || (s[r] = {}), e.find(`input[name="${a}"]`).attr("type") === "checkbox" ? s[r][c] = e.find(`input[name="${a}"]`).is(":checked") : s[r][c] = i;
+    }
+    Object.entries(s).forEach(([a, i]) => {
+      Object.entries(i).forEach(([r, c]) => {
+        this.uiCustomization.setCustomization(a, r, c);
+      });
+    }), ui.notifications.info("UI customizations applied successfully."), console.groupEnd();
+  }
+  onReset() {
+    Dialog.confirm({
+      title: "Reset All Customizations",
+      content: "<p>Are you sure you want to reset all UI customizations to defaults? This cannot be undone.</p>",
+      yes: () => {
+        this.uiCustomization.resetAllCustomizations(), this.render(!0);
+      }
+    });
+  }
+  onExport() {
+    const e = this.uiCustomization.exportCustomizations(), t = JSON.stringify(e, null, 2), s = new Blob([t], { type: "application/json" }), a = URL.createObjectURL(s), i = document.createElement("a");
+    i.href = a, i.download = `anarchy-ui-customizations-${(/* @__PURE__ */ new Date()).toISOString().split("T")[0]}.json`, i.click(), URL.revokeObjectURL(a), ui.notifications.info("UI customizations exported successfully.");
+  }
+  onImport() {
+    const e = document.createElement("input");
+    e.type = "file", e.accept = ".json", e.onchange = (t) => {
+      const s = t.target.files[0];
+      if (!s) return;
+      const a = new FileReader();
+      a.onload = (i) => {
+        try {
+          const r = JSON.parse(i.target.result);
+          this.uiCustomization.importCustomizations(r), this.render(!0);
+        } catch (r) {
+          ui.notifications.error("Failed to import customizations: Invalid file format."), console.error(h + "Import error:", r);
+        }
+      }, a.readAsText(s);
+    }, e.click();
+  }
+  applyPreset(e) {
+    Dialog.confirm({
+      title: "Apply Preset",
+      content: `<p>Apply the "${this.uiCustomization.presets.get(e).name}" preset? This will override your current customizations.</p>`,
+      yes: () => {
+        this.uiCustomization.applyPreset(e), this.render(!0);
+      }
+    });
+  }
+  validateCustomCSS(e) {
+    const t = e.find('textarea[name="advanced.customCSS"]').val();
+    if (!t.trim()) {
+      ui.notifications.info("No custom CSS to validate.");
+      return;
+    }
+    try {
+      const s = document.createElement("style");
+      s.textContent = t, document.head.appendChild(s), document.head.removeChild(s), ui.notifications.info("Custom CSS is valid.");
+    } catch (s) {
+      ui.notifications.error("Custom CSS contains errors. Please check your syntax."), console.error(h + "CSS validation error:", s);
+    }
+  }
+  // =============================================================================
+  // STATIC METHODS
+  // =============================================================================
+  static async show(e) {
+    return new Je(e).render(!0);
+  }
+}
+class rs {
+  constructor(e) {
+    this.uiCustomization = e, this.registerCommands();
+  }
+  registerCommands() {
+    globalThis.anarchyUI = {
+      // Open customization dialog
+      customize: () => this.openCustomizationDialog(),
+      // Quick customization methods
+      setFontSize: (e) => this.setFontSize(e),
+      setIconSize: (e) => this.setIconSize(e),
+      setSpacing: (e) => this.setSpacing(e),
+      setAnimationSpeed: (e) => this.setAnimationSpeed(e),
+      // Component visibility toggles
+      togglePassportImages: () => this.toggleComponent("showPassportImages"),
+      toggleItemImages: () => this.toggleComponent("showItemImages"),
+      toggleAnimations: () => this.toggleComponent("showAnimations"),
+      toggleShadows: () => this.toggleComponent("showShadows"),
+      // Preset application
+      applyCompactMode: () => this.applyPreset("compact"),
+      applyAccessibilityMode: () => this.applyPreset("accessibility"),
+      applyPerformanceMode: () => this.applyPreset("performance"),
+      applyImmersiveMode: () => this.applyPreset("immersive"),
+      // HUD positioning
+      moveGMManager: (e) => this.moveGMManager(e),
+      moveShortcuts: (e) => this.moveShortcuts(e),
+      setHUDSize: (e) => this.setHUDSize(e),
+      // Advanced operations
+      injectCSS: (e) => this.injectCustomCSS(e),
+      exportSettings: () => this.exportSettings(),
+      importSettings: (e) => this.importSettings(e),
+      resetAll: () => this.resetAll(),
+      // Debugging
+      debug: () => this.debugCustomizations(),
+      listCommands: () => this.listCommands(),
+      // Theme integration
+      setThemeCustomization: (e, t, s) => this.setThemeCustomization(e, t, s),
+      previewTheme: (e) => this.previewTheme(e)
+    }, console.info(h + "UI Customization commands registered. Use anarchyUI.listCommands() to see available commands.");
+  }
+  // =============================================================================
+  // COMMAND IMPLEMENTATIONS
+  // =============================================================================
+  openCustomizationDialog() {
+    return Je.show(this.uiCustomization);
+  }
+  setFontSize(e) {
+    const t = ["small", "default", "large", "xl"];
+    if (!t.includes(e)) {
+      console.error(h + `Invalid font size. Valid options: ${t.join(", ")}`);
+      return;
+    }
+    this.uiCustomization.setCustomization("visual", "fontSize", e), console.info(h + `Font size set to: ${e}`);
+  }
+  setIconSize(e) {
+    const t = ["small", "default", "large"];
+    if (!t.includes(e)) {
+      console.error(h + `Invalid icon size. Valid options: ${t.join(", ")}`);
+      return;
+    }
+    this.uiCustomization.setCustomization("visual", "iconSize", e), console.info(h + `Icon size set to: ${e}`);
+  }
+  setSpacing(e) {
+    const t = ["tight", "default", "loose"];
+    if (!t.includes(e)) {
+      console.error(h + `Invalid spacing. Valid options: ${t.join(", ")}`);
+      return;
+    }
+    this.uiCustomization.setCustomization("visual", "spacing", e), console.info(h + `Spacing set to: ${e}`);
+  }
+  setAnimationSpeed(e) {
+    const t = ["none", "fast", "normal", "slow"];
+    if (!t.includes(e)) {
+      console.error(h + `Invalid animation speed. Valid options: ${t.join(", ")}`);
+      return;
+    }
+    this.uiCustomization.setCustomization("visual", "animationSpeed", e), console.info(h + `Animation speed set to: ${e}`);
+  }
+  toggleComponent(e) {
+    const s = !this.uiCustomization.getCustomization("components", e);
+    this.uiCustomization.setCustomization("components", e, s), console.info(h + `${e} ${s ? "enabled" : "disabled"}`);
+  }
+  applyPreset(e) {
+    try {
+      this.uiCustomization.applyPreset(e), console.info(h + `Applied preset: ${e}`);
+    } catch (t) {
+      console.error(h + `Failed to apply preset: ${t.message}`);
+    }
+  }
+  moveGMManager(e) {
+    const t = ["top-left", "top-right", "bottom-left", "bottom-right"];
+    if (!t.includes(e)) {
+      console.error(h + `Invalid position. Valid options: ${t.join(", ")}`);
+      return;
+    }
+    this.uiCustomization.setCustomization("hud", "gmManagerPosition", e), console.info(h + `GM Manager moved to: ${e}`);
+  }
+  moveShortcuts(e) {
+    const t = ["left", "right", "top", "bottom"];
+    if (!t.includes(e)) {
+      console.error(h + `Invalid position. Valid options: ${t.join(", ")}`);
+      return;
+    }
+    this.uiCustomization.setCustomization("hud", "shortcutPosition", e), console.info(h + `Shortcuts moved to: ${e}`);
+  }
+  setHUDSize(e) {
+    const t = ["small", "medium", "large"];
+    if (!t.includes(e)) {
+      console.error(h + `Invalid HUD size. Valid options: ${t.join(", ")}`);
+      return;
+    }
+    this.uiCustomization.setCustomization("hud", "hudSize", e), console.info(h + `HUD size set to: ${e}`);
+  }
+  injectCustomCSS(e) {
+    this.uiCustomization.setCustomization("advanced", "customCSS", e), console.info(h + "Custom CSS injected");
+  }
+  exportSettings() {
+    const e = this.uiCustomization.exportCustomizations();
+    return console.info(h + "Customization data:", e), e;
+  }
+  importSettings(e) {
+    try {
+      this.uiCustomization.importCustomizations(e), console.info(h + "Settings imported successfully");
+    } catch (t) {
+      console.error(h + `Import failed: ${t.message}`);
+    }
+  }
+  resetAll() {
+    this.uiCustomization.resetAllCustomizations(), console.info(h + "All customizations reset");
+  }
+  debugCustomizations() {
+    return this.uiCustomization.debugCustomizations();
+  }
+  setThemeCustomization(e, t, s) {
+    this.uiCustomization.styles.setThemeCustomization(e, t, s), console.info(h + `Theme customization set: ${e}.${t} = ${s}`);
+  }
+  previewTheme(e) {
+    this.uiCustomization.styles.previewTheme(e), console.info(h + `Previewing theme: ${e}`);
+  }
+  listCommands() {
+    const e = [
+      "anarchyUI.customize() - Open customization dialog",
+      "anarchyUI.setFontSize(size) - Set font size (small, default, large, xl)",
+      "anarchyUI.setIconSize(size) - Set icon size (small, default, large)",
+      "anarchyUI.setSpacing(spacing) - Set spacing (tight, default, loose)",
+      "anarchyUI.setAnimationSpeed(speed) - Set animation speed (none, fast, normal, slow)",
+      "anarchyUI.togglePassportImages() - Toggle passport images",
+      "anarchyUI.toggleItemImages() - Toggle item images",
+      "anarchyUI.toggleAnimations() - Toggle animations",
+      "anarchyUI.toggleShadows() - Toggle shadows",
+      "anarchyUI.applyCompactMode() - Apply compact preset",
+      "anarchyUI.applyAccessibilityMode() - Apply accessibility preset",
+      "anarchyUI.applyPerformanceMode() - Apply performance preset",
+      "anarchyUI.applyImmersiveMode() - Apply immersive preset",
+      "anarchyUI.moveGMManager(position) - Move GM manager (top-left, top-right, bottom-left, bottom-right)",
+      "anarchyUI.moveShortcuts(position) - Move shortcuts (left, right, top, bottom)",
+      "anarchyUI.setHUDSize(size) - Set HUD size (small, medium, large)",
+      "anarchyUI.injectCSS(css) - Inject custom CSS",
+      "anarchyUI.exportSettings() - Export customization settings",
+      "anarchyUI.importSettings(data) - Import customization settings",
+      "anarchyUI.resetAll() - Reset all customizations",
+      "anarchyUI.debug() - Debug current customizations",
+      "anarchyUI.setThemeCustomization(themeId, property, value) - Set theme-specific customization",
+      "anarchyUI.previewTheme(themeClass) - Preview a theme temporarily"
+    ];
+    return console.group(h + "Available UI Customization Commands:"), e.forEach((t) => console.info(t)), console.groupEnd(), e;
+  }
+}
+const Ee = "glitch", fe = "risk", ut = "reroll", ht = "rerollRemoved", ns = "removed", Ne = `${ue}/style/danger-point.webp`, ke = `${ue}/style/anarchy-point.webp`, Q = class Q {
   static init() {
-    CONFIG.Dice.terms[Me.DENOMINATION] = Me, CONFIG.Dice.terms[He.DENOMINATION] = He, Hooks.once("diceSoNiceReady", (e) => X.diceSoNiceReady(e)), Hooks.once("ready", () => X.onReady());
+    CONFIG.Dice.terms[Re.DENOMINATION] = Re, CONFIG.Dice.terms[Me.DENOMINATION] = Me, Hooks.once("diceSoNiceReady", (e) => Q.diceSoNiceReady(e)), Hooks.once("ready", () => Q.onReady());
   }
   static onReady() {
     var e;
-    X.COLORSETS = X.loadColorsets(), (e = game.modules.get("dice-so-nice")) != null && e.active && game.settings.get("core", "noCanvas") && ui.notifications.warn("Dice So Nice! will not display dice due to Foundry option 'Disable Game Canvas' ");
+    Q.COLORSETS = Q.loadColorsets(), (e = game.modules.get("dice-so-nice")) != null && e.active && game.settings.get("core", "noCanvas") && ui.notifications.warn("Dice So Nice! will not display dice due to Foundry option 'Disable Game Canvas' ");
   }
   static loadColorsets() {
     return {
-      [mt]: {
-        name: mt,
-        description: game.i18n.localize(o.common.roll.rollTheme.reroll),
-        category: ie
+      [ut]: {
+        name: ut,
+        description: game.i18n.localize(n.common.roll.rollTheme.reroll),
+        category: oe
       },
-      [sa]: {
+      [ns]: {
         name: fe,
-        description: game.i18n.localize(o.common.roll.rollTheme.removed),
-        category: ie
+        description: game.i18n.localize(n.common.roll.rollTheme.removed),
+        category: oe
       },
-      [dt]: {
-        name: dt,
-        description: game.i18n.localize(o.common.roll.rollTheme.rerollRemoved),
-        category: ie
+      [ht]: {
+        name: ht,
+        description: game.i18n.localize(n.common.roll.rollTheme.rerollRemoved),
+        category: oe
       },
-      [Te]: {
-        name: Te,
-        description: game.i18n.localize(o.common.roll.rollTheme.glitch),
-        category: ie,
+      [Ee]: {
+        name: Ee,
+        description: game.i18n.localize(n.common.roll.rollTheme.glitch),
+        category: oe,
         foreground: "white",
         background: "#5c0a5c",
         outline: "none",
@@ -4224,8 +5922,8 @@ const Te = "glitch", fe = "risk", mt = "reroll", dt = "rerollRemoved", sa = "rem
       },
       [fe]: {
         name: fe,
-        description: game.i18n.localize(o.common.roll.rollTheme.anarchyRisk),
-        category: ie,
+        description: game.i18n.localize(n.common.roll.rollTheme.anarchyRisk),
+        category: oe,
         foreground: "#faecd1",
         background: "#040101",
         outline: "none",
@@ -4236,14 +5934,37 @@ const Te = "glitch", fe = "risk", mt = "reroll", dt = "rerollRemoved", sa = "rem
     };
   }
   static diceSoNiceReady(e) {
-    X.dice3d = e, game.settings.set("dice-so-nice", "enabledSimultaneousRollForMessage", !1), e.addSystem({ id: g, name: ie }), Object.values(X.COLORSETS).forEach((t) => e.addColorset(t)), e.addDicePreset(Me.diceSoNiceData()), e.addDicePreset(He.diceSoNiceData());
+    Q.dice3d = e, game.settings.set("dice-so-nice", "enabledSimultaneousRollForMessage", !1), e.addSystem({ id: d, name: oe }), Object.values(Q.COLORSETS).forEach((t) => e.addColorset(t)), e.addDicePreset(Re.diceSoNiceData()), e.addDicePreset(Me.diceSoNiceData());
   }
   static img(e) {
     return `<img src="${e}" />`;
   }
 };
-_(X, "dice3d");
-let ce = X;
+x(Q, "dice3d");
+let ce = Q;
+class Re extends Die {
+  constructor(e) {
+    e.faces = 6, super(e);
+  }
+  /** @override */
+  getResultLabel(e) {
+    switch (e.result) {
+      case "1":
+        return ce.img(Ne);
+    }
+    return e.result.toString();
+  }
+  static diceSoNiceData() {
+    return {
+      type: "dg",
+      labels: [Ne, "2", "3", "4", "5", "6"],
+      colorset: Ee,
+      system: d
+    };
+  }
+}
+/** @override */
+x(Re, "DENOMINATION", "g");
 class Me extends Die {
   constructor(e) {
     e.faces = 6, super(e);
@@ -4252,48 +5973,25 @@ class Me extends Die {
   getResultLabel(e) {
     switch (e.result) {
       case "1":
-        return ce.img(Ee);
-    }
-    return e.result.toString();
-  }
-  static diceSoNiceData() {
-    return {
-      type: "dg",
-      labels: [Ee, "2", "3", "4", "5", "6"],
-      colorset: Te,
-      system: g
-    };
-  }
-}
-/** @override */
-_(Me, "DENOMINATION", "g");
-class He extends Die {
-  constructor(e) {
-    e.faces = 6, super(e);
-  }
-  /** @override */
-  getResultLabel(e) {
-    switch (e.result) {
-      case "1":
-        return ce.img(Ee);
+        return ce.img(Ne);
       case "5":
-        return ce.img(ve);
+        return ce.img(ke);
       case "6":
-        return ce.img(ve);
+        return ce.img(ke);
     }
     return e.result.toString();
   }
   static diceSoNiceData() {
     return {
       type: "dr",
-      labels: [Ee, "2", "3", "4", ve, ve],
+      labels: [Ne, "2", "3", "4", ke, ke],
       colorset: fe,
-      system: g
+      system: d
     };
   }
 }
-_(He, "DENOMINATION", "r");
-const re = {}, ra = {
+x(Me, "DENOMINATION", "r");
+const ie = {}, cs = {
   riskProwess: 0,
   riskGlitch: 0,
   riskOutcome: "nothing",
@@ -4311,47 +6009,47 @@ const re = {}, ra = {
     glitch: void 0
   }
 };
-class Oe {
+class ze {
   static init() {
-    Hooks.once("ready", () => Oe.onReady());
+    Hooks.once("ready", () => ze.onReady());
   }
   static onReady() {
-    Object.entries(o.common.roll.rollTheme).forEach((e) => {
-      re[e[0]] = game.i18n.localize(e[1]);
+    Object.entries(n.common.roll.rollTheme).forEach((e) => {
+      ie[e[0]] = game.i18n.localize(e[1]);
     });
   }
   /**
    * @param {*} param : { pool: 1, reroll: 0, risk: 0, rerollForced: 0, target: 5 }
    */
   constructor(e) {
-    this.param = e, this.param.pool = Math.max(this.param.pool ?? 0, 0), this.param.reroll = Math.max(this.param.reroll ?? 0, 0), this.param.rerollForced = Math.abs(this.param.rerollForced ?? 0), this.param.glitch = Math.max(this.param.glitch ?? 0, 0), this.param.risk = Math.max(this.param.risk ?? 0, 0), this.param.edge = Math.max(this.param.edge ?? 0, 0), this.param.target = this.param.edge > 0 ? 4 : this.param.target ?? 5, foundry.utils.mergeObject(this, ra);
+    this.param = e, this.param.pool = Math.max(this.param.pool ?? 0, 0), this.param.reroll = Math.max(this.param.reroll ?? 0, 0), this.param.rerollForced = Math.abs(this.param.rerollForced ?? 0), this.param.glitch = Math.max(this.param.glitch ?? 0, 0), this.param.risk = Math.max(this.param.risk ?? 0, 0), this.param.edge = Math.max(this.param.edge ?? 0, 0), this.param.target = this.param.edge > 0 ? 4 : this.param.target ?? 5, foundry.utils.mergeObject(this, cs);
   }
   async evaluate() {
     await this.rollPool(), await this.rollRerolls(), await this.rollRerollForced(), await this.rollGlitchDice(), await this.rollAnarchyRisk();
   }
   async rollPool() {
-    this.subrolls.pool = new Roll(`${this.param.pool}d6cs>=${this.param.target}[${re.dicePool}]`), await this.subrolls.pool.evaluate({ async: !0 }), this.total = this.subrolls.pool.total;
+    this.subrolls.pool = new Roll(`${this.param.pool}d6cs>=${this.param.target}[${ie.dicePool}]`), await this.subrolls.pool.evaluate({ async: !0 }), this.total = this.subrolls.pool.total;
   }
   async rollRerolls() {
     const e = Math.min(this.param.pool - this.total, this.param.reroll);
-    e > 0 && (this.subrolls.reroll = new Roll(`${e}d6cs>=${this.param.target}[${re.reroll}]`), await this.subrolls.reroll.evaluate({ async: !0 }), this.total += this.subrolls.reroll.total);
+    e > 0 && (this.subrolls.reroll = new Roll(`${e}d6cs>=${this.param.target}[${ie.reroll}]`), await this.subrolls.reroll.evaluate({ async: !0 }), this.total += this.subrolls.reroll.total);
   }
   async rollRerollForced() {
     const e = Math.min(this.total, this.param.rerollForced);
-    e > 0 && (this.subrolls.removed = new Roll(`-${e}d1cf=1[${re.removed}]`), await this.subrolls.removed.evaluate({ async: !0 }), this.subrolls.rerollForced = new Roll(`${e}d6cs>=${this.param.target}[${re.rerollRemoved}]`), await this.subrolls.rerollForced.evaluate({ async: !0 }), this.total -= e, this.total += this.subrolls.rerollForced.total);
+    e > 0 && (this.subrolls.removed = new Roll(`-${e}d1cf=1[${ie.removed}]`), await this.subrolls.removed.evaluate({ async: !0 }), this.subrolls.rerollForced = new Roll(`${e}d6cs>=${this.param.target}[${ie.rerollRemoved}]`), await this.subrolls.rerollForced.evaluate({ async: !0 }), this.total -= e, this.total += this.subrolls.rerollForced.total);
   }
   async rollGlitchDice() {
-    this.param.glitch > 0 && (this.subrolls.glitch = new Roll(`${this.param.glitch}d6cf=1[${re.glitch}]`), await this.subrolls.glitch.evaluate({ async: !0 }), this.subrolls.glitch.dice[0].options.appearance = { colorset: Te }, this.glitch = this.subrolls.glitch.terms[0].results.filter((e) => e.result == 1).length, this.glitchOutcome = this.glitch > 0 ? "glitch" : "nothing", this.totalGlitch += this.glitch);
+    this.param.glitch > 0 && (this.subrolls.glitch = new Roll(`${this.param.glitch}d6cf=1[${ie.glitch}]`), await this.subrolls.glitch.evaluate({ async: !0 }), this.subrolls.glitch.dice[0].options.appearance = { colorset: Ee }, this.glitch = this.subrolls.glitch.terms[0].results.filter((e) => e.result == 1).length, this.glitchOutcome = this.glitch > 0 ? "glitch" : "nothing", this.totalGlitch += this.glitch);
   }
   async rollAnarchyRisk() {
-    this.param.risk > 0 && (this.subrolls.risk = new Roll(`${this.param.risk}drcs>=5[${re.anarchyRisk}]`), await this.subrolls.risk.evaluate({ async: !0 }), this.subrolls.risk.dice[0].options.appearance = { colorset: fe }, this.riskGlitch = this.subrolls.risk.terms[0].results.filter((e) => e.result == 1).length, this.riskProwess += this.subrolls.risk.terms[0].results.filter((e) => e.result >= 5).length, this.subrolls.risk.total > 0 && this.total++, this.riskOutcome = this.riskProwess > 0 ? "prowess" : this.riskGlitch > 0 ? "glitch" : "nothing", this.totalGlitch += this.riskGlitch);
+    this.param.risk > 0 && (this.subrolls.risk = new Roll(`${this.param.risk}drcs>=5[${ie.anarchyRisk}]`), await this.subrolls.risk.evaluate({ async: !0 }), this.subrolls.risk.dice[0].options.appearance = { colorset: fe }, this.riskGlitch = this.subrolls.risk.terms[0].results.filter((e) => e.result == 1).length, this.riskProwess += this.subrolls.risk.terms[0].results.filter((e) => e.result >= 5).length, this.subrolls.risk.total > 0 && this.total++, this.riskOutcome = this.riskProwess > 0 ? "prowess" : this.riskGlitch > 0 ? "glitch" : "nothing", this.totalGlitch += this.riskGlitch);
   }
   async toMessage(e, t) {
     return t = foundry.utils.mergeObject(t ?? {}, { create: !0 }), await this.toGroupedRoll().toMessage(e, t);
   }
   toGroupedRoll() {
     let e = 1, t = [];
-    return this._addRoll(t, this.subrolls.pool), this._addRoll(t, this.subrolls.reroll), this._addRoll(t, this.subrolls.removed), this._addRoll(t, this.subrolls.rerollForced), this._addRoll(t, this.subrolls.risk), this._addRoll(t, this.subrolls.glitch), t.forEach((a) => a.dice[0].options.rollOrder = e++), Roll.fromTerms([PoolTerm.fromRolls(t)]);
+    return this._addRoll(t, this.subrolls.pool), this._addRoll(t, this.subrolls.reroll), this._addRoll(t, this.subrolls.removed), this._addRoll(t, this.subrolls.rerollForced), this._addRoll(t, this.subrolls.risk), this._addRoll(t, this.subrolls.glitch), t.forEach((s) => s.dice[0].options.rollOrder = e++), Roll.fromTerms([PoolTerm.fromRolls(t)]);
   }
   _addRoll(e, t) {
     t && e.push(t);
@@ -4369,7 +6067,7 @@ class Oe {
   }
 }
 const Le = "systemMigrationVersion";
-class F {
+class G {
   get code() {
     return "sample";
   }
@@ -4381,15 +6079,15 @@ class F {
     };
   }
   async applyItemsUpdates(e) {
-    await game.actors.forEach(async (a) => {
-      const s = e(a.items);
-      s.length > 0 && (console.log(this.code, `Applying updates on actor ${a.name} items`, s), await a.updateEmbeddedDocuments("Item", s));
+    await game.actors.forEach(async (s) => {
+      const a = e(s.items);
+      a.length > 0 && (console.log(this.code, `Applying updates on actor ${s.name} items`, a), await s.updateEmbeddedDocuments("Item", a));
     });
     const t = e(game.items);
     t.length > 0 && (console.log(this.code, "Applying updates on items", t), await Item.updateDocuments(t));
   }
 }
-class ia extends F {
+class ls extends G {
   get version() {
     return "0.3.1";
   }
@@ -4406,13 +6104,13 @@ class ia extends F {
     });
   }
   _createWordObject(e) {
-    return f.reindexIds((e ?? []).map((t) => this._keywordToObject(t)));
+    return A.reindexIds((e ?? []).map((t) => this._keywordToObject(t)));
   }
   _keywordToObject(e) {
     return e instanceof String ? { word: e } : e;
   }
 }
-class oa extends F {
+class ms extends G {
   get version() {
     return "0.3.8";
   }
@@ -4420,15 +6118,15 @@ class oa extends F {
     return "migrate-weapons-strength-damage";
   }
   async migrate() {
-    const e = (a) => a.type == c.itemType.weapon && a.system.strength, t = (a) => ({
-      _id: a.id,
-      "system.damageAttribute": c.attributes.strength,
+    const e = (s) => s.type == l.itemType.weapon && s.system.strength, t = (s) => ({
+      _id: s.id,
+      "system.damageAttribute": l.attributes.strength,
       "system.strength": void 0
     });
-    this.applyItemsUpdates((a) => a.filter(e).map(t));
+    this.applyItemsUpdates((s) => s.filter(e).map(t));
   }
 }
-class na extends F {
+class ds extends G {
   get version() {
     return "0.3.14";
   }
@@ -4436,11 +6134,11 @@ class na extends F {
     return "migrate-skill-drain-convergence";
   }
   async migrate() {
-    const e = de.filter((m) => m.hasDrain).map((m) => m.code), t = (m) => m.type == c.itemType.skill && e.includes(m.system.code), a = (m) => ({ _id: m.id, "system.hasDrain": !0 }), s = de.filter((m) => m.hasConvergence).map((m) => m.code), i = (m) => m.type == c.itemType.skill && s.includes(m.system.code), n = (m) => ({ _id: m.id, "system.hasConvergence": !0 }), l = (m) => m.filter(t).map(a).concat(m.filter(i).map(n));
-    await this.applyItemsUpdates(l);
+    const e = de.filter((m) => m.hasDrain).map((m) => m.code), t = (m) => m.type == l.itemType.skill && e.includes(m.system.code), s = (m) => ({ _id: m.id, "system.hasDrain": !0 }), a = de.filter((m) => m.hasConvergence).map((m) => m.code), i = (m) => m.type == l.itemType.skill && a.includes(m.system.code), r = (m) => ({ _id: m.id, "system.hasConvergence": !0 }), c = (m) => m.filter(t).map(s).concat(m.filter(i).map(r));
+    await this.applyItemsUpdates(c);
   }
 }
-class ca extends F {
+class us extends G {
   get version() {
     return "0.4.0";
   }
@@ -4448,17 +6146,17 @@ class ca extends F {
     return "migrate-select-weapon-defense";
   }
   async migrate() {
-    const e = (a) => de.find((s) => s.defense && s.code == a.system.skill), t = (a) => {
-      var s;
+    const e = (s) => de.find((a) => a.defense && a.code == s.system.skill), t = (s) => {
+      var a;
       return {
-        _id: a.id,
-        "system.defense": Y.fixedDefenseCode((s = e(a)) == null ? void 0 : s.defense)
+        _id: s.id,
+        "system.defense": z.fixedDefenseCode((a = e(s)) == null ? void 0 : a.defense)
       };
     };
-    await this.applyItemsUpdates((a) => a.filter((s) => s.isWeapon()).filter(e).map(t));
+    await this.applyItemsUpdates((s) => s.filter((a) => a.isWeapon()).filter(e).map(t));
   }
 }
-class la extends F {
+class hs extends G {
   get version() {
     return "0.5.0";
   }
@@ -4471,13 +6169,13 @@ class la extends F {
   _resistanceUpdates(e) {
     const t = {};
     return Object.entries(e.system.monitors).forEach(
-      (a) => {
-        a[1].resistance && (t[`system.monitors.${a[0]}.resistance`] = 0);
+      (s) => {
+        s[1].resistance && (t[`system.monitors.${s[0]}.resistance`] = 0);
       }
     ), t;
   }
 }
-class ma extends F {
+class gs extends G {
   get version() {
     return "0.6.0";
   }
@@ -4485,11 +6183,11 @@ class ma extends F {
     return "migrate-skill-social";
   }
   async migrate() {
-    const e = de.filter((s) => s.isSocial).map((s) => s.code), t = (s) => s.type == c.itemTypeskill && e.includes(s.system.code), a = (s) => ({ _id: s.id, "system.isSocial": !0 });
-    await this.applyItemsUpdates((s) => s.filter(t).map(a));
+    const e = de.filter((a) => a.isSocial).map((a) => a.code), t = (a) => a.type == l.itemTypeskill && e.includes(a.system.code), s = (a) => ({ _id: a.id, "system.isSocial": !0 });
+    await this.applyItemsUpdates((a) => a.filter(t).map(s));
   }
 }
-class da extends F {
+class ps extends G {
   get version() {
     return "11.1.0";
   }
@@ -4501,44 +6199,44 @@ class da extends F {
   }
   async migrate() {
     const e = [];
-    await this.applyItemsUpdates((t) => t.filter(this.hasDefenseModifiers).map((s) => this.getItemModifiersUpdate(s, e))), e.length > 0 && ChatMessage.create({
+    await this.applyItemsUpdates((t) => t.filter(this.hasDefenseModifiers).map((a) => this.getItemModifiersUpdate(a, e))), e.length > 0 && ChatMessage.create({
       whisper: ChatMessage.getWhisperRecipients("GM"),
-      content: `${this.version} - Migration of defense modifiers:<ul>` + e.reduce((t, a) => t + a) + "</ul></li>"
+      content: `${this.version} - Migration of defense modifiers:<ul>` + e.reduce((t, s) => t + s) + "</ul></li>"
     });
   }
   getItemModifiersUpdate(e, t) {
-    const a = [];
-    function s(n, l, m) {
-      a.push(`<li> ${n}: ${l.group}/${l.effect}/${l.subCategory} : ${l.category}/${l.value} ${l.condition} => ${m.category}/${m.value} ${m.condition}</li>`);
+    const s = [];
+    function a(r, c, m) {
+      s.push(`<li> ${r}: ${c.group}/${c.effect}/${c.subCategory} : ${c.category}/${c.value} ${c.condition} => ${m.category}/${m.value} ${m.condition}</li>`);
     }
     const i = {};
-    return e.system.modifiers.forEach((n) => i[n.id] = duplicate(n)), Object.values(i).filter((n) => this.isDefenseModifier(n)).forEach((n) => {
-      const l = duplicate(n);
-      let m = Object.values(i).filter((y) => this.isCorrespondingActionModifier(y, n));
+    return e.system.modifiers.forEach((r) => i[r.id] = duplicate(r)), Object.values(i).filter((r) => this.isDefenseModifier(r)).forEach((r) => {
+      const c = duplicate(r);
+      let m = Object.values(i).filter((g) => this.isCorrespondingActionModifier(g, r));
       switch (m.length) {
         case 0: {
-          n.category = E.rollType.attributeAction, s("Changed category", l, n);
+          r.category = D.rollType.attributeAction, a("Changed category", c, r);
           break;
         }
         case 1: {
-          const y = m[0];
-          foundry.utils.mergeObject(y, {
-            value: Math.max(n.value, y.value),
-            condition: y.condition ? y.condition + (n.condition ?? "") : n.condition
-          }, { overwrite: !0 }), delete i[n.id], s("Merged with existing", n, y);
+          const g = m[0];
+          foundry.utils.mergeObject(g, {
+            value: Math.max(r.value, g.value),
+            condition: g.condition ? g.condition + (r.condition ?? "") : r.condition
+          }, { overwrite: !0 }), delete i[r.id], a("Merged with existing", r, g);
           break;
         }
         default: {
-          delete i[n.id], s("Removed", n, { category: "-", value: "-", condition: "-" });
+          delete i[r.id], a("Removed", r, { category: "-", value: "-", condition: "-" });
           break;
         }
       }
-    }), a.length > 0 && t.push(`<li> ${e.actor ? e.actor.name : "-standalone-"} Item ${e.name} modifiers changed:
-        <ul>${a.reduce(f.joiner())}</ul>
+    }), s.length > 0 && t.push(`<li> ${e.actor ? e.actor.name : "-standalone-"} Item ${e.name} modifiers changed:
+        <ul>${s.reduce(A.joiner())}</ul>
         </li>`), { _id: e.id, "system.modifiers": Object.values(i) };
   }
 }
-class ua extends F {
+class ys extends G {
   get version() {
     return "11.1.9";
   }
@@ -4549,7 +6247,7 @@ class ua extends F {
     game.actors.filter((e) => e.isVehicle()).forEach(async (e) => await e._migrateHandlingToAttribute());
   }
 }
-class ha extends F {
+class fs extends G {
   get version() {
     return "11.1.12";
   }
@@ -4566,15 +6264,15 @@ class ha extends F {
     });
   }
   _migrateBackWords(e) {
-    return e ? f.reindexIds(e.map((t) => this._migrateBackWord(t))) : [];
+    return e ? A.reindexIds(e.map((t) => this._migrateBackWord(t))) : [];
   }
   _migrateBackWord(e) {
-    for (; e.word != null && !f.isString(e.word); )
+    for (; e.word != null && !A.isString(e.word); )
       e = e.word;
     return e;
   }
 }
-class ga extends F {
+class As extends G {
   get version() {
     return "11.1.16";
   }
@@ -4582,14 +6280,14 @@ class ga extends F {
     return "migrate-skills-attributes";
   }
   async migrate() {
-    this.applyItemsUpdates((e) => e.filter((t) => t.type == c.itemType.skill).filter((t) => t.system.attribute == "" || t.system.code == "").map((t) => ({
+    this.applyItemsUpdates((e) => e.filter((t) => t.type == l.itemType.skill).filter((t) => t.system.attribute == "" || t.system.code == "").map((t) => ({
       _id: t.id,
       "system.attribute": "",
-      "system.code": c.attributes.knowledge
+      "system.code": l.attributes.knowledge
     })));
   }
 }
-class ya extends F {
+class bs extends G {
   get version() {
     return "12.0.1";
   }
@@ -4605,7 +6303,7 @@ class ya extends F {
     );
   }
 }
-class pa extends F {
+class Cs extends G {
   get version() {
     return "12.0.2";
   }
@@ -4613,28 +6311,28 @@ class pa extends F {
     return "migrate-weapon-drain";
   }
   async migrate() {
-    this.applyItemsUpdates((e) => e.filter((t) => t.type = c.itemType.weapon).filter((t) => t.hasDrain).map((t) => ({
+    this.applyItemsUpdates((e) => e.filter((t) => t.type = l.itemType.weapon).filter((t) => t.hasDrain).map((t) => ({
       _id: t.id,
       "system.drain": 1
     })));
   }
 }
-class fa {
+class vs {
   constructor() {
-    Z.register(b.DECLARE_MIGRATIONS), Hooks.once(b.DECLARE_MIGRATIONS, (e) => e(
-      new ia(),
-      new oa(),
-      new na(),
-      new ca(),
-      new la(),
-      new ma(),
-      new da(),
-      new ua(),
-      new ha(),
-      new ga(),
-      new ya(),
-      new pa()
-    )), game.settings.register(g, Le, {
+    Z.register(C.DECLARE_MIGRATIONS), Hooks.once(C.DECLARE_MIGRATIONS, (e) => e(
+      new ls(),
+      new ms(),
+      new ds(),
+      new us(),
+      new hs(),
+      new gs(),
+      new ps(),
+      new ys(),
+      new fs(),
+      new As(),
+      new bs(),
+      new Cs()
+    )), game.settings.register(d, Le, {
       name: "System Migration Version",
       scope: "world",
       config: !1,
@@ -4643,50 +6341,50 @@ class fa {
     });
   }
   migrate() {
-    const e = game.settings.get(g, Le);
+    const e = game.settings.get(d, Le);
     if (foundry.utils.isNewerVersion(game.system.version, e)) {
       let t = [];
       Hooks.callAll(
-        b.DECLARE_MIGRATIONS,
-        (...a) => t = t.concat(a.filter((s) => foundry.utils.isNewerVersion(s.version, e)))
-      ), Hooks.off(b.DECLARE_MIGRATIONS, () => {
-      }), t.length > 0 ? (t.sort((a, s) => foundry.utils.isNewerVersion(a.version, s.version) ? 1 : foundry.utils.isNewerVersion(s.version, a.version) ? -1 : 0), t.forEach(async (a) => {
-        ui.notifications.info(`Executing migration ${a.code}: version ${e} is lower than ${a.version}`), await a.migrate();
-      }), ui.notifications.info(`Migrations done, version will change to ${game.system.version}`)) : console.log(P + `No migration needeed, version will change to ${game.system.version}`), game.settings.set(g, Le, game.system.version);
+        C.DECLARE_MIGRATIONS,
+        (...s) => t = t.concat(s.filter((a) => foundry.utils.isNewerVersion(a.version, e)))
+      ), Hooks.off(C.DECLARE_MIGRATIONS, () => {
+      }), t.length > 0 ? (t.sort((s, a) => foundry.utils.isNewerVersion(s.version, a.version) ? 1 : foundry.utils.isNewerVersion(a.version, s.version) ? -1 : 0), t.forEach(async (s) => {
+        ui.notifications.info(`Executing migration ${s.code}: version ${e} is lower than ${s.version}`), await s.migrate();
+      }), ui.notifications.info(`Migrations done, version will change to ${game.system.version}`)) : console.log(h + `No migration needeed, version will change to ${game.system.version}`), game.settings.set(d, Le, game.system.version);
     } else
-      console.log(P + "No system version changed");
+      console.log(h + "No system version changed");
   }
 }
-const Aa = `${h}/chat/celebrity-roll.hbs`;
+const ws = `${y}/chat/celebrity-roll.hbs`;
 class De extends Dialog {
   static async create(e) {
     const t = {
       actor: e,
       celebrity: {
-        labelkey: o.actor.celebrity,
+        labelkey: n.actor.celebrity,
         value: e.getCelebrityValue()
       },
       modifiers: foundry.utils.mergeObject(
-        { labelkey: o.item.tabs.modifiers },
-        A.computeModifiers(e.items, "other", "celebrity")
+        { labelkey: n.item.tabs.modifiers },
+        b.computeModifiers(e.items, "other", "celebrity")
       ),
       other: {
-        labelkey: o.common.roll.modifiers.other,
+        labelkey: n.common.roll.modifiers.other,
         value: 0
       },
-      ANARCHY: o
-    }, a = await renderTemplate(`${h}/dialog/roll-celebrite-title.hbs`, t), s = await renderTemplate(`${h}/dialog/roll-celebrite.hbs`, t);
-    new De(a, s, t).render(!0);
+      ANARCHY: n
+    }, s = await renderTemplate(`${y}/dialog/roll-celebrite-title.hbs`, t), a = await renderTemplate(`${y}/dialog/roll-celebrite.hbs`, t);
+    new De(s, a, t).render(!0);
   }
-  constructor(e, t, a) {
-    const s = {
+  constructor(e, t, s) {
+    const a = {
       title: e,
       content: t,
       default: "roll",
       buttons: {
         roll: {
-          label: game.i18n.localize(o.common.roll.button),
-          callback: async () => De.doRoll(a)
+          label: game.i18n.localize(n.common.roll.button),
+          callback: async () => De.doRoll(s)
         }
       }
     }, i = {
@@ -4695,7 +6393,7 @@ class De extends Dialog {
       height: "fit-content",
       "z-index": 99999
     };
-    super(s, i);
+    super(a, i);
   }
   activateListeners(e) {
     super.activateListeners(e), this.bringToTop(), e.find(".input-celebrity-other").on("input", (t) => {
@@ -4707,18 +6405,18 @@ class De extends Dialog {
       e.celebrity,
       e.modifiers,
       e.other
-    ], a = f.sumValues(t, (l) => l.value), s = {
+    ], s = A.sumValues(t, (c) => c.value), a = {
       actor: e.actor,
       parameters: t,
-      pool: a,
+      pool: s,
       options: {
         classes: [game.system.anarchy.styles.selectCssClass()]
       },
-      ANARCHY: o
-    }, i = new Roll(`${a}d6cs>=5`);
+      ANARCHY: n
+    }, i = new Roll(`${s}d6cs>=5`);
     await i.evaluate();
-    const n = await renderTemplate(Aa, s);
-    await i.toMessage({ flavor: n });
+    const r = await renderTemplate(ws, a);
+    await i.toMessage({ flavor: r });
   }
   // async roll() {
   //   const parameters = [
@@ -4742,134 +6440,134 @@ class De extends Dialog {
   //   await roll.toMessage({ flavor: flavor });
   // }
 }
-const ba = `${h}/chat/actor-drain.hbs`, Ca = `${h}/chat/actor-say-word.hbs`;
-class ka extends H {
+const ks = `${y}/chat/actor-drain.hbs`, Ss = `${y}/chat/actor-say-word.hbs`;
+class Rs extends T {
   static get initiative() {
-    return H.initiative + " + max(@attributes.agility.value, @attributes.logic.value)";
+    return T.initiative + " + max(@attributes.agility.value, @attributes.logic.value)";
   }
   hasOwnAnarchy() {
     return this.hasPlayerOwner;
   }
   prepareDerivedData() {
-    this.system.monitors.physical.max = this._getMonitorMax(c.attributes.strength), this.system.monitors.stun.max = this._getMonitorMax(c.attributes.willpower), super.prepareDerivedData(), this.system.ignoreWounds = A.sumModifiers(this.items, "other", "ignoreWounds");
+    this.system.monitors.physical.max = this._getMonitorMax(l.attributes.strength), this.system.monitors.stun.max = this._getMonitorMax(l.attributes.willpower), super.prepareDerivedData(), this.system.ignoreWounds = b.sumModifiers(this.items, "other", "ignoreWounds");
   }
   computePhysicalState() {
-    const e = Math.max(this.system.monitors.physical.max, this.system.monitors.stun.max) + this.system.monitors.armor.max, t = this.system.monitors.physical.value == this.system.monitors.physical.max, a = this.system.monitors.stun.max == this.system.monitors.stun.value, s = t || a ? e : Math.max(this.system.monitors.physical.value, this.system.monitors.stun.value) + this.system.monitors.armor.value;
+    const e = Math.max(this.system.monitors.physical.max, this.system.monitors.stun.max) + this.system.monitors.armor.max, t = this.system.monitors.physical.value == this.system.monitors.physical.max, s = this.system.monitors.stun.max == this.system.monitors.stun.value, a = t || s ? e : Math.max(this.system.monitors.physical.value, this.system.monitors.stun.value) + this.system.monitors.armor.value;
     return {
       max: e,
-      value: e - s
+      value: e - a
     };
   }
   computeEssence() {
-    const e = game.system.anarchy.hooks.callHookMethod(b.PROVIDE_BASE_ESSENCE, this), t = f.sumValues(this.items.filter((s) => s.type == "shadowamp").map((s) => Math.abs(s.system.essence))), a = A.sumModifiers(this.items, "other", "essenceAdjustment");
-    return e + a - Math.max(0, t);
+    const e = game.system.anarchy.hooks.callHookMethod(C.PROVIDE_BASE_ESSENCE, this), t = A.sumValues(this.items.filter((a) => a.type == "shadowamp").map((a) => Math.abs(a.system.essence))), s = b.sumModifiers(this.items, "other", "essenceAdjustment");
+    return e + s - Math.max(0, t);
   }
   computeMalusEssence(e = void 0) {
-    return game.system.anarchy.hooks.callHookMethod(b.PROVIDE_MALUS_ESSENCE, this, e ?? this.computeEssence());
+    return game.system.anarchy.hooks.callHookMethod(C.PROVIDE_MALUS_ESSENCE, this, e ?? this.computeEssence());
   }
   getAttributes() {
     return [
-      c.attributes.strength,
-      c.attributes.agility,
-      c.attributes.willpower,
-      c.attributes.logic,
-      c.attributes.charisma,
-      c.attributes.edge
+      l.attributes.strength,
+      l.attributes.agility,
+      l.attributes.willpower,
+      l.attributes.logic,
+      l.attributes.charisma,
+      l.attributes.edge
     ];
   }
   getPhysicalAgility() {
-    return c.attributes.agility;
+    return l.attributes.agility;
   }
   getCorrespondingAttribute(e) {
-    return c.attributes.firewall == e ? c.attributes.firewall : super.getCorrespondingAttribute(e);
+    return l.attributes.firewall == e ? l.attributes.firewall : super.getCorrespondingAttribute(e);
   }
   getMatrixDetails() {
     const e = this.getCyberdeck();
     return e != null && e.isConnected() ? {
       hasMatrix: !0,
-      logic: c.attributes.logic,
-      firewall: c.attributes.firewall,
+      logic: l.attributes.logic,
+      firewall: l.attributes.firewall,
       monitor: e.system.monitors.matrix,
       overflow: e.getMatrixOverflow(),
-      setMatrixMonitor: async (t, a) => e.setMatrixMonitor(t, a)
+      setMatrixMonitor: async (t, s) => e.setMatrixMonitor(t, s)
     } : this.isEmerged() ? {
       hasMatrix: !0,
-      logic: c.attributes.logic,
-      firewall: c.attributes.logic,
+      logic: l.attributes.logic,
+      firewall: l.attributes.logic,
       monitor: this.system.monitors.stun,
-      overflow: c.monitors.physical,
-      setMatrixMonitor: async (t, a) => {
-        if (t == Ke.matrix.path)
-          return await d.setCheckbar(this, c.monitors.stun, a);
+      overflow: l.monitors.physical,
+      setMatrixMonitor: async (t, s) => {
+        if (t == qe.matrix.path)
+          return await u.setCheckbar(this, l.monitors.stun, s);
       }
     } : {
       hasMatrix: !1,
-      logic: c.attributes.logic,
+      logic: l.attributes.logic,
       firewall: void 0,
-      monitor: qe,
+      monitor: Qe,
       overflow: void 0
     };
   }
   isMatrixConnected(e = void 0) {
-    e = ye.resolveConnectionMode(e);
+    e = pe.resolveConnectionMode(e);
     let t;
-    const a = this.getCyberdeck();
-    return a != null && a.isConnected() && (t = a.getConnectionMode()), !t && this.isEmerged() && (t = this.system.connectionMode), e == null ? ye.resolveConnectionMode(t) != x.connectionMode.disconnected : ye.resolveConnectionMode(t) == e;
+    const s = this.getCyberdeck();
+    return s != null && s.isConnected() && (t = s.getConnectionMode()), !t && this.isEmerged() && (t = this.system.connectionMode), e == null ? pe.resolveConnectionMode(t) != P.connectionMode.disconnected : pe.resolveConnectionMode(t) == e;
   }
   async nextConnectionMode(e) {
     if (e)
       await e.nextConnectionMode();
     else if (this.isEmerged()) {
-      const t = ye.getNextConnectionMode(this.system.connectionMode);
+      const t = pe.getNextConnectionMode(this.system.connectionMode);
       await this.update({ "system.connectionMode": t });
     }
   }
   prepareMatrixMonitor() {
     const e = this.getCyberdeck();
-    e && (e.system.monitors.matrix.maxBonus = A.sumMonitorModifiers(this.items, "matrix", "max"), e.system.monitors.matrix.resistanceBonus = A.sumMonitorModifiers(this.items, "matrix", "resistance"));
+    e && (e.system.monitors.matrix.maxBonus = b.sumMonitorModifiers(this.items, "matrix", "max"), e.system.monitors.matrix.resistanceBonus = b.sumMonitorModifiers(this.items, "matrix", "resistance"));
   }
   getDamageMonitor(e) {
     switch (e) {
-      case c.monitors.stun:
-      case c.monitors.physical:
+      case l.monitors.stun:
+      case l.monitors.physical:
         return e;
     }
     return super.getDamageMonitor(e);
   }
   async createWord(e, t) {
-    this._mutateWords(e, (a) => a.concat([{ word: t, audio: "" }]));
+    this._mutateWords(e, (s) => s.concat([{ word: t, audio: "" }]));
   }
   async sayWord(e, t) {
-    var s, i;
-    const a = (s = this.getWord(e, t)) == null ? void 0 : s.word;
-    a && ChatMessage.create({
+    var a, i;
+    const s = (a = this.getWord(e, t)) == null ? void 0 : a.word;
+    s && ChatMessage.create({
       speaker: { alias: ((i = this.token) == null ? void 0 : i.name) ?? this.name },
       content: await renderTemplate(
-        Ca,
+        Ss,
         {
           actor: this,
-          wordsToSay: a
+          wordsToSay: s
         }
       )
     });
   }
   getWord(e, t) {
-    return e ? this.system[e].find((a) => a.id == t) : void 0;
+    return e ? this.system[e].find((s) => s.id == t) : void 0;
   }
-  async updateWord(e, t, a) {
-    this._applyWordUpdate(e, t, (s) => foundry.utils.mergeObject(s, { word: a }, { overwrite: !0 }));
+  async updateWord(e, t, s) {
+    this._applyWordUpdate(e, t, (a) => foundry.utils.mergeObject(a, { word: s }, { overwrite: !0 }));
   }
-  async _applyWordUpdate(e, t, a) {
-    this._mutateWords(e, (s) => s.map((i) => (i.id == t && a(i), i)));
+  async _applyWordUpdate(e, t, s) {
+    this._mutateWords(e, (a) => a.map((i) => (i.id == t && s(i), i)));
   }
   async deleteWord(e, t) {
-    this._mutateWords(e, (a) => a.filter((s) => s.id != t));
+    this._mutateWords(e, (s) => s.filter((a) => a.id != t));
   }
-  async _mutateWords(e, t = (a) => a) {
+  async _mutateWords(e, t = (s) => s) {
     if (!e)
       return;
-    let a = t(this.system[e]);
-    f.reindexIds(a), await this.update({ [`system.${e}`]: a });
+    let s = t(this.system[e]);
+    A.reindexIds(s), await this.update({ [`system.${e}`]: s });
   }
   getCelebrityValue() {
     return this.system.counters.social.celebrity.value;
@@ -4892,17 +6590,17 @@ class ka extends H {
   }
   async spendAnarchy(e) {
     if (e > 0) {
-      const t = this.getAnarchyScene(), a = this.getAnarchyValue();
-      K.checkSufficient(o.actor.counters.anarchy, e, a + t);
-      const s = Math.min(t, e), i = e - s;
-      s > 0 && d.addCounter(this, c.monitors.sceneAnarchy, -s), this.hasPlayerOwner ? (await game.system.anarchy.gmAnarchy.actorGivesAnarchyToGM(this, e), d.addCounter(this, c.monitors.anarchy, -i)) : i > 0 && super.spendAnarchy(i);
+      const t = this.getAnarchyScene(), s = this.getAnarchyValue();
+      K.checkSufficient(n.actor.counters.anarchy, e, s + t);
+      const a = Math.min(t, e), i = e - a;
+      a > 0 && u.addCounter(this, l.monitors.sceneAnarchy, -a), this.hasPlayerOwner ? (await game.system.anarchy.gmAnarchy.actorGivesAnarchyToGM(this, e), u.addCounter(this, l.monitors.anarchy, -i)) : i > 0 && super.spendAnarchy(i);
     }
   }
   canUseEdge() {
     return !0;
   }
   getWounds() {
-    const e = f.divint(this.system.monitors.stun.value, 3) + f.divint(this.system.monitors.physical.value, 3);
+    const e = A.divint(this.system.monitors.stun.value, 3) + A.divint(this.system.monitors.physical.value, 3);
     return Math.max(0, e - this.system.ignoreWounds);
   }
   canPilotVehicle() {
@@ -4917,28 +6615,28 @@ class ka extends H {
     return (e = this.getCyberdeck()) == null ? void 0 : e.isConnected();
   }
   isEmerged() {
-    return this.system.capacity == c.capacities.emerged;
+    return this.system.capacity == l.capacities.emerged;
   }
   getCyberdeck() {
     return this.items.find((e) => e.isActive() && e.isCyberdeck());
   }
   async rollDrain(e) {
     if (e) {
-      const t = new Roll(`${e}dgcf=1[${game.i18n.localize(o.common.roll.rollTheme.drain)}]`);
+      const t = new Roll(`${e}dgcf=1[${game.i18n.localize(n.common.roll.rollTheme.drain)}]`);
       await t.evaluate({ async: !0 }), await this.sufferDrain(t.total);
-      const a = await renderTemplate(ba, {
-        ANARCHY: o,
+      const s = await renderTemplate(ks, {
+        ANARCHY: n,
         actor: this,
         drain: t.total,
         options: {
           classes: game.system.anarchy.styles.selectCssClass()
         }
       });
-      await t.toMessage({ flavor: a });
+      await t.toMessage({ flavor: s });
     }
   }
   async sufferDrain(e) {
-    e != 0 && await this.addCounter(c.monitors.stun, e);
+    e != 0 && await this.addCounter(l.monitors.stun, e);
   }
   async rollConvergence(e) {
     e && game.system.anarchy.gmConvergence.rollConvergence(this.id, e);
@@ -4947,45 +6645,45 @@ class ka extends H {
     await De.create(this);
   }
 }
-const wa = [
-  c.attributes.system,
-  c.attributes.firewall
+const Ms = [
+  l.attributes.system,
+  l.attributes.firewall
 ];
-class va extends H {
+class Ts extends T {
   static get defaultIcon() {
-    return `${G}/actors/cctv-camera.svg`;
+    return `${L}/actors/cctv-camera.svg`;
   }
   static get initiative() {
-    return H.initiative + " + @attributes.system.value";
+    return T.initiative + " + @attributes.system.value";
   }
   getMatrixDetails() {
     return {
       hasMatrix: !0,
-      logic: c.attributes.system,
-      firewall: c.attributes.firewall,
+      logic: l.attributes.system,
+      firewall: l.attributes.firewall,
       monitor: this.system.monitors.matrix,
       overflow: void 0
     };
   }
   getAttributes() {
-    return wa;
+    return Ms;
   }
 }
-const Ra = [
-  c.attributes.autopilot,
-  c.attributes.handling,
-  c.attributes.firewall,
-  c.attributes.system
+const Hs = [
+  l.attributes.autopilot,
+  l.attributes.handling,
+  l.attributes.firewall,
+  l.attributes.system
 ];
-class Ma extends H {
+class Es extends T {
   static get defaultIcon() {
-    return `${G}/shadowamps/drone.svg`;
+    return `${L}/shadowamps/drone.svg`;
   }
   static get initiative() {
-    return H.initiative + " + max(@attributes.system.value, @attributes.autopilot.value)";
+    return T.initiative + " + max(@attributes.system.value, @attributes.autopilot.value)";
   }
   prepareDerivedData() {
-    this.system.monitors.matrix.max = this._getMonitorMax(c.attributes.system), super.prepareDerivedData();
+    this.system.monitors.matrix.max = this._getMonitorMax(l.attributes.system), super.prepareDerivedData();
   }
   computePhysicalState() {
     return {
@@ -4996,23 +6694,23 @@ class Ma extends H {
   getMatrixDetails() {
     return {
       hasMatrix: !0,
-      logic: c.attributes.system,
-      firewall: c.attributes.firewall,
+      logic: l.attributes.system,
+      firewall: l.attributes.firewall,
       monitor: this.system.monitors.matrix,
       overflow: void 0
     };
   }
   getAttributes() {
-    return Ra;
+    return Hs;
   }
   getPhysicalAgility() {
-    return c.attributes.autopilot;
+    return l.attributes.autopilot;
   }
   getDamageMonitor(e) {
     switch (e) {
-      case c.monitors.physical:
-        return c.monitors.structure;
-      case c.monitors.stun:
+      case l.monitors.physical:
+        return l.monitors.structure;
+      case l.monitors.stun:
         return;
     }
     return super.getDamageMonitor(e);
@@ -5021,29 +6719,29 @@ class Ma extends H {
     return CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER;
   }
   async rollPilotDefense(e) {
-    const t = I.getSelectedActors();
-    K.checkOutOfRange(o.user.selectedTokenActors, t.length, 0, 1);
-    const a = I.getPlayerActor(game.user), s = this.getOwnerActor(), i = [...t, a, s].filter((n) => n == null ? void 0 : n.testUserPermission(game.user, this.getRightToDefend())).find((n) => n == null ? void 0 : n.canPilotVehicle());
+    const t = Y.getSelectedActors();
+    K.checkOutOfRange(n.user.selectedTokenActors, t.length, 0, 1);
+    const s = Y.getPlayerActor(game.user), a = this.getOwnerActor(), i = [...t, s, a].filter((r) => r == null ? void 0 : r.testUserPermission(game.user, this.getRightToDefend())).find((r) => r == null ? void 0 : r.canPilotVehicle());
     if (i)
       return await i.rollDefense(e);
     ui.notifications.warn(
-      game.i18n.localize(o.common.errors.noValidPilotForVehicle, {
+      game.i18n.localize(n.common.errors.noValidPilotForVehicle, {
         vehicle: this.name
       })
     );
   }
   async _migrateHandlingToAttribute(e) {
-    var s;
-    const t = ((s = this.system.attributes.handling) == null ? void 0 : s.value) ?? 0, a = this.system.handling;
-    a && t < a && await this.update({
+    var a;
+    const t = ((a = this.system.attributes.handling) == null ? void 0 : a.value) ?? 0, s = this.system.handling;
+    s && t < s && await this.update({
       "system.-=handling": null,
-      "system.attributes.handling.value": a
+      "system.attributes.handling.value": s
     });
   }
 }
-class Ha extends Ye {
+class Ns extends Ie {
   get template() {
-    return `${h}/actor/character.hbs`;
+    return `${y}/actor/character.hbs`;
   }
   /** @override */
   static get defaultOptions() {
@@ -5053,7 +6751,7 @@ class Ha extends Ye {
     });
   }
 }
-class Sa extends Ae {
+class Ds extends Ae {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       width: 450,
@@ -5070,7 +6768,7 @@ class Sa extends Ae {
     super.activateListeners(e);
   }
 }
-class Na extends Ae {
+class Is extends Ae {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       width: 450,
@@ -5087,9 +6785,9 @@ class Na extends Ae {
     super.activateListeners(e);
   }
 }
-class Ta extends Ye {
+class zs extends Ie {
   get template() {
-    return `${h}/actor/npc-sheet.hbs`;
+    return `${y}/actor/npc-sheet.hbs`;
   }
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
@@ -5102,22 +6800,22 @@ class Ta extends Ye {
     return t.options.classes.push("npc-sheet"), t;
   }
 }
-class Ea extends q {
+class Os extends q {
   static get defaultIcon() {
-    return `${G}/vitruvian-man.svg`;
+    return `${L}/vitruvian-man.svg`;
   }
   async onCreateItem(e, t) {
-    var a;
-    (a = this.parent) == null || a.removeOtherMetatype(this);
+    var s;
+    (s = this.parent) == null || s.removeOtherMetatype(this);
   }
 }
-class Da extends q {
+class Ys extends q {
   static get defaultIcon() {
-    return `${G}/shadowamps/cyberdeck.svg`;
+    return `${L}/shadowamps/cyberdeck.svg`;
   }
   getAttributes() {
     return [
-      c.attributes.firewall
+      l.attributes.firewall
     ];
   }
   async setMatrixMonitor(e, t) {
@@ -5131,10 +6829,10 @@ class Da extends q {
   }
   getMatrixOverflow() {
     switch (this.system.connectionMode) {
-      case x.connectionMode.virtual:
-        return c.monitors.physical;
-      case x.connectionMode.augmented:
-        return c.monitors.stun;
+      case P.connectionMode.virtual:
+        return l.monitors.physical;
+      case P.connectionMode.augmented:
+        return l.monitors.stun;
     }
   }
   isConnected() {
@@ -5144,7 +6842,7 @@ class Da extends q {
     return this.system.connectionMode;
   }
   async nextConnectionMode() {
-    const e = ye.getNextConnectionMode(this.system.connectionMode);
+    const e = pe.getNextConnectionMode(this.system.connectionMode);
     await this.update({ "system.connectionMode": e });
   }
 }
@@ -5158,14 +6856,14 @@ class ee extends ItemSheet {
     });
   }
   get title() {
-    return game.i18n.localize(o.itemType.singular[this.item.type]) + ": " + this.item.name;
+    return game.i18n.localize(n.itemType.singular[this.item.type]) + ": " + this.item.name;
   }
   get template() {
-    return `${h}/item/${this.object.type}.hbs`;
+    return `${y}/item/${this.object.type}.hbs`;
   }
   getData(e) {
-    var n;
-    const t = (n = this.item.actor) == null ? void 0 : n.getAttributes(this.item), a = this.item.actor ? (l) => t.includes(l) : (l) => !0, s = this.item.type == c.itemType.skill;
+    var r;
+    const t = (r = this.item.actor) == null ? void 0 : r.getAttributes(this.item), s = this.item.actor ? (c) => t.includes(c) : (c) => !0, a = this.item.type == l.itemType.skill;
     let i = foundry.utils.mergeObject(
       super.getData(e),
       {
@@ -5176,8 +6874,8 @@ class ee extends ItemSheet {
           editable: this.isEditable,
           cssClass: this.isEditable ? "editable" : "locked"
         },
-        ENUMS: foundry.utils.mergeObject(S.getEnums(a, s), game.system.anarchy.modifiers.getEnums()),
-        ANARCHY: o
+        ENUMS: foundry.utils.mergeObject(H.getEnums(s, a), game.system.anarchy.modifiers.getEnums()),
+        ANARCHY: n
       }
     );
     return i.system = this.item.system, i;
@@ -5209,12 +6907,12 @@ class ee extends ItemSheet {
   }
   async onClickMonitor(e) {
     if (this.item.parent) {
-      const t = this.getEventMonitorCode(e), a = t == "marks" ? $(e.currentTarget).closest(".anarchy-marks").attr("data-actor-id") : void 0;
+      const t = this.getEventMonitorCode(e), s = t == "marks" ? $(e.currentTarget).closest(".anarchy-marks").attr("data-actor-id") : void 0;
       await this.item.parent.switchMonitorCheck(
         t,
         this.getEventMonitorIndex(e),
         this.isEventMonitorChecked(e),
-        a,
+        s,
         item
       );
     }
@@ -5235,7 +6933,7 @@ class ee extends ItemSheet {
     return $(e.currentTarget).attr("data-modifier-select");
   }
 }
-class Ya extends ee {
+class xs extends ee {
   getData(e) {
     return super.getData(e);
   }
@@ -5243,7 +6941,7 @@ class Ya extends ee {
     super.activateListeners(e);
   }
 }
-class Oa extends ee {
+class Ps extends ee {
   getData(e) {
     return super.getData(e);
   }
@@ -5253,7 +6951,7 @@ class Oa extends ee {
     }), super.activateListeners(e);
   }
 }
-class Ia extends ee {
+class _s extends ee {
   getData(e) {
     return super.getData(e);
   }
@@ -5261,7 +6959,7 @@ class Ia extends ee {
     super.activateListeners(e);
   }
 }
-class _a extends ee {
+class $s extends ee {
   getData(e) {
     return super.getData(e);
   }
@@ -5269,7 +6967,7 @@ class _a extends ee {
     super.activateListeners(e);
   }
 }
-class xa extends ee {
+class Ls extends ee {
   getData(e) {
     return super.getData(e);
   }
@@ -5277,7 +6975,7 @@ class xa extends ee {
     super.activateListeners(e);
   }
 }
-class Pa extends ee {
+class Us extends ee {
   getData(e) {
     return super.getData(e);
   }
@@ -5285,61 +6983,61 @@ class Pa extends ee {
     super.activateListeners(e);
   }
 }
-class $a extends ee {
+class Vs extends ee {
   activateListeners(e) {
     super.activateListeners(e), e.find(".select-skill-code").change(async (t) => {
-      const a = t.currentTarget.value, s = Qe.prepareSkill(a);
-      s && await this.object.update(s);
+      const s = t.currentTarget.value, a = Ze.prepareSkill(s);
+      a && await this.object.update(a);
     });
   }
 }
-class La extends ee {
+class Gs extends ee {
   getData(e) {
     let t = super.getData(e);
-    return t.ENUMS = foundry.utils.mergeObject({ defenses: Y.getDefenses() }, t.ENUMS), t.hasDrain = this.item.hasDrain, t.hasConvergence = this.item.hasConvergence, t;
+    return t.ENUMS = foundry.utils.mergeObject({ defenses: z.getDefenses() }, t.ENUMS), t.hasDrain = this.item.hasDrain, t.hasConvergence = this.item.hasConvergence, t;
   }
   activateListeners(e) {
     super.activateListeners(e), e.find(".select-weapon-skill").change(async (t) => {
-      const a = t.currentTarget.value, s = game.system.anarchy.skills.get(a);
-      s && await this.object.update({ "system.defense": s.defense }, { render: !1 });
+      const s = t.currentTarget.value, a = game.system.anarchy.skills.get(s);
+      a && await this.object.update({ "system.defense": a.defense }, { render: !1 });
     });
   }
 }
-class Ga extends q {
+class js extends q {
   static get defaultIcon() {
-    return `${G}/contacts/contact.svg`;
+    return `${L}/contacts/contact.svg`;
   }
 }
-class Va extends q {
+class Fs extends q {
   static get defaultIcon() {
-    return `${G}/gear/gear.svg`;
+    return `${L}/gear/gear.svg`;
   }
 }
-class Ua extends q {
+class Ws extends q {
   static get defaultIcon() {
-    return `${G}/quality-positive.svg`;
+    return `${L}/quality-positive.svg`;
   }
 }
-class Fa extends q {
+class Bs extends q {
   static get defaultIcon() {
-    return `${G}/shadowamps/other.svg`;
+    return `${L}/shadowamps/other.svg`;
   }
 }
-const Se = "convergences", ja = `${g}.${Se}`, ut = "GMConvergence.rollConvergence", Wa = `${h}/app/gm-convergence.hbs`, ht = `${h}/app/gm-convergence-actors.hbs`;
-class za {
+const Te = "convergences", Ks = `${d}.${Te}`, gt = "GMConvergence.rollConvergence", qs = `${y}/app/gm-convergence.hbs`, pt = `${y}/app/gm-convergence-actors.hbs`;
+class Qs {
   constructor() {
-    game.settings.register(g, Se, {
+    game.settings.register(d, Te, {
       scope: "world",
       config: !1,
       default: [],
       type: Array
-    }), this.convergences = [], Hooks.on("updateSetting", async (e, t, a, s) => this.onUpdateSetting(e, t, a, s)), Hooks.once("ready", () => this.onReady());
+    }), this.convergences = [], Hooks.on("updateSetting", async (e, t, s, a) => this.onUpdateSetting(e, t, s, a)), Hooks.once("ready", () => this.onReady());
   }
   async onReady() {
     await loadTemplates([
-      Wa,
-      ht
-    ]), this.convergences = game.settings.get(g, Se).filter((e) => game.actors.get(e.actorId)), await j.register(ut, {
+      qs,
+      pt
+    ]), this.convergences = game.settings.get(d, Te).filter((e) => game.actors.get(e.actorId)), await j.register(gt, {
       callback: (e) => this.rollConvergence(e.actorId, e.convergence),
       condition: (e) => e.isGM
     });
@@ -5348,15 +7046,15 @@ class za {
     return this.convergences;
   }
   async rollConvergence(e, t) {
-    j.call(ut, { actorId: e, convergence: t }) || await this._gmRollConvergence(t, e);
+    j.call(gt, { actorId: e, convergence: t }) || await this._gmRollConvergence(t, e);
   }
   async _gmRollConvergence(e, t) {
-    const a = game.actors.get(t), s = new Roll(`${e}dgcf=1[${game.i18n.localize(o.common.roll.rollTheme.convergence)}]`);
-    await s.evaluate({ async: !0 }), this.addConvergence(a, s.total), s.toMessage({
+    const s = game.actors.get(t), a = new Roll(`${e}dgcf=1[${game.i18n.localize(n.common.roll.rollTheme.convergence)}]`);
+    await a.evaluate({ async: !0 }), this.addConvergence(s, a.total), a.toMessage({
       user: game.user,
       whisper: ChatMessage.getWhisperRecipients("GM"),
       blind: !0,
-      flavor: `Convergence for ${a.name}: ${s.total}`
+      flavor: `Convergence for ${s.name}: ${a.total}`
     }, { rollType: "blindroll" });
   }
   async addConvergence(e, t) {
@@ -5364,66 +7062,66 @@ class za {
   }
   getConvergence(e) {
     var t;
-    return game.user.isGM ? ((t = this.convergences.find((a) => a.actorId == e.id)) == null ? void 0 : t.convergence) ?? 0 : 0;
+    return game.user.isGM ? ((t = this.convergences.find((s) => s.actorId == e.id)) == null ? void 0 : t.convergence) ?? 0 : 0;
   }
   async setActorConvergence(e, t) {
-    let a = this.convergences.find((s) => s.actorId == e.id);
-    a || (a = { actorId: e.id }, this.convergences.push(a)), a.convergence = t, this.convergences = this.convergences.filter((s) => s.convergence > 0), game.settings.set(g, Se, this.convergences);
+    let s = this.convergences.find((a) => a.actorId == e.id);
+    s || (s = { actorId: e.id }, this.convergences.push(s)), s.convergence = t, this.convergences = this.convergences.filter((a) => a.convergence > 0), game.settings.set(d, Te, this.convergences);
   }
   async activateListeners(e) {
     this.toolbar = e.find(".gm-convergence-bar"), await this._rebuild();
   }
-  async onUpdateSetting(e, t, a, s) {
-    game.user.isGM && e.key == ja && await this._rebuild();
+  async onUpdateSetting(e, t, s, a) {
+    game.user.isGM && e.key == Ks && await this._rebuild();
   }
   async _rebuild() {
     this.toolbar.find(".gm-convergence-content").replaceWith(await this._renderBar()), this.toolbar.find("a.click-checkbar-element").click(async (e) => await this._onClickConvergence(e));
   }
   async _onClickConvergence(e) {
     $(e.currentTarget).closest(".checkbar-root").attr("data-monitor-code");
-    const t = $(e.currentTarget).closest(".actor-convergence").attr("data-actor-id"), a = Number.parseInt($(e.currentTarget).attr("data-index")), s = $(e.currentTarget).attr("data-checked") == "true", i = d.newValue(a, s), n = game.actors.get(t);
-    await this.setActorConvergence(n, i);
+    const t = $(e.currentTarget).closest(".actor-convergence").attr("data-actor-id"), s = Number.parseInt($(e.currentTarget).attr("data-index")), a = $(e.currentTarget).attr("data-checked") == "true", i = u.newValue(s, a), r = game.actors.get(t);
+    await this.setActorConvergence(r, i);
   }
   async _renderBar() {
     const e = {
-      convergences: this.convergences.map((a) => ({
-        actor: game.actors.get(a.actorId),
-        convergence: a.convergence
+      convergences: this.convergences.map((s) => ({
+        actor: game.actors.get(s.actorId),
+        convergence: s.convergence
       }))
     };
-    return await renderTemplate(ht, e);
+    return await renderTemplate(pt, e);
   }
 }
-class gt extends Combat {
+class yt extends Combat {
   static init() {
-    Hooks.on("createCombatant", async (e, t, a) => await e.combat.onCreateCombatant(e, t, a)), Hooks.on("deleteCombatant", async (e, t, a) => await e.combat.onDeleteCombatant(e, t, a)), Hooks.on("deleteCombat", async (e, t, a) => await e.onDeleteCombat(t, a));
+    Hooks.on("createCombatant", async (e, t, s) => await e.combat.onCreateCombatant(e, t, s)), Hooks.on("deleteCombatant", async (e, t, s) => await e.combat.onDeleteCombatant(e, t, s)), Hooks.on("deleteCombat", async (e, t, s) => await e.onDeleteCombat(t, s));
   }
   get initiative() {
     return { formula: "2d6" };
   }
   async rollInitiative(e, t) {
-    const a = e.map((i) => this.combatants.find((n) => n.id == i)), s = f.classify(a, (i) => i.actor.type);
-    Object.entries(s).forEach(async ([i, n]) => {
-      const l = game.system.anarchy.actorClasses[i], m = n.map((W) => W.id), y = foundry.utils.mergeObject({ formula: l.initiative }, t ?? {});
-      await super.rollInitiative(m, y);
+    const s = e.map((i) => this.combatants.find((r) => r.id == i)), a = A.classify(s, (i) => i.actor.type);
+    Object.entries(a).forEach(async ([i, r]) => {
+      const c = game.system.anarchy.actorClasses[i], m = r.map((F) => F.id), g = foundry.utils.mergeObject({ formula: c.initiative }, t ?? {});
+      await super.rollInitiative(m, g);
     });
   }
-  async onCreateCombatant(e, t, a) {
-    var s;
-    I.isUniqueConnectedGM() && await ((s = e.actor) == null ? void 0 : s.onEnterCombat());
+  async onCreateCombatant(e, t, s) {
+    var a;
+    Y.isUniqueConnectedGM() && await ((a = e.actor) == null ? void 0 : a.onEnterCombat());
   }
-  async onDeleteCombatant(e, t, a) {
-    I.isUniqueConnectedGM() && await this._leaveCombat(e);
+  async onDeleteCombatant(e, t, s) {
+    Y.isUniqueConnectedGM() && await this._leaveCombat(e);
   }
   async onDeleteCombat(e, t) {
-    I.isUniqueConnectedGM() && this.combatants.forEach(async (a) => await this._leaveCombat(a));
+    Y.isUniqueConnectedGM() && this.combatants.forEach(async (s) => await this._leaveCombat(s));
   }
   async _leaveCombat(e) {
     var t;
     return await ((t = e.actor) == null ? void 0 : t.onLeaveCombat());
   }
 }
-class Ba extends Ae {
+class Xs extends Ae {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       width: 450,
@@ -5440,7 +7138,7 @@ class Ba extends Ae {
     super.activateListeners(e);
   }
 }
-class Ka extends Ae {
+class Zs extends Ae {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       width: 450,
@@ -5457,49 +7155,49 @@ class Ka extends Ae {
     super.activateListeners(e);
   }
 }
-const qa = [
-  c.attributes.logic,
-  c.attributes.edge
+const Js = [
+  l.attributes.logic,
+  l.attributes.edge
 ];
-class Xa extends H {
+class ea extends T {
   static get defaultIcon() {
-    return `${G}/misc/rss.svg`;
+    return `${L}/misc/rss.svg`;
   }
   static get initiative() {
-    return H.initiative + " + @attributes.logic.value";
+    return T.initiative + " + @attributes.logic.value";
   }
   getMatrixDetails() {
     return {
       hasMatrix: !0,
-      logic: c.attributes.logic,
-      firewall: c.attributes.logic,
+      logic: l.attributes.logic,
+      firewall: l.attributes.logic,
       monitor: this.system.monitors.matrix,
       overflow: void 0
     };
   }
   getAttributes() {
-    return qa;
+    return Js;
   }
   isEmerged() {
     return !0;
   }
 }
-const Qa = [
-  c.attributes.logic,
-  c.attributes.firewall
+const ta = [
+  l.attributes.logic,
+  l.attributes.firewall
 ];
-class Za extends H {
+class sa extends T {
   static get defaultIcon() {
-    return `${G}/misc/rub-el-hizb.svg`;
+    return `${L}/misc/rub-el-hizb.svg`;
   }
   static get initiative() {
-    return H.initiative + " + @attributes.logic.value";
+    return T.initiative + " + @attributes.logic.value";
   }
   getMatrixDetails() {
     return {
       hasMatrix: !0,
-      logic: c.attributes.logic,
-      firewall: c.attributes.firewall,
+      logic: l.attributes.logic,
+      firewall: l.attributes.firewall,
       monitor: this.system.monitors.matrix,
       overflow: void 0
     };
@@ -5508,121 +7206,121 @@ class Za extends H {
     return !1;
   }
   getAttributes() {
-    return Qa;
+    return ta;
   }
 }
-const yt = `${h}/token/hud-shortcuts.hbs`;
-class Ja {
+const ft = `${y}/token/hud-shortcuts.hbs`;
+class aa {
   constructor() {
-    Hooks.on("renderTokenHUD", async (e, t, a) => await this.addExtensionHud(e, t, a._id)), Hooks.once("ready", () => this.onReady());
+    Hooks.on("renderTokenHUD", async (e, t, s) => await this.addExtensionHud(e, t, s._id)), Hooks.once("ready", () => this.onReady());
   }
   async onReady() {
     await loadTemplates([
-      yt
+      ft
     ]);
   }
   /* -------------------------------------------- */
-  async removeExtensionHud(e, t, a) {
+  async removeExtensionHud(e, t, s) {
     t.find(".control-icon.anarchy-shortcuts").remove();
   }
-  async addExtensionHud(e, t, a) {
+  async addExtensionHud(e, t, s) {
     e.hasExtension = !0;
-    const s = await this._renderShortcuts(a);
-    t.find(".control-icon[data-action=combat]").after(s);
+    const a = await this._renderShortcuts(s);
+    t.find(".control-icon[data-action=combat]").after(a);
   }
   async _renderShortcuts(e) {
-    const t = canvas.tokens.get(e), a = {
+    const t = canvas.tokens.get(e), s = {
       tokenId: e,
       shortcuts: t.actor.getShortcuts(),
       options: {
         classes: [game.system.anarchy.styles.selectCssClass()]
       }
-    }, s = await renderTemplate(yt, a), i = $(s), n = i.find(".anarchy-shortcuts-list");
-    return this._toggleHudActive(i, n), i.find(".anarchy-shortcuts-toggle").click((l) => {
-      this._toggleHudActive(i, n);
-    }), n.find(".anarchy-shortcut-button").click((l) => {
-      const m = $(l.currentTarget).closest(".anarchy-shortcuts-list").attr("data-token-id"), y = $(l.currentTarget).attr("data-shortcut-type"), W = $(l.currentTarget).attr("data-shortcut-id");
-      this.onClickShortcutButton(m, y, W);
+    }, a = await renderTemplate(ft, s), i = $(a), r = i.find(".anarchy-shortcuts-list");
+    return this._toggleHudActive(i, r), i.find(".anarchy-shortcuts-toggle").click((c) => {
+      this._toggleHudActive(i, r);
+    }), r.find(".anarchy-shortcut-button").click((c) => {
+      const m = $(c.currentTarget).closest(".anarchy-shortcuts-list").attr("data-token-id"), g = $(c.currentTarget).attr("data-shortcut-type"), F = $(c.currentTarget).attr("data-shortcut-id");
+      this.onClickShortcutButton(m, g, F);
     }), i;
   }
-  onClickShortcutButton(e, t, a) {
-    const s = canvas.tokens.get(e), i = s == null ? void 0 : s.actor;
+  onClickShortcutButton(e, t, s) {
+    const a = canvas.tokens.get(e), i = a == null ? void 0 : a.actor;
     if (i) {
-      const n = i == null ? void 0 : i.getShortcut(t, a);
-      n == null || n.callback(s);
+      const r = i == null ? void 0 : i.getShortcut(t, s);
+      r == null || r.callback(a);
     } else
-      ui.notifications.warn(game.i18.localize(o.common.errors.noTokenActor));
+      ui.notifications.warn(game.i18.localize(n.common.errors.noTokenActor));
   }
   _toggleHudActive(e, t) {
-    e.toggleClass("active"), f.showControlWhen(t, e.hasClass("active"));
+    e.toggleClass("active"), A.showControlWhen(t, e.hasClass("active"));
   }
 }
-class es {
+class ia {
   static getToken(e) {
-    var a;
+    var s;
     if (e == null)
       return;
-    let t = (a = game.scenes.current) == null ? void 0 : a.tokens.get(e);
+    let t = (s = game.scenes.current) == null ? void 0 : s.tokens.get(e);
     if (t)
       return t;
-    for (let s of game.scenes)
-      if (t = s.tokens.find((i) => i.id == e), t)
+    for (let a of game.scenes)
+      if (t = a.tokens.find((i) => i.id == e), t)
         return t;
     console.warn("No token found in any scene with id", e);
   }
 }
-const ts = `${h}/chat/anarchy-roll.hbs`, as = [
-  `${h}/chat/risk-outcome.hbs`,
-  `${h}/chat/edge-reroll-button.hbs`,
-  `${h}/chat/anarchy-roll-title.hbs`,
-  `${h}/chat/parts/actor-image.hbs`,
-  `${h}/chat/parts/generic-parameter.hbs`,
-  `${h}/chat/parts/result-mode-weapon.hbs`
+const oa = `${y}/chat/anarchy-roll.hbs`, ra = [
+  `${y}/chat/risk-outcome.hbs`,
+  `${y}/chat/edge-reroll-button.hbs`,
+  `${y}/chat/anarchy-roll-title.hbs`,
+  `${y}/chat/parts/actor-image.hbs`,
+  `${y}/chat/parts/generic-parameter.hbs`,
+  `${y}/chat/parts/result-mode-weapon.hbs`
 ];
-class T {
+class N {
   constructor() {
     Hooks.once("ready", () => this.onReady());
   }
   async onReady() {
-    await loadTemplates(f.distinct(as));
+    await loadTemplates(A.distinct(ra));
   }
   async roll(e) {
-    var t, a;
-    e.parameters.forEach((s) => {
-      s.isUsed != null && (s.used = s.isUsed(s));
-    }), e.param = game.system.anarchy.rollParameters.compute(e.parameters), e.param.edge = e.parameters.find((s) => s.category == C.edge && s.used) ? 1 : 0, e.param.anarchy = e.parameters.filter((s) => {
+    var t, s;
+    e.parameters.forEach((a) => {
+      a.isUsed != null && (a.used = a.isUsed(a));
+    }), e.param = game.system.anarchy.rollParameters.compute(e.parameters), e.param.edge = e.parameters.find((a) => a.category == v.edge && a.used) ? 1 : 0, e.param.anarchy = e.parameters.filter((a) => {
       var i;
-      return ((i = s.flags) == null ? void 0 : i.isAnarchy) && s.used;
+      return ((i = a.flags) == null ? void 0 : i.isAnarchy) && a.used;
     }).length, e.options.canUseEdge = e.options.canUseEdge && !e.param.edge, e.param.social = {
-      credibility: ((t = e.parameters.find((s) => s.code == "credibility" && s.used)) == null ? void 0 : t.value) ?? 0,
-      rumor: ((a = e.parameters.find((s) => s.code == "rumor" && s.used)) == null ? void 0 : a.value) ?? 0
+      credibility: ((t = e.parameters.find((a) => a.code == "credibility" && a.used)) == null ? void 0 : t.value) ?? 0,
+      rumor: ((s = e.parameters.find((a) => a.code == "rumor" && a.used)) == null ? void 0 : s.value) ?? 0
     }, await e.actor.spendAnarchy(e.param.anarchy), await e.actor.spendEdge(e.param.edge), await e.actor.spendCredibility(e.param.social.credibility), await e.actor.spendRumor(e.param.social.rumor), await this._roll(e);
   }
   async edgeReroll(e) {
-    e = T.inflateAnarchyRoll(e), e.options.canUseEdge = !1, await e.actor.spendEdge(1), e.param[C.convergence] = void 0, e.param[C.drain] = void 0, await this._roll(e);
+    e = N.inflateAnarchyRoll(e), e.options.canUseEdge = !1, await e.actor.spendEdge(1), e.param[v.convergence] = void 0, e.param[v.drain] = void 0, await this._roll(e);
   }
   async _roll(e) {
-    e.roll = new Oe(e.param), await e.roll.evaluate(), await this._displayRollInChat(e), await e.actor.rollDrain(e.param.drain), await e.actor.rollConvergence(e.param.convergence), await game.system.anarchy.combatManager.manageCombat(e);
+    e.roll = new ze(e.param), await e.roll.evaluate(), await this._displayRollInChat(e), await e.actor.rollDrain(e.param.drain), await e.actor.rollConvergence(e.param.convergence), await game.system.anarchy.combatManager.manageCombat(e);
   }
   async _displayRollInChat(e) {
     e.options.classes = [game.system.anarchy.styles.selectCssClass()];
     const t = {};
-    M.prepareFlag(t, me, T.deflateAnarchyRoll(e)), M.prepareFlag(t, ze, e.options.canUseEdge), M.prepareFlag(t, Be, M.messageActorRights(e.actor));
-    const a = await renderTemplate(ts, e), s = await e.roll.toMessage({ flavor: a, flags: t });
-    e.chatMessageId = s.id;
+    M.prepareFlag(t, me, N.deflateAnarchyRoll(e)), M.prepareFlag(t, Be, e.options.canUseEdge), M.prepareFlag(t, Ke, M.messageActorRights(e.actor));
+    const s = await renderTemplate(oa, e), a = await e.roll.toMessage({ flavor: s, flags: t });
+    e.chatMessageId = a.id;
   }
   static deflateAnarchyRoll(e) {
-    return e && (e = deepClone(e), e.actor = T._reduceToId(e.actor), e.skill = T._reduceToId(e.skill), e.skill = T._reduceToId(e.skill), e.weapon = T._reduceToId(e.weapon), e.item = T._reduceToId(e.item), e.parameters = T._reduceParameters(e.parameters), e.attackData = void 0, e.attributes = void 0, e.ANARCHY = void 0, e.ENUMS = void 0), e;
+    return e && (e = deepClone(e), e.actor = N._reduceToId(e.actor), e.skill = N._reduceToId(e.skill), e.skill = N._reduceToId(e.skill), e.weapon = N._reduceToId(e.weapon), e.item = N._reduceToId(e.item), e.parameters = N._reduceParameters(e.parameters), e.attackData = void 0, e.attributes = void 0, e.ANARCHY = void 0, e.ENUMS = void 0), e;
   }
   static inflateAnarchyRoll(e) {
-    return e && (e = deepClone(e), e.actor = T._reloadActorFromId(e.actor, e.tokenId), e.skill = T._reloadItemFromId(e.actor, e.skill), e.item = T._reloadItemFromId(e.actor, e.item), e.weapon = T._reloadItemFromId(e.actor, e.weapon), e.attributes = e.actor.getUsableAttributes(e.item), e.parameters = T._reloadParameters(e, e.parameters), e.ANARCHY = o, e.ENUMS = S.getEnums()), e;
+    return e && (e = deepClone(e), e.actor = N._reloadActorFromId(e.actor, e.tokenId), e.skill = N._reloadItemFromId(e.actor, e.skill), e.item = N._reloadItemFromId(e.actor, e.item), e.weapon = N._reloadItemFromId(e.actor, e.weapon), e.attributes = e.actor.getUsableAttributes(e.item), e.parameters = N._reloadParameters(e, e.parameters), e.ANARCHY = n, e.ENUMS = H.getEnums()), e;
   }
   static _reduceToId(e) {
     return e ? { id: e.id } : void 0;
   }
   static _reloadActorFromId(e, t) {
-    const a = es.getToken(t);
-    return a ? a.actor : e != null && e.id ? game.actors.get(e.id) : void 0;
+    const s = ia.getToken(t);
+    return s ? s.actor : e != null && e.id ? game.actors.get(e.id) : void 0;
   }
   static _reloadItemFromId(e, t) {
     return e && (t != null && t.id) ? e.items.get(t.id) : void 0;
@@ -5636,90 +7334,90 @@ class T {
   static _reloadParameters(e, t) {
     if (!t)
       return t;
-    const a = game.system.anarchy.rollParameters.build(e);
-    return t.map((s) => {
-      const i = a.find((n) => n.code == s.code) ?? {};
-      return foundry.utils.mergeObject(s, i, { overwrite: !1 });
+    const s = game.system.anarchy.rollParameters.build(e);
+    return t.map((a) => {
+      const i = s.find((r) => r.code == a.code) ?? {};
+      return foundry.utils.mergeObject(a, i, { overwrite: !1 });
     });
   }
 }
-const ss = `${h}/combat/inform-defender.hbs`;
-class rs {
+const na = `${y}/combat/inform-defender.hbs`;
+class ca {
   async manageCombat(e) {
     var t;
     switch (e.mode) {
-      case E.rollType.weapon:
+      case D.rollType.weapon:
         if (!e.targeting || e.roll.total == 0)
           return;
         (t = e.targeting.targetedTokenIds) == null || t.forEach(
-          async (a) => await this.onAttack(a, e)
+          async (s) => await this.onAttack(s, e)
         );
         break;
-      case E.rollType.defense:
+      case D.rollType.defense:
         await this.onDefense(e);
         break;
-      case E.rollType.defensePilot:
+      case D.rollType.defensePilot:
         await this.onDefensePilot(e);
     }
   }
   async onAttack(e, t) {
-    var s;
-    const a = (s = t.targeting) == null ? void 0 : s.attackerTokenId;
-    e && a && await this.displayDefenseChoice(e, t);
+    var a;
+    const s = (a = t.targeting) == null ? void 0 : a.attackerTokenId;
+    e && s && await this.displayDefenseChoice(e, t);
   }
-  async displayDefenseChoice(e, t, a = void 0, s = void 0) {
+  async displayDefenseChoice(e, t, s = void 0, a = void 0) {
     var Ce, J, te;
-    const i = (Ce = t.targeting) == null ? void 0 : Ce.attackerTokenId, n = this.getTokenActor(e), l = t.roll.total, m = (a == null ? void 0 : a.roll.total) ?? (s == null ? void 0 : s.roll.total) ?? 0, y = {
+    const i = (Ce = t.targeting) == null ? void 0 : Ce.attackerTokenId, r = this.getTokenActor(e), c = t.roll.total, m = (s == null ? void 0 : s.roll.total) ?? (a == null ? void 0 : a.roll.total) ?? 0, g = {
       attackerTokenId: i,
       defenderTokenId: e,
-      attackRoll: T.deflateAnarchyRoll(t),
-      defenseRoll: T.deflateAnarchyRoll(a),
-      defensePilotRoll: T.deflateAnarchyRoll(s),
+      attackRoll: N.deflateAnarchyRoll(t),
+      defenseRoll: N.deflateAnarchyRoll(s),
+      defensePilotRoll: N.deflateAnarchyRoll(a),
       attack: {
-        isHit: l > 0 && l >= m,
+        isHit: c > 0 && c >= m,
         defense: t.weapon.getDefense(),
-        pilotCanDefend: n == null ? void 0 : n.isVehicle(),
-        success: Math.max(0, l - m),
+        pilotCanDefend: r == null ? void 0 : r.isVehicle(),
+        success: Math.max(0, c - m),
         damage: t.weapon.getDamage()
       }
-    }, W = [
-      (J = y.defenseRoll) == null ? void 0 : J.chatMessageId,
-      (te = y.defensePilotRoll) == null ? void 0 : te.chatMessageId,
-      y.attackRoll.chatMessageId
+    }, F = [
+      (J = g.defenseRoll) == null ? void 0 : J.chatMessageId,
+      (te = g.defensePilotRoll) == null ? void 0 : te.chatMessageId,
+      g.attackRoll.chatMessageId
     ], be = {};
-    M.prepareFlag(be, Be, M.messageActorRights(n, n.getRightToDefend())), M.prepareFlag(be, Ve, W.find((Je) => Je != null));
+    M.prepareFlag(be, Ke, M.messageActorRights(r, r.getRightToDefend())), M.prepareFlag(be, Ve, F.find((tt) => tt != null));
     const le = await ChatMessage.create({
       user: game.user.id,
-      whisper: n.getAllowedUserIds(n.getRightToDefend()),
-      content: await renderTemplate(ss, foundry.utils.mergeObject(
+      whisper: r.getAllowedUserIds(r.getRightToDefend()),
+      content: await renderTemplate(na, foundry.utils.mergeObject(
         {
-          ANARCHY: o,
+          ANARCHY: n,
           options: { classes: [game.system.anarchy.styles.selectCssClass()] },
-          attacker: this.getTokenActor(y.attackerTokenId),
-          defender: n,
-          weapon: y.attackRoll.weapon
+          attacker: this.getTokenActor(g.attackerTokenId),
+          defender: r,
+          weapon: g.attackRoll.weapon
         },
-        y
+        g
       )),
       flags: be
     });
-    y.choiceChatMessageId = le.id, le.setFlag(L, me, y);
+    g.choiceChatMessageId = le.id, le.setFlag(_, me, g);
   }
   async onDefense(e) {
     this._preventObsoleteChoices(e);
-    const t = T.inflateAnarchyRoll(e.attackRoll);
+    const t = N.inflateAnarchyRoll(e.attackRoll);
     await this.displayDefenseChoice(e.tokenId, t, e);
   }
   async onDefensePilot(e) {
     this._preventObsoleteChoices(e);
-    const t = T.inflateAnarchyRoll(e.attackRoll);
+    const t = N.inflateAnarchyRoll(e.attackRoll);
     await this.displayDefenseChoice(e.tokenId, t, e);
   }
   _preventObsoleteChoices(e) {
     const t = game.messages.get(e.choiceChatMessageId);
     if (t) {
-      const a = t.getFlag(L, Ve) ?? "", s = game.messages.get(a);
-      s == null || s.setFlag(L, ze, !1), M.removeChatMessage(e.choiceChatMessageId);
+      const s = t.getFlag(_, Ve) ?? "", a = game.messages.get(s);
+      a == null || a.setFlag(_, Be, !1), M.removeChatMessage(e.choiceChatMessageId);
     }
   }
   async onClickDefendAttack(e) {
@@ -5729,15 +7427,15 @@ class rs {
     await this.getTokenActor(e.defenderTokenId).rollPilotDefense(e);
   }
   async onClickApplyAttackDamage(e) {
-    const t = this.getTokenActor(e.attackerTokenId), a = this.getTokenActor(e.defenderTokenId), s = T.inflateAnarchyRoll(e.attackRoll);
-    await v.sufferDamage(
-      a,
+    const t = this.getTokenActor(e.attackerTokenId), s = this.getTokenActor(e.defenderTokenId), a = N.inflateAnarchyRoll(e.attackRoll);
+    await S.sufferDamage(
+      s,
       e.attack.damage.monitor,
       e.attack.damage.value,
       e.attack.success,
       e.attack.damage.noArmor,
       t,
-      s.weapon
+      a.weapon
     ), this._preventObsoleteChoices(e);
   }
   getTokenActor(e) {
@@ -5745,9 +7443,9 @@ class rs {
     return (t = canvas.tokens.get(e)) == null ? void 0 : t.actor;
   }
 }
-class is extends Ye {
+class la extends Ie {
   get template() {
-    return `${h}/actor/character-tabbed.hbs`;
+    return `${y}/actor/character-tabbed.hbs`;
   }
   /** @override */
   static get defaultOptions() {
@@ -5762,70 +7460,70 @@ class is extends Ye {
     return t.options.classes.push("tabbed-sheet"), t;
   }
 }
-class Ze {
+class et {
   static start() {
-    const e = new Ze();
+    const e = new et();
     Hooks.once("init", async () => await e.onInit());
   }
   async onInit() {
-    console.log(P + "AnarchySystem.onInit"), game.system.anarchy = this, this.remoteCall = new j(), this.actorClasses = {
-      character: ka,
-      vehicle: Ma,
-      device: va,
-      sprite: Xa,
-      ic: Za
+    console.log(h + "AnarchySystem.onInit"), game.system.anarchy = this, this.remoteCall = new j(), this.actorClasses = {
+      character: Rs,
+      vehicle: Es,
+      device: Ts,
+      sprite: ea,
+      ic: sa
     }, this.itemClasses = {
-      contact: Ga,
-      cyberdeck: Da,
-      gear: Va,
-      metatype: Ea,
-      quality: Ua,
-      shadowamp: Fa,
-      skill: Qe,
-      weapon: Q
-    }, this.hooks = new Z(), this.styles = new aa(), this.handlebarsManager = new Ne(), this.gmAnarchy = new _t(), this.gmConvergence = new za(), S.init(), this.skills = new Kt(), this.modifiers = new A(), this.rollParameters = new ne(), this.rollManager = new T(), this.hudShortcuts = new Ja(), this.combatManager = new rs(), console.log(P + "AnarchySystem.onInit | loading system"), CONFIG.ANARCHY = o, CONFIG.Combat.documentClass = gt, CONFIG.Combat.initiative = { formula: "2d6" }, CONFIG.Actor.documentClass = H, CONFIG.Item.documentClass = q, d.init(), this.loadActorSheets(), this.loadItemSheets(), Q.init(), B.init(), R.init(), Y.init(), gt.init(), I.init(), ce.init(), Oe.init(), q.init(), H.init(), v.init(), M.init(), this.gmManager = new Ft(this.gmAnarchy, this.gmConvergence), console.log(P + "AnarchySystem.onInit | done"), Hooks.once("ready", () => this.onReady());
+      contact: js,
+      cyberdeck: Ys,
+      gear: Fs,
+      metatype: Os,
+      quality: Ws,
+      shadowamp: Bs,
+      skill: Ze,
+      weapon: X
+    }, this.hooks = new Z(), this.styles = new as(), this.themeUtilities = new is(this.styles), this.uiCustomization = new os(this.styles), this.uiCustomizationCommands = new rs(this.uiCustomization), this.handlebarsManager = new He(), this.gmAnarchy = new Pt(), this.gmConvergence = new Qs(), H.init(), this.skills = new Qt(), this.modifiers = new b(), this.rollParameters = new ne(), this.rollManager = new N(), this.hudShortcuts = new aa(), this.combatManager = new ca(), console.log(h + "AnarchySystem.onInit | loading system"), CONFIG.ANARCHY = n, CONFIG.Combat.documentClass = yt, CONFIG.Combat.initiative = { formula: "2d6" }, CONFIG.Actor.documentClass = T, CONFIG.Item.documentClass = q, u.init(), this.loadActorSheets(), this.loadItemSheets(), X.init(), B.init(), R.init(), z.init(), yt.init(), Y.init(), ce.init(), ze.init(), q.init(), T.init(), S.init(), M.init(), this.gmManager = new Ft(this.gmAnarchy, this.gmConvergence), console.log(h + "AnarchySystem.onInit | done"), Hooks.once("ready", () => this.onReady());
   }
   async onReady() {
-    console.log(P + "AnarchySystem.onReady"), game.user.isGM && new fa().migrate();
+    console.log(h + "AnarchySystem.onReady"), game.user.isGM && new vs().migrate();
   }
   loadActorSheets() {
-    Actors.unregisterSheet("core", ActorSheet), Actors.registerSheet(g, Ha, {
-      label: game.i18n.localize(o.actor.characterSheet),
+    Actors.unregisterSheet("core", ActorSheet), Actors.registerSheet(d, Ns, {
+      label: game.i18n.localize(n.actor.characterSheet),
       makeDefault: !1,
       types: ["character"]
-    }), Actors.registerSheet(g, Ta, {
-      label: game.i18n.localize(o.actor.characterNPCSheet),
+    }), Actors.registerSheet(d, zs, {
+      label: game.i18n.localize(n.actor.characterNPCSheet),
       makeDefault: !1,
       types: ["character"]
-    }), Actors.registerSheet(g, is, {
-      label: game.i18n.localize(o.actor.characterTabbedSheet),
+    }), Actors.registerSheet(d, la, {
+      label: game.i18n.localize(n.actor.characterTabbedSheet),
       makeDefault: !1,
       types: ["character"]
-    }), Actors.registerSheet(g, je, {
-      label: game.i18n.localize(o.actor.characterEnhancedSheet),
+    }), Actors.registerSheet(d, Fe, {
+      label: game.i18n.localize(n.actor.characterEnhancedSheet),
       makeDefault: !0,
       types: ["character"]
-    }), Actors.registerSheet(g, Na, {
-      label: game.i18n.localize(o.actor.vehicleSheet),
+    }), Actors.registerSheet(d, Is, {
+      label: game.i18n.localize(n.actor.vehicleSheet),
       makeDefault: !0,
       types: ["vehicle"]
-    }), Actors.registerSheet(g, Sa, {
-      label: game.i18n.localize(o.actor.deviceSheet),
+    }), Actors.registerSheet(d, Ds, {
+      label: game.i18n.localize(n.actor.deviceSheet),
       makeDefault: !0,
       types: ["device"]
-    }), Actors.registerSheet(g, Ka, {
-      label: game.i18n.localize(o.actor.spriteSheet),
+    }), Actors.registerSheet(d, Zs, {
+      label: game.i18n.localize(n.actor.spriteSheet),
       makeDefault: !0,
       types: ["sprite"]
-    }), Actors.registerSheet(g, Ba, {
-      label: game.i18n.localize(o.actor.icSheet),
+    }), Actors.registerSheet(d, Xs, {
+      label: game.i18n.localize(n.actor.icSheet),
       makeDefault: !0,
       types: ["ic"]
     });
   }
   loadItemSheets() {
-    Items.unregisterSheet("core", ItemSheet), Items.registerSheet(g, Ya, { types: ["contact"], makeDefault: !0 }), Items.registerSheet(g, Oa, { types: ["cyberdeck"], makeDefault: !0 }), Items.registerSheet(g, Ia, { types: ["gear"], makeDefault: !0 }), Items.registerSheet(g, _a, { types: ["metatype"], makeDefault: !0 }), Items.registerSheet(g, xa, { types: ["quality"], makeDefault: !0 }), Items.registerSheet(g, Pa, { types: ["shadowamp"], makeDefault: !0 }), Items.registerSheet(g, $a, { types: ["skill"], makeDefault: !0 }), Items.registerSheet(g, La, { types: ["weapon"], makeDefault: !0 });
+    Items.unregisterSheet("core", ItemSheet), Items.registerSheet(d, xs, { types: ["contact"], makeDefault: !0 }), Items.registerSheet(d, Ps, { types: ["cyberdeck"], makeDefault: !0 }), Items.registerSheet(d, _s, { types: ["gear"], makeDefault: !0 }), Items.registerSheet(d, $s, { types: ["metatype"], makeDefault: !0 }), Items.registerSheet(d, Ls, { types: ["quality"], makeDefault: !0 }), Items.registerSheet(d, Us, { types: ["shadowamp"], makeDefault: !0 }), Items.registerSheet(d, Vs, { types: ["skill"], makeDefault: !0 }), Items.registerSheet(d, Gs, { types: ["weapon"], makeDefault: !0 });
   }
 }
-Ze.start();
+et.start();
 //# sourceMappingURL=index.mjs.map
