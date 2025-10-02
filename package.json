@@ -28,6 +28,7 @@
     "ajv-formats": "^3.0.1",
     "autoprefixer": "^10.4.20",
     "cssnano": "^6.1.2",
+    "@fullhuman/postcss-purgecss": "^7.0.2",
     "husky": "^9.1.6",
     "lint-staged": "^15.2.7",
     "nodemon": "^3.1.2",

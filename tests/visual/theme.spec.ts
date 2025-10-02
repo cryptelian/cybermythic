@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test('global wrapper renders correctly', async ({ page }) => {
   await page.goto('/');
+  await page.addStyleTag({ path: 'dist/style.css' });
   await page.setContent(
     `
     <div class="wrapper-hexabox" style="--wrapper-padding: 8px; --wrapper-background-color: #fff; --wrapper-border-color: #000; width: 240px; height: 120px;">

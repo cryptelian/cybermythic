@@ -1,0 +1,35 @@
+{
+  "standard": [
+    // Foundry core/dynamic classes
+    "window-app",
+    "app",
+    "sheet",
+    "tabs",
+    "tab",
+    "active",
+    "flexrow",
+    "flexcol",
+    "grid",
+    "grid-2col",
+    "grid-3col",
+    "grid-4col",
+    "grid-5col",
+    // Anarchy dynamic
+    "wrapper-hexabox",
+    "side",
+    "up",
+    "down",
+    "left",
+    "right",
+    "angle",
+    "tl",
+    "tr",
+    "br",
+    "bl"
+  ],
+  "greedy": [
+    // Handlebars/conditional modifiers and token-based classes
+    /^(is-|has-|js-).*/,
+    /^(fa[srlb]?|icon-).*/
+  ]
+}

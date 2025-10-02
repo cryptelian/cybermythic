@@ -41,12 +41,24 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Report bundle sizes
+        run: |
+          echo "dist sizes:" > sizes.txt
+          du -h dist/* >> sizes.txt || true
+          cat sizes.txt
+
       - name: Upload dist artifact
         uses: actions/upload-artifact@v4
         with:
           name: dist
           path: |
             dist
+
+      - name: Upload size report
+        uses: actions/upload-artifact@v4
+        with:
+          name: sizes
+          path: sizes.txt
 
       - name: Upload build stats
         if: always()
