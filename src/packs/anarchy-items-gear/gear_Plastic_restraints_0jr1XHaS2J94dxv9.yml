@@ -1,0 +1,13 @@
+_id: 0jr1XHaS2J94dxv9
+name: Plastic restraints
+type: gear
+img: systems/anarchy/icons/gear/gear.svg
+system:
+  inactive: false
+  references:
+    sourceReference: Anarchy Catalog
+    description: ""
+    gmnotes: ""
+ownership:
+  default: 0
+flags: {}
