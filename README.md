@@ -39,6 +39,12 @@ npx vite serve
 
 This will launch a Vite development server that is configured to intercept calls made to **systems/anarchy** and proxy them appropriately, while serving all other files directly from Foundry.
 
+For the private variant `ninjanarchy`, see `docs/ninjanarchy-branch.md` or run:
+
+```
+npm run dev:ninja
+```
+
 ## Building for Production
 
 If you need to build the project for production, use:
@@ -48,6 +54,12 @@ npx vite build
 ```
 
 This command compiles your JavaScript and assets into static files ready for production deployment. These files are in `./dist` directory.
+
+For a private build of `ninjanarchy`:
+
+```
+npm run build:ninja
+```
 
 ## Foundry Configuration
 
