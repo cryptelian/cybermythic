@@ -1,0 +1,13 @@
+_id: Btw3D5cqAKE2ftYs
+name: Stim patches
+type: gear
+img: systems/anarchy/icons/gear/gear.svg
+system:
+  inactive: false
+  references:
+    sourceReference: Anarchy Catalog
+    description: ""
+    gmnotes: ""
+ownership:
+  default: 0
+flags: {}

@@ -223,7 +223,7 @@ function buildCharacterFromSection(section) {
   };
 
   // Parse Skills lines like "FIREARMS 3+A" or "STREET GANGS (K)"
-  const skillsBlockRx = /(\nSKILLS\s*\n)([\s\S]*?)(\n(CUES|QUALITIES|WEAPONS|UNARMED|ARMOR|GEAR|CONTACTS)\b)/i;
+  const skillsBlockRx = /(\nSKILLS\s*\n)([\s\S]*?)(\n(SHADOW\s*AMPS|CUES|QUALITIES|WEAPONS|UNARMED|ARMOR|GEAR|CONTACTS)\b)/i;
   const skillsBlock = section.text.match(skillsBlockRx)?.[2] ?? '';
   const skillLines = skillsBlock.split(/\r?\n/).map(normalizeSpaces).filter(l => l && !/^TOTAL\s+KARMA/i.test(l) && !/^KARMA\s+BALANCE/i.test(l));
   const attrLetterToKey = { A: 'agility', W: 'willpower', L: 'logic', C: 'charisma', S: 'strength', E: 'edge', K: 'knowledge' };
@@ -252,17 +252,60 @@ function buildCharacterFromSection(section) {
   // Parse Shadow Amps section simple lines (names and descriptions)
   const ampsBlockRx = /(\nSHADOW\s*AMPS[\s\S]*?)(\nCUES\b|\nQUALITIES\b|\nWEAPONS\b|\nUNARMED\b|\nARMOR\b|\nGEAR\b|\nCONTACTS\b)/i;
   const ampsBlock = section.text.match(ampsBlockRx)?.[1] ?? '';
-  const ampLines = ampsBlock.split(/\r?\n/).map(normalizeSpaces).filter(l => l && !/^SHADOW\s*AMPS/i.test(l) && !/^ESSENCE/i.test(l));
-  for (const line of ampLines) {
-    // Pattern: NAME (TYPE) LEVEL? description... where a bare number at line start/next indicates level
-    const n = line.replace(/^\d+\s+/, '');
-    const name = (n.match(/^([^0-9:]+?)(?:\s+\d+)?\s*(?:\.|$)/)?.[1] ?? n).trim();
-    const level = toInt((line.match(/\b(\d+)\b/) ?? [])[1] ?? '1', 1);
-    if (!name || name.length < 2) continue;
-    actor.items.push({
-      ...baseItemDoc(name, 'shadowamp'),
-      system: { category: 'special', capacity: actor.system.capacity ?? 'mundane', level, essence: 0, modifiers: [], inactive: false, references: { sourceReference: '', description: line.trim(), gmnotes: '' } }
-    });
+  if (ampsBlock) {
+    const rawLines = ampsBlock.split(/\r?\n/);
+    // Skip header and essence line
+    const entries = [];
+    let i = 0;
+    while (i < rawLines.length) {
+      let line = normalizeSpaces(rawLines[i]);
+      if (!line || /^SHADOW\s*AMPS/i.test(line) || /^ESSENCE/i.test(line)) { i++; continue; }
+      // Expect a name line like "LIGHTNING BOLT (SPELL)" possibly followed by a level line (e.g., "3")
+      const nameMatch = line.match(/^([A-Z][A-Z '\-]+?)(?:\s*\([^)]+\))?\s*$/i);
+      if (nameMatch) {
+        const nameRaw = nameMatch[1].trim();
+        // Next line may be a level number
+        let level = 1;
+        let desc = '';
+        const next = normalizeSpaces(rawLines[i + 1] || '');
+        if (/^\d+\b/.test(next)) {
+          level = toInt(next, 1);
+          // Description starts at i+2
+          let j = i + 2;
+          const descLines = [];
+          while (j < rawLines.length) {
+            const dl = rawLines[j];
+            if (!dl.trim()) break;
+            // Stop if next entry begins (uppercase with parenthesis)
+            if (/^[A-Z][A-Z '\-]+\s*\(/.test(dl.trim())) break;
+            descLines.push(dl.trim());
+            j++;
+          }
+          desc = descLines.join(' ').trim();
+          i = j;
+        } else {
+          // No explicit level; treat the next non-empty line as description
+          let j = i + 1;
+          const descLines = [];
+          while (j < rawLines.length) {
+            const dl = rawLines[j];
+            if (!dl.trim()) break;
+            if (/^[A-Z][A-Z '\-]+\s*\(/.test(dl.trim())) break;
+            descLines.push(dl.trim());
+            j++;
+          }
+          desc = descLines.join(' ').trim();
+          i = j;
+        }
+        const niceName = nameRaw.replace(/\s+/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+        actor.items.push({
+          ...baseItemDoc(niceName, 'shadowamp'),
+          system: { category: 'magical', capacity: actor.system.capacity ?? 'mundane', level, essence: 0, modifiers: [], inactive: false, references: { sourceReference: 'Anarchy Full.md', description: desc, gmnotes: '' } }
+        });
+        continue;
+      }
+      i++;
+    }
   }
 
   // Parse Weapons table subset if present
