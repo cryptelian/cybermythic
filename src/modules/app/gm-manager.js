@@ -133,6 +133,11 @@ export class GMManager extends Application {
   async activateListeners(html) {
     super.activateListeners(html);
 
+    // Apply UI customizations to GM Manager
+    if (game.system.anarchy?.uiCustomization) {
+      game.system.anarchy.uiCustomization.applyCustomizationsToElement(html[0], 'gm-manager');
+    }
+
     html.find('.app-title-bar').mousedown(event => this.handleDrag.onMouseDown(event));
     html.find('.gm-manager-hide-button').mousedown(event => this.close());
 

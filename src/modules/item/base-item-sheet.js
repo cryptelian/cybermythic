@@ -19,7 +19,14 @@ export class BaseItemSheet extends ItemSheet {
   }
 
   get template() {
-    return `${TEMPLATES_PATH}/item/${this.object.type}.hbs`;
+    const templatePath = `${TEMPLATES_PATH}/item/${this.item.type}.hbs`;
+    // Validate template path exists for this item type
+    const validItemTypes = ['contact', 'cyberdeck', 'gear', 'metatype', 'quality', 'shadowamp', 'skill', 'weapon'];
+    if (!this.item.type || !validItemTypes.includes(this.item.type)) {
+      console.warn(`BaseItemSheet: Unknown item type '${this.item.type}', falling back to gear template`);
+      return `${TEMPLATES_PATH}/item/gear.hbs`;
+    }
+    return templatePath;
   }
 
   getData(options) {
@@ -45,12 +52,35 @@ export class BaseItemSheet extends ItemSheet {
       });
     hbsData.system = this.item.system;
 
+    // Apply UI customizations and theme utilities
+    if (game.system.anarchy?.uiCustomization) {
+      hbsData.uiCustomizations = game.system.anarchy.uiCustomization.getActiveCustomizations();
+      hbsData.options.classes = [...(hbsData.options.classes || []), ...game.system.anarchy.uiCustomization.getCustomizationClasses('item')];
+    }
+
+    // Add theme information
+    if (game.system.anarchy?.themeUtilities) {
+      hbsData.currentTheme = game.system.anarchy.styles.currentTheme;
+      hbsData.availableThemes = game.system.anarchy.styles.availableThemes;
+      hbsData.themeMetadata = game.system.anarchy.themeUtilities.getCurrentThemeMetadata();
+    }
+
     return hbsData;
   }
 
 
   activateListeners(html) {
     super.activateListeners(html);
+
+    // Apply UI customizations to rendered sheet
+    if (game.system.anarchy?.uiCustomization) {
+      game.system.anarchy.uiCustomization.applyCustomizationsToElement(html[0], 'item');
+    }
+
+    // Apply theme-specific enhancements
+    if (game.system.anarchy?.themeUtilities) {
+      game.system.anarchy.themeUtilities.applyThemeEnhancements(html[0], 'item');
+    }
 
     // counters & monitors
     html.find('a.click-checkbar-element').click(async event =>

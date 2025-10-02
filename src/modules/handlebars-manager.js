@@ -196,7 +196,39 @@ export class HandlebarsManager {
     Handlebars.registerHelper('ifGte', function (value, threshold, options) { if (value >= threshold) { return options.fn(this); } else { return options.inverse(this); } });
     Handlebars.registerHelper('ifTabClosed', CharacterEnhancedSheet.ifTabClosed);
     Handlebars.registerHelper('actorTabClosed', CharacterEnhancedSheet.actorTabClosed);
-    Handlebars.registerHelper('length', function(context) { return context?.length || 0; }); }
+    Handlebars.registerHelper('length', function(context) { return context?.length || 0; });
+
+    // UI Customization helpers
+    Handlebars.registerHelper('uiCustomizationValue', function (category, setting) {
+      return game.system.anarchy?.uiCustomization?.getCustomization(category, setting) || '';
+    });
+    
+    Handlebars.registerHelper('uiCustomizationClass', function (type) {
+      return game.system.anarchy?.uiCustomization?.getCustomizationClasses(type).join(' ') || '';
+    });
+    
+    Handlebars.registerHelper('hasUICustomization', function (category, setting) {
+      return game.system.anarchy?.uiCustomization?.hasCustomization(category, setting) || false;
+    });
+
+    // Theme utilities helpers
+    Handlebars.registerHelper('currentTheme', function () {
+      return game.system.anarchy?.styles?.currentTheme || '';
+    });
+    
+    Handlebars.registerHelper('themeMetadata', function (property) {
+      const metadata = game.system.anarchy?.themeUtilities?.getCurrentThemeMetadata();
+      return metadata?.[property] || '';
+    });
+    
+    Handlebars.registerHelper('isThemeActive', function (themeClass) {
+      return game.system.anarchy?.styles?.currentTheme === themeClass;
+    });
+    
+    Handlebars.registerHelper('themeVariable', function (variableName) {
+      return game.system.anarchy?.themeUtilities?.getThemeVariable(variableName) || '';
+    });
+  }
 
   static hbsForLoop(start, end, options) {
     let accum = '';

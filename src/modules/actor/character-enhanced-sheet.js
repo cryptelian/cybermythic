@@ -18,6 +18,11 @@ export class CharacterEnhancedSheet extends CharacterBaseSheet {
   activateListeners(html) {
     super.activateListeners(html);
 
+    // Apply enhanced sheet specific UI customizations
+    if (game.system.anarchy?.uiCustomization) {
+      game.system.anarchy.uiCustomization.applyCustomizationsToElement(html[0], 'character-enhanced');
+    }
+
     const actorId = this.actor._id;
     html.find('.click-section').on("click", function () {
       const sectionClass = ($(this).data('class'));
