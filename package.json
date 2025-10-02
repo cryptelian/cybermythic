@@ -6,7 +6,9 @@
     "packCompendiumsToPublic": "node ./tools/packCompendiumsToPublic.mjs",
     "unpackCompendiumsFromPublic": "node ./tools/unpackCompendiumsFromPublic.mjs",
     "metrics:baseline": "node ./tools/metrics-baseline.mjs",
-    "lint:styles": "stylelint \"src/**/*.scss\" \"public/**/*.css\"",
+    "metrics:ci": "node ./tools/metrics-baseline.mjs --skip-build",
+    "lint:styles": "stylelint \"src/**/*.scss\"",
+    "lint:styles:fix": "stylelint \"src/**/*.scss\" --fix",
     "format": "prettier --write ."
   },
   "devDependencies": {
