@@ -1,15 +1,20 @@
 import type { PluginOption, UserConfig } from 'vite';
 import { visualizer } from 'rollup-plugin-visualizer';
+import { loadEnv } from 'vite';
 import { resolve } from 'path';
 
+// Load mode-based env so `--mode ninja` works seamlessly
+const mode = process.env.NODE_ENV || process.env.MODE || 'development';
+const env = loadEnv(mode, process.cwd(), '');
+
 // Resolve system id from env with fallback to 'anarchy'
-const SYSTEM_ID = (process.env.VITE_SYSTEM_ID && process.env.VITE_SYSTEM_ID.trim().length > 0)
-  ? process.env.VITE_SYSTEM_ID.trim()
+const SYSTEM_ID = (env.VITE_SYSTEM_ID && env.VITE_SYSTEM_ID.trim().length > 0)
+  ? env.VITE_SYSTEM_ID.trim()
   : 'anarchy';
 
 // Allow overriding output directory (e.g., a side repo path)
-const OUT_DIR = process.env.OUT_DIR && process.env.OUT_DIR.trim().length > 0
-  ? process.env.OUT_DIR.trim()
+const OUT_DIR = env.OUT_DIR && env.OUT_DIR.trim().length > 0
+  ? env.OUT_DIR.trim()
   : 'dist';
 
 const config: UserConfig = {
