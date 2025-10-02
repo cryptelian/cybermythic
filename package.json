@@ -16,12 +16,14 @@
     "test:watch": "vitest",
     "test:visual": "npm run -s build && playwright test",
     "test:visual:update": "npm run -s build && playwright test --update-snapshots",
+    "release:prepare": "node ./tools/prepareRelease.mjs --repo VincentVk9373/anarchy --version v$npm_package_version",
     "ci": "npm run format:check && npm run lint:css && npm run validate && npm run -s build && npm test",
     "prepare": "husky install"
   },
   "devDependencies": {
     "@foundryvtt/foundryvtt-cli": "^1.0.3",
     "@league-of-foundry-developers/foundry-vtt-types": "^9.280.0",
+    "archiver": "^7.0.1",
     "ajv": "^8.17.1",
     "ajv-formats": "^3.0.1",
     "autoprefixer": "^10.4.20",
