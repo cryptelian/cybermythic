@@ -72,6 +72,10 @@ See `docs/style-guide.md` for tokens, naming, file layout, and lint/format rules
 
 See `docs/a11y.md` for focus, contrast, and reduced motion guidance and tests.
 
+### Theming & debugging
+
+See `docs/theming.md` for token conventions and debugging tips. Visual tests capture screenshots for key themes.
+
 ## Note on Vite Server and Foundry Interaction
 
 The Vite server is configured to handle specific API calls (e.g., to **systems/anarchy**) directly, enhancing development efficiency. All other requests are forwarded to the local Foundry server, ensuring that the environment replicates the production setup as closely as possible.
