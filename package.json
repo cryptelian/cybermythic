@@ -4,7 +4,8 @@
     "run": "npx vite serve",
     "packCompendiumsToDist": "node ./tools/packCompendiumsToDist.mjs",
     "packCompendiumsToPublic": "node ./tools/packCompendiumsToPublic.mjs",
-    "unpackCompendiumsFromPublic": "node ./tools/unpackCompendiumsFromPublic.mjs"
+    "unpackCompendiumsFromPublic": "node ./tools/unpackCompendiumsFromPublic.mjs",
+    "build:ninja": "VITE_SYSTEM_ID=ninjanarchy OUT_DIR=dist-ninja npx vite build && VITE_SYSTEM_ID=ninjanarchy OUT_DIR=dist-ninja node ./tools/rewriteSystemJson.mjs"
   },
   "devDependencies": {
     "@foundryvtt/foundryvtt-cli": "^1.0.3",
