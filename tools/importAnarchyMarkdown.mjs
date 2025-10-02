@@ -225,27 +225,65 @@ function buildCharacterFromSection(section) {
   // Parse Skills lines like "FIREARMS 3+A" or "STREET GANGS (K)"
   const skillsBlockRx = /(\nSKILLS\s*\n)([\s\S]*?)(\n(SHADOW\s*AMPS|CUES|QUALITIES|WEAPONS|UNARMED|ARMOR|GEAR|CONTACTS)\b)/i;
   const skillsBlock = section.text.match(skillsBlockRx)?.[2] ?? '';
-  const skillLines = skillsBlock.split(/\r?\n/).map(normalizeSpaces).filter(l => l && !/^TOTAL\s+KARMA/i.test(l) && !/^KARMA\s+BALANCE/i.test(l));
+  const rawSkillLines = skillsBlock.split(/\r?\n/);
   const attrLetterToKey = { A: 'agility', W: 'willpower', L: 'logic', C: 'charisma', S: 'strength', E: 'edge', K: 'knowledge' };
-  for (const raw of skillLines) {
-    // Match like: "FIREARMS 3+A" or "ASTRAL COMBAT 1+W" or "STREET GANGS (K)"
-    const m = raw.match(/^([A-Z][A-Z '\-\/]+?)(?:\s+([0-9]+)\+([AWLCS]))?|\s*\(([K])\)\s*$/i);
-    let name = undefined; let value = 0; let attrLetter = undefined; let knowledge = false;
-    if (m) {
-      name = normalizeSpaces((m[1] ?? '').replace(/\s+\(.+\)$/, '')).toLowerCase();
-      value = toInt(m[2] ?? '0');
-      attrLetter = (m[3] ?? '').toUpperCase();
-      knowledge = (m[4] ?? '').toUpperCase() === 'K' || /\(K\)/i.test(raw);
-    } else {
-      continue;
+  function toSkillCode(name) {
+    const n = name.toLowerCase().trim();
+    const map = {
+      'close combat': 'closeCombat',
+      'projectile weapons': 'projectileWeapons',
+      'firearms': 'firearms',
+      'heavy weapons': 'heavyWeapons',
+      'vehicle weapons': 'vehicleWeapons',
+      'piloting ground': 'pilotingGround',
+      'piloting (ground)': 'pilotingGround',
+      'piloting other': 'pilotingOther',
+      'escape artist': 'escapeArtist',
+      'astral combat': 'astralCombat',
+      'conjuring': 'conjuring',
+      'sorcery': 'sorcery',
+      'survival': 'survival',
+      'biotech': 'biotech',
+      'hacking': 'hacking',
+      'electronics': 'electronics',
+      'engineering': 'engineering',
+      'tasking': 'tasking',
+      'tracking': 'tracking',
+      'animals': 'animals',
+      'con': 'con',
+      'etiquette': 'etiquette',
+      'intimidation': 'intimidation',
+      'negotiation': 'negotiation',
+      'disguise': 'disguise'
+    };
+    if (map[n]) return map[n];
+    return n.replace(/[^a-z0-9]+/g, ' ').replace(/\b(\w)/g, (_, c) => c.toUpperCase()).replace(/\s+/g, '');
+  }
+  for (let i = 0; i < rawSkillLines.length; i++) {
+    let raw = normalizeSpaces(rawSkillLines[i] || '');
+    if (!raw) continue;
+    if (/^(TOTAL\s+KARMA|KARMA\s+BALANCE)$/i.test(raw)) continue;
+    // Name and optional rating + attribute letter like "4+W"
+    const nm = raw.match(/^([A-Z][A-Z '\-\/]+?)(?:\s+([0-9]+)\+([AWLCS]))?$/i);
+    if (!nm) continue;
+    const nameText = nm[1].trim();
+    const value = toInt(nm[2] ?? '0');
+    const attrLetter = (nm[3] ?? '').toUpperCase();
+    // Specialization on same or next line in parentheses
+    let spec = (raw.match(/\(([^)]+)\)/)?.[1] ?? '').trim();
+    if (!spec) {
+      const next = normalizeSpaces(rawSkillLines[i + 1] || '');
+      if (/^\([^)]*\)$/.test(next)) { spec = next.replace(/^\(|\)$/g, ''); i++; }
     }
-    const attribute = knowledge ? 'knowledge' : (attrLetterToKey[attrLetter] ?? 'knowledge');
-    const code = name.replace(/[^a-z0-9]+/g, ' ').trim().replace(/\s+/g, '');
-    // Extract specialization info in parentheses
-    const spec = (raw.match(/\(([^)]+)\)/)?.[1] ?? '').replace(/\+?\d+.*/, '').trim();
+    const isKnowledge = /\(K\)/i.test(raw) || spec.toUpperCase() === 'K';
+    const attribute = isKnowledge ? 'knowledge' : (attrLetterToKey[attrLetter] ?? 'knowledge');
+    const code = toSkillCode(nameText);
+    const isSocial = /\b(con|etiquette|intimidation|negotiation)\b/i.test(nameText);
+    const hasDrain = /(conjuring|sorcery|tasking|astralcombat)/i.test(code);
+    const hasConvergence = /hacking/i.test(code);
     actor.items.push({
-      ...baseItemDoc(name.replace(/\b\w/g, c => c.toUpperCase()), 'skill'),
-      system: { code, attribute, value, specialization: spec, hasDrain: /conjuring|sorcery|tasking|astralcombat/i.test(code), hasConvergence: /hacking/i.test(code), isSocial: /con|etiquette|intimidation|negotiation/i.test(code), listspecialization: [] }
+      ...baseItemDoc(nameText.toLowerCase().replace(/\b\w/g, c => c.toUpperCase()), 'skill'),
+      system: { code, attribute, value, specialization: (!isKnowledge && spec && spec.toUpperCase() !== 'K') ? spec : '', hasDrain, hasConvergence, isSocial, listspecialization: [] }
     });
   }
 
