@@ -133,3 +133,32 @@
             }
         }
     }
+
+    /* A11y tokens */
+    :root {
+        --focus-ring-color: #1e90ff;
+        --focus-ring-width: 2px;
+        --a11y-contrast-text: #111;
+        --a11y-contrast-bg: #fff;
+    }
+
+    :focus-visible {
+        outline: var(--focus-ring-width) solid var(--focus-ring-color);
+        outline-offset: 2px;
+    }
+
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+        * {
+            animation-duration: 0.001s !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.001s !important;
+            scroll-behavior: auto !important;
+        }
+    }
+
+    /* High contrast mode */
+    .a11y-contrast {
+        color: var(--a11y-contrast-text);
+        background: var(--a11y-contrast-bg);
+    }

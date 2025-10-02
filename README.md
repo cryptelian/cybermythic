@@ -68,6 +68,10 @@ When you connect to Foundry from a browser (frontend), Vite will intercept all r
 
 See `docs/style-guide.md` for tokens, naming, file layout, and lint/format rules.
 
+### Accessibility
+
+See `docs/a11y.md` for focus, contrast, and reduced motion guidance and tests.
+
 ## Note on Vite Server and Foundry Interaction
 
 The Vite server is configured to handle specific API calls (e.g., to **systems/anarchy**) directly, enhancing development efficiency. All other requests are forwarded to the local Foundry server, ensuring that the environment replicates the production setup as closely as possible.

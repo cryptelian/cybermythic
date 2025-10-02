@@ -16,6 +16,15 @@ export default defineConfig({
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
+    {
+      name: 'chromium-a11y',
+      use: {
+        ...devices['Desktop Chrome'],
+        colorScheme: 'light',
+        reducedMotion: 'reduce',
+      },
+      testMatch: /a11y\.spec\.ts/,
+    },
   ],
   webServer: {
     command: 'npx vite preview --strictPort',
