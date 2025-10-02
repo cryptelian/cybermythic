@@ -4,14 +4,39 @@
     "run": "npx vite serve",
     "packCompendiumsToDist": "node ./tools/packCompendiumsToDist.mjs",
     "packCompendiumsToPublic": "node ./tools/packCompendiumsToPublic.mjs",
-    "unpackCompendiumsFromPublic": "node ./tools/unpackCompendiumsFromPublic.mjs"
+    "unpackCompendiumsFromPublic": "node ./tools/unpackCompendiumsFromPublic.mjs",
+    "lint:css": "stylelint \"src/**/*.scss\"",
+    "lint:css:fix": "stylelint \"src/**/*.scss\" --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "validate:system": "node ./tools/validateSystemJson.mjs",
+    "validate:i18n": "node ./tools/validateI18n.mjs",
+    "validate": "npm run validate:system && npm run validate:i18n",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "ci": "npm run format:check && npm run lint:css && npm run validate && npm run -s build && npm test",
+    "prepare": "husky install"
   },
   "devDependencies": {
     "@foundryvtt/foundryvtt-cli": "^1.0.3",
     "@league-of-foundry-developers/foundry-vtt-types": "^9.280.0",
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "autoprefixer": "^10.4.20",
+    "cssnano": "^6.1.2",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.7",
     "nodemon": "^3.1.2",
+    "postcss": "^8.4.47",
+    "postcss-scss": "^4.0.9",
+    "prettier": "^3.3.3",
     "sass": "^1.77.4",
-    "vite": "^5.2.12"
+    "stylelint": "^16.7.0",
+    "stylelint-config-clean-order": "^5.4.1",
+    "stylelint-config-standard-scss": "^13.0.0",
+    "stylelint-order": "^6.0.3",
+    "vite": "^5.2.12",
+    "vitest": "^2.0.5"
   },
   "dependencies": {
     "rollup-plugin-visualizer": "^5.12.0"

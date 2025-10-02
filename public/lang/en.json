@@ -150,7 +150,7 @@
       "confirmation": {
         "del": "Confirm removal",
         "delItem": "Confirm removal of {name} ({type})",
-        "delowner": "Confirm detach from owner {name}",
+        "delOwner": "Confirm detach from owner {name}",
         "attach": "Attach actor to owner",
         "attachOrCopy": "Attach {ownedType} {ownedName} to {ownerType} {ownerName}, or create a copy first"
       },

@@ -1,0 +1,7 @@
+{
+  "extends": ["stylelint-config-standard-scss", "stylelint-config-clean-order"],
+  "customSyntax": "postcss-scss",
+  "rules": {
+    "no-descending-specificity": null
+  }
+}

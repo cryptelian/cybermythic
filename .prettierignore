@@ -1,0 +1,6 @@
+dist/
+public/assets/
+public/fonts/
+public/icons/
+public/style/*.css
+node_modules/
