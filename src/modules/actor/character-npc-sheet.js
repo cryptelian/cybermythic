@@ -1,8 +1,7 @@
-import { TEMPLATES_PATH } from "../constants.js";
-import { CharacterBaseSheet } from "./character-base-sheet.js";
+import { TEMPLATES_PATH } from '../constants.js';
+import { CharacterBaseSheet } from './character-base-sheet.js';
 
 export class CharacterNPCSheet extends CharacterBaseSheet {
-
   get template() {
     return `${TEMPLATES_PATH}/actor/npc-sheet.hbs`;
   }
@@ -10,7 +9,7 @@ export class CharacterNPCSheet extends CharacterBaseSheet {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       width: 450,
-      height: 550
+      height: 550,
     });
   }
 

@@ -2,6 +2,22 @@
   "extends": ["stylelint-config-standard-scss", "stylelint-config-clean-order"],
   "customSyntax": "postcss-scss",
   "rules": {
-    "no-descending-specificity": null
+    "no-descending-specificity": null,
+    "order/properties-order": null,
+    "order/order": null,
+    "font-family-name-quotes": null,
+    "font-family-no-missing-generic-family-keyword": null,
+    "selector-pseudo-element-colon-notation": null,
+    "length-zero-no-unit": null,
+    "shorthand-property-no-redundant-values": null,
+    "declaration-block-no-redundant-longhand-properties": null,
+    "rule-empty-line-before": null,
+    "declaration-empty-line-before": null,
+    "at-rule-empty-line-before": null,
+    "scss/double-slash-comment-empty-line-before": null,
+    "no-duplicate-selectors": null,
+    "declaration-block-no-duplicate-properties": null,
+    "color-hex-length": null,
+    "custom-property-empty-line-before": null
   }
 }

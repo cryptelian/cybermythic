@@ -1,8 +1,7 @@
-import { TEMPLATES_PATH } from "../constants.js";
-import { CharacterBaseSheet } from "./character-base-sheet.js";
+import { TEMPLATES_PATH } from '../constants.js';
+import { CharacterBaseSheet } from './character-base-sheet.js';
 
 export class CharacterActorSheet extends CharacterBaseSheet {
-
   get template() {
     return `${TEMPLATES_PATH}/actor/character.hbs`;
   }
@@ -14,5 +13,4 @@ export class CharacterActorSheet extends CharacterBaseSheet {
       height: 700,
     });
   }
-
 }

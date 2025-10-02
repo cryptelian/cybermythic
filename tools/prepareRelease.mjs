@@ -93,7 +93,7 @@ async function main() {
   const releaseSystem = { ...system };
   releaseSystem.version = stripLeadingV(tag);
   // Ensure production paths
-  releaseSystem.esmodules = [ 'dist/index.mjs' ];
+  releaseSystem.esmodules = ['dist/index.mjs'];
   const styles = Array.isArray(releaseSystem.styles) ? [...releaseSystem.styles] : [];
   if (!styles.includes('dist/style.css')) styles.push('dist/style.css');
   releaseSystem.styles = styles;
@@ -127,4 +127,3 @@ main().catch((err) => {
   console.error(err);
   process.exit(1);
 });
-

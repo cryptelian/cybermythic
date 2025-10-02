@@ -16,10 +16,7 @@ async function main() {
   const systemPath = resolve(__dirname, '../public/system.json');
   const schemaPath = resolve(__dirname, './system.schema.json');
 
-  const [system, schema] = await Promise.all([
-    loadJson(systemPath),
-    loadJson(schemaPath),
-  ]);
+  const [system, schema] = await Promise.all([loadJson(systemPath), loadJson(schemaPath)]);
 
   const ajv = new Ajv({ allErrors: true, strict: false });
   addFormats(ajv);
@@ -40,4 +37,3 @@ main().catch((err) => {
   console.error(err);
   process.exit(1);
 });
-

@@ -62,7 +62,6 @@ import { DiceCursor } from './roll/dice-cursor.js';
 /* -------------------------------------------- */
 
 export class AnarchySystem {
-
   static start() {
     const anarchySystem = new AnarchySystem();
     Hooks.once('init', async () => await anarchySystem.onInit());
@@ -78,8 +77,8 @@ export class AnarchySystem {
       vehicle: VehicleActor,
       device: DeviceActor,
       sprite: SpriteActor,
-      ic: ICActor
-    }
+      ic: ICActor,
+    };
     this.itemClasses = {
       contact: ContactItem,
       cyberdeck: CyberdeckItem,
@@ -88,8 +87,8 @@ export class AnarchySystem {
       quality: QualityItem,
       shadowamp: ShadowampItem,
       skill: SkillItem,
-      weapon: WeaponItem
-    }
+      weapon: WeaponItem,
+    };
 
     this.hooks = new HooksManager();
     this.styles = new Styles();
@@ -108,7 +107,7 @@ export class AnarchySystem {
     console.log(LOG_HEAD + 'AnarchySystem.onInit | loading system');
     CONFIG.ANARCHY = ANARCHY;
     CONFIG.Combat.documentClass = AnarchyCombat;
-    CONFIG.Combat.initiative = { formula: "2d6" }
+    CONFIG.Combat.initiative = { formula: '2d6' };
     CONFIG.Actor.documentClass = AnarchyBaseActor;
     CONFIG.Item.documentClass = AnarchyBaseItem;
 
@@ -124,8 +123,8 @@ export class AnarchySystem {
     AnarchyUsers.init();
     AnarchyDice.init();
     AnarchyRoll.init();
-    AnarchyBaseItem.init()
-    AnarchyBaseActor.init()
+    AnarchyBaseItem.init();
+    AnarchyBaseActor.init();
     ActorDamageManager.init();
     ChatManager.init();
     this.gmManager = new GMManager(this.gmAnarchy, this.gmConvergence);
@@ -145,55 +144,60 @@ export class AnarchySystem {
     Actors.registerSheet(SYSTEM_NAME, CharacterActorSheet, {
       label: game.i18n.localize(ANARCHY.actor.characterSheet),
       makeDefault: false,
-      types: ['character']
+      types: ['character'],
     });
     Actors.registerSheet(SYSTEM_NAME, CharacterNPCSheet, {
       label: game.i18n.localize(ANARCHY.actor.characterNPCSheet),
       makeDefault: false,
-      types: ['character']
+      types: ['character'],
     });
     Actors.registerSheet(SYSTEM_NAME, CharacterTabbedSheet, {
       label: game.i18n.localize(ANARCHY.actor.characterTabbedSheet),
       makeDefault: false,
-      types: ['character']
+      types: ['character'],
     });
     Actors.registerSheet(SYSTEM_NAME, CharacterEnhancedSheet, {
       label: game.i18n.localize(ANARCHY.actor.characterEnhancedSheet),
       makeDefault: true,
-      types: ['character']
+      types: ['character'],
     });
     Actors.registerSheet(SYSTEM_NAME, VehicleSheet, {
       label: game.i18n.localize(ANARCHY.actor.vehicleSheet),
       makeDefault: true,
-      types: ['vehicle']
+      types: ['vehicle'],
     });
     Actors.registerSheet(SYSTEM_NAME, DeviceSheet, {
       label: game.i18n.localize(ANARCHY.actor.deviceSheet),
       makeDefault: true,
-      types: ['device']
+      types: ['device'],
     });
     Actors.registerSheet(SYSTEM_NAME, SpriteActorSheet, {
       label: game.i18n.localize(ANARCHY.actor.spriteSheet),
       makeDefault: true,
-      types: ['sprite']
+      types: ['sprite'],
     });
     Actors.registerSheet(SYSTEM_NAME, ICSheet, {
       label: game.i18n.localize(ANARCHY.actor.icSheet),
       makeDefault: true,
-      types: ['ic']
+      types: ['ic'],
     });
   }
 
   loadItemSheets() {
     Items.unregisterSheet('core', ItemSheet);
-    Items.registerSheet(SYSTEM_NAME, ContactItemSheet, { types: ["contact"], makeDefault: true });
-    Items.registerSheet(SYSTEM_NAME, CyberdeckItemSheet, { types: ["cyberdeck"], makeDefault: true });
-    Items.registerSheet(SYSTEM_NAME, GearItemSheet, { types: ["gear"], makeDefault: true });
-    Items.registerSheet(SYSTEM_NAME, MetatypeItemSheet, { types: ["metatype"], makeDefault: true });
-    Items.registerSheet(SYSTEM_NAME, QualityItemSheet, { types: ["quality"], makeDefault: true });
-    Items.registerSheet(SYSTEM_NAME, ShadowampItemSheet, { types: ["shadowamp"], makeDefault: true });
-    Items.registerSheet(SYSTEM_NAME, SkillItemSheet, { types: ["skill"], makeDefault: true });
-    Items.registerSheet(SYSTEM_NAME, WeaponItemSheet, { types: ["weapon"], makeDefault: true });
+    Items.registerSheet(SYSTEM_NAME, ContactItemSheet, { types: ['contact'], makeDefault: true });
+    Items.registerSheet(SYSTEM_NAME, CyberdeckItemSheet, {
+      types: ['cyberdeck'],
+      makeDefault: true,
+    });
+    Items.registerSheet(SYSTEM_NAME, GearItemSheet, { types: ['gear'], makeDefault: true });
+    Items.registerSheet(SYSTEM_NAME, MetatypeItemSheet, { types: ['metatype'], makeDefault: true });
+    Items.registerSheet(SYSTEM_NAME, QualityItemSheet, { types: ['quality'], makeDefault: true });
+    Items.registerSheet(SYSTEM_NAME, ShadowampItemSheet, {
+      types: ['shadowamp'],
+      makeDefault: true,
+    });
+    Items.registerSheet(SYSTEM_NAME, SkillItemSheet, { types: ['skill'], makeDefault: true });
+    Items.registerSheet(SYSTEM_NAME, WeaponItemSheet, { types: ['weapon'], makeDefault: true });
   }
-
 }

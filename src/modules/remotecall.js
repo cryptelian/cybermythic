@@ -1,11 +1,10 @@
-import { LOG_HEAD, SYSTEM_SOCKET } from "./constants.js";
-import { AnarchyUsers } from "./users.js";
+import { LOG_HEAD, SYSTEM_SOCKET } from './constants.js';
+import { AnarchyUsers } from './users.js';
 
 export class RemoteCall {
-
   constructor() {
     this.remoteCalls = {};
-    game.socket.on(SYSTEM_SOCKET, async sockMsg => this.onSocketMessage(sockMsg));
+    game.socket.on(SYSTEM_SOCKET, async (sockMsg) => this.onSocketMessage(sockMsg));
   }
 
   static async register(msg, remoteCall) {
@@ -16,11 +15,17 @@ export class RemoteCall {
     if (this.remoteCalls[msg]) {
       throw `RemoteCall msg ${msg} is already registered`;
     }
-    foundry.utils.mergeObject(remoteCall, {
-      callback: data => { console.log(LOG_HEAD + 'RemoteCall [', msg, '] (', data, ')'); },
-      condition: user => true,
-      multiple: false /* true if multiple users should handle the message */
-    }, { overwrite: false });
+    foundry.utils.mergeObject(
+      remoteCall,
+      {
+        callback: (data) => {
+          console.log(LOG_HEAD + 'RemoteCall [', msg, '] (', data, ')');
+        },
+        condition: (user) => true,
+        multiple: false /* true if multiple users should handle the message */,
+      },
+      { overwrite: false },
+    );
     this.remoteCalls[msg] = remoteCall;
     console.log(LOG_HEAD + 'RemoteCall registered', msg);
   }
@@ -31,7 +36,8 @@ export class RemoteCall {
 
   _remoteCall(msg, data) {
     const remoteCall = this.remoteCalls[msg];
-    if (!remoteCall ||
+    if (
+      !remoteCall ||
       remoteCall.condition(game.user) ||
       (!remoteCall.multiple && AnarchyUsers.isUniqueConnectedGM())
     ) {
@@ -49,14 +55,18 @@ export class RemoteCall {
       const isSelectedGM = AnarchyUsers.isUniqueConnectedGM();
       if (userMatchCondition && (isMultiple || isSelectedGM)) {
         remoteCall.callback(sockMsg.data);
+      } else {
+        console.log(
+          LOG_HEAD + 'RemoteCall.onSocketMessage(',
+          sockMsg,
+          ') ignored :',
+          userMatchCondition,
+          isMultiple,
+          isSelectedGM,
+        );
       }
-      else {
-        console.log(LOG_HEAD + 'RemoteCall.onSocketMessage(', sockMsg, ') ignored :', userMatchCondition, isMultiple, isSelectedGM);
-      }
-    }
-    else {
+    } else {
       console.log(LOG_HEAD + 'RemoteCall: No callback registered for', sockMsg);
     }
   }
-
 }

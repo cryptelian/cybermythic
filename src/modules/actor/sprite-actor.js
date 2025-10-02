@@ -1,19 +1,15 @@
-import { ICONS_PATH, TEMPLATE } from "../constants.js";
-import { AnarchyBaseActor } from "./base-actor.js";
+import { ICONS_PATH, TEMPLATE } from '../constants.js';
+import { AnarchyBaseActor } from './base-actor.js';
 
-const SPRITE_ATTRIBUTES = [
-  TEMPLATE.attributes.logic,
-  TEMPLATE.attributes.edge,
-]
+const SPRITE_ATTRIBUTES = [TEMPLATE.attributes.logic, TEMPLATE.attributes.edge];
 
 export class SpriteActor extends AnarchyBaseActor {
-
   static get defaultIcon() {
     return `${ICONS_PATH}/misc/rss.svg`;
   }
 
   static get initiative() {
-    return AnarchyBaseActor.initiative + " + @attributes.logic.value";
+    return AnarchyBaseActor.initiative + ' + @attributes.logic.value';
   }
 
   getMatrixDetails() {
@@ -23,12 +19,14 @@ export class SpriteActor extends AnarchyBaseActor {
       firewall: TEMPLATE.attributes.logic,
       monitor: this.system.monitors.matrix,
       overflow: undefined,
-    }
+    };
   }
 
   getAttributes() {
-    return SPRITE_ATTRIBUTES
+    return SPRITE_ATTRIBUTES;
   }
 
-  isEmerged() { return true }
+  isEmerged() {
+    return true;
+  }
 }

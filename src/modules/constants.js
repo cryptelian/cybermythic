@@ -4,7 +4,7 @@
  * Constants are written in ALL_CAPS_CONSTANTS and should never be changed during runtime.
  */
 export const SYSTEM_NAME = 'anarchy';
-export const SYSTEM_DESCRIPTION = "Anarchy";
+export const SYSTEM_DESCRIPTION = 'Anarchy';
 export const SYSTEM_SOCKET = `system.${SYSTEM_NAME}`;
 export const SYSTEM_SCOPE = SYSTEM_NAME;
 export const SYSTEM_PATH = `systems/${SYSTEM_NAME}`;
@@ -76,8 +76,8 @@ export const TEMPLATE = {
     social: {
       celebrity: 'celebrity',
       credibility: 'credibility',
-      rumor: 'rumor'
-    }
+      rumor: 'rumor',
+    },
   },
   area: {
     none: 'none',
@@ -85,9 +85,9 @@ export const TEMPLATE = {
     circle: 'circle',
     cone: 'cone',
     rect: 'rect',
-    ray: 'ray'
-  }
-}
+    ray: 'ray',
+  },
+};
 
 export const ANARCHY_SYSTEM = {
   rollType: {
@@ -99,31 +99,30 @@ export const ANARCHY_SYSTEM = {
     weapon: 'weapon',
   },
   actions: {
-    defense: "defense",
-    resistTorture: "resistTorture",
-    judgeIntentions: "judgeIntentions",
-    perception: "perception",
-    composure: "composure",
-    memory: "memory",
-    catch: "catch",
-    lift: "lift",
-    matrixDefense: "matrixDefense",
-    astralDefense: "astralDefense"
+    defense: 'defense',
+    resistTorture: 'resistTorture',
+    judgeIntentions: 'judgeIntentions',
+    perception: 'perception',
+    composure: 'composure',
+    memory: 'memory',
+    catch: 'catch',
+    lift: 'lift',
+    matrixDefense: 'matrixDefense',
+    astralDefense: 'astralDefense',
   },
   defenses: {
-    physicalDefense: "physicalDefense",
-    physicalResistance: "physicalResistance",
-    socialDefense: "socialDefense",
-    matrixDefense: "matrixDefense",
-    mentalResistance: "mentalResistance"
+    physicalDefense: 'physicalDefense',
+    physicalResistance: 'physicalResistance',
+    socialDefense: 'socialDefense',
+    matrixDefense: 'matrixDefense',
+    mentalResistance: 'mentalResistance',
   },
   fixedDefenseCode: {
     // fix for old incorrect defense codes
-    mentalDefense: "physicalResistance",
-    astralDefense: "mentalResistance",
-  }
-}
-
+    mentalDefense: 'physicalResistance',
+    astralDefense: 'mentalResistance',
+  },
+};
 
 // export constant for JS hacks
 globalThis.ANARCHY_CONSTANTS = {
@@ -144,5 +143,5 @@ globalThis.ANARCHY_CONSTANTS = {
   TARGET_SUCCESS_EDGE,
   BASE_MONITOR,
   TEMPLATE,
-  ANARCHY_SYSTEM
-}
+  ANARCHY_SYSTEM,
+};

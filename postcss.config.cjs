@@ -14,7 +14,16 @@ try {
 function loadSafelist() {
   try {
     const p = path.resolve(__dirname, './tools/purgecss.safelist.json');
-    return JSON.parse(fs.readFileSync(p, 'utf8'));
+    const data = JSON.parse(fs.readFileSync(p, 'utf8'));
+    // Convert special string markers into RegExp for 'greedy'
+    if (Array.isArray(data.greedy)) {
+      data.greedy = data.greedy.map((v) =>
+        typeof v === 'string' && v.startsWith('__REGEX__')
+          ? new RegExp(v.replace(/^__REGEX__/, ''))
+          : v,
+      );
+    }
+    return data;
   } catch {
     return { standard: [], greedy: [] };
   }
@@ -37,20 +46,16 @@ module.exports = {
               './src/**/*.ts',
               './src/**/*.hbs',
               './src/**/*.html',
-              './templates/**/*.hbs'
+              './templates/**/*.hbs',
             ],
             safelist: {
               standard: safelist.standard || [],
-              greedy: safelist.greedy || []
+              greedy: safelist.greedy || [],
             },
-            defaultExtractor: (content) => content.match(/[A-Za-z0-9-_:/]+/g) || []
-          })
+            defaultExtractor: (content) => content.match(/[A-Za-z0-9-_:/]+/g) || [],
+          }),
         ]
       : []),
-    ...(isProd
-      ? [
-          require('cssnano')({ preset: 'default' })
-        ]
-      : []),
+    ...(isProd ? [require('cssnano')({ preset: 'default' })] : []),
   ],
 };

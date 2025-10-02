@@ -28,9 +28,5 @@
     "bl",
     "a11y-contrast"
   ],
-  "greedy": [
-    // Handlebars/conditional modifiers and token-based classes
-    /^(is-|has-|js-).*/,
-    /^(fa[srlb]?|icon-).*/
-  ]
+  "greedy": ["__REGEX__^(is-|has-|js-).*", "__REGEX__^(fa[srlb]?|icon-).*"]
 }

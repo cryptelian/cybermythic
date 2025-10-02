@@ -1,32 +1,31 @@
-import { Checkbars } from "../common/checkbars.js";
-import { ANARCHY } from "../config.js";
-import { SYSTEM_NAME, TEMPLATE } from "../constants.js";
-import { ErrorManager } from "../error-manager.js";
-import { RemoteCall } from "../remotecall.js";
+import { Checkbars } from '../common/checkbars.js';
+import { ANARCHY } from '../config.js';
+import { SYSTEM_NAME, TEMPLATE } from '../constants.js';
+import { ErrorManager } from '../error-manager.js';
+import { RemoteCall } from '../remotecall.js';
 
-const GM_ANARCHY = "anarchy-gm";
-const GM_SCENE_ANARCHY = "scene-anarchy-gm";
+const GM_ANARCHY = 'anarchy-gm';
+const GM_SCENE_ANARCHY = 'scene-anarchy-gm';
 const GM_ADD_ANARCHY = 'GMAnarchy.addAnarchy';
 
 export class GMAnarchy {
-
   constructor() {
     game.settings.register(SYSTEM_NAME, GM_ANARCHY, {
-      scope: "world",
+      scope: 'world',
       config: false,
       default: 1,
-      type: Number
+      type: Number,
     });
     game.settings.register(SYSTEM_NAME, GM_SCENE_ANARCHY, {
-      scope: "world",
+      scope: 'world',
       config: false,
       default: 0,
-      type: Number
+      type: Number,
     });
 
     RemoteCall.register(GM_ADD_ANARCHY, {
-      callback: data => game.system.anarchy.gmAnarchy.addAnarchy(data),
-      condition: user => user.isGM
+      callback: (data) => game.system.anarchy.gmAnarchy.addAnarchy(data),
+      condition: (user) => user.isGM,
     });
     this.anarchy = game.settings.get(SYSTEM_NAME, GM_ANARCHY);
   }
@@ -36,8 +35,8 @@ export class GMAnarchy {
       isGM: true,
       value: this.anarchy,
       max: this.anarchy + 1,
-      scene: 0
-    }
+      scene: 0,
+    };
   }
 
   async actorGivesAnarchyToGM(actor, count) {
@@ -45,11 +44,10 @@ export class GMAnarchy {
       ChatMessage.create({
         user: game.user,
         whisper: ChatMessage.getWhisperRecipients('GM'),
-        content: game.i18n.format(ANARCHY.gmManager.gmReceivedAnarchy,
-          {
-            anarchy: count,
-            actor: actor.name
-          })
+        content: game.i18n.format(ANARCHY.gmManager.gmReceivedAnarchy, {
+          anarchy: count,
+          actor: actor.name,
+        }),
       });
       await this.addAnarchy(count);
     }
@@ -74,13 +72,15 @@ export class GMAnarchy {
   }
 
   async activateListeners(html) {
-    this.toolbar = html.find(".gm-anarchy-bar");
+    this.toolbar = html.find('.gm-anarchy-bar');
     await this._rebuild();
   }
 
   async _rebuild() {
     this.toolbar.find('.checkbar-root').replaceWith(await this._renderBar());
-    this.toolbar.find('a.click-checkbar-element').click(async (event) => await this._onClickAnarchyCheckbar(event));
+    this.toolbar
+      .find('a.click-checkbar-element')
+      .click(async (event) => await this._onClickAnarchyCheckbar(event));
   }
 
   async _onClickAnarchyCheckbar(event) {
@@ -91,24 +91,25 @@ export class GMAnarchy {
   }
 
   async _renderBar() {
-    return await renderTemplate("systems/anarchy/templates/monitors/anarchy.hbs", {
+    return await renderTemplate('systems/anarchy/templates/monitors/anarchy.hbs', {
       code: 'plot',
       rowlength: 6,
       value: this.getAnarchy().value,
       max: this.getAnarchy().max,
       scene: 0,
-      labelkey: ANARCHY.actor.counters.plot
+      labelkey: ANARCHY.actor.counters.plot,
     });
   }
 
   _syncGMAnarchySheets() {
-    const linkedActors = game.actors.filter(actor => !actor.token || actor.token.isLinked);
+    const linkedActors = game.actors.filter((actor) => !actor.token || actor.token.isLinked);
     const unlinkedActors = (game.canvas?.tokens?.getDocuments() ?? [])
-      .filter(t => !t.isLinked)
-      .map(t => t.actor);
+      .filter((t) => !t.isLinked)
+      .map((t) => t.actor);
 
-    linkedActors.concat(unlinkedActors)
-      .filter(actor => !actor.hasPlayerOwner)
-      .forEach(actor => actor.render());
+    linkedActors
+      .concat(unlinkedActors)
+      .filter((actor) => !actor.hasPlayerOwner)
+      .forEach((actor) => actor.render());
   }
 }

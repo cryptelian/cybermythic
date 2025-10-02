@@ -1,8 +1,7 @@
-import { TEMPLATES_PATH } from "../constants.js";
-import { CharacterBaseSheet } from "./character-base-sheet.js";
+import { TEMPLATES_PATH } from '../constants.js';
+import { CharacterBaseSheet } from './character-base-sheet.js';
 
 export class CharacterTabbedSheet extends CharacterBaseSheet {
-
   get template() {
     return `${TEMPLATES_PATH}/actor/character-tabbed.hbs`;
   }
@@ -12,7 +11,7 @@ export class CharacterTabbedSheet extends CharacterBaseSheet {
     return foundry.utils.mergeObject(super.defaultOptions, {
       width: 720,
       height: 700,
-      tabs: [{ navSelector: ".sheet-tabs", contentSelector: ".sheet-body", initial: "main" }],
+      tabs: [{ navSelector: '.sheet-tabs', contentSelector: '.sheet-body', initial: 'main' }],
     });
   }
 

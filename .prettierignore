@@ -3,4 +3,8 @@ public/assets/
 public/fonts/
 public/icons/
 public/style/*.css
+public/style.css
+public/**/*.hbs
+public/**/*.handlebars
 node_modules/
+.release/**

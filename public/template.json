@@ -7,12 +7,12 @@
         "description": "",
         "gmnotes": "",
         "favorites": [],
-        "state":{
-          "matrix":{
+        "state": {
+          "matrix": {
             "value": 0,
             "max": 0
           },
-          "physical":{
+          "physical": {
             "value": 0,
             "max": 0
           }
@@ -160,12 +160,7 @@
       "cues": []
     },
     "vehicle": {
-      "templates": [
-        "description",
-        "matrix-monitor",
-        "attribute-autopilot",
-        "attribute-handling"
-      ],
+      "templates": ["description", "matrix-monitor", "attribute-autopilot", "attribute-handling"],
       "attributes": {
         "system": {
           "value": 6
@@ -200,12 +195,7 @@
       }
     },
     "sprite": {
-      "templates": [
-        "description",
-        "matrix-monitor",
-        "attribute-logic",
-        "attribute-edge"
-      ]
+      "templates": ["description", "matrix-monitor", "attribute-logic", "attribute-edge"]
     },
     "ic": {
       "templates": ["description", "matrix-monitor", "attribute-logic"],
@@ -241,16 +231,10 @@
       }
     },
     "metatype": {
-      "templates": [
-        "references",
-        "modifiers"
-      ]
+      "templates": ["references", "modifiers"]
     },
     "skill": {
-      "templates": [
-        "inactive",
-        "references"
-      ],
+      "templates": ["inactive", "references"],
       "code": "",
       "attribute": "knowledge",
       "value": 0,
@@ -261,19 +245,11 @@
       "listspecialization": []
     },
     "quality": {
-      "templates": [
-        "modifiers",
-        "inactive",
-        "references"
-      ],
+      "templates": ["modifiers", "inactive", "references"],
       "positive": true
     },
     "shadowamp": {
-      "templates": [
-        "modifiers",
-        "inactive",
-        "references"
-      ],
+      "templates": ["modifiers", "inactive", "references"],
       "category": "special",
       "capacity": "mundane",
       "level": 1,
@@ -319,16 +295,10 @@
       "connectionMode": "disconnected"
     },
     "gear": {
-      "templates": [
-        "inactive",
-        "references"
-      ]
+      "templates": ["inactive", "references"]
     },
     "contact": {
-      "templates": [
-        "inactive",
-        "references"
-      ]
+      "templates": ["inactive", "references"]
     }
   }
 }

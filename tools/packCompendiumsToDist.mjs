@@ -1,3 +1,3 @@
 import { CompendiumsManager } from './CompendiumsManager.mjs';
 
-CompendiumsManager.packToDistDir()
+CompendiumsManager.packToDistDir();

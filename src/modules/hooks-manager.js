@@ -1,7 +1,7 @@
-import { CharacterActorEssence } from "./actor/character-actor-essence.js";
-import { CHECKBARS, Checkbars } from "./common/checkbars.js";
-import { ANARCHY } from "./config.js";
-import { LOG_HEAD, SYSTEM_NAME } from "./constants.js";
+import { CharacterActorEssence } from './actor/character-actor-essence.js';
+import { CHECKBARS, Checkbars } from './common/checkbars.js';
+import { ANARCHY } from './config.js';
+import { LOG_HEAD, SYSTEM_NAME } from './constants.js';
 
 export const ANARCHY_HOOKS = {
   /**
@@ -41,7 +41,7 @@ export const ANARCHY_HOOKS = {
    * Hook allowing to provide alternate anarchy hack (TODO: document)
    */
   ANARCHY_HACK: 'anarchy-hack',
-}
+};
 
 const SETTING_KEY_ANARCHY_HACK = `${SYSTEM_NAME}.${ANARCHY_HOOKS.ANARCHY_HACK}`;
 
@@ -49,8 +49,8 @@ const SHADOWRUN_ANARCHY_NO_HACK = {
   id: SYSTEM_NAME,
   name: 'Standard Shadowrun Anarchy',
   hack: {
-    checkbars: () => CHECKBARS
-  }
+    checkbars: () => CHECKBARS,
+  },
 };
 
 // export hooks and settings for JS hacks
@@ -59,18 +59,25 @@ globalThis.SETTING_KEY_ANARCHY_HACK = SETTING_KEY_ANARCHY_HACK;
 globalThis.SHADOWRUN_ANARCHY_NO_HACK = SHADOWRUN_ANARCHY_NO_HACK;
 
 export class HooksManager {
-
   constructor() {
     this.hooks = [];
     this.hacks = {};
     this.hackNames = {};
-    this.hookMethods = {}
+    this.hookMethods = {};
     this._register(ANARCHY_HOOKS.ANARCHY_HACK);
     this._register(ANARCHY_HOOKS.PROVIDE_BASE_ESSENCE);
-    Hooks.on(ANARCHY_HOOKS.ANARCHY_HACK, register => register(SHADOWRUN_ANARCHY_NO_HACK));
-    Hooks.on(ANARCHY_HOOKS.PROVIDE_BASE_ESSENCE, provide => provide(SHADOWRUN_ANARCHY_NO_HACK, actor => 6));
-    Hooks.on(ANARCHY_HOOKS.PROVIDE_MALUS_ESSENCE, provide => provide(SHADOWRUN_ANARCHY_NO_HACK, (actor, essence) => CharacterActorEssence.getMalus(actor, essence)));
-    Hooks.on('updateSetting', async (setting, update, options, id) => this.onUpdateSetting(setting, update, options, id));
+    Hooks.on(ANARCHY_HOOKS.ANARCHY_HACK, (register) => register(SHADOWRUN_ANARCHY_NO_HACK));
+    Hooks.on(ANARCHY_HOOKS.PROVIDE_BASE_ESSENCE, (provide) =>
+      provide(SHADOWRUN_ANARCHY_NO_HACK, (actor) => 6),
+    );
+    Hooks.on(ANARCHY_HOOKS.PROVIDE_MALUS_ESSENCE, (provide) =>
+      provide(SHADOWRUN_ANARCHY_NO_HACK, (actor, essence) =>
+        CharacterActorEssence.getMalus(actor, essence),
+      ),
+    );
+    Hooks.on('updateSetting', async (setting, update, options, id) =>
+      this.onUpdateSetting(setting, update, options, id),
+    );
     Hooks.once('ready', () => this.onReady());
   }
 
@@ -80,13 +87,13 @@ export class HooksManager {
       this.hackNames[hack.id] = hack.name;
     });
     game.settings.register(SYSTEM_NAME, ANARCHY_HOOKS.ANARCHY_HACK, {
-      scope: "world",
+      scope: 'world',
       name: game.i18n.localize(ANARCHY.settings.anarchyHack.name),
       hint: game.i18n.localize(ANARCHY.settings.anarchyHack.hint),
       config: true,
       default: SHADOWRUN_ANARCHY_NO_HACK.id,
       choices: this.hackNames,
-      type: String
+      type: String,
     });
     this.applySelectedAnarchyHack();
   }
@@ -103,16 +110,16 @@ export class HooksManager {
       Checkbars.hackCheckbars(selectedHack.hack.checkbars());
       const overridableMethods = [
         ANARCHY_HOOKS.PROVIDE_BASE_ESSENCE,
-        ANARCHY_HOOKS.PROVIDE_MALUS_ESSENCE
+        ANARCHY_HOOKS.PROVIDE_MALUS_ESSENCE,
       ];
-      overridableMethods.forEach(hookMethod => this.selectHookMethod(selectedHack, hookMethod))
+      overridableMethods.forEach((hookMethod) => this.selectHookMethod(selectedHack, hookMethod));
     }
   }
 
   selectHookMethod(selectedHack, hookMethod) {
     Hooks.callAll(hookMethod, (hack, callback) => {
       if (hack == selectedHack) {
-        this.hookMethods[hookMethod] = callback
+        this.hookMethods[hookMethod] = callback;
       }
     });
   }
@@ -141,9 +148,8 @@ export class HooksManager {
   _register(name) {
     console.log(LOG_HEAD + 'HooksManager.register', name);
     if (!name.startsWith(SYSTEM_NAME + '-')) {
-      throw "For safety Anarchy Hooks names must be prefixed by anarchy'-'"
+      throw "For safety Anarchy Hooks names must be prefixed by anarchy'-'";
     }
     this.hooks.push(name);
   }
-
 }

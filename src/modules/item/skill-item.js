@@ -1,8 +1,7 @@
-import { ICONS_PATH } from "../constants.js";
-import { AnarchyBaseItem } from "./anarchy-base-item.js";
+import { ICONS_PATH } from '../constants.js';
+import { AnarchyBaseItem } from './anarchy-base-item.js';
 
 export class SkillItem extends AnarchyBaseItem {
-
   static get defaultIcon() {
     return `${ICONS_PATH}/skills/skills.svg`;
   }
@@ -16,9 +15,9 @@ export class SkillItem extends AnarchyBaseItem {
           code: skillCode,
           attribute: '',
           hasDrain: false,
-          hasConvergence: false
-        }
-      }
+          hasConvergence: false,
+        },
+      };
     }
 
     const updates = {
@@ -27,13 +26,13 @@ export class SkillItem extends AnarchyBaseItem {
         code: skill.code,
         attribute: skill.attribute,
         hasDrain: skill.hasDrain ? true : false,
-        hasConvergence: skill.hasConvergence ? true : false
-      }
-    }
+        hasConvergence: skill.hasConvergence ? true : false,
+      },
+    };
     if (skill.code != 'knowledge') {
-      updates.name = game.i18n.localize(skill.labelkey)
+      updates.name = game.i18n.localize(skill.labelkey);
     }
-    return updates
+    return updates;
   }
 
   isKnowledgeSkill() {
@@ -48,7 +47,7 @@ export class SkillItem extends AnarchyBaseItem {
     return {
       img: this.img,
       label: this.system.specialization ? `${this.name}: ${this.system.specialization}` : this.name,
-      callback: token => token.actor.rollSkill(this, this.system.specialization),
+      callback: (token) => token.actor.rollSkill(this, this.system.specialization),
     };
   }
 }

@@ -1,12 +1,11 @@
 export class Misc {
+  static isString = (value) => typeof value === 'string' || value instanceof String;
 
-  static isString = value => (typeof value === 'string' || value instanceof String)
-
-  static ascending(orderFunction = x => x) {
+  static ascending(orderFunction = (x) => x) {
     return (a, b) => Misc.sortingBy(orderFunction(a), orderFunction(b));
   }
 
-  static descending(orderFunction = x => x) {
+  static descending(orderFunction = (x) => x) {
     return (a, b) => Misc.sortingBy(orderFunction(b), orderFunction(a));
   }
 
@@ -17,7 +16,7 @@ export class Misc {
   }
 
   static bySortedArray(sortedArray) {
-    return it => sortedArray.indexOf(it);
+    return (it) => sortedArray.indexOf(it);
   }
 
   static ascendingBySortedArray(sortedArray) {
@@ -30,14 +29,12 @@ export class Misc {
       .reduce((obj, key) => {
         obj[key] = map[key];
         return obj;
-      },
-        {});
-
+      }, {});
   }
 
   static reindexIds(list) {
     let index = 1;
-    list.forEach(it => it.id = (index++));
+    list.forEach((it) => (it.id = index++));
     return list;
   }
 
@@ -49,8 +46,11 @@ export class Misc {
     return (a, b) => a + b;
   }
 
-  static sumValues(list, value = t => t) {
-    return list.map(value).filter(v => v != undefined).reduce(Misc.sum(), 0);
+  static sumValues(list, value = (t) => t) {
+    return list
+      .map(value)
+      .filter((v) => v != undefined)
+      .reduce(Misc.sum(), 0);
   }
 
   static divint(value, divisor) {
@@ -69,7 +69,7 @@ export class Misc {
     return (a, b) => a + separator + b;
   }
 
-  static classify(items, classifier = it => it.type) {
+  static classify(items, classifier = (it) => it.type) {
     let itemsBy = {};
     Misc.classifyInto(itemsBy, items, classifier);
     return itemsBy;
@@ -86,7 +86,7 @@ export class Misc {
     return itemsBy;
   }
 
-  static classifyInto(itemsBy, items, classifier = it => it.type) {
+  static classifyInto(itemsBy, items, classifier = (it) => it.type) {
     for (const item of items) {
       const classification = classifier(item);
       let list = itemsBy[classification];
@@ -101,12 +101,11 @@ export class Misc {
   static showControlWhen(control, condition) {
     if (condition) {
       control.show();
-    }
-    else {
+    } else {
       control.hide();
     }
   }
   static minmax(value, min, max) {
-    return Math.max(min, Math.min(value, max))
+    return Math.max(min, Math.min(value, max));
   }
 }

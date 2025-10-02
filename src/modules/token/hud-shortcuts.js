@@ -1,20 +1,21 @@
-import { ANARCHY } from "../config.js";
-import { TEMPLATES_PATH } from "../constants.js";
-import { Misc } from "../misc.js";
+import { ANARCHY } from '../config.js';
+import { TEMPLATES_PATH } from '../constants.js';
+import { Misc } from '../misc.js';
 
 const TEMPLATE_HUD_SHORTCUTS = `${TEMPLATES_PATH}/token/hud-shortcuts.hbs`;
 
 export class HUDShortcuts {
-
   constructor() {
-    Hooks.on('renderTokenHUD', async (tokenHUD, html, tokenHUDData) => await this.addExtensionHud(tokenHUD, html, tokenHUDData._id));
+    Hooks.on(
+      'renderTokenHUD',
+      async (tokenHUD, html, tokenHUDData) =>
+        await this.addExtensionHud(tokenHUD, html, tokenHUDData._id),
+    );
     Hooks.once('ready', () => this.onReady());
   }
 
   async onReady() {
-    await loadTemplates([
-      TEMPLATE_HUD_SHORTCUTS,
-    ]);
+    await loadTemplates([TEMPLATE_HUD_SHORTCUTS]);
   }
 
   /* -------------------------------------------- */
@@ -35,7 +36,7 @@ export class HUDShortcuts {
       tokenId: tokenId,
       shortcuts: token.actor.getShortcuts(),
       options: {
-        classes: [game.system.anarchy.styles.selectCssClass()]
+        classes: [game.system.anarchy.styles.selectCssClass()],
       },
     };
     const html = await renderTemplate(TEMPLATE_HUD_SHORTCUTS, hbsHudData);
@@ -44,12 +45,14 @@ export class HUDShortcuts {
 
     this._toggleHudActive(hud, list);
 
-    hud.find('.anarchy-shortcuts-toggle').click(event => {
+    hud.find('.anarchy-shortcuts-toggle').click((event) => {
       this._toggleHudActive(hud, list);
     });
 
-    list.find('.anarchy-shortcut-button').click(event => {
-      const tokenId = $(event.currentTarget).closest('.anarchy-shortcuts-list').attr('data-token-id');
+    list.find('.anarchy-shortcut-button').click((event) => {
+      const tokenId = $(event.currentTarget)
+        .closest('.anarchy-shortcuts-list')
+        .attr('data-token-id');
       const shortcutType = $(event.currentTarget).attr('data-shortcut-type');
       const shortcutId = $(event.currentTarget).attr('data-shortcut-id');
       this.onClickShortcutButton(tokenId, shortcutType, shortcutId);
@@ -63,8 +66,7 @@ export class HUDShortcuts {
     if (actor) {
       const shortcut = actor?.getShortcut(shortcutType, shortcutId);
       shortcut?.callback(token);
-    }
-    else {
+    } else {
       ui.notifications.warn(game.i18.localize(ANARCHY.common.errors.noTokenActor));
     }
   }
@@ -73,5 +75,4 @@ export class HUDShortcuts {
     hud.toggleClass('active');
     Misc.showControlWhen(list, hud.hasClass('active'));
   }
-
 }

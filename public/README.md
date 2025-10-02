@@ -6,7 +6,7 @@ This system implements Shadowrun Anarchy rules for Foundry VTT.
 
 To run a game, you will need the [Shadowrun Anarchy rule book](https://store.catalystgamelabs.com/products/shadowrun-anarchy-pdf), edited by [Catalyst game labs](https://www.catalystgamelabs.com/).
 
-In French, [Shadowrun - Anarchy (VF)](https://www.black-book-editions.fr/produit.php?id=6543), edited by  [Black Book Edition](https://www.black-book-editions.fr/).
+In French, [Shadowrun - Anarchy (VF)](https://www.black-book-editions.fr/produit.php?id=6543), edited by [Black Book Edition](https://www.black-book-editions.fr/).
 
 ## Characters
 
@@ -36,8 +36,8 @@ The gamemaster has access to a special window which contains:
 
 When a player character spends anarchy, the GM plot points are increased accordingly.
 
-
 ## Compendiums
+
 No compendiums are provided to not infringe CGL or BBE copyrights, they might develop paying compendiums later.
 
 # Legal mentions
@@ -64,6 +64,7 @@ www.black-book-editions.fr
 ## Credits & attributions
 
 Icons are derived from original icons provided under [Creative Commons 3.0 BY license](http://creativecommons.org/licenses/by/3.0/), on [game-icons.net](game-icons.net):
+
 - by Lorc
 - by Delapouite
 - by Skoll
