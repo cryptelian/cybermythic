@@ -1,0 +1,15 @@
+_id: LolTjWUr3akdVtRq
+name: The gear below represents just a sample of what the Sixth World has to
+  offer. Players are encouraged to cre- ate their own unique gear or recreate a
+  piece of gear they have found in previous Shadowrun products.
+type: gear
+img: systems/anarchy/icons/gear/gear.svg
+system:
+  inactive: false
+  references:
+    sourceReference: Anarchy Catalog
+    description: ""
+    gmnotes: ""
+ownership:
+  default: 0
+flags: {}

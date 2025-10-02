@@ -129,6 +129,20 @@ function splitMarkdownIntoSections(md) {
   return sections.map(s => ({ heading: s.heading, text: s.content.join('\n') }));
 }
 
+function normalizeSpaces(str) {
+  return str.replace(/[\t ]+/g, ' ').trim();
+}
+
+function findAllIndexes(text, search) {
+  const idxs = [];
+  let idx = 0;
+  while ((idx = text.indexOf(search, idx)) !== -1) {
+    idxs.push(idx);
+    idx += search.length;
+  }
+  return idxs;
+}
+
 function parseAttributesFromText(text) {
   const result = {};
   const map = {
@@ -170,7 +184,22 @@ function parseListAfterHeading(text, headingLabelRegex) {
 function buildCharacterFromSection(section) {
   const nameMatch = section.heading?.trim() ? section.heading.trim() : 'Character';
   const actor = baseActorDoc(nameMatch, 'character');
-  const attributes = parseAttributesFromText(section.text);
+  // Prefer specific table parsing if present
+  const attrTableRx = /(STRENGTH\s+AGILITY\s+WILLPOWER\s+LOGIC\s+CHARISMA\s+EDGE)[\s\S]*?(\n\s*([0-9]+)\s+([0-9]+)\s+([0-9]+)\s+([0-9]+)\s+([0-9]+)\s+([0-9]+)\s*)/i;
+  const attrTable = section.text.match(attrTableRx);
+  let attributes = {};
+  if (attrTable) {
+    attributes = {
+      strength: toInt(attrTable[3], 1),
+      agility: toInt(attrTable[4], 1),
+      willpower: toInt(attrTable[5], 1),
+      logic: toInt(attrTable[6], 1),
+      charisma: toInt(attrTable[7], 1),
+      edge: toInt(attrTable[8], 1),
+    };
+  } else {
+    attributes = parseAttributesFromText(section.text);
+  }
   actor.system = {
     description: { ownerId: '', description: '', gmnotes: '', favorites: [], state: { matrix: { value: 0, max: 0 }, physical: { value: 0, max: 0 } } },
     counters: { essence: { value: 6 }, karma: { value: 0, total: 0 }, anarchy: { value: 3, max: 6 }, sceneAnarchy: { value: 0, max: 3 }, social: { celebrity: { value: 0 }, credibility: { value: 0, max: 1 }, rumor: { value: 0, max: 1 } } },
@@ -193,58 +222,133 @@ function buildCharacterFromSection(section) {
     cues: []
   };
 
-  // Heuristic: parse Skills block bullets like "Skill (attribute) value [specialization]"
-  const skills = parseListAfterHeading(section.text, /^(skills|competences)\s*:/i);
-  for (const line of skills) {
-    const skillNameMatch = line.match(/^([^()\[]+?)(?:\s*\(([^)]+)\))?(?:\s*(\d+))?/i);
-    const name = skillNameMatch?.[1]?.trim();
-    if (!name) continue;
-    const attribute = (skillNameMatch?.[2]?.trim() || 'knowledge').toLowerCase();
-    const value = toInt(skillNameMatch?.[3] ?? '0');
+  // Parse Skills lines like "FIREARMS 3+A" or "STREET GANGS (K)"
+  const skillsBlockRx = /(\nSKILLS\s*\n)([\s\S]*?)(\n(CUES|QUALITIES|WEAPONS|UNARMED|ARMOR|GEAR|CONTACTS)\b)/i;
+  const skillsBlock = section.text.match(skillsBlockRx)?.[2] ?? '';
+  const skillLines = skillsBlock.split(/\r?\n/).map(normalizeSpaces).filter(l => l && !/^TOTAL\s+KARMA/i.test(l) && !/^KARMA\s+BALANCE/i.test(l));
+  const attrLetterToKey = { A: 'agility', W: 'willpower', L: 'logic', C: 'charisma', S: 'strength', E: 'edge', K: 'knowledge' };
+  for (const raw of skillLines) {
+    // Match like: "FIREARMS 3+A" or "ASTRAL COMBAT 1+W" or "STREET GANGS (K)"
+    const m = raw.match(/^([A-Z][A-Z '\-\/]+?)(?:\s+([0-9]+)\+([AWLCS]))?|\s*\(([K])\)\s*$/i);
+    let name = undefined; let value = 0; let attrLetter = undefined; let knowledge = false;
+    if (m) {
+      name = normalizeSpaces((m[1] ?? '').replace(/\s+\(.+\)$/, '')).toLowerCase();
+      value = toInt(m[2] ?? '0');
+      attrLetter = (m[3] ?? '').toUpperCase();
+      knowledge = (m[4] ?? '').toUpperCase() === 'K' || /\(K\)/i.test(raw);
+    } else {
+      continue;
+    }
+    const attribute = knowledge ? 'knowledge' : (attrLetterToKey[attrLetter] ?? 'knowledge');
+    const code = name.replace(/[^a-z0-9]+/g, ' ').trim().replace(/\s+/g, '');
+    // Extract specialization info in parentheses
+    const spec = (raw.match(/\(([^)]+)\)/)?.[1] ?? '').replace(/\+?\d+.*/, '').trim();
     actor.items.push({
-      ...baseItemDoc(name, 'skill'),
-      system: { code: name.toLowerCase().replace(/\s+/g, ''), attribute, value, specialization: '', hasDrain: false, hasConvergence: false, isSocial: false, listspecialization: [] }
+      ...baseItemDoc(name.replace(/\b\w/g, c => c.toUpperCase()), 'skill'),
+      system: { code, attribute, value, specialization: spec, hasDrain: /conjuring|sorcery|tasking|astralcombat/i.test(code), hasConvergence: /hacking/i.test(code), isSocial: /con|etiquette|intimidation|negotiation/i.test(code), listspecialization: [] }
     });
   }
 
-  // Heuristic: shadow amps
-  const amps = parseListAfterHeading(section.text, /^(amps|shadow\s*amps|augmentations)\s*:/i);
-  for (const amp of amps) {
-    const m = amp.match(/^([^\[]+?)(?:\s*\[(level|lvl)\s*(\d+)\])?/i);
-    const name = (m?.[1] ?? amp).trim();
-    const level = toInt(m?.[3] ?? '1', 1);
+  // Parse Shadow Amps section simple lines (names and descriptions)
+  const ampsBlockRx = /(\nSHADOW\s*AMPS[\s\S]*?)(\nCUES\b|\nQUALITIES\b|\nWEAPONS\b|\nUNARMED\b|\nARMOR\b|\nGEAR\b|\nCONTACTS\b)/i;
+  const ampsBlock = section.text.match(ampsBlockRx)?.[1] ?? '';
+  const ampLines = ampsBlock.split(/\r?\n/).map(normalizeSpaces).filter(l => l && !/^SHADOW\s*AMPS/i.test(l) && !/^ESSENCE/i.test(l));
+  for (const line of ampLines) {
+    // Pattern: NAME (TYPE) LEVEL? description... where a bare number at line start/next indicates level
+    const n = line.replace(/^\d+\s+/, '');
+    const name = (n.match(/^([^0-9:]+?)(?:\s+\d+)?\s*(?:\.|$)/)?.[1] ?? n).trim();
+    const level = toInt((line.match(/\b(\d+)\b/) ?? [])[1] ?? '1', 1);
+    if (!name || name.length < 2) continue;
     actor.items.push({
       ...baseItemDoc(name, 'shadowamp'),
-      system: { category: 'special', capacity: actor.system.capacity ?? 'mundane', level, essence: 0, modifiers: [], inactive: false, references: { sourceReference: '', description: '', gmnotes: '' } }
+      system: { category: 'special', capacity: actor.system.capacity ?? 'mundane', level, essence: 0, modifiers: [], inactive: false, references: { sourceReference: '', description: line.trim(), gmnotes: '' } }
     });
   }
 
-  // Heuristic: weapons
-  const weapons = parseListAfterHeading(section.text, /^(weapons|armes)\s*:/i);
-  for (const w of weapons) {
-    // Example: "Ares Predator V (Agility) 3P, range short"
-    const name = w.replace(/\(.+?\)/, '').replace(/,.*$/, '').trim();
+  // Parse Weapons table subset if present
+  const weaponsBlockRx = /(\nWEAPONS\s*\n)([\s\S]*?)(\n(UNARMED|ARMOR|GEAR|CONTACTS)\b)/i;
+  const weaponsBlock = section.text.match(weaponsBlockRx)?.[2] ?? '';
+  const weaponEntries = [];
+  const lines = weaponsBlock.split(/\r?\n/).map(normalizeSpaces).filter(Boolean);
+  // Simple pairwise parser for alternating name/damage-range lines
+  for (let i = 0; i < lines.length; i++) {
+    const nameLine = lines[i];
+    const dmgLine = lines[i + 1] || '';
+    if (/^DAM\b/i.test(nameLine) || /^CLOSE\b/i.test(nameLine)) continue;
+    const rangeMatch = dmgLine.match(/^(\d+|STR\/2\s*\+?\s*\d*|STR\/2)\s*([PS])\s+([A-Z\-0-9]+)\s+([A-Z\-0-9]+)\s+([A-Z\-0-9]+)/i)
+      || dmgLine.match(/^(\d+|STR\/2\s*\+?\s*\d*|STR\/2)([PS])?\s+OK|-/i);
+    if (!rangeMatch) continue;
+    const name = nameLine.replace(/\s{2,}.*/, '').trim();
+    weaponEntries.push({ name, dmgLine });
+    i++;
+  }
+  for (const entry of weaponEntries) {
+    const { name, dmgLine } = entry;
+    // Extract damage
+    const dmgm = dmgLine.match(/^(STR\/2(?:\s*\+\s*(\d+))?|\d+)([PS])/i);
+    let damageAttribute = '';
+    let damage = 0;
+    let monitor = 'stun';
+    if (dmgm) {
+      monitor = (dmgm[3] || 'S').toUpperCase() === 'P' ? 'physical' : 'stun';
+      if (/^STR\/2/i.test(dmgm[1])) {
+        damageAttribute = 'strength';
+        damage = toInt(dmgm[2] ?? '0');
+      } else {
+        damage = toInt(dmgm[1] ?? '0');
+      }
+    }
+    // Extract ranges (Close/Near/Far) tokens like OK, -2, -
+    const tokens = dmgLine.split(/\s+/);
+    const okIdx = tokens.findIndex(t => /OK|\-\d+|\-/i.test(t));
+    const tri = tokens.slice(okIdx, okIdx + 3).map(t => t.toUpperCase());
+    const toVal = v => (v === 'OK' ? 0 : (/^\-\d+$/.test(v) ? parseInt(v, 10) : 0));
+    const short = toVal(tri[0] ?? 'OK');
+    const medium = toVal(tri[1] ?? 'OK');
+    const farToken = tri[2] ?? '-';
+    const longVal = toVal(farToken);
+    const max = farToken === '-' ? 'medium' : 'long';
     actor.items.push({
       ...baseItemDoc(name, 'weapon'),
-      system: { skill: '', specialization: '', strength: true, damage: 0, damageAttribute: '', noArmor: false, monitor: 'stun', defense: '', area: '', drain: 0, range: { max: 'short', short: 0, medium: 0, long: 0 }, modifiers: [], inactive: false, references: { sourceReference: '', description: w.trim(), gmnotes: '' } }
+      system: {
+        skill: /knife|sword|axe|club|unarmed|staff|baton/i.test(name) ? 'closeCombat' : (/bow|crossbow|thrown/i.test(name) ? 'projectileWeapons' : 'firearms'),
+        specialization: '',
+        strength: damageAttribute === 'strength',
+        damage,
+        damageAttribute,
+        noArmor: false,
+        monitor,
+        defense: '',
+        area: '',
+        drain: 0,
+        range: { max, short, medium, long: longVal },
+        modifiers: [],
+        inactive: false,
+        references: { sourceReference: 'Anarchy Full.md', description: dmgLine.trim(), gmnotes: '' }
+      }
     });
   }
 
-  // Heuristic: gear
-  const gear = parseListAfterHeading(section.text, /^(gear|equipment|equipement)\s*:/i);
-  for (const g of gear) {
+  // Parse GEAR block as lines
+  const gearBlockRx = /(\nGEAR\s*\n)([\s\S]*?)(\n(CONTACTS|CUES|QUALITIES|WEAPONS|ARMOR)\b)/i;
+  const gearBlock = section.text.match(gearBlockRx)?.[2] ?? '';
+  const gearLines = gearBlock.split(/\r?\n/).map(normalizeSpaces).filter(Boolean);
+  for (const g of gearLines) {
+    if (/^-\d+/.test(g)) continue;
     actor.items.push({
       ...baseItemDoc(g, 'gear'),
-      system: { inactive: false, references: { sourceReference: '', description: '', gmnotes: '' } }
+      system: { inactive: false, references: { sourceReference: 'Anarchy Full.md', description: '', gmnotes: '' } }
     });
   }
 
-  // Heuristic: contacts
-  const contacts = parseListAfterHeading(section.text, /^(contacts?)\s*:/i);
-  for (const c of contacts) {
+  // Parse CONTACTS block
+  const contactsBlockRx = /(\nCONTACTS\s*\n)([\s\S]*?)(\n([A-Z][A-Z \-]{2,}|\n\s*$))/i;
+  const contactsBlock = section.text.match(contactsBlockRx)?.[2] ?? '';
+  const contactLines = contactsBlock.split(/\r?\n/).map(normalizeSpaces).filter(Boolean);
+  for (const c of contactLines) {
     actor.items.push({
       ...baseItemDoc(c, 'contact'),
-      system: { inactive: false, references: { sourceReference: '', description: '', gmnotes: '' } }
+      system: { inactive: false, references: { sourceReference: 'Anarchy Full.md', description: c, gmnotes: '' } }
     });
   }
 
@@ -284,22 +388,196 @@ function buildItemFromSection(section, itemType) {
 }
 
 function parseMarkdown(md) {
-  const sections = splitMarkdownIntoSections(md);
   const actors = [];
   const items = [];
 
-  for (const section of sections) {
-    const kind = detectSectionType(section.heading, section.text);
-    if (!kind) continue;
-    if (kind.doc === 'Actor') {
-      if (kind.type === 'character') {
-        actors.push(buildCharacterFromSection(section));
-      } else {
-        const actor = baseActorDoc(section.heading || kind.type, kind.type);
-        actors.push(actor);
+  // 1) Parse sample characters blocks in STREET PEOPLE/CHARACTERS
+  const charSectionIdx = md.search(/\n\s*CHARACTERS\b/i);
+  const streetPeopleIdx = md.search(/\n\s*STREET\s+PEOPLE\b/i);
+  const startIdx = charSectionIdx >= 0 ? charSectionIdx : (streetPeopleIdx >= 0 ? streetPeopleIdx : -1);
+  let endIdxRel = startIdx >= 0 ? md.slice(startIdx).search(/\n\s*ANARCHY\s+CATALOG\b/i) : -1;
+  let endIdx = endIdxRel >= 0 ? startIdx + endIdxRel : md.length;
+  if (startIdx >= 0 && endIdx > startIdx) {
+    const region = md.substring(startIdx, endIdx);
+    const lines = region.split(/\r?\n/);
+    const isAllCaps = l => /^\s*[A-Z][A-Z '\-]{2,}\s*$/.test(l);
+    const isSubHeading = l => /^(BACKGROUND|DISPOSITIONS|SKILLS|CUES|QUALITIES|WEAPONS|UNARMED|ARMOR|GEAR|CONTACTS|CHARACTERS|STREET\s+PEOPLE)\s*$/.test(l.trim());
+    const candidateIdxs = [];
+    for (let i = 0; i < lines.length; i++) {
+      const ln = lines[i];
+      if (isAllCaps(ln) && !isSubHeading(ln)) candidateIdxs.push(i);
+    }
+    candidateIdxs.sort((a, b) => a - b);
+    for (let c = 0; c < candidateIdxs.length; c++) {
+      const hIdx = candidateIdxs[c];
+      const nIdx = candidateIdxs[c + 1] ?? lines.length;
+      const heading = lines[hIdx].trim();
+      const content = lines.slice(hIdx + 1, nIdx).join('\n');
+      if (/STRENGTH\s+AGILITY\s+WILLPOWER\s+LOGIC\s+CHARISMA\s+EDGE/i.test(content)) {
+        actors.push(buildCharacterFromSection({ heading, text: content }));
       }
-    } else if (kind.doc === 'Item') {
-      items.push(buildItemFromSection(section, kind.type));
+    }
+  }
+
+  // 2) Parse Anarchy Catalog for global items and weapons
+  const catAll = [...md.matchAll(/\n\s*ANARCHY\s+CATALOG[^\n]*\n/gi)];
+  const catalogStart = catAll.length ? catAll[catAll.length - 1].index : -1;
+  if (catalogStart >= 0) {
+    const endRel = md.slice(catalogStart).search(/\n\s*INDEX\s+OF\s+ANARCHY\b/i);
+    const catalogEnd = endRel >= 0 ? catalogStart + endRel : md.length;
+    const catalog = md.substring(catalogStart, catalogEnd);
+    // debug
+    console.log(`[importAnarchyMarkdown] Catalog region bytes: ${catalog.length}`);
+
+    // Parse Qualities
+    const posQualBlock = catalog.match(/\n\s*POSITIVE\s+QUALITIES[\s\S]*?(?=\n\s*NEGATIVE\s+QUALITIES|\n\s*[A-Z ]{3,}\b)/i)?.[0] ?? '';
+    const negQualBlock = catalog.match(/\n\s*NEGATIVE\s+QUALITIES[\s\S]*?(?=\n\s*[A-Z ]{3,}\b)/i)?.[0] ?? '';
+    console.log(`[importAnarchyMarkdown] Qualities blocks sizes: +${posQualBlock.length} / -${negQualBlock.length}`);
+    const qualityLineRx = /^\s*([A-Z][A-Za-z0-9 '\-\/\(\)]+):\s*(.+)$/gm;
+    let m;
+    while ((m = qualityLineRx.exec(posQualBlock))) {
+      const name = m[1].trim();
+      const desc = m[2].trim();
+      items.push({ ...baseItemDoc(name, 'quality'), system: { modifiers: [], inactive: false, references: { sourceReference: 'Anarchy Catalog', description: desc, gmnotes: '' }, positive: true } });
+    }
+    while ((m = qualityLineRx.exec(negQualBlock))) {
+      const name = m[1].trim();
+      const desc = m[2].trim();
+      items.push({ ...baseItemDoc(name, 'quality'), system: { modifiers: [], inactive: false, references: { sourceReference: 'Anarchy Catalog', description: desc, gmnotes: '' }, positive: false } });
+    }
+
+    // Parse Gear bullets
+    const gearBlock = catalog.match(/\n\s*GEAR\s*[\r\n]+[\s\S]*?(?=\n\s*[A-Z ]{3,}\b)/i)?.[0] ?? '';
+    console.log(`[importAnarchyMarkdown] Gear block size: ${gearBlock.length}`);
+    gearBlock.split(/\r?\n/).forEach(line => {
+      const l = normalizeSpaces(line);
+      if (/^\•|^\-/.test(l) || /^\w/.test(l)) {
+        const name = l.replace(/^\•\s*/, '').trim();
+        if (!name || /\(|\)|:|\[/.test(name)) return; // skip complex lines and headings
+        items.push({ ...baseItemDoc(name, 'gear'), system: { inactive: false, references: { sourceReference: 'Anarchy Catalog', description: '', gmnotes: '' } } });
+      }
+    });
+
+    // Parse Weapon tables (robust join of brand lines and variable spacing)
+    const startDamageHeader = catalog.search(/\n\s*Damage\s+Close\s+Near\s+Far\s*\n/i);
+    const weaponAreaStart = startDamageHeader >= 0 ? startDamageHeader : catalog.search(/\n\s*WEAPONS\s*\n/i);
+    const armorHeaderIdx = catalog.search(/\n\s*ARMOR\b/i);
+    const weaponTableRegion = weaponAreaStart >= 0 && armorHeaderIdx > weaponAreaStart
+      ? catalog.substring(weaponAreaStart, armorHeaderIdx)
+      : '';
+    if (weaponTableRegion) {
+      const groupNames = [
+        'Heavy Pistols', 'Machine Pistols', 'Light Pistols', 'Submachine Guns', 'Assault Rifles', 'Sniper Rifles', 'Shotguns',
+        'Unarmed Combat', 'Knives/knucks/spurs', 'Staff/baton/club', 'Stun baton/staff', 'Swords/axes',
+        'Thrown weapon', 'Bow and arrow', 'Crossbow', 'Grenades'
+      ];
+      const groupSet = new Set(groupNames.map(g => g.toLowerCase()));
+      const rawLines = weaponTableRegion.split(/\r?\n/);
+      const joined = [];
+      let buffer = '';
+      let parenOpen = false;
+      const openParenCount = s => (s.match(/\(/g) || []).length;
+      const closeParenCount = s => (s.match(/\)/g) || []).length;
+      for (let li = 0; li < rawLines.length; li++) {
+        const cur = rawLines[li];
+        if (!cur.trim()) continue;
+        if (!buffer) buffer = cur.trim();
+        else buffer += ' ' + cur.trim();
+        parenOpen = (openParenCount(buffer) > closeParenCount(buffer));
+        if (!parenOpen) {
+          joined.push(buffer);
+          buffer = '';
+        }
+      }
+      const seenWeapon = new Set();
+      let joinedCount = 0;
+      for (const entry of joined) {
+        joinedCount++;
+        // Identify a known group at start
+        const grp = groupNames.find(g => entry.toLowerCase().startsWith(g.toLowerCase() + ' '));
+        if (!grp) continue;
+        // Extract optional brand list at end
+        const brandsMatch = entry.match(/\(([A-Za-z0-9 ,\-\/'"\.]+)\)\s*$/);
+        const brandList = (brandsMatch?.[1] ?? '').split(/,\s*/).filter(Boolean);
+        const rest = (brandsMatch ? entry.slice(0, entry.lastIndexOf('(')) : entry).slice(grp.length).trim();
+        // Tokenize rest by whitespace (tabs/spaces)
+        const cols = rest.split(/\s+/).filter(Boolean);
+        if (cols.length < 4) continue;
+        // Damage token may be two tokens (STR/2 +1P) or one (6P)
+        let dmgTok = cols[0];
+        let idxTok = 1;
+        if (/^STR\/2$/i.test(cols[0]) && /^\+?\d+[PS]$/i.test(cols[1])) { dmgTok = cols[0] + ' ' + cols[1]; idxTok = 2; }
+        const clean = v => v.replace(/\*$/, '').toUpperCase();
+        const toVal = v => (v === 'OK' ? 0 : (/^\-\d+$/.test(v) ? parseInt(v, 10) : 0));
+        const rClose = clean(cols[idxTok] ?? 'OK');
+        const rNear = clean(cols[idxTok + 1] ?? 'OK');
+        const rFar = clean(cols[idxTok + 2] ?? '-');
+        const short = toVal(rClose);
+        const medium = toVal(rNear);
+        const longVal = toVal(rFar);
+        const max = rFar === '-' ? 'medium' : 'long';
+        // Parse damage/monitor
+        let damageAttribute = '';
+        let damage = 0;
+        let monitor = 'stun';
+        const dm = dmgTok.match(/^(STR\/2)(?:\s*\+\s*(\d+))?([PS])?$/i) || dmgTok.match(/^(\d+)([PS])$/i);
+        if (dm) {
+          if ((dm[1] || '').toUpperCase() === 'STR/2') {
+            damageAttribute = 'strength';
+            damage = toInt(dm[2] ?? '0');
+            monitor = (dm[3] ?? 'S').toUpperCase() === 'P' ? 'physical' : 'stun';
+          } else {
+            damage = toInt(dm[1]);
+            monitor = (dm[2] ?? 'S').toUpperCase() === 'P' ? 'physical' : 'stun';
+          }
+        }
+        const skill = /Thrown|Bow|Crossbow/i.test(grp) ? 'projectileWeapons' : (/Unarmed|Knives|Staff|Stun baton|Swords/i.test(grp) ? 'closeCombat' : 'firearms');
+        const names = brandList.length ? brandList : [grp];
+        for (const n of names) {
+          const nm = n.trim();
+          const key = nm + '|' + short + '|' + medium + '|' + longVal + '|' + monitor + '|' + damage + '|' + damageAttribute;
+          if (!nm || seenWeapon.has(key)) continue;
+          seenWeapon.add(key);
+          items.push({
+            ...baseItemDoc(nm, 'weapon'),
+            system: { skill, specialization: '', strength: damageAttribute === 'strength', damage, damageAttribute, noArmor: false, monitor, defense: '', area: '', drain: 0, range: { max, short, medium, long: longVal }, modifiers: [], inactive: false, references: { sourceReference: 'Anarchy Catalog', description: entry.trim(), gmnotes: '' } }
+          });
+        }
+      }
+      console.log(`[importAnarchyMarkdown] Weapon entries scanned: ${joinedCount}, created: ${[...seenWeapon].length}`);
+    }
+
+    // Parse Shadow Amps categories into items (MAGICAL, ADEPT, BIOWARE, CYBERWARE, MATRIX, TECHNOMANCER, DRONE, GEAR AMPS, SOCIAL/OTHER, CRITTER)
+    const ampCategories = [
+      { key: 'MAGICAL AMPS', category: 'magical' },
+      { key: 'ADEPT AMPS', category: 'adept' },
+      { key: 'BIOWARE AMPS', category: 'bioware' },
+      { key: 'CYBERWARE AMPS', category: 'cyberware' },
+      { key: 'MATRIX AMPS', category: 'matrix' },
+      { key: 'TECHNOMANCER AMPS', category: 'technomancer' },
+      { key: 'DRONE AMPS', category: 'drone' },
+      { key: 'GEAR AMPS', category: 'gear' },
+      { key: 'SOCIAL/OTHER AMPS', category: 'social' },
+      { key: 'CRITTER AMPS', category: 'critter' },
+    ];
+    for (const cat of ampCategories) {
+      const block = catalog.match(new RegExp(`\\n${cat.key}[\\s\\S]*?(?=\\n[A-Z ]{3,}\\n)`, 'i'))?.[0] ?? '';
+      const lines = block.split(/\r?\n/).map(normalizeSpaces).filter(l => l && !new RegExp(cat.key, 'i').test(l));
+      for (const line of lines) {
+        // name up to colon or first parenthesis; level from "(Amp Level N)" when present
+        const name = (line.match(/^([^:]+?)(?:\(|:|$)/)?.[1] ?? '').trim();
+        if (!name || name.length < 2) continue;
+        const level = toInt((line.match(/Amp\s+Level\s+(\d+)/i) ?? [])[1] ?? '1', 1);
+        let essence = 0;
+        const essm = line.match(/(-?\d+(?:\.\d+)?)\s*Essence/i);
+        if (essm) {
+          essence = parseFloat(essm[1]);
+        }
+        items.push({
+          ...baseItemDoc(name, 'shadowamp'),
+          system: { category: cat.category, capacity: 'mundane', level, essence, modifiers: [], inactive: false, references: { sourceReference: 'Anarchy Catalog', description: line, gmnotes: '' } }
+        });
+      }
     }
   }
 

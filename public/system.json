@@ -34,13 +34,22 @@
   "flags": {
     "allowBugReporter": true,
     "hotReload": {
-      "extensions": ["css", "hbs", "html"],
-      "paths": ["style/", "templates/"]
+      "extensions": [
+        "css",
+        "hbs",
+        "html"
+      ],
+      "paths": [
+        "style/",
+        "templates/"
+      ]
     }
   },
   "license": "LICENSE.md",
   "scripts": [],
-  "esmodules": ["index.mjs"],
+  "esmodules": [
+    "index.mjs"
+  ],
   "styles": [
     "style/anarchy.css",
     "style/anarchy-shadowrun.css",
@@ -62,9 +71,89 @@
   ],
   "packs": [
     {
-      "name": "macros",
-      "label": "Macros",
-      "type": "Macro",
+      "name": "anarchy-actors",
+      "label": "Anarchy: Actors",
+      "type": "Actor",
+      "system": "anarchy",
+      "ownership": {
+        "PLAYER": "NONE",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "anarchy-items-contacts",
+      "label": "Anarchy: Contacts",
+      "type": "Item",
+      "system": "anarchy",
+      "ownership": {
+        "PLAYER": "NONE",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "anarchy-items-cyberdecks",
+      "label": "Anarchy: Cyberdecks",
+      "type": "Item",
+      "system": "anarchy",
+      "ownership": {
+        "PLAYER": "NONE",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "anarchy-items-gear",
+      "label": "Anarchy: Gear",
+      "type": "Item",
+      "system": "anarchy",
+      "ownership": {
+        "PLAYER": "NONE",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "anarchy-items-metatypes",
+      "label": "Anarchy: Metatypes",
+      "type": "Item",
+      "system": "anarchy",
+      "ownership": {
+        "PLAYER": "NONE",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "anarchy-items-qualities",
+      "label": "Anarchy: Qualities",
+      "type": "Item",
+      "system": "anarchy",
+      "ownership": {
+        "PLAYER": "NONE",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "anarchy-items-shadowamps",
+      "label": "Anarchy: Shadow Amps",
+      "type": "Item",
+      "system": "anarchy",
+      "ownership": {
+        "PLAYER": "NONE",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "anarchy-items-skills",
+      "label": "Anarchy: Skills",
+      "type": "Item",
+      "system": "anarchy",
+      "ownership": {
+        "PLAYER": "NONE",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "anarchy-items-weapons",
+      "label": "Anarchy: Weapons",
+      "type": "Item",
       "system": "anarchy",
       "ownership": {
         "PLAYER": "NONE",
@@ -75,6 +164,16 @@
       "name": "gm-info",
       "label": "Gamemaster information",
       "type": "JournalEntry",
+      "system": "anarchy",
+      "ownership": {
+        "PLAYER": "NONE",
+        "ASSISTANT": "OWNER"
+      }
+    },
+    {
+      "name": "macros",
+      "label": "Macros",
+      "type": "Macro",
       "system": "anarchy",
       "ownership": {
         "PLAYER": "NONE",
