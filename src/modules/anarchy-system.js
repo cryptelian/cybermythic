@@ -61,6 +61,7 @@ import { Modifiers } from './modifiers/modifiers.js';
 import { ActorDamageManager } from './actor/actor-damage.js';
 import { AttributeActions } from './attribute-actions.js';
 import { DiceCursor } from './roll/dice-cursor.js';
+import { loadIntegrationsIfEnabled } from '../integrations/index.js';
 
 /* -------------------------------------------- */
 /*  Foundry VTT AnarchySystem Initialization    */
@@ -139,6 +140,7 @@ export class AnarchySystem {
     ChatManager.init();
     this.gmManager = new GMManager(this.gmAnarchy, this.gmConvergence);
     console.log(LOG_HEAD + 'AnarchySystem.onInit | done');
+    await loadIntegrationsIfEnabled();
     Hooks.once('ready', () => this.onReady());
   }
 
