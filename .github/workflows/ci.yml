@@ -32,6 +32,12 @@ jobs:
       - name: Run tests
         run: npm test
 
+      - name: Install Playwright browsers
+        run: npx playwright install chromium
+
+      - name: Visual regression tests
+        run: npm run test:visual
+
       - name: Build
         run: npm run build
 
