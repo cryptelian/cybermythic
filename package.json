@@ -4,12 +4,24 @@
     "run": "npx vite serve",
     "packCompendiumsToDist": "node ./tools/packCompendiumsToDist.mjs",
     "packCompendiumsToPublic": "node ./tools/packCompendiumsToPublic.mjs",
-    "unpackCompendiumsFromPublic": "node ./tools/unpackCompendiumsFromPublic.mjs"
+    "unpackCompendiumsFromPublic": "node ./tools/unpackCompendiumsFromPublic.mjs",
+    "metrics:baseline": "node ./tools/metrics-baseline.mjs",
+    "lint:styles": "stylelint \"src/**/*.scss\" \"public/**/*.css\"",
+    "format": "prettier --write ."
   },
   "devDependencies": {
     "@foundryvtt/foundryvtt-cli": "^1.0.3",
     "@league-of-foundry-developers/foundry-vtt-types": "^9.280.0",
+    "autoprefixer": "^10.4.20",
+    "cssnano": "^6.0.3",
     "nodemon": "^3.1.2",
+    "postcss": "^8.4.47",
+    "postcss-load-config": "^5.1.0",
+    "prettier": "^3.3.3",
+    "stylelint": "^16.8.1",
+    "stylelint-config-prettier-scss": "^1.0.0",
+    "stylelint-config-standard-scss": "^13.0.0",
+    "stylelint-order": "^6.0.4",
     "sass": "^1.77.4",
     "vite": "^5.2.12"
   },
