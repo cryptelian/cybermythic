@@ -2,10 +2,84 @@
   "extends": [
     "stylelint-config-standard-scss"
   ],
+  "plugins": [
+    "stylelint-scss",
+    "stylelint-order"
+  ],
   "rules": {
     "at-rule-no-unknown": null,
     "scss/at-rule-no-unknown": true,
     "selector-class-pattern": null,
-    "no-descending-specificity": null
-  }
+    "no-descending-specificity": null,
+    "order/properties-order": [
+      [
+        "position",
+        "top",
+        "right",
+        "bottom",
+        "left",
+        "z-index",
+        "display",
+        "flex-direction",
+        "flex-wrap",
+        "align-items",
+        "justify-content",
+        "width",
+        "height",
+        "margin",
+        "padding",
+        "border",
+        "border-radius",
+        "background",
+        "color",
+        "font-family",
+        "font-size",
+        "font-weight",
+        "line-height",
+        "text-align",
+        "text-transform",
+        "opacity",
+        "transform",
+        "transition",
+        "animation"
+      ],
+      {
+        "unspecified": "bottom"
+      }
+    ],
+    "scss/dollar-variable-pattern": "^[a-z][a-zA-Z0-9]*(-[a-z][a-zA-Z0-9]*)*$",
+    "scss/at-mixin-pattern": "^[a-z][a-zA-Z0-9]*(-[a-z][a-zA-Z0-9]*)*$",
+    "scss/at-function-pattern": "^[a-z][a-zA-Z0-9]*(-[a-z][a-zA-Z0-9]*)*$",
+    "max-nesting-depth": 6,
+    "selector-max-compound-selectors": 6,
+    "selector-max-specificity": "0,6,0",
+    "declaration-block-no-duplicate-properties": true,
+    "no-duplicate-selectors": null,
+    "color-function-notation": "modern",
+    "alpha-value-notation": "percentage",
+    "hue-degree-notation": "angle",
+    "length-zero-no-unit": true,
+    "font-family-name-quotes": "always-unless-keyword",
+    "function-url-quotes": "always",
+    "string-quotes": "double",
+    "comment-empty-line-before": [
+      "always",
+      {
+        "except": ["first-nested"],
+        "ignore": ["after-comment", "stylelint-commands"]
+      }
+    ],
+    "rule-empty-line-before": [
+      "always-multi-line",
+      {
+        "except": ["first-nested"],
+        "ignore": ["after-comment"]
+      }
+    ]
+  },
+  "ignoreFiles": [
+    "public/**/*.css",
+    "dist/**/*.css",
+    "node_modules/**/*.scss"
+  ]
 }

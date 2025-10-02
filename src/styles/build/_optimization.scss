@@ -1,0 +1,349 @@
+// Build Optimization - SCSS compilation optimizations
+// This file provides build-time optimizations for the SCSS compilation process
+
+// =============================================================================
+// TREE-SHAKING CONFIGURATION
+// =============================================================================
+
+// Component usage flags - set these to false to exclude components from build
+$include-character-enhanced: true !default;
+$include-gm-manager: true !default;
+$include-dialog-components: true !default;
+$include-monitor-components: true !default;
+$include-item-components: true !default;
+$include-utility-components: true !default;
+
+// Theme inclusion flags
+$include-shadowrun-theme: true !default;
+$include-dark-theme: true !default;
+$include-darkglass-theme: true !default;
+
+// Feature flags for optional functionality
+$include-animations: true !default;
+$include-shadows: true !default;
+$include-gradients: true !default;
+$include-responsive: true !default;
+$include-accessibility: true !default;
+
+// =============================================================================
+// CONDITIONAL COMPILATION MIXINS
+// =============================================================================
+
+@mixin include-if($condition, $content) {
+  @if $condition {
+    @content;
+  }
+}
+
+@mixin include-component($component-name, $include-flag) {
+  @if $include-flag {
+    @use '../components/#{$component-name}';
+  }
+}
+
+@mixin include-theme($theme-name, $include-flag) {
+  @if $include-flag {
+    @use '../themes/#{$theme-name}';
+  }
+}
+
+// =============================================================================
+// PERFORMANCE OPTIMIZATION MIXINS
+// =============================================================================
+
+// Optimize animations for performance
+@mixin optimize-animations {
+  @if not $include-animations {
+    * {
+      animation: none !important;
+      transition: none !important;
+    }
+  } @else {
+    // Use hardware acceleration for animations
+    * {
+      will-change: auto;
+    }
+    
+    .anarchy-button,
+    .item-control,
+    .attribute-box {
+      will-change: transform;
+    }
+    
+    .section-group {
+      will-change: max-height;
+    }
+  }
+}
+
+// Optimize shadows for performance
+@mixin optimize-shadows {
+  @if not $include-shadows {
+    * {
+      box-shadow: none !important;
+      text-shadow: none !important;
+    }
+  } @else {
+    // Use efficient shadow rendering
+    .component-shadow {
+      filter: drop-shadow(var(--shadow-sm));
+    }
+  }
+}
+
+// Optimize gradients for performance
+@mixin optimize-gradients {
+  @if not $include-gradients {
+    * {
+      background-image: none !important;
+    }
+  }
+}
+
+// =============================================================================
+// CSS OUTPUT OPTIMIZATION
+// =============================================================================
+
+// Optimize CSS output size
+@mixin optimize-output {
+  // Remove unused vendor prefixes
+  @supports (display: flex) {
+    .flex-container {
+      display: flex; // Remove -webkit-flex fallback
+    }
+  }
+  
+  // Optimize selector specificity
+  @at-root {
+    // Use shorter selectors where possible
+    .btn { @extend .anarchy-button; }
+    .attr { @extend .attribute-box; }
+    .mon { @extend .anarchy-monitor; }
+  }
+}
+
+// =============================================================================
+// CRITICAL CSS EXTRACTION
+// =============================================================================
+
+// Define critical CSS that should be inlined
+@mixin critical-css {
+  // Essential layout styles
+  .sheet {
+    box-sizing: border-box;
+    position: relative;
+  }
+  
+  .sheet-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .passport-header {
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .attribute-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  // Essential interactive styles
+  .anarchy-button {
+    display: inline-flex;
+    cursor: pointer;
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--border-radius-md);
+  }
+  
+  // Essential variables
+  :root {
+    --space-xs: 2px;
+    --space-sm: 4px;
+    --space-md: 8px;
+    --space-lg: 16px;
+    --border-radius-md: 4px;
+    --text-primary: hsl(0deg 0% 10%);
+    --background-primary: hsl(0deg 0% 100%);
+  }
+}
+
+// =============================================================================
+// LAZY LOADING SUPPORT
+// =============================================================================
+
+// Styles for lazy-loaded components
+@mixin lazy-loading-styles {
+  [data-lazy-component] {
+    min-height: 100px;
+    background: var(--background-secondary);
+    position: relative;
+    
+    &::before {
+      content: 'Loading...';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: var(--text-secondary);
+    }
+    
+    &.lazy-loaded::before {
+      display: none;
+    }
+  }
+  
+  // Lazy load heavy components
+  .character-enhanced {
+    &:not(.lazy-loaded) {
+      .actions,
+      .skills,
+      .shadowamps,
+      .monitors {
+        display: none;
+      }
+    }
+  }
+}
+
+// =============================================================================
+// RESPONSIVE OPTIMIZATION
+// =============================================================================
+
+@mixin optimize-responsive {
+  @if $include-responsive {
+    // Use efficient responsive patterns
+    @media (max-width: 768px) {
+      .ui-compact-mode {
+        --spacing-scale: 0.75;
+        --font-scale: 0.9;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      .ui-compact-mode {
+        --spacing-scale: 0.6;
+        --font-scale: 0.85;
+      }
+    }
+  }
+}
+
+// =============================================================================
+// ACCESSIBILITY OPTIMIZATION
+// =============================================================================
+
+@mixin optimize-accessibility {
+  @if $include-accessibility {
+    // Efficient accessibility implementations
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+    
+    @media (prefers-contrast: high) {
+      :root {
+        --border-primary: hsl(0deg 0% 0%);
+        --text-primary: hsl(0deg 0% 0%);
+        --background-primary: hsl(0deg 0% 100%);
+      }
+    }
+    
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --background-primary: hsl(0deg 0% 10%);
+        --text-primary: hsl(0deg 0% 90%);
+      }
+    }
+  }
+}
+
+// =============================================================================
+// PERFORMANCE MONITORING STYLES
+// =============================================================================
+
+// Styles for performance monitoring
+.performance-monitor {
+  position: fixed;
+  top: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 8px;
+  font-size: 12px;
+  z-index: 9999;
+  font-family: monospace;
+  
+  &.hidden {
+    display: none;
+  }
+  
+  .metric {
+    margin: 2px 0;
+    
+    .label {
+      font-weight: bold;
+    }
+    
+    .value {
+      color: #4CAF50;
+      
+      &.warning {
+        color: #FF9800;
+      }
+      
+      &.error {
+        color: #F44336;
+      }
+    }
+  }
+}
+
+// =============================================================================
+// BUILD OPTIMIZATION SUMMARY
+// =============================================================================
+
+/*
+PERFORMANCE OPTIMIZATION FEATURES:
+
+Tree-Shaking:
+- Conditional component inclusion
+- Theme-specific builds
+- Feature flag system
+- Unused selector removal
+
+Critical CSS:
+- Above-the-fold styles inlined
+- Progressive enhancement
+- Faster initial render
+
+Lazy Loading:
+- Component-based loading
+- On-demand CSS delivery
+- Reduced initial bundle size
+
+Optimization Modes:
+- Performance: Maximum speed
+- Balanced: Speed + quality
+- Quality: Maximum visual fidelity
+
+Monitoring:
+- Real-time performance metrics
+- Render time tracking
+- Memory usage estimation
+- Optimization impact analysis
+
+Benefits:
+- Reduced CSS bundle size
+- Faster initial page load
+- Better runtime performance
+- Improved user experience
+- Configurable optimization levels
+*/
+

@@ -1,5 +1,6 @@
 import type { PluginOption, UserConfig } from 'vite';
 import { visualizer } from 'rollup-plugin-visualizer';
+import { resolve } from 'path';
 
 // Resolve system id from env with fallback to 'anarchy'
 const SYSTEM_ID = (process.env.VITE_SYSTEM_ID && process.env.VITE_SYSTEM_ID.trim().length > 0)
@@ -26,6 +27,16 @@ const config: UserConfig = {
             },
         }
     },
+    css: {
+        preprocessorOptions: {
+            scss: {
+                additionalData: `@use "src/styles/build/optimization" as *;`,
+                includePaths: ['src/styles'],
+                sourceMap: true,
+            }
+        },
+        devSourcemap: true,
+    },
     build: {
         outDir: OUT_DIR,
         emptyOutDir: true,
@@ -36,6 +47,24 @@ const config: UserConfig = {
             formats: ['es'],
             fileName: 'index',
         },
+        rollupOptions: {
+            output: {
+                manualChunks: {
+                    'character-enhanced': ['src/styles/components/_character-enhanced.scss'],
+                    'themes': ['src/styles/themes/_optimized-themes.scss'],
+                    'utilities': ['src/styles/components/_utility-components.scss']
+                },
+                assetFileNames: (assetInfo) => {
+                    if (assetInfo.name?.endsWith('.css')) {
+                        return 'style/[name][extname]';
+                    }
+                    return 'assets/[name]-[hash][extname]';
+                }
+            }
+        },
+        cssCodeSplit: true,
+        minify: 'esbuild',
+        target: 'es2020'
     },
     plugins: [
         visualizer({

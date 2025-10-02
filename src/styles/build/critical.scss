@@ -1,0 +1,271 @@
+// Critical CSS - Above-the-fold styles for fast initial render
+// This file contains only the essential styles needed for initial page render
+
+@use '../components/core-components' as *;
+
+// =============================================================================
+// CRITICAL VARIABLES
+// =============================================================================
+
+:root {
+  // Essential spacing
+  --space-xs: 2px;
+  --space-sm: 4px;
+  --space-md: 8px;
+  --space-lg: 16px;
+  
+  // Essential colors
+  --text-primary: hsl(0deg 0% 10%);
+  --text-secondary: hsl(0deg 0% 40%);
+  --text-inverse: hsl(0deg 0% 100%);
+  --background-primary: hsl(0deg 0% 100%);
+  --background-secondary: hsl(0deg 0% 95%);
+  --border-primary: hsl(0deg 0% 80%);
+  --interactive-primary: hsl(210deg 80% 50%);
+  --interactive-primary-hover: hsl(210deg 80% 40%);
+  
+  // Essential layout
+  --border-radius-md: 4px;
+  --border-radius-lg: 6px;
+  
+  // Essential Anarchy variables
+  --anarchy-background-attributes: hsl(47deg 90% 50% / 50%);
+  --anarchy-background-item: hsl(44deg 0% 100% / 50%);
+  --color-dice-glitch: hsl(300deg 80% 20%);
+  --color-dice-mixed: hsl(230deg 80% 30%);
+  --color-dice-prowess: hsl(160deg 80% 40%);
+}
+
+// =============================================================================
+// CRITICAL LAYOUT STYLES
+// =============================================================================
+
+// Essential sheet structure
+.sheet {
+  box-sizing: border-box;
+  position: relative;
+  background: var(--background-primary);
+  color: var(--text-primary);
+  min-width: 600px;
+}
+
+.sheet-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-md);
+  border-bottom: 1px solid var(--border-primary);
+}
+
+.sheet-body {
+  padding: var(--space-md);
+}
+
+// Essential passport layout
+.passport-header {
+  display: flex;
+  flex-direction: row;
+  margin: var(--space-xs);
+}
+
+.passport-img {
+  margin-right: var(--space-xs);
+}
+
+.passport-img img {
+  border-radius: var(--border-radius-md);
+  object-fit: cover;
+}
+
+.passport-column {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+// =============================================================================
+// CRITICAL INTERACTIVE ELEMENTS
+// =============================================================================
+
+// Essential button styles
+.anarchy-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--border-radius-md);
+  background: var(--interactive-primary);
+  color: var(--text-inverse);
+  text-decoration: none;
+  border: none;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background-color 200ms ease-out;
+}
+
+.anarchy-button:hover {
+  background: var(--interactive-primary-hover);
+}
+
+// Essential attribute boxes
+.attribute-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-sm);
+  border-radius: var(--border-radius-lg);
+  background: var(--anarchy-background-attributes);
+  min-width: 4rem;
+  max-width: 8rem;
+}
+
+.attribute-label {
+  font-size: 1.125rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.attribute-value {
+  font-size: 1rem;
+  text-align: center;
+  border: none;
+  background: transparent;
+  max-width: 2rem;
+}
+
+// =============================================================================
+// CRITICAL SECTION LAYOUT
+// =============================================================================
+
+.section-group {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-bottom: var(--space-sm);
+  width: 100%;
+}
+
+.section-attributes {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+// =============================================================================
+// CRITICAL NAVIGATION
+// =============================================================================
+
+nav.sheet-tabs {
+  display: flex;
+  flex-wrap: nowrap;
+  font-size: 0.75rem;
+  font-weight: bold;
+  justify-content: flex-start;
+  text-align: center;
+  text-transform: uppercase;
+  border: none;
+  margin: 0 var(--space-md);
+}
+
+.sheet-tab {
+  position: relative;
+  min-height: 16px;
+  margin: 0 var(--space-xs);
+  padding: var(--space-xs) var(--space-sm);
+  cursor: pointer;
+  transition: background-color 200ms ease-out;
+}
+
+.sheet-tab:hover {
+  background: var(--interactive-primary-hover);
+}
+
+.sheet-tab.active {
+  background: var(--interactive-primary);
+  color: var(--text-inverse);
+}
+
+// =============================================================================
+// CRITICAL TYPOGRAPHY
+// =============================================================================
+
+h1, h2, h3 {
+  font-weight: bold;
+}
+
+h4 {
+  font-weight: 500;
+}
+
+h3, h4 {
+  padding: var(--space-sm);
+}
+
+// =============================================================================
+// CRITICAL UTILITIES
+// =============================================================================
+
+// Essential flexbox utilities
+.flex {
+  display: flex;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Essential spacing utilities
+.p-sm { padding: var(--space-sm); }
+.p-md { padding: var(--space-md); }
+.m-sm { margin: var(--space-sm); }
+.m-md { margin: var(--space-md); }
+
+// Essential text utilities
+.text-center { text-align: center; }
+.text-primary { color: var(--text-primary); }
+.text-secondary { color: var(--text-secondary); }
+
+// =============================================================================
+// LOADING STATES
+// =============================================================================
+
+.loading {
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--background-secondary);
+    z-index: 1000;
+  }
+  
+  &::after {
+    content: 'Loading...';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1001;
+    color: var(--text-secondary);
+  }
+}
