@@ -1,0 +1,461 @@
+// UI Customization Components - Runtime UI/HUD adjustment styles
+// This file provides CSS support for the UI customization system
+
+@use 'core-components' as *;
+
+// =============================================================================
+// CUSTOMIZATION VARIABLES
+// =============================================================================
+
+:root {
+  // Customization scaling variables
+  --font-scale: 1;
+  --icon-scale: 1;
+  --spacing-scale: 1;
+  --hud-scale: 1;
+  --shadow-intensity: 1;
+  --animation-duration: 200ms;
+  
+  // Customization overrides
+  --border-radius-override: var(--border-radius-md);
+  --sheet-width: auto;
+  --sheet-height: auto;
+}
+
+// =============================================================================
+// FONT SCALING SYSTEM
+// =============================================================================
+
+// Apply font scaling to all text elements
+* {
+  font-size: calc(var(--font-size-base, 1rem) * var(--font-scale));
+}
+
+// Specific font size overrides
+.text-xs { font-size: calc(0.75rem * var(--font-scale)); }
+.text-sm { font-size: calc(0.875rem * var(--font-scale)); }
+.text-base { font-size: calc(1rem * var(--font-scale)); }
+.text-lg { font-size: calc(1.125rem * var(--font-scale)); }
+.text-xl { font-size: calc(1.25rem * var(--font-scale)); }
+.text-2xl { font-size: calc(1.5rem * var(--font-scale)); }
+
+// =============================================================================
+// ICON SCALING SYSTEM
+// =============================================================================
+
+// Apply icon scaling to all icons and images
+.anarchy-img,
+.item-img,
+.skill-img,
+.weapon-img,
+.actor-img,
+i.fas,
+i.far,
+i.fab {
+  transform: scale(var(--icon-scale));
+  transform-origin: center;
+}
+
+// Specific icon size overrides
+.checkbar-img {
+  width: calc(32px * var(--icon-scale));
+  height: calc(32px * var(--icon-scale));
+}
+
+.passport-img img {
+  width: calc(var(--passport-size, 128px) * var(--icon-scale));
+  height: calc(var(--passport-size, 128px) * var(--icon-scale));
+}
+
+// =============================================================================
+// SPACING SCALING SYSTEM
+// =============================================================================
+
+// Apply spacing scaling to all spacing variables
+:root {
+  --space-xs-scaled: calc(var(--space-xs) * var(--spacing-scale));
+  --space-sm-scaled: calc(var(--space-sm) * var(--spacing-scale));
+  --space-md-scaled: calc(var(--space-md) * var(--spacing-scale));
+  --space-lg-scaled: calc(var(--space-lg) * var(--spacing-scale));
+  --space-xl-scaled: calc(var(--space-xl) * var(--spacing-scale));
+}
+
+// Override spacing utilities with scaled versions
+.p-xs { padding: var(--space-xs-scaled); }
+.p-sm { padding: var(--space-sm-scaled); }
+.p-md { padding: var(--space-md-scaled); }
+.p-lg { padding: var(--space-lg-scaled); }
+.p-xl { padding: var(--space-xl-scaled); }
+
+.m-xs { margin: var(--space-xs-scaled); }
+.m-sm { margin: var(--space-sm-scaled); }
+.m-md { margin: var(--space-md-scaled); }
+.m-lg { margin: var(--space-lg-scaled); }
+.m-xl { margin: var(--space-xl-scaled); }
+
+.gap-xs { gap: var(--space-xs-scaled); }
+.gap-sm { gap: var(--space-sm-scaled); }
+.gap-md { gap: var(--space-md-scaled); }
+.gap-lg { gap: var(--space-lg-scaled); }
+
+// =============================================================================
+// LAYOUT CUSTOMIZATION MODES
+// =============================================================================
+
+// Compact mode adjustments
+.ui-compact-mode {
+  .sheet {
+    min-width: calc(var(--sheet-min-width, 600px) * 0.85);
+    
+    .sheet-header {
+      @include component-spacing(var(--space-sm-scaled));
+    }
+    
+    .sheet-body {
+      @include component-spacing(var(--space-sm-scaled));
+    }
+  }
+  
+  .passport-img {
+    width: calc(var(--passport-size, 128px) * 0.75);
+    height: calc(var(--passport-size, 128px) * 0.75);
+    
+    img {
+      width: calc(var(--passport-size, 128px) * 0.75);
+      height: calc(var(--passport-size, 128px) * 0.75);
+    }
+  }
+  
+  .attribute-box {
+    min-width: calc(4rem * 0.85);
+    max-width: calc(8rem * 0.85);
+  }
+  
+  .section-group {
+    @include component-spacing(0, 0 0 var(--space-xs-scaled) 0);
+  }
+}
+
+// Vertical tabs mode
+.ui-vertical-tabs {
+  .sheet-tabs {
+    @include flex-container(column, flex-start, flex-start);
+    
+    .sheet-tab {
+      width: 100%;
+      text-align: left;
+    }
+  }
+  
+  .sheet-body {
+    @include flex-container(row, flex-start, flex-start);
+    
+    .tab-content {
+      flex-grow: 1;
+    }
+  }
+}
+
+// =============================================================================
+// COMPONENT VISIBILITY SYSTEM
+// =============================================================================
+
+// Hide passport images
+.hide-passport-images .passport-img {
+  display: none;
+}
+
+// Hide item images
+.hide-item-images {
+  .anarchy-img,
+  .item-img,
+  .skill-img,
+  .weapon-img {
+    display: none;
+  }
+}
+
+// Hide skill icons
+.hide-skill-icons .skill-img {
+  display: none;
+}
+
+// Hide attribute labels
+.hide-attribute-labels .attribute-label {
+  display: none;
+}
+
+// Hide tooltips
+.hide-tooltips .tooltip .tooltiptext {
+  display: none !important;
+}
+
+// Hide animations
+.hide-animations * {
+  animation: none !important;
+  transition: none !important;
+}
+
+// Hide shadows
+.hide-shadows * {
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+// Hide gradients
+.hide-gradients * {
+  background-image: none !important;
+}
+
+// =============================================================================
+// HUD POSITIONING SYSTEM
+// =============================================================================
+
+// GM Manager positioning
+#gm-manager {
+  &.position-top-left {
+    top: 10px;
+    left: 10px;
+  }
+  
+  &.position-top-right {
+    top: 10px;
+    right: 10px;
+  }
+  
+  &.position-bottom-left {
+    bottom: 10px;
+    left: 10px;
+  }
+  
+  &.position-bottom-right {
+    bottom: 10px;
+    right: 10px;
+  }
+}
+
+// HUD scaling
+#gm-manager,
+.anarchy-shortcuts,
+.token-hud {
+  transform: scale(var(--hud-scale));
+  transform-origin: top left;
+}
+
+// Shortcut positioning
+.anarchy-shortcuts {
+  &.position-left {
+    left: 64px;
+    top: 160px;
+  }
+  
+  &.position-right {
+    right: 64px;
+    top: 160px;
+  }
+  
+  &.position-top {
+    top: 64px;
+    left: 50%;
+    transform: translateX(-50%) scale(var(--hud-scale));
+  }
+  
+  &.position-bottom {
+    bottom: 64px;
+    left: 50%;
+    transform: translateX(-50%) scale(var(--hud-scale));
+  }
+}
+
+// =============================================================================
+// SHADOW INTENSITY SYSTEM
+// =============================================================================
+
+// Shadow intensity scaling
+:root {
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+// Shadow intensity classes
+.shadow-intensity-none * {
+  box-shadow: none !important;
+}
+
+.shadow-intensity-light * {
+  box-shadow: var(--shadow-sm);
+}
+
+.shadow-intensity-medium * {
+  box-shadow: var(--shadow-md);
+}
+
+.shadow-intensity-strong * {
+  box-shadow: var(--shadow-lg);
+}
+
+// =============================================================================
+// ANIMATION CUSTOMIZATION
+// =============================================================================
+
+// Animation duration scaling
+* {
+  animation-duration: var(--animation-duration) !important;
+  transition-duration: var(--animation-duration) !important;
+}
+
+// Specific animation overrides
+.character-enhanced {
+  .section-monitors,
+  .section-skills,
+  .section-roleplay,
+  .section-keywords,
+  .section-cues,
+  .section-dispositions,
+  .section-actions,
+  .section-qualities,
+  .section-equipments,
+  .section-owned,
+  .section-shadowamps {
+    transition-duration: var(--animation-duration);
+  }
+}
+
+// =============================================================================
+// BORDER RADIUS CUSTOMIZATION
+// =============================================================================
+
+// Border radius override system
+* {
+  border-radius: var(--border-radius-override) !important;
+}
+
+// Specific border radius preservation for certain elements
+.rounded-full {
+  border-radius: 50% !important;
+}
+
+.checkbar-img,
+.edge-point {
+  border-radius: 50% !important;
+}
+
+// =============================================================================
+// SHEET SIZING CUSTOMIZATION
+// =============================================================================
+
+// Custom sheet sizing
+.sheet {
+  width: var(--sheet-width);
+  height: var(--sheet-height);
+  
+  &.actor.character {
+    min-width: calc(680px * var(--spacing-scale, 1));
+    
+    &.tabbed-sheet {
+      min-width: calc(680px * var(--spacing-scale, 1));
+    }
+  }
+  
+  &.item-sheet {
+    min-width: calc(400px * var(--spacing-scale, 1));
+  }
+}
+
+// =============================================================================
+// ACCESSIBILITY ENHANCEMENTS
+// =============================================================================
+
+// High contrast mode enhancements
+.accessibility-high-contrast {
+  .hide-shadows * {
+    box-shadow: 0 0 0 2px var(--text-primary) !important;
+  }
+  
+  .border {
+    border-width: 2px !important;
+    border-color: var(--text-primary) !important;
+  }
+}
+
+// Reduced motion enhancements
+.accessibility-reduced-motion {
+  .hide-animations * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+// Large text enhancements
+.accessibility-large-text {
+  --font-scale: 1.25;
+  
+  .text-xs { font-size: calc(1rem * var(--font-scale)); }
+  .text-sm { font-size: calc(1.125rem * var(--font-scale)); }
+  .text-base { font-size: calc(1.25rem * var(--font-scale)); }
+  .text-lg { font-size: calc(1.5rem * var(--font-scale)); }
+}
+
+// =============================================================================
+// RESPONSIVE CUSTOMIZATION
+// =============================================================================
+
+// Responsive customization adjustments
+@media (max-width: 768px) {
+  .ui-compact-mode {
+    --spacing-scale: 0.75;
+    --font-scale: 0.9;
+    --icon-scale: 0.85;
+  }
+}
+
+@media (max-width: 576px) {
+  .ui-compact-mode {
+    --spacing-scale: 0.6;
+    --font-scale: 0.85;
+    --icon-scale: 0.8;
+  }
+  
+  .ui-vertical-tabs .sheet-tabs {
+    .sheet-tab {
+      font-size: calc(var(--font-size-xs) * var(--font-scale));
+    }
+  }
+}
+
+// =============================================================================
+// CUSTOMIZATION UTILITIES
+// =============================================================================
+
+// Utility classes for customization
+.customizable-element {
+  transition: all var(--animation-duration);
+}
+
+.scalable-element {
+  transform: scale(var(--element-scale, 1));
+  transform-origin: center;
+}
+
+.spacing-responsive {
+  padding: var(--space-md-scaled);
+  margin: var(--space-sm-scaled);
+}
+
+// =============================================================================
+// THEME INTEGRATION
+// =============================================================================
+
+// Ensure customizations work with all themes
+.style-anarchy-shadowrun,
+.style-dark,
+.style-darkglass {
+  // Customization variables inherit properly
+  --font-scale: var(--font-scale, 1);
+  --icon-scale: var(--icon-scale, 1);
+  --spacing-scale: var(--spacing-scale, 1);
+  --hud-scale: var(--hud-scale, 1);
+  --shadow-intensity: var(--shadow-intensity, 1);
+  --animation-duration: var(--animation-duration, 200ms);
+}

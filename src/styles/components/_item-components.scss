@@ -1,0 +1,390 @@
+// Item Components - Specific styles for items, weapons, gear, etc.
+// This file contains modular styles for all item-related UI components
+
+@use 'core-components' as *;
+
+// =============================================================================
+// ITEM GROUP FOUNDATION
+// =============================================================================
+
+.items-group {
+  @include component-base;
+  @include component-spacing(0, var(--space-xs));
+  
+  &.half-width {
+    width: calc(50% - 2px);
+  }
+  
+  &.third-width {
+    width: calc(33% - 4px);
+  }
+  
+  > div {
+    width: 100%;
+    
+    h2 {
+      @include heading(2);
+      @include component-spacing(var(--space-sm));
+      
+      text-align: center;
+      border: none;
+      
+      &.section-group-header {
+        width: auto;
+        justify-content: center;
+      }
+    }
+  }
+  
+  .items-group-list {
+    @include grid-container(repeat(auto-fill, minmax(200px, 1fr)), var(--space-lg) var(--space-xs));
+    padding-bottom: 1rem;
+    
+    .item {
+      @include anarchy-item;
+      
+      height: 100%;
+      position: relative;
+      
+      &.anarchy-skill {
+        min-height: 52px;
+      }
+      
+      .item-controls {
+        position: absolute;
+        right: var(--space-xs);
+        top: var(--space-xs);
+        
+        a {
+          @include component-transition(color);
+          
+          &:hover {
+            color: var(--interactive-primary);
+          }
+        }
+      }
+    }
+  }
+}
+
+// =============================================================================
+// ITEM CONTENT LAYOUT
+// =============================================================================
+
+.define-item-type.item {
+  @include flex-container(row, flex-start, flex-start);
+  @include component-spacing(var(--space-xs));
+  
+  > img.anarchy-img {
+    flex: 0 0 32px;
+    width: 32px;
+    height: 32px;
+    @include component-spacing(var(--space-xs));
+    border-radius: var(--border-radius-md);
+  }
+  
+  .item-content,
+  .shadowamp-content {
+    @include flex-container(column, flex-start, flex-start);
+    flex-grow: 1;
+    max-width: calc(100% - 32px - var(--space-lg));
+    text-align: left;
+    
+    .item-name {
+      @include text-style(var(--font-size-md), var(--font-weight-bold));
+    }
+    
+    .item-description {
+      @include text-style(var(--font-size-sm), var(--font-weight-normal), var(--text-secondary));
+    }
+  }
+  
+  .item-controls {
+    @include flex-container(column, flex-end, flex-end);
+    flex: 0 0 auto;
+    max-width: 48px;
+  }
+}
+
+// =============================================================================
+// CYBERDECK SPECIFIC LAYOUT
+// =============================================================================
+
+.item.anarchy-cyberdeck {
+  max-width: max-content;
+  width: max-content;
+  
+  .item-content {
+    @include flex-container(row, flex-start, space-between);
+    @include component-spacing(var(--space-xs));
+    gap: var(--space-sm);
+    
+    .anarchy-monitor {
+      min-width: fit-content;
+    }
+    
+    .cyberdeck-details {
+      @include flex-container(column, flex-start, flex-start);
+    }
+  }
+}
+
+// =============================================================================
+// NPC AND DEVICE ADJUSTMENTS
+// =============================================================================
+
+.npc-sheet,
+.device-sheet {
+  .items-group {
+    > div h2 {
+      @include text-style(var(--font-size-sm), var(--font-weight-bold));
+      text-align: center;
+      border: none;
+    }
+    
+    .items-group-list {
+      gap: var(--space-xs);
+      
+      .item {
+        @include component-spacing(var(--space-xs));
+        
+        &.anarchy-skill {
+          min-height: fit-content;
+          
+          .item-controls {
+            right: calc(var(--space-xs) + 32px);
+          }
+        }
+        
+        &:not(.anarchy-skill) .item-content {
+          max-width: calc(100% - 16px);
+        }
+        
+        &.anarchy-cyberdeck {
+          max-width: max-content;
+        }
+      }
+    }
+  }
+}
+
+// =============================================================================
+// WEAPON COMPONENTS
+// =============================================================================
+
+.weapon-list {
+  @include component-base;
+  padding: 0;
+  
+  .weapon-header,
+  .item {
+    @include flex-container(row, center, space-evenly, nowrap);
+    @include component-spacing(var(--space-xs));
+    
+    width: 100%;
+    gap: var(--space-xs);
+    text-align: left;
+  }
+  
+  .weapon-header {
+    @include text-style(var(--font-size-sm), var(--font-weight-bold));
+    background: var(--anarchy-background-weapon);
+    
+    > span {
+      @include component-spacing(var(--space-xs) 0);
+      justify-content: flex-start;
+      text-align: left;
+    }
+  }
+  
+  .item {
+    @include component-transition(background-color);
+    
+    &:nth-child(even) {
+      background: var(--anarchy-tint-weapon-even);
+    }
+    
+    &:nth-child(odd) {
+      background: var(--anarchy-tint-weapon-odd);
+    }
+    
+    &:hover {
+      background: var(--anarchy-tint-weapon-hover);
+    }
+    
+    .weapon-column {
+      @include flex-container(column, flex-start, flex-start);
+      @include component-spacing(0, 0 var(--space-xs));
+      
+      width: 100%;
+      
+      &.weapon-img {
+        width: 32px;
+      }
+      
+      &.weapon-dmg {
+        width: 4.5rem;
+      }
+      
+      &.weapon-stat {
+        width: 3.5rem;
+      }
+      
+      &.weapon-controls {
+        width: 5rem;
+      }
+      
+      &.weapon-txt {
+        width: calc(100% - 25rem - 32px);
+      }
+      
+      &.weapon-summary {
+        width: calc(100% - 2rem);
+      }
+    }
+  }
+}
+
+// =============================================================================
+// MODIFIER COMPONENTS
+// =============================================================================
+
+.modifier-list {
+  @include component-base;
+  padding: 0;
+  border: none;
+  font-size: var(--font-size-xs);
+  
+  .modifier-header,
+  .modifier-row {
+    @include flex-container(row, flex-start, flex-start);
+    width: 100%;
+    text-align: left;
+  }
+  
+  .modifier-header > th {
+    @include text-style(var(--font-size-xs), var(--font-weight-bold));
+    @include component-spacing(0);
+    text-align: left;
+  }
+  
+  .modifier-row .modifier-column {
+    @include text-style(var(--font-size-xs));
+    @include component-spacing(0);
+    
+    input, select {
+      @include text-style(var(--font-size-xs));
+      @include component-spacing(0);
+    }
+  }
+}
+
+// =============================================================================
+// MARKS SYSTEM
+// =============================================================================
+
+.actor-marks .marks-group-list {
+  @include flex-container(row, flex-start, flex-start, wrap);
+  gap: var(--space-xs);
+  
+  .anarchy-marks {
+    @include flex-container(row, center, flex-start);
+  }
+}
+
+// =============================================================================
+// ALTERNATE ITEMS STYLING
+// =============================================================================
+
+.alternate-items {
+  > .item {
+    @include anarchy-item;
+    @include component-spacing(0.1rem);
+    
+    box-shadow: inset 0 0 1px var(--border-primary);
+    display: flex !important;
+    align-items: baseline !important;
+    
+    &:hover {
+      background: var(--border-secondary);
+    }
+    
+    &:nth-child(even) {
+      background: var(--border-primary);
+    }
+    
+    &:nth-child(odd) {
+      background: var(--border-secondary);
+    }
+  }
+}
+
+// =============================================================================
+// QUALITY COMPONENTS
+// =============================================================================
+
+.item.anarchy-quality {
+  @include anarchy-item;
+  
+  &.positive {
+    background: var(--anarchy-background-positive);
+    border-color: var(--state-success);
+  }
+  
+  &.negative {
+    background: var(--anarchy-background-negative);
+    border-color: var(--state-error);
+  }
+}
+
+// =============================================================================
+// SKILL COMPONENTS
+// =============================================================================
+
+.item.anarchy-skill {
+  @include anarchy-item;
+  
+  .skill-rating {
+    @include flex-container(row, center, center);
+    @include component-spacing(var(--space-xs));
+    @include component-border(var(--border-radius-sm));
+    
+    background: var(--anarchy-background-attributes);
+    min-width: 2rem;
+    font-weight: var(--font-weight-bold);
+  }
+}
+
+// =============================================================================
+// GEAR COMPONENTS
+// =============================================================================
+
+.item.anarchy-gear {
+  @include anarchy-item;
+  
+  .gear-quantity {
+    @include text-style(var(--font-size-sm), var(--font-weight-normal), var(--text-secondary));
+    
+    &::before {
+      content: 'x';
+    }
+  }
+}
+
+// =============================================================================
+// CONTACT COMPONENTS
+// =============================================================================
+
+.item.anarchy-contact {
+  @include anarchy-item;
+  
+  .contact-loyalty {
+    @include flex-container(row, center, center);
+    @include component-spacing(var(--space-xs));
+    
+    background: var(--anarchy-background-positive);
+    border-radius: var(--border-radius-sm);
+    min-width: 2rem;
+    font-weight: var(--font-weight-bold);
+  }
+}

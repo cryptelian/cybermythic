@@ -1,0 +1,347 @@
+// Monitor Components - Health, edge, matrix, and status monitoring UI
+// This file contains modular styles for all monitor-related components
+
+@use 'core-components' as *;
+
+// =============================================================================
+// MONITOR FOUNDATION
+// =============================================================================
+
+.anarchy-monitor {
+  @include anarchy-monitor;
+  
+  &.health-monitor {
+    .monitor-label {
+      color: var(--state-error);
+    }
+  }
+  
+  &.edge-monitor {
+    .monitor-label {
+      color: var(--state-warning);
+    }
+  }
+  
+  &.matrix-monitor {
+    .monitor-label {
+      color: var(--interactive-primary);
+    }
+  }
+}
+
+// =============================================================================
+// CHECKBAR COMPONENTS
+// =============================================================================
+
+.checkbar-root {
+  @include flex-container(row, center, flex-start, nowrap);
+  gap: var(--space-xs);
+  
+  .click-checkbar-element {
+    @include component-base;
+    @include component-transition(color);
+    @include hover-effect(1.1, false);
+    
+    cursor: pointer;
+    
+    &[data-checked='true'] i {
+      color: var(--anarchy-color-monitor-checked, red);
+    }
+    
+    &[data-checked='false'] i {
+      color: var(--anarchy-color-unchecked, gray);
+    }
+  }
+}
+
+// Special checkbar styling for resources
+.checkbar-root[data-monitor-code='edge'],
+.checkbar-root[data-monitor-code='credibility'],
+.checkbar-root[data-monitor-code='rumor'] {
+  .click-checkbar-element[data-checked='true'] i {
+    color: var(--anarchy-color-resource-checked, orange);
+  }
+}
+
+.checkbar-img {
+  @include component-base;
+  @include component-transition(background-color);
+  
+  flex: none;
+  width: 32px;
+  height: 32px;
+  margin: 0;
+  display: inline-block;
+  background-position: center;
+  background-size: cover;
+  border: none;
+  
+  &:hover {
+    background-color: var(--interactive-primary-hover);
+  }
+  
+  &:active {
+    @include active-effect;
+  }
+}
+
+// =============================================================================
+// RESISTANCE COMPONENTS
+// =============================================================================
+
+.resistance-label {
+  @include text-style(var(--font-size-xs), var(--font-weight-normal));
+  @include component-spacing(var(--space-xs));
+  
+  justify-content: left;
+  align-self: baseline;
+  white-space: nowrap;
+  height: fit-content;
+  
+  input.info-value {
+    @include text-style(var(--font-size-xs));
+    @include component-spacing(var(--space-xs));
+    
+    align-self: baseline;
+    text-align: start;
+    border: none;
+    max-width: 16px;
+    height: fit-content;
+  }
+}
+
+// =============================================================================
+// MATRIX COMPONENTS
+// =============================================================================
+
+.matrix-connection {
+  @include flex-container(row, center, flex-start);
+  @include component-spacing(var(--space-sm));
+  
+  .connection-mode {
+    @include component-base;
+    @include component-spacing(var(--space-xs));
+    @include component-border(var(--border-radius-sm));
+    
+    background: var(--anarchy-background-item);
+    
+    &.augmented {
+      background: var(--anarchy-background-positive);
+      color: var(--anarchy-color-controls-augmented);
+    }
+    
+    &.virtual {
+      background: var(--anarchy-background-item-img);
+      color: var(--anarchy-color-controls-virtual);
+    }
+    
+    &.disconnected {
+      background: var(--background-inactive);
+      color: var(--anarchy-color-controls-disconnected);
+    }
+  }
+}
+
+// =============================================================================
+// ARMOR COMPONENTS
+// =============================================================================
+
+.armor-monitor {
+  @include anarchy-monitor;
+  
+  .armor-value {
+    @include flex-container(row, center, center);
+    @include component-spacing(var(--space-xs));
+    @include component-border(var(--border-radius-sm));
+    
+    background: var(--anarchy-background-attributes);
+    min-width: 2rem;
+    font-weight: var(--font-weight-bold);
+  }
+}
+
+// =============================================================================
+// EDGE COMPONENTS
+// =============================================================================
+
+.edge-monitor {
+  @include anarchy-monitor;
+  
+  .edge-points {
+    @include flex-container(row, center, flex-start);
+    gap: var(--space-xs);
+    
+    .edge-point {
+      @include component-base;
+      @include component-transition(all);
+      
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      cursor: pointer;
+      
+      &.filled {
+        background: var(--state-warning);
+        box-shadow: 0 0 4px var(--state-warning);
+      }
+      
+      &.empty {
+        background: var(--border-secondary);
+        border: 1px solid var(--border-primary);
+      }
+      
+      &:hover {
+        transform: scale(1.2);
+      }
+    }
+  }
+}
+
+// =============================================================================
+// PHYSICAL/STUN MONITOR COMPONENTS
+// =============================================================================
+
+.health-monitor {
+  @include anarchy-monitor;
+  
+  .health-track {
+    @include flex-container(row, center, flex-start, wrap);
+    gap: var(--space-xs);
+    max-width: 200px;
+    
+    .health-box {
+      @include component-base;
+      @include component-transition(all);
+      
+      width: 20px;
+      height: 20px;
+      border: 1px solid var(--border-primary);
+      cursor: pointer;
+      
+      &.filled {
+        background: var(--state-error);
+      }
+      
+      &.empty {
+        background: var(--background-primary);
+      }
+      
+      &:hover {
+        background: var(--interactive-primary-hover);
+      }
+    }
+  }
+  
+  &.physical-monitor .health-box.filled {
+    background: var(--state-error);
+  }
+  
+  &.stun-monitor .health-box.filled {
+    background: var(--state-warning);
+  }
+}
+
+// =============================================================================
+// ANARCHY POINTS COMPONENTS
+// =============================================================================
+
+.anarchy-points {
+  @include anarchy-monitor;
+  
+  .points-display {
+    @include flex-container(row, center, center);
+    @include component-spacing(var(--space-md));
+    @include component-border(var(--border-radius-lg));
+    @include component-shadow(md);
+    
+    background: var(--anarchy-background-attributes);
+    min-width: 4rem;
+    min-height: 4rem;
+    
+    .points-value {
+      @include text-style(var(--font-size-2xl), var(--font-weight-bold));
+      color: var(--text-inverse);
+    }
+  }
+  
+  .points-controls {
+    @include flex-container(row, center, center);
+    gap: var(--space-sm);
+    @include component-spacing(var(--space-sm) 0 0 0);
+    
+    .point-button {
+      @include button-base;
+      @include component-spacing(var(--space-xs));
+      
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      
+      &.add {
+        background: var(--state-success);
+        color: var(--text-inverse);
+      }
+      
+      &.subtract {
+        background: var(--state-error);
+        color: var(--text-inverse);
+      }
+    }
+  }
+}
+
+// =============================================================================
+// MARKS COMPONENTS
+// =============================================================================
+
+.marks-monitor {
+  @include anarchy-monitor;
+  
+  .marks-list {
+    @include flex-container(row, center, flex-start, wrap);
+    gap: var(--space-xs);
+    
+    .mark-item {
+      @include component-base;
+      @include component-spacing(var(--space-xs));
+      @include component-border(var(--border-radius-sm));
+      @include component-transition(all);
+      
+      background: var(--anarchy-background-item);
+      cursor: pointer;
+      
+      &:hover {
+        background: var(--interactive-primary-hover);
+        transform: scale(1.05);
+      }
+      
+      &.active {
+        background: var(--interactive-primary);
+        color: var(--text-inverse);
+      }
+    }
+  }
+}
+
+// =============================================================================
+// MONITOR RESPONSIVE BEHAVIOR
+// =============================================================================
+
+// Responsive monitor layout
+@media (min-width: 576px) {
+  .monitors-row {
+    @include flex-container(row, flex-start, space-evenly);
+  }
+}
+
+@media (min-width: 768px) {
+  .anarchy-monitor {
+    min-width: 5rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .monitors-row {
+    gap: var(--space-lg);
+  }
+}

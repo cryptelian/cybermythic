@@ -1,0 +1,1210 @@
+// Character Enhanced Components - Advanced character sheet layout
+// This file integrates the character-enhanced system into the modular architecture
+
+@use 'core-components' as *;
+
+// =============================================================================
+// CHARACTER ENHANCED FOUNDATION
+// =============================================================================
+
+.character-enhanced {
+  @include component-base;
+  
+  // Enhanced theme variables
+  --darkglass-color-font: black !important;
+  --darkglass-background-attributes: white !important;
+  
+  color: var(--darkglass-color-font);
+  container-type: inline-size;
+  
+  // Enhanced link styling
+  a {
+    @include component-transition(all);
+    cursor: pointer !important;
+    
+    &:hover {
+      text-shadow: inherit;
+      transform: scale(1.1);
+    }
+  }
+  
+  // Enhanced heading styling
+  h2 {
+    border-bottom: 0 solid transparent;
+  }
+  
+  // Enhanced input styling
+  input {
+    background-color: #f1f4ff;
+  }
+  
+  // Enhanced item opacity
+  .item {
+    opacity: 1;
+    @include component-transition(opacity, 200ms, ease-out);
+    
+    &.inactive {
+      background: transparent !important;
+      opacity: 0.3;
+    }
+  }
+}
+
+// =============================================================================
+// ENHANCED HEADER LAYOUT
+// =============================================================================
+
+.character-enhanced header {
+  height: 150px;
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  position: relative;
+  
+  // Responsive header layout
+  @container (max-width: 700px) {
+    height: 220px;
+    
+    .name-attributes {
+      grid-template-rows: 50px 170px !important;
+      
+      .name {
+        width: calc(100% + 145px);
+        margin-left: -136px;
+      }
+    }
+    
+    .attributes {
+      grid-template-columns: 1fr 1fr 1fr !important;
+    }
+    
+    .avatar img {
+      margin-top: 47px;
+    }
+    
+    .roleplay {
+      grid-template-columns: 1fr !important;
+    }
+  }
+  
+  // Avatar section
+  .avatar {
+    @include component-base;
+    position: relative;
+    margin-top: -6px;
+    margin-left: -6px;
+    
+    > .angle.tr {
+      display: none;
+    }
+    
+    .metatype {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 100px;
+      font-size: 10px;
+      
+      .anarchy-metatype {
+        @include flex-container(row, center, center);
+        @include component-spacing(0 6px 0 0);
+        
+        gap: 8px;
+        background-color: white;
+        
+        &.info-value {
+          padding-right: 0;
+        }
+        
+        span {
+          @include flex-container(row, center, center);
+        }
+      }
+    }
+  }
+  
+  // Name and attributes section
+  .name-attributes {
+    display: grid;
+    grid-template-rows: 50px 100px;
+    
+    .name {
+      @include component-base;
+      transform: translate(-12px, -4px);
+      margin-right: -12px;
+      padding-top: 0;
+      
+      > .side.up,
+      > .angle.tr,
+      > .angle.tl {
+        display: none;
+      }
+      
+      > .right,
+      > .left {
+        top: 0;
+      }
+      
+      .input {
+        margin-right: 70px;
+        height: 40px;
+        margin-top: 3px;
+        margin-left: 2px;
+        font-size: 24px;
+        
+        input {
+          font-family: "BebasNeue", sans-serif;
+          @include component-spacing(11px 0 4px 4px);
+          background-color: transparent;
+          font-weight: bold;
+        }
+      }
+      
+      .awareness {
+        @include flex-container(row-reverse, center, flex-start);
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        gap: 8px;
+        
+        select {
+          border: 0;
+          background-color: white;
+        }
+        
+        .connection-mode,
+        .view-mode {
+          @include flex-container(column, center, center);
+          transform: translateY(3px);
+          font-size: 12px;
+          
+          i {
+            font-size: 16px;
+          }
+        }
+      }
+    }
+    
+    .attributes {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      background-image: linear-gradient(to bottom, #ffffff 0%, #dcdddf 50%, #989999 100%);
+      padding-bottom: 32px;
+      margin-right: -4px;
+      
+      .attribute {
+        display: grid;
+        grid-template-rows: 1fr 2fr;
+        @include component-spacing(2px 8px 0 8px);
+        font-family: "BebasNeue", sans-serif;
+        
+        .label {
+          @include text-style(18px, bold, #f4c000);
+          text-transform: uppercase;
+          text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+          font-family: "BebasNeue", sans-serif;
+          letter-spacing: 2px;
+        }
+        
+        .attribute-infos {
+          @include component-base;
+          
+          a {
+            @include flex-container(row, center, center);
+            width: 100%;
+            height: 100%;
+            font-size: 28px;
+          }
+          
+          .value {
+            position: absolute;
+            bottom: -4px;
+            right: -4px;
+            font-size: 14px;
+            width: 18px;
+            height: 22px;
+          }
+        }
+      }
+    }
+  }
+}
+
+// =============================================================================
+// ENHANCED ROLEPLAY SECTION
+// =============================================================================
+
+.character-enhanced .roleplay {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  font-size: 20px;
+  gap: 0;
+  font-weight: bold;
+  margin-right: -5px;
+  
+  @container (max-width: 700px) {
+    display: none;
+  }
+  
+  h3 {
+    @include heading(3);
+    @include flex-container(row, center, center);
+    @include component-spacing(8px 0 0 0);
+    
+    border-bottom: none;
+    text-transform: uppercase;
+    font-size: 1.1em;
+    font-family: "BebasNeue", sans-serif;
+    letter-spacing: 1px;
+    gap: 8px;
+    
+    a {
+      @include flex-container(row, center, center);
+    }
+  }
+  
+  .behavior,
+  .keyword {
+    border-top: 2px solid black;
+    padding-top: 2px;
+    box-shadow: var(--anarchy-shadow-section);
+    z-index: 0;
+  }
+  
+  .behavior {
+    transform: translateX(-1px);
+  }
+  
+  .quote {
+    --wrapper-padding: 19px;
+    margin-top: -26px;
+    padding-bottom: 0;
+    
+    .side.up {
+      box-shadow: var(--anarchy-shadow-section);
+      height: 12px;
+      transform: translateY(7px);
+    }
+    
+    .angle.tl,
+    .angle.tr {
+      transform: translateY(7px);
+    }
+    
+    .side.down,
+    .side.left,
+    .side.right,
+    .angle.bl,
+    .angle.br {
+      display: none;
+    }
+    
+    .center {
+      background-color: white;
+      
+      .label {
+        transform: translateY(-14px);
+      }
+    }
+  }
+  
+  input {
+    height: 20px;
+    font-size: 14px;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 1px solid black;
+    border-radius: 0;
+    margin-bottom: 5px;
+  }
+}
+
+// =============================================================================
+// ENHANCED SECTION ANIMATIONS
+// =============================================================================
+
+.character-enhanced {
+  .section-monitors,
+  .section-skills,
+  .section-roleplay,
+  .section-keywords,
+  .section-cues,
+  .section-dispositions,
+  .section-actions,
+  .section-qualities,
+  .section-equipments,
+  .section-owned,
+  .section-shadowamps {
+    max-height: 1000px;
+    @include component-transition(max-height, 400ms, cubic-bezier(0.14, 0.87, 0.5, 0.97));
+    
+    &:not(.wrapper) {
+      @include component-transition(max-height, 400ms, cubic-bezier(0.78, 0.32, 0.88, 0.38));
+      overflow: hidden;
+    }
+    
+    &.closed {
+      max-height: 0;
+    }
+    
+    &.quote.closed {
+      max-height: 36px;
+    }
+  }
+  
+  .section-roleplay {
+    max-height: 300px;
+    @include component-transition(max-height, 300ms, ease-out);
+    
+    &:not(.wrapper) {
+      @include component-transition(max-height, 300ms, ease-out);
+      overflow: hidden;
+    }
+  }
+  
+  .click-section {
+    cursor: pointer;
+  }
+}
+
+// =============================================================================
+// ENHANCED SECTION MIXINS
+// =============================================================================
+
+@mixin enhanced-section($bg-color, $text-color: white) {
+  background-color: $bg-color;
+  border-top: 2px solid black;
+  z-index: 0;
+  position: relative;
+  margin-left: -4px;
+  margin-right: -4px;
+  @include component-spacing(0 0 2rem 0);
+  box-shadow: var(--anarchy-shadow-section);
+  
+  h2 {
+    --wrapper-padding: 19px;
+    --wrapper-background-color: #{$bg-color};
+    display: inline-block;
+    margin-top: -19px;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    
+    .side.up {
+      box-shadow: var(--anarchy-shadow-section);
+    }
+    
+    .side.down,
+    .side.right,
+    .side.left,
+    .angle.br,
+    .angle.bl {
+      display: none;
+    }
+    
+    .content {
+      @include text-style(1.2em, bold, $text-color);
+      @include flex-container(row, center, center);
+      
+      border-bottom: none;
+      text-transform: uppercase;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+      font-family: "BebasNeue", sans-serif;
+      letter-spacing: 2px;
+      background-color: $bg-color;
+      transform: translateY(-14px);
+      gap: 8px;
+      
+      a {
+        @include flex-container(row, center, center);
+        text-shadow: -1px 0 transparent, 1px -1px 0 transparent, -1px 1px 0 transparent, 1px 1px 0 transparent;
+      }
+    }
+  }
+}
+
+// =============================================================================
+// ENHANCED ACTIONS SECTION
+// =============================================================================
+
+.character-enhanced .actions {
+  @include enhanced-section(#e3e4e6, black);
+  
+  .action-list {
+    @include grid-container(1fr 1fr, 8px);
+    @include component-spacing(0 16px);
+    
+    @container (max-width: 500px) {
+      grid-template-columns: 1fr;
+    }
+    
+    .item-list > .content {
+      @include grid-container(1fr 1fr, 12px);
+      @include component-spacing(8px);
+      background-color: white;
+      
+      a {
+        @include component-base;
+        @include component-transition(transform, 200ms);
+        @include hover-effect(1.05, false);
+        
+        background-color: transparent;
+        --wrapper-background-color: #f4c000;
+        --wrapper-padding: 8px;
+        color: white;
+        font-size: 18px;
+        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        
+        > .content {
+          @include flex-container(column, center, center);
+          @include component-spacing(0 8px 0 24px);
+          
+          font-size: 16px;
+          position: relative;
+          
+          .attribute-button-icon {
+            --wrapper-background-color: #f4c000;
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            width: 36px;
+          }
+          
+          label {
+            @include text-style(14px, normal, black);
+            display: block;
+            text-align: center;
+            text-shadow: none;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+    
+    .weapons .content {
+      .title {
+        @include text-style(18px, bold, white);
+        @include component-spacing(4px);
+        
+        margin-top: 0;
+        font-family: "BebasNeue", sans-serif;
+        letter-spacing: 1px;
+        text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+      }
+      
+      .weapon-list {
+        @include flex-container(column, flex-start, flex-start);
+        @include component-spacing(0 2px);
+        gap: 8px;
+        
+        .weapon {
+          @include component-base;
+          @include component-spacing(6px);
+          @include component-transition(transform, 200ms);
+          @include hover-effect(1.01, false);
+          
+          background-color: transparent;
+          --wrapper-border-color: black;
+          
+          .content {
+            @include grid-container(50px 1fr);
+            width: 100%;
+            cursor: pointer;
+            
+            .item-controls {
+              position: absolute;
+              bottom: 4px;
+              right: 6px;
+              text-align: center;
+            }
+            
+            .weapon-name {
+              @include text-style(16px, normal);
+              font-family: "BebasNeue", sans-serif;
+              letter-spacing: 0;
+            }
+            
+            .weapon-desc {
+              @include text-style(12px);
+              @include component-spacing(2px 0);
+              
+              span p {
+                margin: 0;
+              }
+            }
+            
+            .weapon-img {
+              width: 42px !important;
+              
+              .item-img {
+                width: 42px !important;
+                height: 42px !important;
+              }
+            }
+            
+            .weapon-info {
+              @include flex-container(column, flex-start, space-between);
+              
+              .weapon-stats {
+                @include grid-container(1fr 1fr);
+                
+                .weapon-range,
+                .weapon-dmg {
+                  font-family: "BebasNeue", sans-serif;
+                }
+                
+                .weapon-range {
+                  text-wrap: nowrap;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// =============================================================================
+// ENHANCED SKILLS SECTION
+// =============================================================================
+
+.character-enhanced .skills {
+  @include enhanced-section(#fec81c, white);
+  
+  .item-list {
+    @include grid-container(repeat(auto-fill, minmax(200px, 1fr)), 1rem);
+    @include component-spacing(1rem 1rem 0 1rem);
+    
+    overflow: auto;
+    margin-bottom: 16px;
+    margin-top: 0;
+    
+    .anarchy-skill {
+      --wrapper-padding: 12px;
+      
+      .content {
+        @include grid-container(46px 1fr);
+        max-width: none;
+        
+        .skill-img {
+          @include flex-container(column, flex-start, space-between);
+          gap: 6px;
+          
+          .anarchy-img {
+            width: 46px;
+            height: 46px;
+          }
+          
+          .item-controls {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+          }
+        }
+        
+        .skill-txt {
+          @include component-spacing(0 16px);
+          
+          .title {
+            @include text-style(18px, bold);
+            font-family: "BebasNeue", sans-serif;
+            letter-spacing: 1px;
+          }
+        }
+      }
+      
+      .level {
+        @include flex-container(row, center, center);
+        position: absolute;
+        top: 10px;
+        left: -6px;
+        width: 32px;
+        height: 32px;
+        font-weight: bold;
+        transform: translateY(-50%);
+        
+        .content {
+          @include flex-container(row, center, center);
+          font-size: 20px;
+        }
+      }
+    }
+  }
+}
+
+// =============================================================================
+// ENHANCED SHADOWAMPS SECTION
+// =============================================================================
+
+.character-enhanced .shadowamps {
+  @include enhanced-section(#dcdddf, white);
+  
+  .item-controls {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+  }
+  
+  .item-list {
+    @include grid-container(repeat(auto-fill, minmax(200px, 1fr)), 1rem);
+    @include component-spacing(1rem 1rem 0 1rem);
+    
+    overflow: auto;
+    margin-bottom: 16px;
+    margin-top: 0;
+    
+    .anarchy-shadowamp {
+      --wrapper-padding: 12px;
+      
+      .content {
+        @include flex-container(row, flex-start, flex-start);
+        
+        .shadowamp-img {
+          @include flex-container(column, flex-start, space-between);
+          min-width: 46px;
+          
+          .anarchy-img {
+            width: 46px;
+            height: 46px;
+          }
+        }
+        
+        .shadowamp-content {
+          max-width: none;
+          padding-left: 12px;
+          text-align: left;
+          
+          .title {
+            @include text-style(18px, bold);
+            font-family: "BebasNeue", sans-serif;
+            letter-spacing: 1px;
+          }
+        }
+      }
+      
+      .level {
+        @include flex-container(row, center, center);
+        position: absolute;
+        top: 10px;
+        left: -6px;
+        width: 32px;
+        height: 32px;
+        font-weight: bold;
+        transform: translateY(-50%);
+        
+        .content {
+          @include flex-container(row, center, center);
+          font-size: 20px;
+        }
+      }
+    }
+  }
+}
+
+// =============================================================================
+// ENHANCED MONITORS SECTION
+// =============================================================================
+
+.character-enhanced .monitors {
+  @include enhanced-section(#dcdddf, white);
+  margin-top: 24px;
+  
+  @container (max-width: 700px) {
+    margin-top: 0;
+  }
+  
+  .monitor-list {
+    @include grid-container(1fr 376px, 8px);
+    
+    .checkbar-img {
+      width: 24px;
+      height: 24px;
+    }
+    
+    .tokens {
+      @include flex-container(column, flex-start, flex-start);
+      gap: 8px;
+    }
+    
+    .health {
+      @include grid-container(120px 120px 120px, 8px);
+    }
+    
+    .armor,
+    .physical,
+    .stun,
+    .tokens {
+      .content {
+        @include component-spacing(8px 0 0 0);
+        @include component-base;
+        background-color: white;
+        
+        .title {
+          @include text-style(18px, bold, white);
+          @include flex-container(row, center, center);
+          @include component-spacing(0 0 4px 0);
+          
+          height: 20px;
+          text-transform: uppercase;
+          text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+          font-family: "BebasNeue", sans-serif;
+          letter-spacing: 2px;
+          gap: 4px;
+          
+          input.info-value {
+            text-align: center;
+            font-size: 16px;
+            width: 28px;
+            height: 20px;
+          }
+        }
+        
+        .anarchy-monitor {
+          @include flex-container(row, center, center);
+          @include component-spacing(8px 0 0 0);
+          font-family: "BebasNeue", sans-serif;
+          
+          .checkbar-root {
+            @include flex-container(row, center, center);
+            
+            .checkbar {
+              @include grid-container(auto, 12px 5px);
+              justify-content: center;
+              
+              .click-checkbar-element {
+                @include component-base;
+                
+                &::after {
+                  content: '';
+                  position: absolute;
+                  border-top: 1px dotted #777;
+                  width: 6px;
+                  right: -5px;
+                  top: 6px;
+                }
+                
+                &:nth-child(3n)::after {
+                  width: 33px;
+                  right: 15px;
+                  top: 21px;
+                  transform: rotate(151deg);
+                }
+                
+                &:last-child::after {
+                  display: none;
+                }
+              }
+            }
+          }
+          
+          .adjust {
+            @include flex-container(column, center, center);
+            margin-left: -10px;
+            
+            div {
+              @include flex-container(row, center, center);
+              height: 29px;
+              
+              &.activated {
+                color: red;
+                font-weight: bold;
+              }
+            }
+          }
+        }
+      }
+      
+      .resistance-label {
+        @include text-style(14px, normal);
+        @include flex-container(row, center, center);
+        
+        font-family: "BebasNeue", sans-serif;
+        gap: 6px;
+        
+        .value {
+          font-size: 16px;
+          font-weight: bold;
+        }
+      }
+    }
+    
+    .physical,
+    .stun {
+      .content {
+        display: grid;
+        grid-template-rows: 20px 1fr 20px;
+        
+        .anarchy-monitor {
+          @include grid-container(1fr 16px);
+        }
+      }
+    }
+    
+    .anarchy-essence {
+      @include grid-container(2fr 1fr, 8px);
+      height: 100%;
+      
+      div {
+        flex: 1;
+      }
+    }
+    
+    .edge-credibility {
+      @include grid-container(1fr 1fr 1fr, 8px);
+      height: 100%;
+      
+      div {
+        flex: 1;
+      }
+      
+      .edge,
+      .rumors,
+      .credibility {
+        .content {
+          display: grid;
+        }
+      }
+    }
+    
+    @container (max-width: 650px) {
+      grid-template-columns: 1fr;
+      
+      .health {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+    }
+  }
+}
+
+// =============================================================================
+// ENHANCED EQUIPMENT SECTIONS
+// =============================================================================
+
+.character-enhanced .owned,
+.character-enhanced .equipments {
+  @include enhanced-section(#fec81c, white);
+  
+  &.owned {
+    background-color: #e3e4e6;
+    
+    h2 {
+      --wrapper-background-color: #e3e4e6;
+      
+      .content {
+        background-color: #e3e4e6;
+      }
+    }
+  }
+  
+  .gear-list {
+    @include grid-container(repeat(auto-fill, minmax(300px, 1fr)), 8px 1rem);
+    padding: 0;
+    
+    .gear {
+      .content {
+        @include component-spacing(4px);
+        
+        p {
+          text-align: justify;
+        }
+        
+        label {
+          @include text-style(18px, bold);
+          font-family: "BebasNeue", sans-serif;
+          letter-spacing: 1px;
+        }
+      }
+      
+      .item-controls {
+        position: absolute;
+        bottom: 4px;
+        right: 4px;
+        text-align: center;
+      }
+    }
+  }
+  
+  .contacts {
+    .title {
+      @include text-style(18px, bold, white);
+      @include component-spacing(4px);
+      
+      margin-top: 1rem;
+      font-family: "BebasNeue", sans-serif;
+      letter-spacing: 1px;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+    
+    .contact-list {
+      @include grid-container(repeat(auto-fill, minmax(300px, 1fr)), 8px 1rem);
+      padding: 0;
+      
+      .contact {
+        .content {
+          @include component-spacing(4px);
+          
+          p {
+            text-align: justify;
+          }
+          
+          label {
+            @include text-style(20px, bold);
+            font-family: "BebasNeue", sans-serif;
+            letter-spacing: 1px;
+          }
+        }
+        
+        .item-controls {
+          position: absolute;
+          bottom: 4px;
+          right: 4px;
+          text-align: center;
+        }
+      }
+    }
+  }
+  
+  .cyberdecks {
+    .title {
+      @include text-style(18px, bold, white);
+      @include component-spacing(4px);
+      
+      margin-top: 1rem;
+      font-family: "BebasNeue", sans-serif;
+      letter-spacing: 1px;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+    
+    .cyberdeck-list {
+      @include grid-container(1fr, 1rem);
+      
+      .cyberdeck {
+        --wrapper-padding: 25px;
+        --wrapper-thickness: 3px;
+        
+        .content {
+          @include grid-container(32px 1fr, 1rem);
+          
+          .cyberdeck-details {
+            @include flex-container(column, flex-start, flex-start);
+            
+            .name {
+              @include text-style(18px, bold);
+              font-family: "BebasNeue", sans-serif;
+              letter-spacing: 1px;
+              transform: translateY(-12px);
+            }
+            
+            .information {
+              @include grid-container(1fr 1fr 1fr 1fr);
+              
+              > :first-child {
+                @include flex-container(column, flex-start, flex-start);
+                text-align: left;
+              }
+              
+              .attribute {
+                text-align: center;
+                
+                .anarchy-attribute {
+                  @include flex-container(row, center, center);
+                  height: 35px;
+                  
+                  a {
+                    display: block;
+                    width: 100%;
+                  }
+                }
+              }
+            }
+          }
+        }
+        
+        .item-controls {
+          position: absolute;
+          top: 14px;
+          right: 32px;
+          text-align: center;
+        }
+      }
+    }
+  }
+}
+
+// =============================================================================
+// ENHANCED QUALITIES SECTION
+// =============================================================================
+
+.character-enhanced .qualities {
+  @include enhanced-section(#e3e4e6, black);
+  
+  .item-list {
+    @include grid-container(repeat(auto-fill, minmax(200px, 1fr)), 1rem);
+    @include component-spacing(0);
+    
+    overflow: auto;
+    margin-bottom: 16px;
+    
+    .anarchy-quality {
+      --wrapper-padding: 12px;
+      
+      &.quality-negative {
+        .angle::before {
+          border-top: var(--wrapper-thickness, 2px) dashed var(--wrapper-border-color);
+        }
+        
+        .side.up {
+          border-top: var(--wrapper-thickness, 2px) dashed var(--wrapper-border-color);
+        }
+        
+        .side.right {
+          border-right: var(--wrapper-thickness, 2px) dashed var(--wrapper-border-color);
+        }
+        
+        .side.left {
+          border-left: var(--wrapper-thickness, 2px) dashed var(--wrapper-border-color);
+        }
+        
+        .side.down {
+          border-bottom: var(--wrapper-thickness, 2px) dashed var(--wrapper-border-color);
+        }
+      }
+      
+      .content {
+        @include grid-container(46px 1fr);
+        
+        .quality-img {
+          @include flex-container(column, flex-start, space-between);
+          gap: 6px;
+          
+          .anarchy-img {
+            width: 46px;
+            height: 46px;
+          }
+        }
+        
+        .quality-content {
+          max-width: none;
+          padding-left: 12px;
+          text-align: left;
+          
+          .title {
+            @include text-style(18px, bold);
+            font-family: "BebasNeue", sans-serif;
+            letter-spacing: 1px;
+          }
+          
+          .item-description {
+            display: inline-block;
+            max-height: 150px;
+            overflow: auto;
+            
+            p {
+              margin: 0 !important;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// =============================================================================
+// ENHANCED STORY SECTION
+// =============================================================================
+
+.character-enhanced .story {
+  @include enhanced-section(#e3e4e6, black);
+  
+  .social-info {
+    @include grid-container(1fr 1fr, 1rem);
+    
+    @container (max-width: 500px) {
+      grid-template-columns: 1fr;
+    }
+    
+    .title {
+      @include text-style(18px, bold, white);
+      @include component-spacing(4px);
+      
+      margin-top: 0;
+      font-family: "BebasNeue", sans-serif;
+      letter-spacing: 1px;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+    
+    .celeb-table {
+      @include grid-container(1fr 1fr 1fr);
+      
+      > div {
+        @include flex-container(row, center, center);
+        gap: 8px;
+        
+        .input input {
+          text-align: center;
+        }
+      }
+    }
+    
+    .karma {
+      .karma-wrapper {
+        @include grid-container(1fr 4px 1fr, 16px);
+        
+        .karma-row {
+          @include flex-container(row, center, flex-start);
+          gap: 4px;
+          
+          &:first-child {
+            justify-content: flex-end;
+          }
+          
+          &:last-child {
+            justify-content: flex-start;
+          }
+          
+          input {
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+  
+  .description,
+  .gmnotes {
+    .title {
+      @include text-style(18px, bold, white);
+      @include component-spacing(4px);
+      
+      margin-top: 1rem;
+      font-family: "BebasNeue", sans-serif;
+      letter-spacing: 1px;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+    }
+    
+    .editor {
+      text-align: initial;
+    }
+  }
+}
+
+// =============================================================================
+// ENHANCED ROLEPLAY KEYWORDS SECTIONS
+// =============================================================================
+
+.character-enhanced .roleplay-keywords,
+.character-enhanced .roleplay-dispositions,
+.character-enhanced .roleplay-cues {
+  @include enhanced-section(white, black);
+  
+  display: none;
+  margin-top: 0;
+  
+  @container (max-width: 700px) {
+    display: inherit;
+    
+    h3 {
+      display: none;
+    }
+  }
+}

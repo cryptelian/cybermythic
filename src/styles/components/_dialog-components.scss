@@ -1,0 +1,350 @@
+// Dialog Components - Modal dialogs, roll dialogs, and popup interfaces
+// This file contains modular styles for all dialog-related UI components
+
+@use 'core-components' as *;
+
+// =============================================================================
+// DIALOG FOUNDATION
+// =============================================================================
+
+.anarchy-dialog {
+  @include component-base;
+  @include component-shadow(lg);
+  
+  background: var(--background-primary);
+  color: var(--text-primary);
+  border-radius: var(--border-radius-lg);
+  
+  .dialog-header {
+    @include flex-container(row, center, space-between);
+    @include component-spacing(var(--space-md));
+    
+    border-bottom: 1px solid var(--border-primary);
+    
+    h2 {
+      @include heading(2);
+      margin: 0;
+    }
+    
+    .close-button {
+      @include button-base;
+      @include component-spacing(var(--space-xs));
+      
+      background: transparent;
+      color: var(--text-secondary);
+      border: none;
+      
+      &:hover {
+        color: var(--state-error);
+      }
+    }
+  }
+  
+  .dialog-content {
+    @include component-spacing(var(--space-md));
+  }
+  
+  .dialog-buttons {
+    @include flex-container(row, center, flex-end);
+    @include component-spacing(var(--space-md));
+    
+    gap: var(--space-sm);
+    border-top: 1px solid var(--border-primary);
+    
+    .dialog-button {
+      @include button-base;
+      
+      &.primary {
+        background: var(--interactive-primary);
+        color: var(--text-inverse);
+      }
+      
+      &.secondary {
+        background: var(--interactive-secondary);
+        color: var(--text-primary);
+      }
+      
+      &.danger {
+        background: var(--state-error);
+        color: var(--text-inverse);
+      }
+    }
+  }
+}
+
+// =============================================================================
+// ROLL DIALOG COMPONENTS
+// =============================================================================
+
+.roll-dialog {
+  @include component-base;
+  
+  .roll-parameters {
+    @include flex-container(column, flex-start, flex-start);
+    @include component-spacing(var(--space-xs));
+    
+    .parameter-category {
+      @include component-spacing(var(--space-xs) 0);
+      height: fit-content;
+      
+      > label {
+        @include text-style(var(--font-size-sm), var(--font-weight-bold));
+        height: 16px;
+      }
+    }
+    
+    .parameter {
+      @include flex-container(row, center, flex-start);
+      @include component-spacing(0);
+      
+      min-height: 24px;
+      height: fit-content;
+      width: 100%;
+      
+      .info-label,
+      .info-value {
+        justify-content: left;
+        align-self: stretch;
+        white-space: nowrap;
+        height: 24px;
+        @include component-spacing(0);
+      }
+      
+      .info-label,
+      .info-value,
+      select,
+      input {
+        @include component-spacing(0);
+        height: 24px;
+      }
+      
+      .parameter-label {
+        width: calc(45% - 1rem);
+      }
+      
+      .parameter-value {
+        max-width: 2rem;
+        min-width: 2rem;
+        width: 2rem;
+      }
+      
+      .parameter-selection {
+        @include flex-container(row, center, flex-start);
+        width: calc(55% - 1rem);
+      }
+    }
+    
+    .input-cursor-parameter a i {
+      font-size: var(--font-size-lg);
+    }
+    
+    .parameter-source {
+      margin-left: -2rem;
+    }
+  }
+}
+
+// =============================================================================
+// DICE CONTROL COMPONENTS
+// =============================================================================
+
+.roll-dialog {
+  // Dice modifier buttons
+  a.variable-dice-malus,
+  a.fixed-dice-malus,
+  a.variable-dice-bonus,
+  a.fixed-dice-bonus {
+    @include component-transition(color);
+    @include component-spacing(var(--space-xs));
+    
+    cursor: pointer;
+    
+    &.active i {
+      opacity: 1;
+    }
+    
+    &.inactive i {
+      opacity: 0.7;
+    }
+  }
+  
+  // Malus buttons (red tones)
+  a.variable-dice-malus.active i { color: hsl(0deg 100% 50% / 90%); }
+  a.variable-dice-malus.inactive i { color: hsl(0deg 60% 50% / 80%); }
+  a.fixed-dice-malus.active i { color: hsl(20deg 100% 70% / 90%); }
+  a.fixed-dice-malus.inactive i { color: hsl(20deg 60% 50% / 90%); }
+  
+  // Bonus buttons (green tones)
+  a.fixed-dice-bonus.active i { color: hsl(80deg 100% 70% / 90%); }
+  a.fixed-dice-bonus.inactive i { color: hsl(80deg 60% 50% / 90%); }
+  a.variable-dice-bonus.active i { color: hsl(100deg 80% 50% / 90%); }
+  a.variable-dice-bonus.inactive i { color: hsl(100deg 40% 50% / 80%); }
+}
+
+// =============================================================================
+// COLUMN LAYOUT COMPONENTS
+// =============================================================================
+
+.column-images {
+  @include flex-container(column, flex-start, flex-start);
+  @include component-spacing(var(--space-xs));
+  
+  flex: none;
+}
+
+.column-details {
+  @include flex-container(column, flex-start, flex-start, nowrap);
+  flex-grow: 1;
+}
+
+// =============================================================================
+// TOOLTIP COMPONENTS
+// =============================================================================
+
+.tooltip {
+  @include component-base;
+  display: inline-block;
+  
+  &:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+  }
+  
+  .tooltiptext {
+    @include component-base;
+    @include component-spacing(var(--space-sm));
+    @include component-shadow(md);
+    
+    position: absolute;
+    z-index: var(--z-index-tooltip, 1070);
+    background: var(--anarchy-background-tooltip);
+    color: var(--text-primary);
+    border-radius: var(--border-radius-md);
+    text-align: center;
+    visibility: hidden;
+    opacity: 0;
+    @include component-transition(opacity);
+    
+    // Position tooltip
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    
+    &.tooltip-roll-parameters {
+      width: 200px;
+      left: -20px;
+      transform: none;
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-light);
+    }
+  }
+}
+
+.tooltip-dotted {
+  border-bottom: 1px dotted var(--border-primary);
+}
+
+// Window app tooltip positioning
+.window-app.sheet .window-content .tooltip:hover .tooltiptext {
+  top: 1rem;
+  left: 1rem;
+  transform: none;
+  @include component-spacing(var(--space-sm));
+}
+
+// =============================================================================
+// EDITOR COMPONENTS
+// =============================================================================
+
+.editor {
+  @include component-base;
+  @include component-border;
+  @include component-spacing(0 var(--space-sm));
+  
+  height: 150px;
+  min-height: 80px;
+  background: var(--input-background);
+  color: var(--input-color);
+}
+
+// TinyMCE specific styling
+.tox {
+  .tox-edit-area {
+    @include component-spacing(0 var(--space-md));
+  }
+  
+  .tox-editor-container {
+    background: var(--editor-background);
+    color: var(--editor-color);
+  }
+}
+
+// =============================================================================
+// CHAT COMPONENTS
+// =============================================================================
+
+.chat-message {
+  .anarchy-button {
+    @include button-base;
+    background: var(--gradient-silver);
+    
+    label {
+      color: var(--text-primary);
+    }
+    
+    &:hover {
+      background: var(--interactive-primary-hover);
+    }
+    
+    &:active {
+      @include active-effect;
+    }
+  }
+}
+
+// =============================================================================
+// DICE RESULT COMPONENTS
+// =============================================================================
+
+.dice-result {
+  .dice-formula {
+    // Hide verbose dice formula
+    height: 0;
+    border: 0;
+    color: var(--transparent);
+  }
+}
+
+.risk-glitch {
+  @include component-base;
+  @include component-spacing(var(--space-xs));
+  @include component-border;
+  
+  span i.fas {
+    font-size: var(--font-size-lg);
+  }
+  
+  &.risk-glitch-glitch {
+    background: var(--default-background-glitch, var(--anarchy-background-negative));
+    
+    span i.fas {
+      color: var(--color-dice-glitch);
+    }
+  }
+  
+  &.risk-glitch-mixed {
+    background: var(--default-background-mixed);
+    
+    span i.fas {
+      color: var(--color-dice-mixed);
+    }
+  }
+  
+  &.risk-glitch-prowess {
+    background: var(--default-background-prowess);
+    
+    span i.fas {
+      color: var(--color-dice-prowess);
+    }
+  }
+}

@@ -1,0 +1,368 @@
+// Sheet Components - Actor and Item sheet specific styles
+// This file contains styles for character sheets, NPC sheets, item sheets, etc.
+
+@use 'core-components' as *;
+
+// =============================================================================
+// SHEET FOUNDATION
+// =============================================================================
+
+.sheet {
+  @include anarchy-sheet;
+  
+  &.actor {
+    min-width: 600px;
+    
+    &.character {
+      min-width: 680px;
+      
+      &.tabbed-sheet {
+        min-width: 680px;
+      }
+    }
+  }
+  
+  &.item-sheet {
+    min-width: 400px;
+  }
+}
+
+// =============================================================================
+// PASSPORT COMPONENTS
+// =============================================================================
+
+.passport-header {
+  @include flex-container(row, flex-start, flex-start);
+  @include component-spacing(var(--space-xs));
+  
+  .passport-img {
+    @include component-base;
+    @include component-spacing(0, var(--space-xs) var(--space-xs) 0);
+    
+    img {
+      border-radius: var(--border-radius-md);
+      object-fit: cover;
+      object-position: center;
+    }
+  }
+  
+  .passport-column {
+    @include flex-container(column, stretch, space-between);
+    flex-grow: 1;
+  }
+}
+
+// Passport sizing variants
+.actor-character .passport-img {
+  width: 128px;
+  height: 128px;
+  
+  img {
+    width: 128px;
+    height: 128px;
+  }
+}
+
+.npc-sheet .passport-img,
+.vehicle-sheet .passport-img {
+  width: 92px;
+  height: 92px;
+  
+  img {
+    width: 92px;
+    height: 92px;
+  }
+}
+
+.device-sheet .passport-img {
+  width: 64px;
+  height: 64px;
+  
+  img {
+    width: 64px;
+    height: 64px;
+  }
+}
+
+// Passport rows
+.passport-details-row {
+  @include flex-container(row, center, space-around, wrap);
+  width: 100%;
+}
+
+.passport-action-row {
+  @include flex-container(row, center, flex-start, wrap);
+  width: 100%;
+}
+
+.passport-detail,
+.passport-owner,
+.passport-action {
+  @include flex-container(row, baseline, flex-start, wrap);
+  height: 32px;
+  text-align: left;
+}
+
+.passport-detail,
+.passport-owner {
+  width: calc(49% - 2px);
+}
+
+// =============================================================================
+// SHEET TABS
+// =============================================================================
+
+nav.sheet-tabs {
+  @include flex-container(row, center, flex-start, nowrap);
+  @include component-spacing(0, 0 var(--space-md));
+  
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  border: none;
+  
+  .sheet-tab {
+    @include component-base;
+    @include component-spacing(var(--space-xs) var(--space-sm));
+    @include component-transition(all);
+    
+    position: relative;
+    min-height: 16px;
+    cursor: pointer;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 10px;
+    }
+    
+    &:hover {
+      background: var(--interactive-secondary-hover);
+    }
+    
+    &.active {
+      background: var(--interactive-primary);
+      color: var(--text-inverse);
+    }
+  }
+}
+
+// =============================================================================
+// SECTION GROUPS
+// =============================================================================
+
+.section-group {
+  @include flex-container(row, flex-start, flex-start, wrap);
+  @include component-spacing(0, 0 0 var(--space-sm) 0);
+  
+  width: 100%;
+  
+  &.tab[data-tab]:not(.active) {
+    display: none;
+  }
+  
+  &.column {
+    flex-direction: column;
+  }
+  
+  h2 {
+    @include heading(2);
+    @include component-spacing(var(--space-sm));
+    
+    width: 100%;
+    text-align: center;
+    border: none;
+    
+    &.section-group-header {
+      width: auto;
+      justify-content: center;
+    }
+  }
+}
+
+.section-attributes {
+  @include flex-container(row, flex-start, flex-start, wrap);
+  @include component-spacing(0, 0 0 var(--space-sm) 0);
+  
+  width: 100%;
+}
+
+// =============================================================================
+// ATTRIBUTE COMPONENTS
+// =============================================================================
+
+.attribute-box {
+  @include anarchy-attribute;
+  
+  &.secondary-attribute {
+    background: var(--anarchy-background-secondary-attributes);
+  }
+}
+
+// NPC and device attribute adjustments
+.npc-sheet .attribute-box,
+.device-sheet .attribute-box,
+.vehicle-sheet .attribute-box {
+  @include flex-container(row, center, center);
+  @include component-spacing(var(--space-xs));
+  
+  min-width: 3rem;
+  max-width: 8rem;
+  
+  input {
+    font-size: var(--font-size-sm);
+    max-width: 1.5rem;
+  }
+}
+
+// =============================================================================
+// WORDS SECTION
+// =============================================================================
+
+.anarchy-words-section {
+  @include flex-container(row, center, flex-start);
+  @include component-spacing(var(--space-xs));
+  
+  min-width: auto;
+  
+  .anarchy-words {
+    @include component-spacing(var(--space-xs));
+    
+    &.anarchy-keywords {
+      width: calc(20% - 4px);
+    }
+    
+    &.anarchy-cues {
+      width: calc(52% - 4px);
+    }
+    
+    &.anarchy-dispositions {
+      width: calc(28% - 4px);
+    }
+    
+    div, input {
+      width: 100%;
+    }
+  }
+}
+
+// =============================================================================
+// MONITOR COMPONENTS
+// =============================================================================
+
+.monitors-row {
+  @include flex-container(row, flex-start, space-evenly);
+  flex-grow: 0;
+}
+
+.anarchy-monitor {
+  @include anarchy-monitor;
+  
+  label, h3 {
+    flex-grow: 0.5;
+    @include component-spacing(var(--space-xs));
+  }
+  
+  .check-rootbar {
+    height: max-content;
+  }
+}
+
+.anarchy-bar .anarchy-monitor {
+  max-width: max-content;
+}
+
+// =============================================================================
+// BLOCK COMPONENTS
+// =============================================================================
+
+.anarchy-block {
+  @include component-base;
+  @include component-spacing(var(--space-xs));
+  
+  flex: content;
+  flex-grow: 0;
+  
+  &.anarchy-bar {
+    justify-content: flex-start;
+    flex-grow: unset;
+  }
+}
+
+// =============================================================================
+// FORM COMPONENTS
+// =============================================================================
+
+.form-group {
+  @include flex-container(column, flex-start, flex-start);
+  @include component-spacing(0, 0 0 var(--space-sm) 0);
+}
+
+.info-label {
+  @include text-style(var(--font-size-sm), var(--font-weight-medium));
+  
+  justify-content: left;
+  align-self: baseline;
+  white-space: nowrap;
+  height: 100%;
+  @include component-spacing(var(--space-xs));
+}
+
+.info-value {
+  @include input-base;
+  
+  align-self: baseline;
+  text-align: start;
+  border: none;
+  height: 100%;
+  width: 100%;
+  @include component-spacing(var(--space-xs));
+}
+
+// =============================================================================
+// ITEM LAYOUT UTILITIES
+// =============================================================================
+
+.flexcol {
+  @include flex-container(column, flex-start, flex-start);
+  gap: var(--space-xs);
+}
+
+.flexrow {
+  @include flex-container(row, flex-start, space-between);
+  gap: var(--space-xs);
+}
+
+// =============================================================================
+// RESPONSIVE UTILITIES
+// =============================================================================
+
+// Responsive breakpoint mixin
+@mixin responsive($breakpoint) {
+  @if $breakpoint == 'sm' {
+    @media (min-width: 576px) { @content; }
+  } @else if $breakpoint == 'md' {
+    @media (min-width: 768px) { @content; }
+  } @else if $breakpoint == 'lg' {
+    @media (min-width: 992px) { @content; }
+  } @else if $breakpoint == 'xl' {
+    @media (min-width: 1200px) { @content; }
+  }
+}
+
+// Component responsive behavior
+@mixin component-responsive {
+  @include responsive('sm') {
+    .section-group {
+      flex-direction: row;
+    }
+  }
+  
+  @include responsive('md') {
+    .passport-column {
+      min-width: 340px;
+    }
+  }
+}

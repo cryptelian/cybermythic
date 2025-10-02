@@ -1,0 +1,381 @@
+// Control Components - Buttons, controls, and interactive elements
+// This file contains modular styles for all control-related UI components
+
+@use 'core-components' as *;
+
+// =============================================================================
+// CONTROL FOUNDATION
+// =============================================================================
+
+// Base control styling
+.anarchy-control {
+  @include component-base;
+  @include component-transition(all);
+  @include hover-effect(1.05, false);
+  @include focus-effect;
+  
+  cursor: pointer;
+  user-select: none;
+}
+
+// =============================================================================
+// BUTTON COMPONENTS
+// =============================================================================
+
+.anarchy-button {
+  @include button-base;
+  
+  &.primary {
+    background: var(--interactive-primary);
+    color: var(--text-inverse);
+  }
+  
+  &.secondary {
+    background: var(--interactive-secondary);
+    color: var(--text-primary);
+  }
+  
+  &.danger {
+    background: var(--state-error);
+    color: var(--text-inverse);
+  }
+  
+  &.success {
+    background: var(--state-success);
+    color: var(--text-inverse);
+  }
+  
+  &.small {
+    @include component-spacing(var(--space-xs) var(--space-sm));
+    font-size: var(--font-size-sm);
+  }
+  
+  &.large {
+    @include component-spacing(var(--space-md) var(--space-lg));
+    font-size: var(--font-size-lg);
+  }
+}
+
+// Button group
+.button-group {
+  @include flex-container(row, center, flex-start);
+  gap: var(--space-xs);
+  
+  .anarchy-button {
+    &:first-child {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+    
+    &:last-child {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+    
+    &:not(:first-child):not(:last-child) {
+      border-radius: 0;
+    }
+  }
+}
+
+// =============================================================================
+// ITEM CONTROLS
+// =============================================================================
+
+.item-control {
+  @include component-base;
+  @include component-transition(all);
+  @include hover-effect(1.05, false);
+  @include focus-effect;
+  
+  cursor: pointer;
+  user-select: none;
+  @include component-spacing(var(--space-xs));
+  
+  color: var(--anarchy-color-controls);
+  
+  i, img {
+    font-size: var(--font-size-sm);
+  }
+  
+  &:hover {
+    color: var(--interactive-primary);
+  }
+  
+  // Matrix connection mode styling
+  &.matrix-connectionMode-augmented i {
+    color: var(--anarchy-color-controls-augmented);
+  }
+  
+  &.matrix-connectionMode-virtual i {
+    color: var(--anarchy-color-controls-virtual);
+  }
+  
+  &.matrix-connectionMode-disconnected i {
+    color: var(--anarchy-color-controls-disconnected);
+  }
+}
+
+.favorite-control {
+  @include component-base;
+  @include component-transition(all);
+  @include hover-effect(1.05, false);
+  @include focus-effect;
+  
+  cursor: pointer;
+  user-select: none;
+  @include component-spacing(var(--space-xs));
+  
+  i {
+    font-size: var(--font-size-sm);
+    color: var(--state-warning);
+  }
+  
+  &:hover i {
+    color: var(--state-success);
+  }
+}
+
+.view-mode-control {
+  @include component-base;
+  @include component-transition(all);
+  @include hover-effect(1.05, false);
+  @include focus-effect;
+  
+  cursor: pointer;
+  user-select: none;
+  @include component-spacing(var(--space-xs));
+  
+  font-size: var(--font-size-lg);
+  color: var(--anarchy-color-controls);
+  
+  &:hover {
+    color: var(--interactive-primary);
+  }
+}
+
+// =============================================================================
+// SHORTCUT COMPONENTS
+// =============================================================================
+
+.anarchy-shortcuts {
+  @include component-base;
+  
+  .anarchy-shortcuts-list {
+    @include flex-container(column, flex-start, flex-start);
+    
+    position: absolute;
+    top: 160px;
+    left: 64px;
+    flex: 0 !important;
+  }
+  
+  .anarchy-shortcut-button {
+    @include flex-container(row, center, flex-start);
+    @include component-transition(all);
+    @include hover-effect(1.02, true);
+    
+    width: max-content;
+    line-height: 32px;
+    cursor: pointer;
+    
+    label {
+      @include text-style(var(--font-size-sm), var(--font-weight-normal), var(--text-secondary));
+      @include component-spacing(var(--space-xs) var(--space-lg) var(--space-xs) var(--space-xs));
+      
+      line-break: unset;
+    }
+    
+    img {
+      width: 32px;
+      height: 32px;
+      background: var(--anarchy-background-item-img);
+    }
+    
+    &:hover {
+      label {
+        color: var(--text-primary);
+      }
+    }
+  }
+}
+
+// =============================================================================
+// ATTRIBUTE BUTTON COMPONENTS
+// =============================================================================
+
+.attribute-buttons {
+  @include flex-container(row, center, flex-start, wrap);
+  gap: var(--space-xs);
+  
+  .attribute-button {
+    @include button-base;
+    @include component-spacing(var(--space-xs) var(--space-sm));
+    
+    background: var(--anarchy-background-attributes);
+    color: var(--text-primary);
+    font-size: var(--font-size-sm);
+    
+    &:hover {
+      background: var(--interactive-primary);
+      color: var(--text-inverse);
+    }
+  }
+}
+
+// =============================================================================
+// TOGGLE COMPONENTS
+// =============================================================================
+
+.anarchy-toggle {
+  @include component-base;
+  @include flex-container(row, center, space-between);
+  @include component-spacing(var(--space-sm));
+  @include component-border;
+  
+  background: var(--background-secondary);
+  cursor: pointer;
+  
+  .toggle-label {
+    @include text-style(var(--font-size-sm), var(--font-weight-medium));
+  }
+  
+  .toggle-switch {
+    @include component-base;
+    @include component-transition(all);
+    
+    width: 40px;
+    height: 20px;
+    border-radius: 10px;
+    background: var(--border-primary);
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--background-primary);
+      @include component-transition(transform);
+    }
+    
+    &.active {
+      background: var(--interactive-primary);
+      
+      &::after {
+        transform: translateX(20px);
+      }
+    }
+  }
+  
+  &:hover .toggle-switch {
+    background: var(--interactive-primary-hover);
+  }
+}
+
+// =============================================================================
+// DROPDOWN COMPONENTS
+// =============================================================================
+
+.anarchy-dropdown {
+  @include component-base;
+  position: relative;
+  
+  .dropdown-trigger {
+    @include button-base;
+    @include flex-container(row, center, space-between);
+    
+    width: 100%;
+    
+    .dropdown-arrow {
+      @include component-transition(transform);
+      margin-left: var(--space-sm);
+    }
+    
+    &.open .dropdown-arrow {
+      transform: rotate(180deg);
+    }
+  }
+  
+  .dropdown-menu {
+    @include component-base;
+    @include component-shadow(lg);
+    @include component-border;
+    
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: var(--z-index-dropdown, 1000);
+    background: var(--background-primary);
+    max-height: 200px;
+    overflow-y: auto;
+    
+    &.hidden {
+      display: none;
+    }
+    
+    .dropdown-item {
+      @include component-base;
+      @include component-spacing(var(--space-sm));
+      @include component-transition(background-color);
+      
+      cursor: pointer;
+      border-bottom: 1px solid var(--border-secondary);
+      
+      &:last-child {
+        border-bottom: none;
+      }
+      
+      &:hover {
+        background: var(--interactive-secondary-hover);
+      }
+      
+      &.selected {
+        background: var(--interactive-primary);
+        color: var(--text-inverse);
+      }
+    }
+  }
+}
+
+// =============================================================================
+// ICON COMPONENTS
+// =============================================================================
+
+.anarchy-icon {
+  @include component-base;
+  @include component-transition(color);
+  
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  
+  &.small {
+    font-size: var(--font-size-sm);
+  }
+  
+  &.medium {
+    font-size: var(--font-size-md);
+  }
+  
+  &.large {
+    font-size: var(--font-size-lg);
+  }
+  
+  &.interactive {
+    cursor: pointer;
+    
+    &:hover {
+      color: var(--interactive-primary);
+    }
+  }
+}
+
+.hide-fontawesome {
+  font-size: var(--font-size-sm);
+  color: var(--transparent);
+}

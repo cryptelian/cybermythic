@@ -7,6 +7,10 @@ import { GMManager } from './app/gm-manager.js';
 import { HandlebarsManager } from './handlebars-manager.js';
 import { RemoteCall } from './remotecall.js';
 import { Styles } from './styles.js';
+import { ThemeUtilities } from './theme-utilities.js';
+import { UICustomization } from './ui-customization.js';
+import { UICustomizationDialog } from './ui-customization-dialog.js';
+import { UICustomizationCommands } from './ui-customization-commands.js';
 import { AnarchyUsers } from './users.js';
 import { HooksManager } from './hooks-manager.js';
 import { AnarchyDice } from './roll/dice.js';
@@ -93,6 +97,9 @@ export class AnarchySystem {
 
     this.hooks = new HooksManager();
     this.styles = new Styles();
+    this.themeUtilities = new ThemeUtilities(this.styles);
+    this.uiCustomization = new UICustomization(this.styles);
+    this.uiCustomizationCommands = new UICustomizationCommands(this.uiCustomization);
     this.handlebarsManager = new HandlebarsManager();
     this.gmAnarchy = new GMAnarchy();
     this.gmConvergence = new GMConvergence();
