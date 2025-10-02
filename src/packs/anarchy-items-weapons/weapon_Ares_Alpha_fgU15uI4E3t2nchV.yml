@@ -1,0 +1,30 @@
+_id: fgU15uI4E3t2nchV
+name: Ares Alpha
+type: weapon
+img: systems/anarchy/icons/weapons/pistol-gun.svg
+system:
+  skill: firearms
+  specialization: ""
+  strength: false
+  damage: 8
+  damageAttribute: ""
+  noArmor: false
+  monitor: physical
+  defense: ""
+  area: ""
+  drain: 0
+  range:
+    max: long
+    short: 0
+    medium: 0
+    long: -2
+  modifiers: []
+  inactive: false
+  references:
+    sourceReference: Anarchy Catalog
+    description: Assault Rifles 8P OK OK -2 (AK-97, Ares Alpha, Colt M23, FN HAR,
+      Yamaha Raiden, Shiawase Arms Monsoon)
+    gmnotes: ""
+ownership:
+  default: 0
+flags: {}

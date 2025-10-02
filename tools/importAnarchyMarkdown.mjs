@@ -668,13 +668,29 @@ function parseMarkdown(md) {
     }
   }
 
-  // 3) Build skills compendium from encountered actor skills
-  const skillIndex = new Map();
+  // 3) Build a compendium index for linking and (optionally) seed skills
+  const packByType = {
+    weapon: 'anarchy-items-weapons',
+    gear: 'anarchy-items-gear',
+    shadowamp: 'anarchy-items-shadowamps',
+    quality: 'anarchy-items-qualities',
+    skill: 'anarchy-items-skills'
+  };
+  function normalizeName(name = '', type = '') {
+    let n = (name || '').toLowerCase().replace(/["']/g, '').trim();
+    // Strip generic suffixes from weapons
+    if (type === 'weapon') {
+      n = n.replace(/\b(pistol|rifle|shotgun|staff|knife|sword|axe|baton|club|crossbow|bow)\b/g, '').replace(/\s+/g, ' ').trim();
+    }
+    return n;
+  }
+  // Optionally seed skills from actor items (ensures we have at least one entry per skill code)
+  const seenSkill = new Set();
   for (const actor of actors) {
     for (const it of actor.items ?? []) {
       if (it.type === 'skill') {
         const key = (it.system?.code || it.name || '').toLowerCase();
-        if (!skillIndex.has(key)) {
+        if (!seenSkill.has(key)) {
           const compSkill = baseItemDoc(it.name, 'skill');
           compSkill.system = {
             inactive: false,
@@ -689,8 +705,33 @@ function parseMarkdown(md) {
             listspecialization: []
           };
           items.push(compSkill);
-          skillIndex.set(key, compSkill._id);
+          seenSkill.add(key);
         }
+      }
+    }
+  }
+
+  // Build compendium index: type + normalized name -> {id, pack}
+  const compIndex = new Map();
+  for (const it of items) {
+    const pack = packByType[it.type];
+    if (!pack) continue;
+    const key = `${it.type}|${normalizeName(it.name, it.type)}`;
+    if (!compIndex.has(key)) compIndex.set(key, { id: it._id, pack });
+  }
+  // Link actor items to compendium via flags.core.sourceId if match exists
+  const systemId = SYSTEM_ID; // 'anarchy'
+  for (const actor of actors) {
+    if (!actor.items) continue;
+    for (const it of actor.items) {
+      const pack = packByType[it.type];
+      if (!pack) continue;
+      const key = `${it.type}|${normalizeName(it.name, it.type)}`;
+      const found = compIndex.get(key);
+      if (found) {
+        it.flags = it.flags || {};
+        it.flags.core = it.flags.core || {};
+        it.flags.core.sourceId = `Compendium.${systemId}.${found.pack}.${found.id}`;
       }
     }
   }
