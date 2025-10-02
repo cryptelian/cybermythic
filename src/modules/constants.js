@@ -3,41 +3,8 @@
  *
  * Constants are written in ALL_CAPS_CONSTANTS and should never be changed during runtime.
  */
-// Resolve the system id dynamically with a stable default.
-// Priority order:
-// 1) Build-time Vite env: import.meta.env.VITE_SYSTEM_ID (e.g., "ninjanarchy")
-// 2) Runtime (Foundry) game.system.id when available
-// 3) Default fallback: "anarchy"
-const RESOLVED_SYSTEM_NAME = (() => {
-  try {
-    // Build-time (Vite) replacement. Safe in both dev and prod builds.
-    const viteEnv = (typeof import.meta !== 'undefined' && import.meta && import.meta.env)
-      ? import.meta.env.VITE_SYSTEM_ID
-      : undefined;
-    if (viteEnv && String(viteEnv).trim().length > 0) {
-      return String(viteEnv).trim();
-    }
-  } catch (_) {
-    // Ignore if import.meta is not available in this context
-  }
-
-  // Runtime (Foundry) fallback if available during evaluation
-  const runtimeId = (typeof globalThis !== 'undefined'
-    && globalThis.game
-    && globalThis.game.system
-    && globalThis.game.system.id)
-    ? String(globalThis.game.system.id).trim()
-    : undefined;
-  if (runtimeId && runtimeId.length > 0) {
-    return runtimeId;
-  }
-
-  // Final fallback keeps current public id unchanged on main
-  return 'anarchy';
-})();
-
-export const SYSTEM_NAME = RESOLVED_SYSTEM_NAME;
-export const SYSTEM_DESCRIPTION = "Anarchy";
+export const SYSTEM_NAME = 'anarchy';
+export const SYSTEM_DESCRIPTION = 'Anarchy';
 export const SYSTEM_SOCKET = `system.${SYSTEM_NAME}`;
 export const SYSTEM_SCOPE = SYSTEM_NAME;
 export const SYSTEM_PATH = `systems/${SYSTEM_NAME}`;
@@ -109,8 +76,8 @@ export const TEMPLATE = {
     social: {
       celebrity: 'celebrity',
       credibility: 'credibility',
-      rumor: 'rumor'
-    }
+      rumor: 'rumor',
+    },
   },
   area: {
     none: 'none',
@@ -118,9 +85,9 @@ export const TEMPLATE = {
     circle: 'circle',
     cone: 'cone',
     rect: 'rect',
-    ray: 'ray'
-  }
-}
+    ray: 'ray',
+  },
+};
 
 export const ANARCHY_SYSTEM = {
   rollType: {
@@ -132,31 +99,30 @@ export const ANARCHY_SYSTEM = {
     weapon: 'weapon',
   },
   actions: {
-    defense: "defense",
-    resistTorture: "resistTorture",
-    judgeIntentions: "judgeIntentions",
-    perception: "perception",
-    composure: "composure",
-    memory: "memory",
-    catch: "catch",
-    lift: "lift",
-    matrixDefense: "matrixDefense",
-    astralDefense: "astralDefense"
+    defense: 'defense',
+    resistTorture: 'resistTorture',
+    judgeIntentions: 'judgeIntentions',
+    perception: 'perception',
+    composure: 'composure',
+    memory: 'memory',
+    catch: 'catch',
+    lift: 'lift',
+    matrixDefense: 'matrixDefense',
+    astralDefense: 'astralDefense',
   },
   defenses: {
-    physicalDefense: "physicalDefense",
-    physicalResistance: "physicalResistance",
-    socialDefense: "socialDefense",
-    matrixDefense: "matrixDefense",
-    mentalResistance: "mentalResistance"
+    physicalDefense: 'physicalDefense',
+    physicalResistance: 'physicalResistance',
+    socialDefense: 'socialDefense',
+    matrixDefense: 'matrixDefense',
+    mentalResistance: 'mentalResistance',
   },
   fixedDefenseCode: {
     // fix for old incorrect defense codes
-    mentalDefense: "physicalResistance",
-    astralDefense: "mentalResistance",
-  }
-}
-
+    mentalDefense: 'physicalResistance',
+    astralDefense: 'mentalResistance',
+  },
+};
 
 // export constant for JS hacks
 globalThis.ANARCHY_CONSTANTS = {
@@ -177,5 +143,5 @@ globalThis.ANARCHY_CONSTANTS = {
   TARGET_SUCCESS_EDGE,
   BASE_MONITOR,
   TEMPLATE,
-  ANARCHY_SYSTEM
-}
+  ANARCHY_SYSTEM,
+};

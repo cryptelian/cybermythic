@@ -1,28 +1,39 @@
-import { Misc } from "./misc.js";
-import { AnarchyUsers } from "./users.js";
+import { Misc } from './misc.js';
+import { AnarchyUsers } from './users.js';
 
 export class AnarchyCombat extends Combat {
-
   static init() {
-
-    Hooks.on('createCombatant', async (combatant, options, id) => await combatant.combat.onCreateCombatant(combatant, options, id));
-    Hooks.on('deleteCombatant', async (combatant, options, id) => await combatant.combat.onDeleteCombatant(combatant, options, id));
-    Hooks.on('deleteCombat', async (combat, options, id) => await combat.onDeleteCombat(options, id));
+    Hooks.on(
+      'createCombatant',
+      async (combatant, options, id) =>
+        await combatant.combat.onCreateCombatant(combatant, options, id),
+    );
+    Hooks.on(
+      'deleteCombatant',
+      async (combatant, options, id) =>
+        await combatant.combat.onDeleteCombatant(combatant, options, id),
+    );
+    Hooks.on(
+      'deleteCombat',
+      async (combat, options, id) => await combat.onDeleteCombat(options, id),
+    );
   }
 
   get initiative() {
-    return { formula: "2d6" }
+    return { formula: '2d6' };
   }
 
   async rollInitiative(ids, options) {
-
-    const selectedCombatants = ids.map(id => this.combatants.find(c => c.id == id));
-    const combatantsByType = Misc.classify(selectedCombatants, it => it.actor.type);
+    const selectedCombatants = ids.map((id) => this.combatants.find((c) => c.id == id));
+    const combatantsByType = Misc.classify(selectedCombatants, (it) => it.actor.type);
 
     Object.entries(combatantsByType).forEach(async ([type, list]) => {
       const typeActorClass = game.system.anarchy.actorClasses[type];
-      const typeIds = list.map(it => it.id);
-      const typeOptions = foundry.utils.mergeObject({ formula: typeActorClass.initiative }, options ?? {});
+      const typeIds = list.map((it) => it.id);
+      const typeOptions = foundry.utils.mergeObject(
+        { formula: typeActorClass.initiative },
+        options ?? {},
+      );
       await super.rollInitiative(typeIds, typeOptions);
     });
   }
@@ -39,7 +50,7 @@ export class AnarchyCombat extends Combat {
   }
   async onDeleteCombat(options, id) {
     if (AnarchyUsers.isUniqueConnectedGM()) {
-      this.combatants.forEach(async c => await this._leaveCombat(c));
+      this.combatants.forEach(async (c) => await this._leaveCombat(c));
     }
   }
 

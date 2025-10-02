@@ -1,7 +1,6 @@
-import { BaseItemSheet } from "./base-item-sheet.js";
+import { BaseItemSheet } from './base-item-sheet.js';
 
 export class MetatypeItemSheet extends BaseItemSheet {
-
   getData(options) {
     let hbsData = super.getData(options);
     return hbsData;

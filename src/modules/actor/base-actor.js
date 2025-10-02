@@ -1,21 +1,22 @@
-import { AttributeActions } from "../attribute-actions.js";
-import { Checkbars } from "../common/checkbars.js";
-import { ANARCHY } from "../config.js";
-import { BASE_MONITOR, TEMPLATE } from "../constants.js";
-import { Enums } from "../enums.js";
-import { ErrorManager } from "../error-manager.js";
-import { NO_MATRIX_MONITOR } from "../matrix-helper.js";
-import { Misc } from "../misc.js";
-import { Modifiers } from "../modifiers/modifiers.js";
-import { RollDialog } from "../roll/roll-dialog.js";
-import { MATRIX_SKILLS } from "../skills.js";
-import { AnarchyUsers } from "../users.js";
-import { ActorDamageManager } from "./actor-damage.js";
+import { AttributeActions } from '../attribute-actions.js';
+import { Checkbars } from '../common/checkbars.js';
+import { ANARCHY } from '../config.js';
+import { BASE_MONITOR, TEMPLATE } from '../constants.js';
+import { Enums } from '../enums.js';
+import { ErrorManager } from '../error-manager.js';
+import { NO_MATRIX_MONITOR } from '../matrix-helper.js';
+import { Misc } from '../misc.js';
+import { Modifiers } from '../modifiers/modifiers.js';
+import { RollDialog } from '../roll/roll-dialog.js';
+import { MATRIX_SKILLS } from '../skills.js';
+import { AnarchyUsers } from '../users.js';
+import { ActorDamageManager } from './actor-damage.js';
 
 export class AnarchyBaseActor extends Actor {
-
   static init() {
-    Hooks.on('updateActor', (actor, updates, options, id) => AnarchyUsers.firstResponsible(actor)?.onUpdateActor(updates, options))
+    Hooks.on('updateActor', (actor, updates, options, id) =>
+      AnarchyUsers.firstResponsible(actor)?.onUpdateActor(updates, options),
+    );
   }
 
   constructor(docData, context = {}) {
@@ -29,12 +30,12 @@ export class AnarchyBaseActor extends Actor {
         return new ActorConstructor(docData, context);
       }
     }
-    context.anarchy = undefined
+    context.anarchy = undefined;
     super(docData, context);
   }
 
   static get initiative() {
-    return "2d6 + @modifiers.initiative";
+    return '2d6 + @modifiers.initiative';
   }
 
   static get defaultIcon() {
@@ -44,25 +45,27 @@ export class AnarchyBaseActor extends Actor {
   static padWordListToMin(items, min) {
     for (let index = items.length; index < min; index++) {
       items.push({
-        word: "",
+        word: '',
         id: index + 1,
-        audio: "",
-        no_delete: false
+        audio: '',
+        no_delete: false,
       });
     }
     for (let index = 0; index < min; index++) {
-      items[index]["no_delete"] = true;
+      items[index]['no_delete'] = true;
     }
     return items;
   }
 
   static sortSkills(actor, skills) {
     if (!skills) {
-      return []
+      return [];
     }
     return skills.sort((skilla, skillb) => {
-      const skillaIsKnowledge = (skilla.system.code === 'knowledge') || (skilla.system.attribute === 'knowledge');
-      const skillbIsKnowledge = (skillb.system.code === 'knowledge') || (skillb.system.attribute === 'knowledge');
+      const skillaIsKnowledge =
+        skilla.system.code === 'knowledge' || skilla.system.attribute === 'knowledge';
+      const skillbIsKnowledge =
+        skillb.system.code === 'knowledge' || skillb.system.attribute === 'knowledge';
       if (skillaIsKnowledge && !skillbIsKnowledge) return 1;
       if (!skillbIsKnowledge && skillaIsKnowledge) return -1;
       if (skillaIsKnowledge && skillbIsKnowledge) {
@@ -76,12 +79,12 @@ export class AnarchyBaseActor extends Actor {
       if (skillATotal > skillBTotal) return -1;
       if (skillATotal < skillBTotal) return 1;
       return 0;
-    })
+    });
   }
 
   static sortQualities(qualities) {
     if (!qualities) {
-      return []
+      return [];
     }
     return qualities.sort((qa, qb) => {
       // same type of quality
@@ -95,12 +98,12 @@ export class AnarchyBaseActor extends Actor {
       if (qb.system.positive) return 1;
 
       return 0;
-    })
+    });
   }
 
   static sortShadowamps(shadowamps) {
     if (!shadowamps) {
-      return []
+      return [];
     }
     return shadowamps.sort((sa, sb) => {
       if (sa.system.level > sb.system.level) return -1;
@@ -108,76 +111,90 @@ export class AnarchyBaseActor extends Actor {
       if (sa.name > sb.name) return 1;
       if (sa.name < sb.name) return -1;
       return 0;
-    })
+    });
   }
 
   static sortAttributeButton(buttons) {
     if (!buttons) {
-      return []
+      return [];
     }
     return buttons.sort((a, b) => {
       if (game.i18n.localize(a.labelkey) > game.i18n.localize(b.labelkey)) return 1;
       if (game.i18n.localize(a.labelkey) < game.i18n.localize(b.labelkey)) return -1;
       return 0;
-    })
+    });
   }
 
   getAllowedUsers(permission = CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER) {
-    return game.users.filter(user => this.testUserPermission(user, permission));
+    return game.users.filter((user) => this.testUserPermission(user, permission));
   }
 
   getAllowedUserIds(permission = CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER) {
-    return this.getAllowedUsers(permission).map(it => it.id);
+    return this.getAllowedUsers(permission).map((it) => it.id);
   }
 
-  getRightToDefend() { return CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER }
+  getRightToDefend() {
+    return CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER;
+  }
 
-  hasOwnAnarchy() { return false; }
-  hasGMAnarchy() { return !this.hasPlayerOwner; }
-  isVehicle() { return this.type == TEMPLATE.actorTypes.vehicle }
+  hasOwnAnarchy() {
+    return false;
+  }
+  hasGMAnarchy() {
+    return !this.hasPlayerOwner;
+  }
+  isVehicle() {
+    return this.type == TEMPLATE.actorTypes.vehicle;
+  }
   prepareData() {
-    super.prepareData()
-    this.cleanupFavorites()
+    super.prepareData();
+    this.cleanupFavorites();
   }
 
   prepareDerivedData() {
-    this.prepareMatrixMonitor()
+    this.prepareMatrixMonitor();
     this.system.modifiers = {
-      initiative: Modifiers.sumModifiers(this.items, 'other', 'initiative')
-    }
+      initiative: Modifiers.sumModifiers(this.items, 'other', 'initiative'),
+    };
     if (this.system.monitors) {
-      Object.entries(this.system.monitors).forEach(kv => {
-        kv[1].maxBonus = Modifiers.sumMonitorModifiers(this.items, kv[0], 'max')
-        kv[1].resistanceBonus = Modifiers.sumMonitorModifiers(this.items, kv[0], 'resistance')
-      })
+      Object.entries(this.system.monitors).forEach((kv) => {
+        kv[1].maxBonus = Modifiers.sumMonitorModifiers(this.items, kv[0], 'max');
+        kv[1].resistanceBonus = Modifiers.sumMonitorModifiers(this.items, kv[0], 'resistance');
+      });
     }
     if (this.system.attributes) {
-      Object.entries(this.system.attributes).forEach(kv => kv[1].total = this.getAttributeValue(kv[0]))
+      Object.entries(this.system.attributes).forEach(
+        (kv) => (kv[1].total = this.getAttributeValue(kv[0])),
+      );
     }
-    this.system.state = this.computeState()
+    this.system.state = this.computeState();
   }
 
-  getAttributes() { return []; }
-  getPhysicalAgility() { return undefined }
+  getAttributes() {
+    return [];
+  }
+  getPhysicalAgility() {
+    return undefined;
+  }
   getCorrespondingAttribute(attribute) {
-    const attributes = this.getAttributes()
+    const attributes = this.getAttributes();
     if (attributes.includes(attribute)) {
-      return attribute
+      return attribute;
     }
-    return undefined
+    return undefined;
   }
 
   prepareMatrixMonitor() {
-    const matrix = this.getMatrixDetails()
+    const matrix = this.getMatrixDetails();
     if (matrix.hasMatrix) {
-      this.system.monitors.matrix.max = this._getMonitorMax(matrix.logic)
-      this.system.monitors.matrix.canMark = true
+      this.system.monitors.matrix.max = this._getMonitorMax(matrix.logic);
+      this.system.monitors.matrix.canMark = true;
     }
   }
 
   async onUpdateActor(updates, options) {
     if (updates.system?.monitors != undefined && updates.system?.state == undefined) {
-      this.update({ 'system.state': this.computeState() })
+      this.update({ 'system.state': this.computeState() });
     }
   }
 
@@ -185,11 +202,11 @@ export class AnarchyBaseActor extends Actor {
     return {
       matrix: this.computeMatrixState(),
       physical: this.computePhysicalState(),
-    }
+    };
   }
 
   computePhysicalState() {
-    return { value: 0, max: 0 }
+    return { value: 0, max: 0 };
   }
 
   computeMatrixState() {
@@ -197,10 +214,10 @@ export class AnarchyBaseActor extends Actor {
     if (matrixDetails.hasMatrix) {
       return {
         value: matrixDetails.monitor.max - matrixDetails.monitor.value,
-        max: matrixDetails.monitor.max
-      }
+        max: matrixDetails.monitor.max,
+      };
     }
-    return { value: 0, max: 0 }
+    return { value: 0, max: 0 };
   }
 
   getMatrixDetails() {
@@ -210,28 +227,43 @@ export class AnarchyBaseActor extends Actor {
       firewall: undefined,
       monitor: NO_MATRIX_MONITOR,
       overflow: undefined,
-    }
+    };
   }
 
-  getMatrixLogic() { return this.getMatrixDetails().logic }
-  getMatrixFirewall() { return this.getMatrixDetails().firewall }
-  getMatrixMonitor() { return this.getMatrixDetails().monitor }
-  getMatrixMarks() { return this.getMatrixDetails().monitor?.marks ?? [] }
-  getMatrixOverflow() { return this.getMatrixDetails().overflow }
-  hasMatrixMonitor() { return this.getMatrixDetails().hasMatrix }
-  isMatrixConnected(mode = undefined) { return false }
+  getMatrixLogic() {
+    return this.getMatrixDetails().logic;
+  }
+  getMatrixFirewall() {
+    return this.getMatrixDetails().firewall;
+  }
+  getMatrixMonitor() {
+    return this.getMatrixDetails().monitor;
+  }
+  getMatrixMarks() {
+    return this.getMatrixDetails().monitor?.marks ?? [];
+  }
+  getMatrixOverflow() {
+    return this.getMatrixDetails().overflow;
+  }
+  hasMatrixMonitor() {
+    return this.getMatrixDetails().hasMatrix;
+  }
+  isMatrixConnected(mode = undefined) {
+    return false;
+  }
   isMatrixSkill(skill) {
-    return MATRIX_SKILLS.includes(skill?.system.code)
+    return MATRIX_SKILLS.includes(skill?.system.code);
   }
 
-  async nextConnectionMode(cyberdeck) { }
+  async nextConnectionMode(cyberdeck) {}
 
   async defSetMatrixMonitor(path, value) {
     if (!this.getMatrixDetails().hasMatrix) {
-      game.system.anarchy.hacks.i18n.format(ANARCHY.actor.monitors.noMatrixMonitor, { actor: this.name })
-    }
-    else {
-      await this.update({ [path]: value })
+      game.system.anarchy.hacks.i18n.format(ANARCHY.actor.monitors.noMatrixMonitor, {
+        actor: this.name,
+      });
+    } else {
+      await this.update({ [path]: value });
     }
   }
 
@@ -239,18 +271,17 @@ export class AnarchyBaseActor extends Actor {
     if (path.startsWith('system.monitors.matrix.')) {
       const matrixDetails = this.getMatrixDetails();
       if (matrixDetails.setMatrixMonitor) {
-        return await matrixDetails.setMatrixMonitor(path, value)
+        return await matrixDetails.setMatrixMonitor(path, value);
       }
-      return await this.defSetMatrixMonitor(path, value)
+      return await this.defSetMatrixMonitor(path, value);
     }
-    return await this.update({ [path]: value })
+    return await this.update({ [path]: value });
   }
 
   _getMonitorMax(attribute) {
     const attributeValue = this.getAttributeValue(attribute);
-    return attributeValue == 0 ? 0 : (BASE_MONITOR + Misc.divup(attributeValue, 2));
+    return attributeValue == 0 ? 0 : BASE_MONITOR + Misc.divup(attributeValue, 2);
   }
-
 
   getAttributeActions() {
     return AttributeActions.getActorActions(this);
@@ -258,8 +289,8 @@ export class AnarchyBaseActor extends Actor {
 
   getUsableAttributes(item = undefined) {
     const itemsAttributes = (item ? [item] : this.items)
-      .map(it => it.getUsableAttributes())
-      .reduce((a, b) => a.concat(b), [])
+      .map((it) => it.getUsableAttributes())
+      .reduce((a, b) => a.concat(b), []);
     const usableAttributes = Misc.distinct(this.getAttributes().concat(itemsAttributes));
     usableAttributes.sort(Misc.ascendingBySortedArray(Enums.sortedAttributeKeys));
     return usableAttributes;
@@ -267,22 +298,21 @@ export class AnarchyBaseActor extends Actor {
 
   getAttributeValue(attribute, item = undefined) {
     let value = 0;
-    attribute = this.getCorrespondingAttribute(attribute)
+    attribute = this.getCorrespondingAttribute(attribute);
     if (attribute) {
       if (this.getAttributes().includes(attribute)) {
         value = this.system.attributes[attribute].value;
-      }
-      else if (!item) {
-        const candidateItems = this.items.filter(item => item.isActive() && item.getAttributes().includes(attribute))
+      } else if (!item) {
+        const candidateItems = this.items.filter(
+          (item) => item.isActive() && item.getAttributes().includes(attribute),
+        );
         if (candidateItems.length > 0) {
-          const candidateValues = candidateItems.map(it => it.getAttributeValue(attribute) ?? 0)
-          value = Math.max(...candidateValues)
+          const candidateValues = candidateItems.map((it) => it.getAttributeValue(attribute) ?? 0);
+          value = Math.max(...candidateValues);
         }
-      }
-      else if (this.isEmerged() && attribute == TEMPLATE.attributes.firewall) {
+      } else if (this.isEmerged() && attribute == TEMPLATE.attributes.firewall) {
         return this.getAttributeValue(TEMPLATE.attributes.logic);
-      }
-      else {
+      } else {
         value = item?.getAttributeValue(attribute) ?? 0;
       }
       value += Modifiers.sumModifiers(this.items, 'attribute', attribute);
@@ -322,12 +352,12 @@ export class AnarchyBaseActor extends Actor {
 
   async rollWeapon(weapon) {
     ErrorManager.checkWeaponDefense(weapon, this);
-    const targetedTokenIds = weapon.validateTargets(this)?.map(it => it.id)
+    const targetedTokenIds = weapon.validateTargets(this)?.map((it) => it.id);
     const targeting = {
-      attackerTokenId: game.scenes.current?.tokens.find(it => it.actor?.id == this.id)?.id,
-      targetedTokenIds: targetedTokenIds
-    }
-    const skill = this.items.find(it => weapon.isWeaponSkill(it));
+      attackerTokenId: game.scenes.current?.tokens.find((it) => it.actor?.id == this.id)?.id,
+      targetedTokenIds: targetedTokenIds,
+    };
+    const skill = this.items.find((it) => weapon.isWeaponSkill(it));
     await RollDialog.rollWeapon(this, skill, weapon, targeting);
   }
 
@@ -337,11 +367,11 @@ export class AnarchyBaseActor extends Actor {
     await RollDialog.rollDefense(this, action, attack);
   }
 
-  async rollPilotDefense(attack) { }
+  async rollPilotDefense(attack) {}
 
-  async rollDrain(drain) { }
+  async rollDrain(drain) {}
 
-  async rollConvergence(convergence) { }
+  async rollConvergence(convergence) {}
 
   async switchMonitorCheck(monitor, index, checked, sourceActorId = undefined) {
     await Checkbars.switchMonitorCheck(this, monitor, index, checked, sourceActorId);
@@ -355,31 +385,41 @@ export class AnarchyBaseActor extends Actor {
     await Checkbars.setCounter(this, monitor, value, sourceActorId);
   }
 
-  canPilotVehicle() { return false }
+  canPilotVehicle() {
+    return false;
+  }
 
-  canSetMarks() { return false }
+  canSetMarks() {
+    return false;
+  }
 
-  getCyberdeck() { return undefined }
+  getCyberdeck() {
+    return undefined;
+  }
 
-  canReceiveMarks() { return this.system.monitors?.matrix?.canMark }
+  canReceiveMarks() {
+    return this.system.monitors?.matrix?.canMark;
+  }
 
   canApplyDamage(monitor) {
     switch (monitor) {
       case TEMPLATE.monitors.matrix:
       case TEMPLATE.monitors.marks:
-        return this.hasMatrixMonitor()
+        return this.hasMatrixMonitor();
       case TEMPLATE.monitors.physical:
       case TEMPLATE.monitors.stun:
-        return this.getDamageMonitor(monitor) != undefined
+        return this.getDamageMonitor(monitor) != undefined;
     }
-    return false
+    return false;
   }
 
   canReceiveDamage(monitor) {
-    return this.canApplyDamage(monitor)
+    return this.canApplyDamage(monitor);
   }
 
-  isEmerged() { return false }
+  isEmerged() {
+    return false;
+  }
 
   async addActorMark(sourceActorId) {
     await Checkbars.addActorMark(this, sourceActorId);
@@ -400,19 +440,25 @@ export class AnarchyBaseActor extends Actor {
     await Checkbars.setCounter(this, TEMPLATE.monitors.sceneAnarchy, 0);
   }
 
-  getCelebrityValue() { return 0; }
-  getCredibilityValue() { return 0; }
-  getRumorValue() { return 0; }
+  getCelebrityValue() {
+    return 0;
+  }
+  getCredibilityValue() {
+    return 0;
+  }
+  getRumorValue() {
+    return 0;
+  }
 
   getAnarchy() {
     const anarchy = this.hasGMAnarchy()
       ? game.system.anarchy.gmAnarchy.getAnarchy()
       : {
-        isGM: false,
-        value: 0,
-        max: 0,
-      };
-    anarchy.scene = this.getAnarchyScene()
+          isGM: false,
+          value: 0,
+          max: 0,
+        };
+    anarchy.scene = this.getAnarchyScene();
     return anarchy;
   }
 
@@ -425,10 +471,10 @@ export class AnarchyBaseActor extends Actor {
   }
 
   async spendCredibility(count) {
-    await Checkbars.addCounter(this, TEMPLATE.counters.social.credibility, - count);
+    await Checkbars.addCounter(this, TEMPLATE.counters.social.credibility, -count);
   }
   async spendRumor(count) {
-    await Checkbars.addCounter(this, TEMPLATE.counters.social.rumor, - count);
+    await Checkbars.addCounter(this, TEMPLATE.counters.social.rumor, -count);
   }
 
   async spendAnarchy(count) {
@@ -438,7 +484,7 @@ export class AnarchyBaseActor extends Actor {
   }
 
   getRemainingEdge() {
-    return this.system.counters?.edge?.value ?? 0
+    return this.system.counters?.edge?.value ?? 0;
   }
 
   canUseEdge() {
@@ -450,14 +496,17 @@ export class AnarchyBaseActor extends Actor {
       return;
     }
     if (!this.canUseEdge()) {
-      const message = game.system.anarchy.hacks.i18n.localize(ANARCHY.common.errors.noEdgeForActor, {
-        actor: this.name,
-        actorType: game.system.anarchy.hacks.i18n.localize(ANARCHY.actorType[this.type])
-      });
-      ui.notifications.warn(message)
+      const message = game.system.anarchy.hacks.i18n.localize(
+        ANARCHY.common.errors.noEdgeForActor,
+        {
+          actor: this.name,
+          actorType: game.system.anarchy.hacks.i18n.localize(ANARCHY.actorType[this.type]),
+        },
+      );
+      ui.notifications.warn(message);
       throw ANARCHY.common.errors.noEdgeForActor + message;
     }
-    await Checkbars.addCounter(this, TEMPLATE.counters.edge, - count);
+    await Checkbars.addCounter(this, TEMPLATE.counters.edge, -count);
   }
 
   getSkillValue(skillId, specialization = undefined) {
@@ -471,9 +520,10 @@ export class AnarchyBaseActor extends Actor {
   }
 
   async removeOtherMetatype(metatype) {
-    const metatypeIds = this.items.filter(it => it.isMetatype() && it.id != metatype?.id)
-      .map(it => it.id);
-    this.deleteEmbeddedDocuments("Item", metatypeIds);
+    const metatypeIds = this.items
+      .filter((it) => it.isMetatype() && it.id != metatype?.id)
+      .map((it) => it.id);
+    this.deleteEmbeddedDocuments('Item', metatypeIds);
   }
 
   /**
@@ -505,16 +555,19 @@ export class AnarchyBaseActor extends Actor {
   }
 
   getOwnedActors() {
-    return game.actors.filter(it => it.system.ownerId == this.id);
+    return game.actors.filter((it) => it.system.ownerId == this.id);
   }
-
 
   hasFavorite(type, id) {
     const search = AnarchyBaseActor._prepareFavorite(type, id);
-    return this.system.favorites.find(it => AnarchyBaseActor._isSameFavorite(search, it)) ? true : false;
+    return this.system.favorites.find((it) => AnarchyBaseActor._isSameFavorite(search, it))
+      ? true
+      : false;
   }
 
-  static _prepareFavorite(type, id) { return { type, id } }
+  static _prepareFavorite(type, id) {
+    return { type, id };
+  }
 
   static _isSameFavorite(f1, f2) {
     return f1.id == f2.id && f1.type == f2.type;
@@ -522,29 +575,31 @@ export class AnarchyBaseActor extends Actor {
 
   async switchFavorite(setFavorite, type, id) {
     const favorite = AnarchyBaseActor._prepareFavorite(type, id);
-    const newFavorites = this.system.favorites.filter(it => !AnarchyBaseActor._isSameFavorite(favorite, it));
+    const newFavorites = this.system.favorites.filter(
+      (it) => !AnarchyBaseActor._isSameFavorite(favorite, it),
+    );
     if (setFavorite) {
       newFavorites.push(favorite);
     }
-    this.update({ 'system.favorites': newFavorites })
+    this.update({ 'system.favorites': newFavorites });
   }
 
   async cleanupFavorites() {
-    const newFavorites = this.computeShortcuts().filter(f => !f.callback);
+    const newFavorites = this.computeShortcuts().filter((f) => !f.callback);
     if (newFavorites.length < this.system.favorites) {
-      this.update({ 'system.favorites': newFavorites })
+      this.update({ 'system.favorites': newFavorites });
     }
   }
 
   getShortcuts() {
-    return this.computeShortcuts().filter(s => s.label && s.callback);
+    return this.computeShortcuts().filter((s) => s.label && s.callback);
   }
 
   computeShortcuts() {
     if (this.system.favorites) {
-      return this.system.favorites.map(f => this.getShortcut(f.type, f.id));
+      return this.system.favorites.map((f) => this.getShortcut(f.type, f.id));
     }
-    return []
+    return [];
   }
 
   getShortcut(type, id) {
@@ -554,8 +609,7 @@ export class AnarchyBaseActor extends Actor {
       if (shortcut) {
         return foundry.utils.mergeObject(shortcut, favorite);
       }
-    }
-    else if (Object.values(TEMPLATE.itemType).includes(type)) {
+    } else if (Object.values(TEMPLATE.itemType).includes(type)) {
       const shortcut = this.items.get(id)?.prepareShortcut();
       if (shortcut) {
         return foundry.utils.mergeObject(shortcut, favorite);

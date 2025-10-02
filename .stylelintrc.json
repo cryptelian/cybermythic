@@ -1,88 +1,23 @@
 {
-  "extends": [
-    "stylelint-config-standard-scss",
-    "stylelint-config-prettier-scss"
-  ],
-  "plugins": [
-    "stylelint-scss",
-    "stylelint-order"
-  ],
+  "extends": ["stylelint-config-standard-scss", "stylelint-config-clean-order"],
+  "customSyntax": "postcss-scss",
   "rules": {
-    "at-rule-no-unknown": null,
-    "scss/at-rule-no-unknown": true,
-    "selector-class-pattern": null,
     "no-descending-specificity": null,
-    "color-hex-length": "short",
-    "selector-max-id": 0,
-    "order/properties-order": [
-      [
-        "position",
-        "top",
-        "right",
-        "bottom",
-        "left",
-        "z-index",
-        "display",
-        "flex-direction",
-        "flex-wrap",
-        "align-items",
-        "justify-content",
-        "width",
-        "height",
-        "margin",
-        "padding",
-        "border",
-        "border-radius",
-        "background",
-        "color",
-        "font-family",
-        "font-size",
-        "font-weight",
-        "line-height",
-        "text-align",
-        "text-transform",
-        "opacity",
-        "transform",
-        "transition",
-        "animation"
-      ],
-      {
-        "unspecified": "bottom"
-      }
-    ],
-    "scss/dollar-variable-pattern": "^[a-z][a-zA-Z0-9]*(-[a-z][a-zA-Z0-9]*)*$",
-    "scss/at-mixin-pattern": "^[a-z][a-zA-Z0-9]*(-[a-z][a-zA-Z0-9]*)*$",
-    "scss/at-function-pattern": "^[a-z][a-zA-Z0-9]*(-[a-z][a-zA-Z0-9]*)*$",
-    "max-nesting-depth": 6,
-    "selector-max-compound-selectors": 6,
-    "selector-max-specificity": "0,6,0",
-    "declaration-block-no-duplicate-properties": true,
+    "order/properties-order": null,
+    "order/order": null,
+    "font-family-name-quotes": null,
+    "font-family-no-missing-generic-family-keyword": null,
+    "selector-pseudo-element-colon-notation": null,
+    "length-zero-no-unit": null,
+    "shorthand-property-no-redundant-values": null,
+    "declaration-block-no-redundant-longhand-properties": null,
+    "rule-empty-line-before": null,
+    "declaration-empty-line-before": null,
+    "at-rule-empty-line-before": null,
+    "scss/double-slash-comment-empty-line-before": null,
     "no-duplicate-selectors": null,
-    "color-function-notation": "modern",
-    "alpha-value-notation": "percentage",
-    "hue-degree-notation": "angle",
-    "length-zero-no-unit": true,
-    "font-family-name-quotes": "always-unless-keyword",
-    "function-url-quotes": "always",
-    "string-quotes": "double",
-    "comment-empty-line-before": [
-      "always",
-      {
-        "except": ["first-nested"],
-        "ignore": ["after-comment", "stylelint-commands"]
-      }
-    ],
-    "rule-empty-line-before": [
-      "always-multi-line",
-      {
-        "except": ["first-nested"],
-        "ignore": ["after-comment"]
-      }
-    ]
-  },
-  "ignoreFiles": [
-    "public/**/*.css",
-    "dist/**/*.css",
-    "node_modules/**/*.scss"
-  ]
+    "declaration-block-no-duplicate-properties": null,
+    "color-hex-length": null,
+    "custom-property-empty-line-before": null
+  }
 }

@@ -8,10 +8,9 @@ const faClassD6 = [
   'fas fa-dice-four',
   'fas fa-dice-five',
   'fas fa-dice-six',
-]
+];
 
 export class Icons {
-
   static fontAwesome(faClass) {
     return `<i class="${faClass}"></i>`;
   }
@@ -30,7 +29,6 @@ export class Icons {
     }
     return Icons.fontAwesome(faClassD6[dice]);
   }
-
 }
 
 // export Icons for JS plugins

@@ -1,4 +1,6 @@
 dist/
+public/style/*.css
+public/assets/
+public/fonts/
+public/icons/
 node_modules/
-metrics/
-public/**/*.css

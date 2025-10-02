@@ -1,19 +1,14 @@
-import { ICONS_PATH, TEMPLATE } from "../constants.js";
-import { AnarchyBaseActor } from "./base-actor.js";
+import { ICONS_PATH, TEMPLATE } from '../constants.js';
+import { AnarchyBaseActor } from './base-actor.js';
 
-
-const DEVICE_ATTRIBUTES = [
-  TEMPLATE.attributes.system,
-  TEMPLATE.attributes.firewall,
-]
+const DEVICE_ATTRIBUTES = [TEMPLATE.attributes.system, TEMPLATE.attributes.firewall];
 export class DeviceActor extends AnarchyBaseActor {
-
   static get defaultIcon() {
-    return `${ICONS_PATH}/actors/cctv-camera.svg`
+    return `${ICONS_PATH}/actors/cctv-camera.svg`;
   }
 
   static get initiative() {
-    return AnarchyBaseActor.initiative + " + @attributes.system.value"
+    return AnarchyBaseActor.initiative + ' + @attributes.system.value';
   }
 
   getMatrixDetails() {
@@ -23,10 +18,10 @@ export class DeviceActor extends AnarchyBaseActor {
       firewall: TEMPLATE.attributes.firewall,
       monitor: this.system.monitors.matrix,
       overflow: undefined,
-    }
+    };
   }
 
   getAttributes() {
-    return DEVICE_ATTRIBUTES
+    return DEVICE_ATTRIBUTES;
   }
 }

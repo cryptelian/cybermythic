@@ -39,12 +39,6 @@ npx vite serve
 
 This will launch a Vite development server that is configured to intercept calls made to **systems/anarchy** and proxy them appropriately, while serving all other files directly from Foundry.
 
-For the private variant `ninjanarchy`, see `docs/ninjanarchy-branch.md` or run:
-
-```
-npm run dev:ninja
-```
-
 ## Building for Production
 
 If you need to build the project for production, use:
@@ -55,26 +49,9 @@ npx vite build
 
 This command compiles your JavaScript and assets into static files ready for production deployment. These files are in `./dist` directory.
 
-For a private build of `ninjanarchy`:
+### Releases & changelog
 
-```
-npm run build:ninja
-```
-
-## Switching between main and ninjanarchy
-
-- Main (default `anarchy`):
-  - Dev: `npm run dev:main`
-  - Build: `npm run build:main`
-- Ninjanarchy (uses `.env.ninja` via `--mode ninja`):
-  - Dev: `npm run dev:ninja`
-  - Build to repo-local dir: `npm run build:ninja`
-  - Build to external side repo dir:
-    ```bash
-    OUT_DIR=/absolute/path/to/your/side-repo npm run build:ninja:to
-    ```
-
-Environment is mode-based; `VITE_SYSTEM_ID`, `VITE_ENABLE_INTEGRATIONS`, and `OUT_DIR` are read from `.env.ninja` when using `--mode ninja`.
+Releases are automated via Release Please. Merge the release PR it opens on `main`/`master` to tag a release and publish artifacts. The `download` URL in `public/system.json` is injected during the release job.
 
 ## Foundry Configuration
 
@@ -91,6 +68,18 @@ When Foundry starts in the backend (Node.js), it will detect the necessary files
 
 When you connect to Foundry from a browser (frontend), Vite will intercept all requests and redirect them to Foundry, except for requests to `systems/anarchy`. These files will be served by the Vite project.
 
+### Developer style guide
+
+See `docs/style-guide.md` for tokens, naming, file layout, and lint/format rules.
+
+### Accessibility
+
+See `docs/a11y.md` for focus, contrast, and reduced motion guidance and tests.
+
+### Theming & debugging
+
+See `docs/theming.md` for token conventions and debugging tips. Visual tests capture screenshots for key themes.
+
 ## Note on Vite Server and Foundry Interaction
 
 The Vite server is configured to handle specific API calls (e.g., to **systems/anarchy**) directly, enhancing development efficiency. All other requests are forwarded to the local Foundry server, ensuring that the environment replicates the production setup as closely as possible.
@@ -102,13 +91,13 @@ Compendium sources are located in `src/packs`. Content are written in a yaml for
 Commands are available to manage them:
 
 Compile compendiums to the dist folder:
+
 ```bash
 node ./tools/packCompendiumsToDist.mjs
 ```
 
 Extract compendiums from the dist folder (for example, after changing the content on the running server, to update the source files):
+
 ```bash
 node ./tools/unpackCompendiumsFromDist.mjs
 ```
-
-

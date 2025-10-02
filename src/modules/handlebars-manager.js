@@ -1,11 +1,11 @@
-import { AnarchyBaseActor } from "./actor/base-actor.js";
-import { CharacterEnhancedSheet } from "./actor/character-enhanced-sheet.js";
-import { Damage } from "./damage.js";
-import { Enums } from "./enums.js";
-import { Grammar } from "./grammar.js";
-import { Icons } from "./icons.js";
-import { WeaponItem } from "./item/weapon-item.js";
-import { Misc } from "./misc.js";
+import { AnarchyBaseActor } from './actor/base-actor.js';
+import { CharacterEnhancedSheet } from './actor/character-enhanced-sheet.js';
+import { Damage } from './damage.js';
+import { Enums } from './enums.js';
+import { Grammar } from './grammar.js';
+import { Icons } from './icons.js';
+import { WeaponItem } from './item/weapon-item.js';
+import { Misc } from './misc.js';
 
 const HBS_PARTIAL_TEMPLATES = [
   // -- monitors
@@ -147,14 +147,13 @@ const HBS_PARTIAL_TEMPLATES = [
 ];
 
 export class HandlebarsManager {
-
   constructor() {
     Hooks.once('ready', () => this.onReady());
   }
 
   async onReady() {
     this.registerBasicHelpers();
-    await loadTemplates(Misc.distinct(HBS_PARTIAL_TEMPLATES))
+    await loadTemplates(Misc.distinct(HBS_PARTIAL_TEMPLATES));
   }
 
   registerBasicHelpers() {
@@ -166,8 +165,12 @@ export class HandlebarsManager {
     Handlebars.registerHelper('weaponDamageValue', WeaponItem.damageValue);
     Handlebars.registerHelper('weaponArmorMode', WeaponItem.armorMode);
 
-    Handlebars.registerHelper('skillValue', (actor, skillId) => actor.getSkillValue(skillId, false));
-    Handlebars.registerHelper('specializationValue', (actor, skillId) => actor.getSkillValue(skillId, true));
+    Handlebars.registerHelper('skillValue', (actor, skillId) =>
+      actor.getSkillValue(skillId, false),
+    );
+    Handlebars.registerHelper('specializationValue', (actor, skillId) =>
+      actor.getSkillValue(skillId, true),
+    );
     Handlebars.registerHelper('for', HandlebarsManager.hbsForLoop);
     Handlebars.registerHelper('modulo', (value, divisor) => value % divisor);
     Handlebars.registerHelper('divint', Misc.divint);
@@ -177,56 +180,43 @@ export class HandlebarsManager {
     Handlebars.registerHelper('diff', (v1, v2) => v1 - v2);
     Handlebars.registerHelper('min', (v1, v2) => Math.min(v1, v2));
     Handlebars.registerHelper('max', (v1, v2) => Math.max(v1, v2));
-    Handlebars.registerHelper('either', (a, b) => a ? a : b);
-    Handlebars.registerHelper('isInteger', a => a !== undefined && Number.isInteger(a));
-    Handlebars.registerHelper('actorAttribute', (attribute, actor, item = undefined) => actor.getAttributeValue(attribute, item));
+    Handlebars.registerHelper('either', (a, b) => (a ? a : b));
+    Handlebars.registerHelper('isInteger', (a) => a !== undefined && Number.isInteger(a));
+    Handlebars.registerHelper('actorAttribute', (attribute, actor, item = undefined) =>
+      actor.getAttributeValue(attribute, item),
+    );
     Handlebars.registerHelper('localizeAttribute', Enums.localizeAttribute);
     Handlebars.registerHelper('iconFA', Icons.fontAwesome);
     Handlebars.registerHelper('iconSrc', Icons.iconSystemPath);
     Handlebars.registerHelper('iconPath', Icons.iconPath);
     Handlebars.registerHelper('iconD6', Icons.iconD6);
-    Handlebars.registerHelper('getActor', id => game.actors.get(id));
-    Handlebars.registerHelper('actorHasFavorite', (actorId, options) => HandlebarsManager.checkHasFavorite(actorId, options));
+    Handlebars.registerHelper('getActor', (id) => game.actors.get(id));
+    Handlebars.registerHelper('actorHasFavorite', (actorId, options) =>
+      HandlebarsManager.checkHasFavorite(actorId, options),
+    );
     Handlebars.registerHelper('padWordListToMin', AnarchyBaseActor.padWordListToMin);
     Handlebars.registerHelper('sortSkills', AnarchyBaseActor.sortSkills);
     Handlebars.registerHelper('sortShadowamps', AnarchyBaseActor.sortShadowamps);
     Handlebars.registerHelper('sortQualities', AnarchyBaseActor.sortQualities);
     Handlebars.registerHelper('sortAttributeButton', AnarchyBaseActor.sortAttributeButton);
-    Handlebars.registerHelper('range', function (min, max) { let array = []; for (let i = min; i <= max; i++) { array.push(i); } return array; });
-    Handlebars.registerHelper('ifGte', function (value, threshold, options) { if (value >= threshold) { return options.fn(this); } else { return options.inverse(this); } });
+    Handlebars.registerHelper('range', function (min, max) {
+      let array = [];
+      for (let i = min; i <= max; i++) {
+        array.push(i);
+      }
+      return array;
+    });
+    Handlebars.registerHelper('ifGte', function (value, threshold, options) {
+      if (value >= threshold) {
+        return options.fn(this);
+      } else {
+        return options.inverse(this);
+      }
+    });
     Handlebars.registerHelper('ifTabClosed', CharacterEnhancedSheet.ifTabClosed);
     Handlebars.registerHelper('actorTabClosed', CharacterEnhancedSheet.actorTabClosed);
-    Handlebars.registerHelper('length', function(context) { return context?.length || 0; });
-
-    // UI Customization helpers
-    Handlebars.registerHelper('uiCustomizationValue', function (category, setting) {
-      return game.system.anarchy?.uiCustomization?.getCustomization(category, setting) || '';
-    });
-    
-    Handlebars.registerHelper('uiCustomizationClass', function (type) {
-      return game.system.anarchy?.uiCustomization?.getCustomizationClasses(type).join(' ') || '';
-    });
-    
-    Handlebars.registerHelper('hasUICustomization', function (category, setting) {
-      return game.system.anarchy?.uiCustomization?.hasCustomization(category, setting) || false;
-    });
-
-    // Theme utilities helpers
-    Handlebars.registerHelper('currentTheme', function () {
-      return game.system.anarchy?.styles?.currentTheme || '';
-    });
-    
-    Handlebars.registerHelper('themeMetadata', function (property) {
-      const metadata = game.system.anarchy?.themeUtilities?.getCurrentThemeMetadata();
-      return metadata?.[property] || '';
-    });
-    
-    Handlebars.registerHelper('isThemeActive', function (themeClass) {
-      return game.system.anarchy?.styles?.currentTheme === themeClass;
-    });
-    
-    Handlebars.registerHelper('themeVariable', function (variableName) {
-      return game.system.anarchy?.themeUtilities?.getThemeVariable(variableName) || '';
+    Handlebars.registerHelper('length', function (context) {
+      return context?.length || 0;
     });
   }
 
@@ -242,5 +232,4 @@ export class HandlebarsManager {
     const actor = game.actors.get(actorId);
     return actor?.hasFavorite(options.hash.type, options.hash.id);
   }
-
 }

@@ -1,13 +1,12 @@
-name: CI (Lint and Build)
+name: CI
 
 on:
-  push:
-    branches: [ main, master ]
   pull_request:
-    branches: [ main, master ]
+  push:
+    branches: [main, master]
 
 jobs:
-  build-and-lint:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -17,24 +16,48 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: npm
+          cache: 'npm'
 
       - name: Install dependencies
-        run: npm install --no-fund --no-audit
+        run: npm ci
 
-      - name: Lint styles (SCSS only)
-        run: npm run lint:styles
+      - name: Lint and format check
+        run: |
+          npm run format:check
+          npm run lint:css
+
+      - name: Validate schema and i18n
+        run: npm run validate
+
+      - name: Run tests
+        run: npm test
+
+      - name: Install Playwright browsers
+        run: npx playwright install chromium
+
+      - name: Visual regression tests
+        run: npm run test:visual
+>>>>>>> origin/cursor/resume-stalled-development-audit-and-completion-7f89
 
       - name: Build
         run: npm run build
 
+<<<<<<< HEAD
       - name: Collect metrics (no rebuild)
         run: npm run metrics:ci
+=======
+      - name: Report bundle sizes
+        run: |
+          echo "dist sizes:" > sizes.txt
+          du -h dist/* >> sizes.txt || true
+          cat sizes.txt
+>>>>>>> origin/cursor/resume-stalled-development-audit-and-completion-7f89
 
       - name: Upload dist artifact
         uses: actions/upload-artifact@v4
         with:
           name: dist
+<<<<<<< HEAD
           path: dist
 
       - name: Upload metrics artifact
@@ -42,3 +65,21 @@ jobs:
         with:
           name: metrics
           path: metrics/baseline.json
+=======
+          path: |
+            dist
+
+      - name: Upload size report
+        uses: actions/upload-artifact@v4
+        with:
+          name: sizes
+          path: sizes.txt
+
+      - name: Upload build stats
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: stats
+          path: |
+            stats.html
+>>>>>>> origin/cursor/resume-stalled-development-audit-and-completion-7f89

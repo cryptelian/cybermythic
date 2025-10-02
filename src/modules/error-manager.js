@@ -1,13 +1,12 @@
-import { ANARCHY } from "./config.js";
+import { ANARCHY } from './config.js';
 
 export class ErrorManager {
-
   static checkSufficient(resource, required, available) {
     if (required > available) {
       const error = game.i18n.format(ANARCHY.common.errors.insufficient, {
         resource: game.i18n.localize(resource),
         required: required,
-        available: available
+        available: available,
       });
       ui.notifications.error(error);
       throw error;
@@ -18,7 +17,9 @@ export class ErrorManager {
     if (value < min || value > max) {
       const error = game.i18n.format(ANARCHY.common.errors.outOfRange, {
         resource: game.i18n.localize(resource),
-        value: value, min: min, max: max
+        value: value,
+        min: min,
+        max: max,
       });
       ui.notifications.error(error);
       throw error;
@@ -36,8 +37,8 @@ export class ErrorManager {
   static checkItemType(item, expectedType) {
     if (item.type != expectedType) {
       const error = game.i18n.format(ANARCHY.common.errors.expectedType, {
-        type: game.i18n.localize(item.type ? (ANARCHY.itemType.singular[item.type]) : item.type),
-        expectedType: game.i18n.localize(expectedType)
+        type: game.i18n.localize(item.type ? ANARCHY.itemType.singular[item.type] : item.type),
+        expectedType: game.i18n.localize(expectedType),
       });
       ui.notifications.error(error);
       throw error;
@@ -48,7 +49,7 @@ export class ErrorManager {
     if (!monitor) {
       const error = game.i18n.format(ANARCHY.common.errors.actorCannotReceiveDamage, {
         actor: actor.name,
-        damageType: game.i18n.format('ANARCHY.actor.monitors.' + damageType)
+        damageType: game.i18n.format('ANARCHY.actor.monitors.' + damageType),
       });
       ui.notifications.error(error);
       throw error;
@@ -58,7 +59,10 @@ export class ErrorManager {
   static checkWeaponDefense(weapon, actor) {
     const defense = weapon.getDefense();
     if (!defense) {
-      const error = game.i18n.format(ANARCHY.common.errors.noDefenseOnWeapon, { actor: actor.name, weapon: weapon.name });
+      const error = game.i18n.format(ANARCHY.common.errors.noDefenseOnWeapon, {
+        actor: actor.name,
+        weapon: weapon.name,
+      });
       ui.notifications.error(error);
       throw error;
     }
@@ -70,7 +74,7 @@ export class ErrorManager {
         weapon: this.name,
         area: game.i18n.localize(ANARCHY.area[area]),
         count: targets.length,
-        max: maxTargets
+        max: maxTargets,
       });
       ui.notifications.error(error);
       throw error;
@@ -80,7 +84,7 @@ export class ErrorManager {
   static checkMatrixMonitor(actor) {
     if (!actor.hasMatrixMonitor()) {
       const error = game.i18n.format(ANARCHY.actor.monitors.noMatrixMonitor, {
-        actor: actor.name
+        actor: actor.name,
       });
       ui.notifications.warn(error);
       throw error;
@@ -92,7 +96,7 @@ export class ErrorManager {
       const error = game.i18n.format(ANARCHY.common.errors.actorDoesNotHaveDefense, {
         actor: actor.name,
         defense: game.i18n.localize(defense.labelkey),
-        actorType: game.i18n.localize(ANARCHY.actorType[actor.type])
+        actorType: game.i18n.localize(ANARCHY.actorType[actor.type]),
       });
       ui.notifications.error(error);
       throw error;

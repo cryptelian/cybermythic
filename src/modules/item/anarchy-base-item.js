@@ -5,13 +5,11 @@ import { RollDialog } from '../roll/roll-dialog.js';
 import { NO_MATRIX_MONITOR } from '../matrix-helper.js';
 
 export class AnarchyBaseItem extends Item {
-
   static init() {
     Hooks.on('createItem', (item, options, id) => item.onCreateItem(options, id));
   }
 
-  async onCreateItem(options, id) {
-  }
+  async onCreateItem(options, id) {}
 
   constructor(docData, context = {}) {
     if (!context.anarchy?.ready) {
@@ -24,7 +22,7 @@ export class AnarchyBaseItem extends Item {
         return new ItemConstructor(docData, context);
       }
     }
-    context.anarchy = undefined
+    context.anarchy = undefined;
     super(docData, context);
   }
 
@@ -37,7 +35,7 @@ export class AnarchyBaseItem extends Item {
   }
 
   getUsableAttributes() {
-    return this.isActive() ? this.getAttributes() : []
+    return this.isActive() ? this.getAttributes() : [];
   }
 
   getAttributeValue(attribute) {
@@ -47,25 +45,43 @@ export class AnarchyBaseItem extends Item {
     return 0;
   }
 
-  hasOwnAnarchy() { return false; }
-  hasGMAnarchy() { return false; }
-
-  hasMatrixMonitor() { return false; }
-  getMatrixMonitor() { return NO_MATRIX_MONITOR }
-
-  async nextConnectionMode() { }
-
-  async setCheckbarValue(checkbarPath, value) {
-    return await this.update({ [checkbarPath]: value })
+  hasOwnAnarchy() {
+    return false;
+  }
+  hasGMAnarchy() {
+    return false;
   }
 
-  isMetatype() { return this.type == TEMPLATE.itemType.metatype; }
-  isCyberdeck() { return this.type == TEMPLATE.itemType.cyberdeck; }
-  isWeapon() { return this.type == TEMPLATE.itemType.weapon; }
+  hasMatrixMonitor() {
+    return false;
+  }
+  getMatrixMonitor() {
+    return NO_MATRIX_MONITOR;
+  }
 
-  isActive() { return !this.system.inactive; }
+  async nextConnectionMode() {}
 
-  canReceiveMarks() { return this.system.monitors?.matrix?.canMark; }
+  async setCheckbarValue(checkbarPath, value) {
+    return await this.update({ [checkbarPath]: value });
+  }
+
+  isMetatype() {
+    return this.type == TEMPLATE.itemType.metatype;
+  }
+  isCyberdeck() {
+    return this.type == TEMPLATE.itemType.cyberdeck;
+  }
+  isWeapon() {
+    return this.type == TEMPLATE.itemType.weapon;
+  }
+
+  isActive() {
+    return !this.system.inactive;
+  }
+
+  canReceiveMarks() {
+    return this.system.monitors?.matrix?.canMark;
+  }
 
   async rollAttribute(attribute) {
     if (this.parent) {
@@ -81,7 +97,6 @@ export class AnarchyBaseItem extends Item {
     await Checkbars.setCounter(this, monitor, value);
   }
 
-
   async addActorMark(sourceActorId) {
     await Checkbars.addActorMark(this, sourceActorId);
   }
@@ -93,13 +108,13 @@ export class AnarchyBaseItem extends Item {
       category: 'skill',
       subCategory: '',
       value: 0,
-      condition: ''
+      condition: '',
     });
-    this._mutateModifiers(values => values.concat([modifier]));
+    this._mutateModifiers((values) => values.concat([modifier]));
   }
 
   async deleteModifier(modifierId) {
-    await this._mutateModifiers(modifiers => modifiers.filter(it => it.id != modifierId));
+    await this._mutateModifiers((modifiers) => modifiers.filter((it) => it.id != modifierId));
   }
 
   async changeModifierSelection(modifierId, select, value) {
@@ -110,44 +125,50 @@ export class AnarchyBaseItem extends Item {
 
   _computeModifierImpact(select, value) {
     switch (select) {
-      case 'group': return m => {
-        if (m.group != value) {
-          m.group = value;
-          m.effect = '';
-          m.category = '';
-          m.subCategory = '';
-        }
-      };
-      case 'effect': return m => m.effect = value;
-      case 'category': return m => {
-        if (m.category != value) {
-          m.category = value;
-          m.subCategory = '';
-        }
-      };
-      case 'subCategory': return m => m.subCategory = value;
+      case 'group':
+        return (m) => {
+          if (m.group != value) {
+            m.group = value;
+            m.effect = '';
+            m.category = '';
+            m.subCategory = '';
+          }
+        };
+      case 'effect':
+        return (m) => (m.effect = value);
+      case 'category':
+        return (m) => {
+          if (m.category != value) {
+            m.category = value;
+            m.subCategory = '';
+          }
+        };
+      case 'subCategory':
+        return (m) => (m.subCategory = value);
     }
-    return m => { };
+    return (m) => {};
   }
 
   async changeModifierValue(modifierId, value) {
-    this._applyModifierUpdate(modifierId, m => m.value = Number(value));
+    this._applyModifierUpdate(modifierId, (m) => (m.value = Number(value)));
   }
 
   async changeModifierCondition(modifierId, value) {
-    this._applyModifierUpdate(modifierId, m => m.condition = value);
+    this._applyModifierUpdate(modifierId, (m) => (m.condition = value));
   }
 
-  async _applyModifierUpdate(id, updateFunction = m => { }) {
-    await this._mutateModifiers(values => values.map(it => {
-      if (it.id == id) {
-        updateFunction(it);
-      }
-      return it;
-    }));
+  async _applyModifierUpdate(id, updateFunction = (m) => {}) {
+    await this._mutateModifiers((values) =>
+      values.map((it) => {
+        if (it.id == id) {
+          updateFunction(it);
+        }
+        return it;
+      }),
+    );
   }
 
-  async _mutateModifiers(mutation = values => values) {
+  async _mutateModifiers(mutation = (values) => values) {
     const modifiers = mutation(this.system.modifiers);
     Misc.reindexIds(modifiers);
     await this.update({ 'system.modifiers': modifiers });
@@ -157,4 +178,3 @@ export class AnarchyBaseItem extends Item {
     return undefined;
   }
 }
-

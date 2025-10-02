@@ -1,9 +1,8 @@
-import { TEMPLATES_PATH } from "../constants.js";
-import { CharacterBaseSheet } from "./character-base-sheet.js";
-import "../../styles/character-enhanced-sheet.scss";
+import { TEMPLATES_PATH } from '../constants.js';
+import { CharacterBaseSheet } from './character-base-sheet.js';
+import '../../styles/character-enhanced-sheet.scss';
 
 export class CharacterEnhancedSheet extends CharacterBaseSheet {
-
   get template() {
     return `${TEMPLATES_PATH}/actor/character-enhanced.hbs`;
   }
@@ -24,15 +23,18 @@ export class CharacterEnhancedSheet extends CharacterBaseSheet {
     }
 
     const actorId = this.actor._id;
-    html.find('.click-section').on("click", function () {
-      const sectionClass = ($(this).data('class'));
+    html.find('.click-section').on('click', function () {
+      const sectionClass = $(this).data('class');
       html.find(`.${sectionClass}`).toggleClass('closed');
-      localStorage.setItem(`${actorId}-${sectionClass}`, html.find(`.${sectionClass}`).hasClass('closed') ? 'closed' : null);
+      localStorage.setItem(
+        `${actorId}-${sectionClass}`,
+        html.find(`.${sectionClass}`).hasClass('closed') ? 'closed' : null,
+      );
     });
   }
 
   static ifTabClosed(id, sectionName, option) {
-    const isTabClosed = localStorage.getItem(`${id}-section-${sectionName}`) === "closed";
+    const isTabClosed = localStorage.getItem(`${id}-section-${sectionName}`) === 'closed';
     if (isTabClosed) {
       return option.fn(this);
     }
@@ -40,10 +42,10 @@ export class CharacterEnhancedSheet extends CharacterBaseSheet {
   }
 
   static actorTabClosed(id, sectionName, option) {
-    const isTabClosed = localStorage.getItem(`${id}-section-${sectionName}`) === "closed";
+    const isTabClosed = localStorage.getItem(`${id}-section-${sectionName}`) === 'closed';
     if (isTabClosed) {
-      return 'closed'
+      return 'closed';
     }
-    return ''
+    return '';
   }
 }
