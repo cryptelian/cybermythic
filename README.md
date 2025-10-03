@@ -84,4 +84,31 @@ Extract compendiums from the dist folder (for example, after changing the conten
 node ./tools/unpackCompendiumsFromDist.mjs
 ```
 
+## Development
+
+### Scripts
+
+- `npm run` — start dev server on 30001 and proxy Foundry on 30000
+- `npm run build` — build library into `dist/` (copied to `public/` via postbuild)
+- `npm run import:anarchy-md` — import Anarchy Markdown content
+- `npm run packCompendiumsToPublic` — compile `src/packs` into LevelDB packs under `public/packs`
+- `npm run unpackCompendiumsFromPublic` — extract `public/packs` back into readable YAML under `src/packs`
+- `npm run validate` — validate `public/system.json` and translation keys
+- `npm run clean` — remove `dist` and `public/packs`
+
+### Workflow
+
+1. Edit source under `src/` and SCSS under `src/styles/`.
+2. Author compendium content in `src/packs` (YAML). When ready, run `npm run packCompendiumsToPublic` to produce `public/packs`.
+3. Build with `npm run build` (artifacts are copied into `public/`).
+4. In Foundry, install the system from the local repo folder; Foundry will read from `public/`.
+
+Compendiums loaded by Foundry are those present in `public/packs`. Only packs listed in `public/system.json` with a valid `path` will appear.
+
+### Notes on structure (parity with SR5/SR6 systems)
+
+- `public/system.json` contains explicit `packs[].path` entries.
+- The authoritative shipped tree is `public/`.
+- Source compendium YAMLs live in `src/packs`; LevelDB packs are generated to `public/packs` for runtime.
+
 

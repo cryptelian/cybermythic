@@ -7,7 +7,10 @@
     "unpackCompendiumsFromPublic": "node -e \"import('./tools/CompendiumsManager.mjs').then(m=>m.CompendiumsManager.unpackToSrcDir('src/packs','public/packs','yaml'))\"",
     "import:anarchy-md": "node ./tools/importAnarchyMarkdown.mjs",
     "clean": "rimraf dist public/packs",
-    "postbuild": "cp -r dist/* public/"
+    "postbuild": "cp -r dist/* public/",
+    "validate:i18n": "node ./tools/validateI18n.mjs",
+    "validate:system": "node ./tools/validateSystemJson.mjs",
+    "validate": "npm run validate:system && npm run validate:i18n"
   },
   "devDependencies": {
     "@foundryvtt/foundryvtt-cli": "^1.0.3",
