@@ -3,42 +3,70 @@ name: Release
 on:
   push:
     tags:
-      - 'v*.*.*'
+      - 'v*'
 
 jobs:
-  build-release:
+  build:
     runs-on: ubuntu-latest
+    
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Use Node.js 18
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Validate schema and i18n
-        run: npm run validate
-
-      - name: Run unit tests
-        run: npm test
-
-      - name: Build
-        run: npm run build
-
-      - name: Prepare release artifacts
-        run: node ./tools/prepareRelease.mjs --repo ${{ github.repository }} --version ${{ github.ref_name }}
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: |
-            .release/*.zip
-            .release/system.json
-          generate_release_notes: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Run tests
+      run: |
+        npm run lint
+        npm run stylelint
+        npm run validate
+        npm test
+    
+    - name: Build system
+      run: npm run build
+    
+    - name: Package release
+      run: |
+        cd dist
+        zip -r ../anarchy-${{ github.ref_name }}.zip . \
+          -x "*.map" \
+          -x "stats.html" \
+          -x ".git/*"
+    
+    - name: Update system.json with release info
+      run: |
+        VERSION="${{ github.ref_name }}"
+        VERSION="${VERSION#v}"
+        node -e "
+        const fs = require('fs');
+        const system = JSON.parse(fs.readFileSync('dist/system.json', 'utf8'));
+        system.version = '$VERSION';
+        system.manifest = 'https://raw.githubusercontent.com/${{ github.repository }}/main/system.json';
+        system.download = 'https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/anarchy-${{ github.ref_name }}.zip';
+        fs.writeFileSync('dist/system.json', JSON.stringify(system, null, 2));
+        fs.writeFileSync('system.json', JSON.stringify(system, null, 2));
+        "
+    
+    - name: Create Release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: anarchy-${{ github.ref_name }}.zip
+        generate_release_notes: true
+        draft: false
+        prerelease: ${{ contains(github.ref_name, 'beta') || contains(github.ref_name, 'alpha') }}
+    
+    - name: Update main branch system.json
+      if: "!contains(github.ref_name, 'beta') && !contains(github.ref_name, 'alpha')"
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add system.json
+        git commit -m "Update system.json for release ${{ github.ref_name }}"
+        git push origin HEAD:main

@@ -1,6 +1,13 @@
-# Foundry Vite Project
+# Shadowrun: Anarchy for Foundry VTT
 
-This README outlines the steps needed to set up and run the Foundry Vite project locally. Ensure you follow the installation instructions closely to get everything up and running without issues.
+A comprehensive implementation of the Shadowrun: Anarchy RPG system for Foundry Virtual Tabletop, featuring modern development practices and a robust build pipeline.
+
+## 📚 Documentation
+
+- [Build & Development Guide](docs/BUILD-INSTRUCTIONS.md) - Complete setup and build instructions
+- [Foundry Best Practices](docs/FOUNDRY-BEST-PRACTICES.md) - System development best practices
+- [Repository Structure](docs/REPOSITORY-STRUCTURE.md) - Project organization
+- [Theming Guide](docs/theming.md) - UI customization options
 
 ## Prerequisites
 
@@ -17,27 +24,62 @@ nvm install 20
 nvm use
 ```
 
-## Installation
+## 🚀 Quick Start
 
-Once the prerequisites are met, you can install the project dependencies by running:
+### Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/VincentVk9373/anarchy.git
+cd anarchy
+```
+
+2. Install dependencies:
 
 ```bash
 npm install
 ```
 
-This command will fetch and install all necessary packages required for the project to run.
-
-## Running the Project
-
-### Development Mode
-
-To start the project in development mode, run:
+3. Build the system:
 
 ```bash
-npx vite serve
+npm run build
 ```
 
-This will launch a Vite development server that is configured to intercept calls made to **systems/anarchy** and proxy them appropriately, while serving all other files directly from Foundry.
+4. Link to Foundry:
+
+```bash
+ln -s $(pwd)/dist /path/to/foundry/Data/systems/anarchy
+```
+
+## 🔧 Development
+
+### Development Server
+
+Start the development environment with hot module replacement:
+
+```bash
+npm run dev
+```
+
+This starts:
+
+- Vite dev server on port 30001
+- SCSS watch compilation
+- Hot Module Replacement (HMR)
+
+Access Foundry at: http://localhost:30001
+
+### Production Build
+
+Build for deployment:
+
+```bash
+npm run build
+```
+
+Creates optimized production build in `/dist` directory.
 
 ### Troubleshooting dev (404 on ./src/start.js, base sheet shows)
 
