@@ -1,3 +1,6 @@
+---
+alwaysApply: true
+---
 Flow of Changes
     • Allowed: main improvements flow into Ninjanarchy (git merge or git rebase).
     • Forbidden: Any Ninjanarchy changes flowing back to main. If a feature originated privately, re-implement a clean version in main without copying restricted code or assets.

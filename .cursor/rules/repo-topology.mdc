@@ -1,3 +1,6 @@
+---
+alwaysApply: true
+---
 Repo Topology — Two Remotes, Two Homes
     • Public repo: origin → github.com/<you>/<public-repo>; default branch: main.
     • Private repo: private → github.com/<you>/ninjanarchy (visibility private).

@@ -1,0 +1,5 @@
+---
+alwaysApply: true
+---
+8) Same-origin proxy is the "calm mode."
+If HMR/CORS gets noisy, run a lightweight reverse proxy on 30000 that routes /@vite/* and /systems/<id>/* to Vite (30001) and everything else to Foundry (30010). You still browse one origin (30000), eliminating cross-origin edge cases.

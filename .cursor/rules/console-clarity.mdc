@@ -1,0 +1,5 @@
+---
+alwaysApply: true
+---
+11) Keep the console meaningful.
+Fix deprecations and noisy warnings so real errors surface. SR5's manifest shows a tight, minimal esmodules/styles footprint aimed at the built bundle—copy that discipline.

@@ -1,0 +1,8 @@
+---
+alwaysApply: true
+---
+4) Entry points by mode, not mixed.
+
+Dev: a loader that, after confirming Vite is reachable, dynamically imports the dev client and your /src/start.js.
+
+Prod: system.json.esmodules must target built artifacts (e.g., /systems/<id>/dist/index.js). Do not deploy a manifest that imports /src/*. SR5's manifest is a live example of "dist-only" exports.

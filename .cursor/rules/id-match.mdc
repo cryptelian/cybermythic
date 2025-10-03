@@ -1,0 +1,6 @@
+---
+alwaysApply: true
+---
+3) Manifest & folder ID must match.
+The system directory name must equal system.json.id; structure all paths under that. Do not hard-code anarchy anywhere; derive game.system.id at runtime. (Foundry's docs: "The system folder itself must match the "id" attribute.") 
+Foundry Virtual Tabletop

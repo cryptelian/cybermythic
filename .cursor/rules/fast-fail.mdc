@@ -1,0 +1,5 @@
+---
+alwaysApply: true
+---
+10) Tests that fail fast.
+Have one smoke test that (a) opens a character and asserts your enhanced sheet root class is present, and (b) in dev, asserts game.system.<id>.viteAttached === true. Catches the two regressions we've seen most: sheet fallback and HMR limbo.

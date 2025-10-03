@@ -1,0 +1,6 @@
+---
+alwaysApply: true
+---
+12) Respect Foundry's structure.
+Follow Foundry's system layout and manifest rules (system lives in Data/systems/<id>, system.json defines esmodules, styles, packs, and compatibility), then iterate. The official guidance spells out the minimal structure and the ID rule. 
+Foundry Virtual Tabletop

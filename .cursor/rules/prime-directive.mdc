@@ -1,3 +1,6 @@
+---
+alwaysApply: true
+---
 Prime Directive — Clean-Room Public, Private Derivative
     • The main (aka master) branch is public and clean-room: it must never contain copyrighted or licensed-restricted material.
     • The Ninjanarchy work happens only in a private repository (not a branch on the public remote). Sync is one-way: main → ninjanarchy. Never merge or cherry-pick from Ninjanarchy back into main.

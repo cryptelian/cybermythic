@@ -1,0 +1,5 @@
+---
+alwaysApply: true
+---
+9) Ship releases like SR systems.
+Publish tagged builds that include system.json pointing to dist assets (the way SR6-Eden provides a release manifest URL and a Data/systems/<id> install path). This makes your "prod" footprint deterministic and easy to test.

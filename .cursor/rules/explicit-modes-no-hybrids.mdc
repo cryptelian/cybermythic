@@ -1,0 +1,9 @@
+---
+alwaysApply: true
+---
+2) Two explicit modes (no hybrids):
+
+Dev mode: Foundry runs; optional Vite dev server provides /@vite/* and /systems/<id>/src/*. Imports are gated by a preflight (no speculative 404s).
+
+Prod mode: Build to dist/ and point system.json → esmodules at built files only. No /src imports at runtime. SR5 ships esmodules: ["dist/bundle.js"] and styles: ["dist/bundle.css"]—follow that pattern. 
+GitHub

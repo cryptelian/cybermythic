@@ -1,3 +1,6 @@
+---
+alwaysApply: true
+---
 Content Boundaries
     • Restricted files (licensed text, art, PDFs, stat blocks, SRD-noncompliant content) live only in the private repo paths: /licensed/**, /modules/private/**, /assets/licensed/**.
     • The public repo must build and run without those paths present. Provide shims/stubs and feature flags that disable private-only modules when absent.

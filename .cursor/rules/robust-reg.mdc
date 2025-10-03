@@ -1,0 +1,5 @@
+---
+alwaysApply: true
+---
+5) Registration must not be fragile.
+Register sheets, settings, and template preloads unconditionally on init/ready; optional integrations must be wrapped in try/catch. A missing dev server or optional module must never cause sheet fallback.

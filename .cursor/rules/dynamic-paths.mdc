@@ -1,0 +1,5 @@
+---
+alwaysApply: true
+---
+6) Paths must be dynamic.
+Template/asset helpers should resolve to /systems/${game.system.id}/…. Zero literals like systems/anarchy/…. This prevents "works on my box" bugs when the folder name differs from the code.

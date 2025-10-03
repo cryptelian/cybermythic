@@ -1,3 +1,6 @@
+---
+alwaysApply: true
+---
 Branch & Remote Guardrails
     • Do not create or push a ninjanarchy* branch to origin (public) under any circumstance.
     • ninjanarchy branch tracks private/ninjanarchy only. Pushing Ninjanarchy to origin is a hard error (pre-push hook).
