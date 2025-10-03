@@ -10,7 +10,10 @@
     "postbuild": "cp -r dist/* public/",
     "validate:i18n": "node ./tools/validateI18n.mjs",
     "validate:system": "node ./tools/validateSystemJson.mjs",
-    "validate": "npm run validate:system && npm run validate:i18n"
+    "validate": "npm run validate:system && npm run validate:i18n",
+    "ninja:overlay": "node ./tools/ninjaOverlay.mjs",
+    "ninja:overlay:dry": "node ./tools/ninjaOverlay.mjs --dry --out public/system.ninja.json",
+    "validate:ninja": "npm run ninja:overlay:dry && node ./tools/validateSystemJson.mjs --system public/system.ninja.json"
   },
   "devDependencies": {
     "@foundryvtt/foundryvtt-cli": "^1.0.3",

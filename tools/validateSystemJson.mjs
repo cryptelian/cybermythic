@@ -5,9 +5,24 @@ async function readJson(p) {
   return JSON.parse(await fs.readFile(p, 'utf-8'));
 }
 
+async function exists(p) {
+  try { await fs.access(p); return true; } catch { return false; }
+}
+
+function parseArgs(argv) {
+  const args = { sys: null, root: process.cwd() };
+  for (let i = 2; i < argv.length; i++) {
+    const a = argv[i];
+    if (a === '--system') args.sys = argv[++i];
+    else if (a === '--root') args.root = argv[++i];
+  }
+  return args;
+}
+
 async function main() {
-  const repoRoot = process.cwd();
-  const sysPath = path.join(repoRoot, 'public', 'system.json');
+  const args = parseArgs(process.argv);
+  const repoRoot = args.root;
+  const sysPath = args.sys || path.join(repoRoot, 'public', 'system.json');
   const sys = await readJson(sysPath);
 
   const requiredTop = ['id', 'title', 'version', 'compatibility', 'esmodules', 'languages'];
@@ -39,6 +54,12 @@ async function main() {
       if (!p.path) {
         console.error(`[validateSystemJson] pack ${p.name} missing path`);
         process.exit(1);
+      }
+      // Best-effort existence check for non-dry runs
+      const sysDir = path.dirname(sysPath);
+      const packDir = path.join(sysDir, p.path);
+      if (!await exists(packDir)) {
+        console.warn(`[validateSystemJson] WARN: pack directory does not exist: ${packDir}`);
       }
     }
   }
