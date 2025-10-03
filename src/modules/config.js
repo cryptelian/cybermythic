@@ -48,6 +48,18 @@ export const ANARCHY = {
           'ANARCHY.settings.damageMode.values.armorGiveResistanceHitsAvoid',
       },
     },
+    anarchyFirstMode: {
+      name: 'ANARCHY.settings.anarchyFirstMode.name',
+      hint: 'ANARCHY.settings.anarchyFirstMode.hint',
+    },
+    allowCoreFallback: {
+      name: 'ANARCHY.settings.allowCoreFallback.name',
+      hint: 'ANARCHY.settings.allowCoreFallback.hint',
+    },
+    preferCoreSheets: {
+      name: 'ANARCHY.settings.preferCoreSheets.name',
+      hint: 'ANARCHY.settings.preferCoreSheets.hint',
+    },
   },
   gmManager: {
     title: 'ANARCHY.gmManager.title',

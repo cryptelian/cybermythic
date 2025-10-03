@@ -2,7 +2,7 @@ import { ANARCHY } from '../config.js';
 import { TEMPLATE, TEMPLATES_PATH } from '../constants.js';
 import { Enums } from '../enums.js';
 
-export class BaseItemSheet extends ItemSheet {
+export class BaseItemSheet extends foundry.appv1.sheets.ItemSheet {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       isGM: game.user.isGM,
@@ -19,9 +19,20 @@ export class BaseItemSheet extends ItemSheet {
   get template() {
     const templatePath = `${TEMPLATES_PATH}/item/${this.item.type}.hbs`;
     // Validate template path exists for this item type
-    const validItemTypes = ['contact', 'cyberdeck', 'gear', 'metatype', 'quality', 'shadowamp', 'skill', 'weapon'];
+    const validItemTypes = [
+      'contact',
+      'cyberdeck',
+      'gear',
+      'metatype',
+      'quality',
+      'shadowamp',
+      'skill',
+      'weapon',
+    ];
     if (!this.item.type || !validItemTypes.includes(this.item.type)) {
-      console.warn(`BaseItemSheet: Unknown item type '${this.item.type}', falling back to gear template`);
+      console.warn(
+        `BaseItemSheet: Unknown item type '${this.item.type}', falling back to gear template`,
+      );
       return `${TEMPLATES_PATH}/item/gear.hbs`;
     }
     return templatePath;
@@ -54,7 +65,10 @@ export class BaseItemSheet extends ItemSheet {
     // Apply UI customizations and theme utilities
     if (game.system.anarchy?.uiCustomization) {
       hbsData.uiCustomizations = game.system.anarchy.uiCustomization.getActiveCustomizations();
-      hbsData.options.classes = [...(hbsData.options.classes || []), ...game.system.anarchy.uiCustomization.getCustomizationClasses('item')];
+      hbsData.options.classes = [
+        ...(hbsData.options.classes || []),
+        ...game.system.anarchy.uiCustomization.getCustomizationClasses('item'),
+      ];
     }
 
     // Add theme information

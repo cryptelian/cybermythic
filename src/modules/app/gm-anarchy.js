@@ -91,14 +91,17 @@ export class GMAnarchy {
   }
 
   async _renderBar() {
-    return await renderTemplate('systems/anarchy/templates/monitors/anarchy.hbs', {
-      code: 'plot',
-      rowlength: 6,
-      value: this.getAnarchy().value,
-      max: this.getAnarchy().max,
-      scene: 0,
-      labelkey: ANARCHY.actor.counters.plot,
-    });
+    return await foundry.applications.handlebars.renderTemplate(
+      'systems/anarchy/templates/monitors/anarchy.hbs',
+      {
+        code: 'plot',
+        rowlength: 6,
+        value: this.getAnarchy().value,
+        max: this.getAnarchy().max,
+        scene: 0,
+        labelkey: ANARCHY.actor.counters.plot,
+      },
+    );
   }
 
   _syncGMAnarchySheets() {

@@ -197,6 +197,8 @@ export class HandlebarsManager {
     Handlebars.registerHelper('padWordListToMin', AnarchyBaseActor.padWordListToMin);
     Handlebars.registerHelper('sortSkills', AnarchyBaseActor.sortSkills);
     Handlebars.registerHelper('sortShadowamps', AnarchyBaseActor.sortShadowamps);
+    Handlebars.registerHelper('actorTabClosed', CharacterEnhancedSheet.actorTabClosed);
+    Handlebars.registerHelper('ifTabClosed', CharacterEnhancedSheet.ifTabClosed);
     Handlebars.registerHelper('sortQualities', AnarchyBaseActor.sortQualities);
     Handlebars.registerHelper('sortAttributeButton', AnarchyBaseActor.sortAttributeButton);
     Handlebars.registerHelper('range', function (min, max) {

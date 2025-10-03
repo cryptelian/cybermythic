@@ -82,7 +82,10 @@ export class RollManager {
     ChatManager.prepareFlag(flags, CAN_USE_EDGE, hbsRoll.options.canUseEdge);
     ChatManager.prepareFlag(flags, OWNING_ACTOR, ChatManager.messageActorRights(hbsRoll.actor));
 
-    const flavor = await renderTemplate(HBS_TEMPLATE_CHAT_ANARCHY_ROLL, hbsRoll);
+    const flavor = await foundry.applications.handlebars.renderTemplate(
+      HBS_TEMPLATE_CHAT_ANARCHY_ROLL,
+      hbsRoll,
+    );
     const rollMessage = await hbsRoll.roll.toMessage({ flavor: flavor, flags: flags });
     hbsRoll.chatMessageId = rollMessage.id;
   }

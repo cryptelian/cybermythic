@@ -118,8 +118,14 @@ export class RollDialog extends Dialog {
       parameters: rollParameters,
     });
 
-    const title = await renderTemplate(`${TEMPLATES_PATH}/roll/roll-dialog-title.hbs`, roll);
-    const html = await renderTemplate(`${TEMPLATES_PATH}/roll/roll-dialog.hbs`, roll);
+    const title = await foundry.applications.handlebars.renderTemplate(
+      `${TEMPLATES_PATH}/roll/roll-dialog-title.hbs`,
+      roll,
+    );
+    const html = await foundry.applications.handlebars.renderTemplate(
+      `${TEMPLATES_PATH}/roll/roll-dialog.hbs`,
+      roll,
+    );
     new RollDialog(title, html, roll).render(true);
   }
 

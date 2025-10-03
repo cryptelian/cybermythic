@@ -12,26 +12,26 @@ export class UICustomization {
     this.customizations = new Map();
     this.presets = new Map();
     this.activeCustomizations = new Set();
-    
+
     // Initialize customization system
     this.initializeCustomizations();
-    
+
     Hooks.once('ready', () => this.onReady());
     Hooks.on('renderApplication', (app, html, data) => this.onRenderApplication(app, html, data));
   }
 
   async onReady() {
     console.groupCollapsed(LOG_HEAD + 'UICustomization.onReady');
-    
+
     // Register UI customization settings
     await this.registerCustomizationSettings();
-    
+
     // Load user customizations
     await this.loadUserCustomizations();
-    
+
     // Apply saved customizations
     this.applyAllCustomizations();
-    
+
     console.groupEnd();
   }
 
@@ -52,9 +52,9 @@ export class UICustomization {
         compactMode: false,
         hideUnusedSections: false,
         sectionOrder: 'default',
-        tabLayout: 'horizontal'
+        tabLayout: 'horizontal',
       },
-      type: Object
+      type: Object,
     });
 
     // HUD customization preferences
@@ -70,9 +70,9 @@ export class UICustomization {
         shortcutPosition: 'left',
         gmManagerPosition: 'top-left',
         gmManagerSize: 'medium',
-        hideInactiveElements: false
+        hideInactiveElements: false,
       },
-      type: Object
+      type: Object,
     });
 
     // Visual customization preferences
@@ -88,9 +88,9 @@ export class UICustomization {
         spacing: 'default',
         fontSize: 'default',
         iconSize: 'default',
-        transparency: 'default'
+        transparency: 'default',
       },
-      type: Object
+      type: Object,
     });
 
     // Component visibility preferences
@@ -107,9 +107,9 @@ export class UICustomization {
         showTooltips: true,
         showAnimations: true,
         showShadows: true,
-        showGradients: true
+        showGradients: true,
       },
-      type: Object
+      type: Object,
     });
 
     // Advanced customization settings
@@ -123,9 +123,9 @@ export class UICustomization {
         componentOverrides: {},
         layoutTemplates: {},
         colorOverrides: {},
-        fontOverrides: {}
+        fontOverrides: {},
       },
-      type: Object
+      type: Object,
     });
   }
 
@@ -135,13 +135,13 @@ export class UICustomization {
 
   initializeCustomizations() {
     console.groupCollapsed(LOG_HEAD + 'UICustomization.initializeCustomizations');
-    
+
     // Register built-in customization presets
     this.registerBuiltInPresets();
-    
+
     // Register customization categories
     this.registerCustomizationCategories();
-    
+
     console.groupEnd();
   }
 
@@ -154,19 +154,19 @@ export class UICustomization {
         'ui-layout-preferences': {
           compactMode: true,
           hideUnusedSections: true,
-          tabLayout: 'vertical'
+          tabLayout: 'vertical',
         },
         'visual-customization': {
           spacing: 'tight',
           fontSize: 'small',
-          iconSize: 'small'
+          iconSize: 'small',
         },
         'component-visibility': {
           showPassportImages: false,
           showShadows: false,
-          showGradients: false
-        }
-      }
+          showGradients: false,
+        },
+      },
     });
 
     // Accessibility preset
@@ -178,14 +178,14 @@ export class UICustomization {
           fontSize: 'large',
           spacing: 'loose',
           shadowIntensity: 'none',
-          borderRadius: 'minimal'
+          borderRadius: 'minimal',
         },
         'component-visibility': {
           showTooltips: true,
           showAnimations: false,
-          showShadows: false
-        }
-      }
+          showShadows: false,
+        },
+      },
     });
 
     // Performance preset
@@ -196,14 +196,14 @@ export class UICustomization {
         'visual-customization': {
           animationSpeed: 'fast',
           shadowIntensity: 'light',
-          transparency: 'minimal'
+          transparency: 'minimal',
         },
         'component-visibility': {
           showAnimations: false,
           showShadows: false,
-          showGradients: false
-        }
-      }
+          showGradients: false,
+        },
+      },
     });
 
     // Immersive preset
@@ -214,14 +214,14 @@ export class UICustomization {
         'visual-customization': {
           animationSpeed: 'slow',
           shadowIntensity: 'strong',
-          transparency: 'enhanced'
+          transparency: 'enhanced',
         },
         'component-visibility': {
           showAnimations: true,
           showShadows: true,
-          showGradients: true
-        }
-      }
+          showGradients: true,
+        },
+      },
     });
   }
 
@@ -230,24 +230,69 @@ export class UICustomization {
       name: 'Layout & Positioning',
       description: 'Customize sheet layouts, sizes, and positioning',
       options: [
-        { key: 'sheetWidth', name: 'Sheet Width', type: 'select', values: ['auto', 'compact', 'wide', 'full'] },
-        { key: 'sheetHeight', name: 'Sheet Height', type: 'select', values: ['auto', 'compact', 'tall', 'full'] },
+        {
+          key: 'sheetWidth',
+          name: 'Sheet Width',
+          type: 'select',
+          values: ['auto', 'compact', 'wide', 'full'],
+        },
+        {
+          key: 'sheetHeight',
+          name: 'Sheet Height',
+          type: 'select',
+          values: ['auto', 'compact', 'tall', 'full'],
+        },
         { key: 'compactMode', name: 'Compact Mode', type: 'boolean' },
-        { key: 'tabLayout', name: 'Tab Layout', type: 'select', values: ['horizontal', 'vertical'] }
-      ]
+        {
+          key: 'tabLayout',
+          name: 'Tab Layout',
+          type: 'select',
+          values: ['horizontal', 'vertical'],
+        },
+      ],
     });
 
     this.customizations.set('visual', {
       name: 'Visual Appearance',
       description: 'Customize colors, fonts, and visual effects',
       options: [
-        { key: 'fontSize', name: 'Font Size', type: 'select', values: ['small', 'default', 'large', 'xl'] },
-        { key: 'iconSize', name: 'Icon Size', type: 'select', values: ['small', 'default', 'large'] },
-        { key: 'spacing', name: 'Element Spacing', type: 'select', values: ['tight', 'default', 'loose'] },
-        { key: 'borderRadius', name: 'Border Radius', type: 'select', values: ['none', 'minimal', 'default', 'rounded'] },
-        { key: 'shadowIntensity', name: 'Shadow Intensity', type: 'select', values: ['none', 'light', 'medium', 'strong'] },
-        { key: 'animationSpeed', name: 'Animation Speed', type: 'select', values: ['none', 'fast', 'normal', 'slow'] }
-      ]
+        {
+          key: 'fontSize',
+          name: 'Font Size',
+          type: 'select',
+          values: ['small', 'default', 'large', 'xl'],
+        },
+        {
+          key: 'iconSize',
+          name: 'Icon Size',
+          type: 'select',
+          values: ['small', 'default', 'large'],
+        },
+        {
+          key: 'spacing',
+          name: 'Element Spacing',
+          type: 'select',
+          values: ['tight', 'default', 'loose'],
+        },
+        {
+          key: 'borderRadius',
+          name: 'Border Radius',
+          type: 'select',
+          values: ['none', 'minimal', 'default', 'rounded'],
+        },
+        {
+          key: 'shadowIntensity',
+          name: 'Shadow Intensity',
+          type: 'select',
+          values: ['none', 'light', 'medium', 'strong'],
+        },
+        {
+          key: 'animationSpeed',
+          name: 'Animation Speed',
+          type: 'select',
+          values: ['none', 'fast', 'normal', 'slow'],
+        },
+      ],
     });
 
     this.customizations.set('components', {
@@ -259,8 +304,8 @@ export class UICustomization {
         { key: 'showSkillIcons', name: 'Show Skill Icons', type: 'boolean' },
         { key: 'showTooltips', name: 'Show Tooltips', type: 'boolean' },
         { key: 'showAnimations', name: 'Show Animations', type: 'boolean' },
-        { key: 'showShadows', name: 'Show Shadows', type: 'boolean' }
-      ]
+        { key: 'showShadows', name: 'Show Shadows', type: 'boolean' },
+      ],
     });
 
     this.customizations.set('hud', {
@@ -268,10 +313,20 @@ export class UICustomization {
       description: 'Customize HUD positioning and behavior',
       options: [
         { key: 'hudSize', name: 'HUD Size', type: 'select', values: ['small', 'medium', 'large'] },
-        { key: 'shortcutPosition', name: 'Shortcut Position', type: 'select', values: ['left', 'right', 'top', 'bottom'] },
-        { key: 'gmManagerPosition', name: 'GM Manager Position', type: 'select', values: ['top-left', 'top-right', 'bottom-left', 'bottom-right'] },
-        { key: 'hideInactiveElements', name: 'Hide Inactive Elements', type: 'boolean' }
-      ]
+        {
+          key: 'shortcutPosition',
+          name: 'Shortcut Position',
+          type: 'select',
+          values: ['left', 'right', 'top', 'bottom'],
+        },
+        {
+          key: 'gmManagerPosition',
+          name: 'GM Manager Position',
+          type: 'select',
+          values: ['top-left', 'top-right', 'bottom-left', 'bottom-right'],
+        },
+        { key: 'hideInactiveElements', name: 'Hide Inactive Elements', type: 'boolean' },
+      ],
     });
   }
 
@@ -292,191 +347,267 @@ export class UICustomization {
       hud: hudCustomization,
       visual: visualCustomization,
       components: componentVisibility,
-      advanced: advancedSettings
+      advanced: advancedSettings,
     };
   }
 
   applyAllCustomizations() {
     console.groupCollapsed(LOG_HEAD + 'UICustomization.applyAllCustomizations');
-    
+
     // Apply each customization category
     this.applyLayoutCustomizations();
     this.applyVisualCustomizations();
     this.applyComponentVisibility();
     this.applyHUDCustomizations();
     this.applyAdvancedCustomizations();
-    
+
+    // Apply background rotation after other visual settings
+    this.applyBackgroundRotation();
+
     console.groupEnd();
+  }
+
+  /**
+   * Background rotation and fallback
+   * Priority:
+   * 1) files under systems/anarchy/img/backgrounds/
+   * 2) fallback file systems/anarchy/img/2025.10_Bckgrnd.img.01.png if present
+   * 3) transparent 1x1 png data URI
+   */
+  async applyBackgroundRotation() {
+    try {
+      const root = document.documentElement;
+
+      // Candidate list
+      const base = '/systems/anarchy/img';
+      const dir = `${base}/backgrounds/`;
+
+      // Probe a list of common names plus any numbered backgrounds we know about
+      const candidates = ['2025.10_Bckgrnd.img.01.png', '2025.10_Bckgrnd.img.02.png'];
+
+      // Try to list a few expected files in backgrounds/. We can't read the directory,
+      // but we can probe a small fixed set of names to avoid 404 spam.
+      const backgroundNames = ['01.webp', '02.webp', '03.webp', '01.png', '02.png', '03.png'];
+
+      const probeUrls = backgroundNames.map((n) => `${dir}${n}`);
+
+      const existing = await this.#probeImages([
+        ...probeUrls,
+        ...candidates.map((n) => `${base}/${n}`),
+      ]);
+
+      let chosen =
+        existing.length > 0 ? existing[Math.floor(Math.random() * existing.length)] : undefined;
+      if (!chosen) {
+        // Final blank fallback: 1x1 transparent PNG
+        chosen =
+          'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=';
+      }
+
+      // Set CSS var used by themes
+      const cssValue = `repeat center/50% url("${chosen}")`;
+      root.style.setProperty('--anarchy-background', cssValue);
+
+      // Expose for console force change support
+      globalThis.__anarchyBackgroundCandidates = existing;
+      console.debug('[Anarchy] Background applied:', chosen);
+    } catch (e) {
+      console.warn('[Anarchy] Failed to apply background rotation', e);
+    }
+  }
+
+  async #probeImages(urls) {
+    const checks = await Promise.allSettled(
+      urls.map((u) => fetch(u, { method: 'HEAD', cache: 'no-store' })),
+    );
+    const ok = [];
+    checks.forEach((r, idx) => {
+      if (r.status === 'fulfilled' && r.value.ok) ok.push(urls[idx]);
+    });
+    return ok;
   }
 
   applyLayoutCustomizations() {
     const layout = this.userCustomizations.layout;
     const root = document.documentElement;
-    
+
     // Sheet sizing
     if (layout.sheetWidth !== 'auto') {
       const widthMap = {
         compact: '600px',
         wide: '900px',
-        full: '100vw'
+        full: '100vw',
       };
       root.style.setProperty('--sheet-width', widthMap[layout.sheetWidth]);
     }
-    
+
     if (layout.sheetHeight !== 'auto') {
       const heightMap = {
         compact: '500px',
         tall: '800px',
-        full: '100vh'
+        full: '100vh',
       };
       root.style.setProperty('--sheet-height', heightMap[layout.sheetHeight]);
     }
-    
+
     // Compact mode
     if (layout.compactMode) {
       document.body.classList.add('ui-compact-mode');
     } else {
       document.body.classList.remove('ui-compact-mode');
     }
-    
+
     // Tab layout
     if (layout.tabLayout === 'vertical') {
       document.body.classList.add('ui-vertical-tabs');
     } else {
       document.body.classList.remove('ui-vertical-tabs');
     }
-    
+
     console.info(LOG_HEAD + 'Applied layout customizations:', layout);
   }
 
   applyVisualCustomizations() {
     const visual = this.userCustomizations.visual;
     const root = document.documentElement;
-    
+
     // Font size scaling
     const fontSizeMap = {
       small: '0.85',
       default: '1',
       large: '1.15',
-      xl: '1.3'
+      xl: '1.3',
     };
     if (visual.fontSize !== 'default') {
       root.style.setProperty('--font-scale', fontSizeMap[visual.fontSize]);
     }
-    
+
     // Icon size scaling
     const iconSizeMap = {
       small: '0.8',
       default: '1',
-      large: '1.2'
+      large: '1.2',
     };
     if (visual.iconSize !== 'default') {
       root.style.setProperty('--icon-scale', iconSizeMap[visual.iconSize]);
     }
-    
+
     // Spacing adjustments
     const spacingMap = {
       tight: '0.75',
       default: '1',
-      loose: '1.25'
+      loose: '1.25',
     };
     if (visual.spacing !== 'default') {
       root.style.setProperty('--spacing-scale', spacingMap[visual.spacing]);
     }
-    
+
     // Border radius adjustments
     const radiusMap = {
       none: '0px',
       minimal: '2px',
       default: '6px',
-      rounded: '12px'
+      rounded: '12px',
     };
     if (visual.borderRadius !== 'default') {
       root.style.setProperty('--border-radius-override', radiusMap[visual.borderRadius]);
     }
-    
+
     // Shadow intensity
     const shadowMap = {
       none: '0',
       light: '0.5',
       medium: '1',
-      strong: '1.5'
+      strong: '1.5',
     };
     if (visual.shadowIntensity !== 'medium') {
       root.style.setProperty('--shadow-intensity', shadowMap[visual.shadowIntensity]);
     }
-    
+
     // Animation speed
     const animationMap = {
       none: '0ms',
       fast: '100ms',
       normal: '200ms',
-      slow: '400ms'
+      slow: '400ms',
     };
     if (visual.animationSpeed !== 'normal') {
       root.style.setProperty('--animation-duration', animationMap[visual.animationSpeed]);
     }
-    
+
     console.info(LOG_HEAD + 'Applied visual customizations:', visual);
   }
 
   applyComponentVisibility() {
     const components = this.userCustomizations.components;
     const root = document.documentElement;
-    
+
     // Component visibility classes
     Object.entries(components).forEach(([key, visible]) => {
-      const className = `hide-${key.replace(/([A-Z])/g, '-$1').toLowerCase().replace('show-', '')}`;
-      
+      const className = `hide-${key
+        .replace(/([A-Z])/g, '-$1')
+        .toLowerCase()
+        .replace('show-', '')}`;
+
       if (!visible) {
         document.body.classList.add(className);
       } else {
         document.body.classList.remove(className);
       }
     });
-    
+
     console.info(LOG_HEAD + 'Applied component visibility:', components);
   }
 
   applyHUDCustomizations() {
     const hud = this.userCustomizations.hud;
-    
+
     // HUD size scaling
     const hudSizeMap = {
       small: '0.8',
       medium: '1',
-      large: '1.2'
+      large: '1.2',
     };
     if (hud.hudSize !== 'medium') {
       document.documentElement.style.setProperty('--hud-scale', hudSizeMap[hud.hudSize]);
     }
-    
+
     // GM Manager positioning
     const gmManager = document.getElementById('gm-manager');
     if (gmManager && hud.gmManagerPosition !== 'top-left') {
-      gmManager.classList.remove('position-top-left', 'position-top-right', 'position-bottom-left', 'position-bottom-right');
+      gmManager.classList.remove(
+        'position-top-left',
+        'position-top-right',
+        'position-bottom-left',
+        'position-bottom-right',
+      );
       gmManager.classList.add(`position-${hud.gmManagerPosition}`);
     }
-    
+
     // Shortcut positioning
     const shortcuts = document.querySelector('.anarchy-shortcuts');
     if (shortcuts && hud.shortcutPosition !== 'left') {
-      shortcuts.classList.remove('position-left', 'position-right', 'position-top', 'position-bottom');
+      shortcuts.classList.remove(
+        'position-left',
+        'position-right',
+        'position-top',
+        'position-bottom',
+      );
       shortcuts.classList.add(`position-${hud.shortcutPosition}`);
     }
-    
+
     console.info(LOG_HEAD + 'Applied HUD customizations:', hud);
   }
 
   applyAdvancedCustomizations() {
     const advanced = this.userCustomizations.advanced;
     const root = document.documentElement;
-    
+
     // Custom CSS injection
     if (advanced.customCSS) {
       this.injectCustomCSS(advanced.customCSS);
     }
-    
+
     // Component overrides
     if (advanced.componentOverrides) {
       Object.entries(advanced.componentOverrides).forEach(([component, styles]) => {
@@ -485,14 +616,14 @@ export class UICustomization {
         });
       });
     }
-    
+
     // Color overrides
     if (advanced.colorOverrides) {
       Object.entries(advanced.colorOverrides).forEach(([colorVar, value]) => {
         root.style.setProperty(`--${colorVar}`, value);
       });
     }
-    
+
     console.info(LOG_HEAD + 'Applied advanced customizations:', advanced);
   }
 
@@ -503,16 +634,16 @@ export class UICustomization {
   setCustomization(category, key, value) {
     const settingKey = this.getCategorySettingKey(category);
     const currentSettings = game.settings.get(SYSTEM_NAME, settingKey);
-    
+
     currentSettings[key] = value;
     game.settings.set(SYSTEM_NAME, settingKey, currentSettings);
-    
+
     // Update local cache
     this.userCustomizations[category][key] = value;
-    
+
     // Apply immediately
     this.applySpecificCustomization(category, key, value);
-    
+
     console.info(LOG_HEAD + `Customization set: ${category}.${key} = ${value}`);
   }
 
@@ -522,7 +653,7 @@ export class UICustomization {
 
   applySpecificCustomization(category, key, value) {
     const root = document.documentElement;
-    
+
     switch (category) {
       case 'visual':
         this.applyVisualCustomization(key, value);
@@ -541,7 +672,7 @@ export class UICustomization {
 
   applyVisualCustomization(key, value) {
     const root = document.documentElement;
-    
+
     switch (key) {
       case 'fontSize':
         const fontScale = { small: '0.85', default: '1', large: '1.15', xl: '1.3' }[value];
@@ -582,8 +713,11 @@ export class UICustomization {
   }
 
   applyComponentCustomization(key, value) {
-    const className = `hide-${key.replace(/([A-Z])/g, '-$1').toLowerCase().replace('show-', '')}`;
-    
+    const className = `hide-${key
+      .replace(/([A-Z])/g, '-$1')
+      .toLowerCase()
+      .replace('show-', '')}`;
+
     if (!value) {
       document.body.classList.add(className);
     } else {
@@ -596,7 +730,12 @@ export class UICustomization {
       case 'gmManagerPosition':
         const gmManager = document.getElementById('gm-manager');
         if (gmManager) {
-          gmManager.classList.remove('position-top-left', 'position-top-right', 'position-bottom-left', 'position-bottom-right');
+          gmManager.classList.remove(
+            'position-top-left',
+            'position-top-right',
+            'position-bottom-left',
+            'position-bottom-right',
+          );
           gmManager.classList.add(`position-${value}`);
         }
         break;
@@ -618,21 +757,24 @@ export class UICustomization {
     }
 
     console.groupCollapsed(LOG_HEAD + `Applying preset: ${preset.name}`);
-    
+
     // Apply all preset settings
     Object.entries(preset.settings).forEach(([settingKey, settingValue]) => {
       game.settings.set(SYSTEM_NAME, settingKey, settingValue);
-      
+
       // Update local cache
       const category = this.getSettingCategory(settingKey);
       if (category) {
-        this.userCustomizations[category] = { ...this.userCustomizations[category], ...settingValue };
+        this.userCustomizations[category] = {
+          ...this.userCustomizations[category],
+          ...settingValue,
+        };
       }
     });
-    
+
     // Reapply all customizations
     this.applyAllCustomizations();
-    
+
     ui.notifications.info(`Applied preset: ${preset.name}`);
     console.groupEnd();
   }
@@ -640,7 +782,7 @@ export class UICustomization {
   getAvailablePresets() {
     return Array.from(this.presets.entries()).map(([id, preset]) => ({
       id,
-      ...preset
+      ...preset,
     }));
   }
 
@@ -654,7 +796,7 @@ export class UICustomization {
       hud: 'hud-customization',
       visual: 'visual-customization',
       components: 'component-visibility',
-      advanced: 'advanced-ui-settings'
+      advanced: 'advanced-ui-settings',
     };
     return categoryMap[category];
   }
@@ -665,7 +807,7 @@ export class UICustomization {
       'hud-customization': 'hud',
       'visual-customization': 'visual',
       'component-visibility': 'components',
-      'advanced-ui-settings': 'advanced'
+      'advanced-ui-settings': 'advanced',
     };
     return settingMap[settingKey];
   }
@@ -676,7 +818,7 @@ export class UICustomization {
     if (existingStyle) {
       existingStyle.remove();
     }
-    
+
     // Inject new custom CSS
     if (css.trim()) {
       const style = document.createElement('style');
@@ -696,11 +838,11 @@ export class UICustomization {
   applyCustomizationsToElement(element) {
     // Apply current customizations to a specific element
     const visual = this.userCustomizations.visual;
-    
+
     if (visual.fontSize !== 'default') {
       element.style.setProperty('--local-font-scale', `var(--font-scale, 1)`);
     }
-    
+
     if (visual.spacing !== 'default') {
       element.style.setProperty('--local-spacing-scale', `var(--spacing-scale, 1)`);
     }
@@ -717,8 +859,8 @@ export class UICustomization {
       metadata: {
         exportedAt: new Date().toISOString(),
         systemVersion: game.system.version,
-        foundryVersion: game.version
-      }
+        foundryVersion: game.version,
+      },
     };
   }
 
@@ -738,7 +880,7 @@ export class UICustomization {
     // Reload and apply
     this.loadUserCustomizations();
     this.applyAllCustomizations();
-    
+
     ui.notifications.info('UI customizations imported successfully.');
   }
 
@@ -749,10 +891,10 @@ export class UICustomization {
       'hud-customization',
       'visual-customization',
       'component-visibility',
-      'advanced-ui-settings'
+      'advanced-ui-settings',
     ];
 
-    settingKeys.forEach(key => {
+    settingKeys.forEach((key) => {
       const setting = game.settings.settings.get(`${SYSTEM_NAME}.${key}`);
       if (setting) {
         game.settings.set(SYSTEM_NAME, key, setting.default);
@@ -761,19 +903,26 @@ export class UICustomization {
 
     // Remove custom CSS
     this.injectCustomCSS('');
-    
+
     // Remove customization classes
     document.body.classList.remove('ui-compact-mode', 'ui-vertical-tabs');
-    
+
     // Reset CSS variables
     const root = document.documentElement;
-    const customProperties = ['--font-scale', '--icon-scale', '--spacing-scale', '--border-radius-override', '--shadow-intensity', '--animation-duration'];
-    customProperties.forEach(prop => root.style.removeProperty(prop));
-    
+    const customProperties = [
+      '--font-scale',
+      '--icon-scale',
+      '--spacing-scale',
+      '--border-radius-override',
+      '--shadow-intensity',
+      '--animation-duration',
+    ];
+    customProperties.forEach((prop) => root.style.removeProperty(prop));
+
     // Reload and apply defaults
     this.loadUserCustomizations();
     this.applyAllCustomizations();
-    
+
     ui.notifications.info('All UI customizations reset to defaults.');
   }
 
@@ -788,33 +937,42 @@ export class UICustomization {
     console.info('Active CSS Variables:', this.getActiveCustomizationVariables());
     console.info('Applied Classes:', this.getAppliedCustomizationClasses());
     console.groupEnd();
-    
+
     return {
       customizations: this.userCustomizations,
       presets: this.getAvailablePresets(),
       cssVariables: this.getActiveCustomizationVariables(),
-      appliedClasses: this.getAppliedCustomizationClasses()
+      appliedClasses: this.getAppliedCustomizationClasses(),
     };
   }
 
   getActiveCustomizationVariables() {
     const root = getComputedStyle(document.documentElement);
     const customizationVars = {};
-    
-    const varNames = ['--font-scale', '--icon-scale', '--spacing-scale', '--border-radius-override', '--shadow-intensity', '--animation-duration', '--hud-scale'];
-    
-    varNames.forEach(varName => {
+
+    const varNames = [
+      '--font-scale',
+      '--icon-scale',
+      '--spacing-scale',
+      '--border-radius-override',
+      '--shadow-intensity',
+      '--animation-duration',
+      '--hud-scale',
+    ];
+
+    varNames.forEach((varName) => {
       const value = root.getPropertyValue(varName);
       if (value) {
         customizationVars[varName] = value.trim();
       }
     });
-    
+
     return customizationVars;
   }
 
   getAppliedCustomizationClasses() {
-    return Array.from(document.body.classList)
-      .filter(cls => cls.startsWith('ui-') || cls.startsWith('hide-') || cls.startsWith('position-'));
+    return Array.from(document.body.classList).filter(
+      (cls) => cls.startsWith('ui-') || cls.startsWith('hide-') || cls.startsWith('position-'),
+    );
   }
 }

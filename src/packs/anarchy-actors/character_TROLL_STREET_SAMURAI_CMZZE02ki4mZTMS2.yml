@@ -1,0 +1,76 @@
+_id: CMZZE02ki4mZTMS2
+name: TROLL STREET SAMURAI
+type: character
+img: systems/anarchy/icons/vitruvian-man.svg
+system:
+  description:
+    ownerId: ""
+    description: ""
+    gmnotes: ""
+    favorites: []
+    state:
+      matrix:
+        value: 0
+        max: 0
+      physical:
+        value: 0
+        max: 0
+  counters:
+    essence:
+      value: 6
+    karma:
+      value: 0
+      total: 0
+    anarchy:
+      value: 3
+      max: 6
+    sceneAnarchy:
+      value: 0
+      max: 3
+    social:
+      celebrity:
+        value: 0
+      credibility:
+        value: 0
+        max: 1
+      rumor:
+        value: 0
+        max: 1
+  monitors:
+    physical:
+      value: 0
+      max: 10
+      resistance: 0
+    stun:
+      value: 0
+      max: 10
+      resistance: 0
+    armor:
+      label: Armor
+      value: 0
+      max: 9
+  attributes:
+    agility:
+      value: 4
+    strength:
+      value: 8
+    willpower:
+      value: 5
+    logic:
+      value: 3
+    charisma:
+      value: 3
+    edge:
+      value: 1
+  style: ""
+  genre: ""
+  capacity: emerged
+  connectionMode: disconnected
+  ownAnarchy: false
+  keywords: []
+  dispositions: []
+  cues: []
+ownership:
+  default: 0
+flags: {}
+items: []

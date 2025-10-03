@@ -39,6 +39,15 @@ npx vite serve
 
 This will launch a Vite development server that is configured to intercept calls made to **systems/anarchy** and proxy them appropriately, while serving all other files directly from Foundry.
 
+### Troubleshooting dev (404 on ./src/start.js, base sheet shows)
+
+If you see a console error like `GET /systems/anarchy/src/start.js 404 (Not Found)` and actor sheets revert to the base/core sheet:
+
+- Ensure you opened Foundry via Vite: `http://localhost:30001` (not `30000`).
+- Ensure Vite is running: `npm run dev`.
+- Verify your data directory link: `<foundrydata>/systems/anarchy` should point to this repo's `public` directory.
+- Our dev loader now attempts a fallback import from `http://localhost:30001`, but opening via 30001 is the most reliable flow.
+
 ## Building for Production
 
 If you need to build the project for production, use:

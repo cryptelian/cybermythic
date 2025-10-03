@@ -89,7 +89,7 @@ export class CombatManager {
     const notifyMessage = await ChatMessage.create({
       user: game.user.id,
       whisper: defender.getAllowedUserIds(defender.getRightToDefend()),
-      content: await renderTemplate(
+      content: await foundry.applications.handlebars.renderTemplate(
         TEMPLATE_INFORM_DEFENDER,
         foundry.utils.mergeObject(
           {

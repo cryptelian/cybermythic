@@ -24,11 +24,14 @@ export class RollCelebrity extends Dialog {
       ANARCHY: ANARCHY,
     };
 
-    const title = await renderTemplate(
+    const title = await foundry.applications.handlebars.renderTemplate(
       `${TEMPLATES_PATH}/dialog/roll-celebrite-title.hbs`,
       rollData,
     );
-    const html = await renderTemplate(`${TEMPLATES_PATH}/dialog/roll-celebrite.hbs`, rollData);
+    const html = await foundry.applications.handlebars.renderTemplate(
+      `${TEMPLATES_PATH}/dialog/roll-celebrite.hbs`,
+      rollData,
+    );
     new RollCelebrity(title, html, rollData).render(true);
   }
 
@@ -77,7 +80,10 @@ export class RollCelebrity extends Dialog {
     const roll = new Roll(`${pool}d6cs>=5`);
     await roll.evaluate();
 
-    const flavor = await renderTemplate(HBS_TEMPLATE_CHAT_CELEBRITY_ROLL, hbsCelebrityRoll);
+    const flavor = await foundry.applications.handlebars.renderTemplate(
+      HBS_TEMPLATE_CHAT_CELEBRITY_ROLL,
+      hbsCelebrityRoll,
+    );
     await roll.toMessage({ flavor: flavor });
   }
 

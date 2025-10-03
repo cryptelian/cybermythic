@@ -1,0 +1,13 @@
+_id: M5FQjzbjTe6r5Z1P
+name: Keepsake, memento, heirloom, an- tique
+type: gear
+img: systems/anarchy/icons/gear/gear.svg
+system:
+  inactive: false
+  references:
+    sourceReference: Anarchy Catalog
+    description: ""
+    gmnotes: ""
+ownership:
+  default: 0
+flags: {}

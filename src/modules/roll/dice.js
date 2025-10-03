@@ -93,7 +93,7 @@ export class AnarchyDice {
   }
 }
 
-export class AnarchyGlitchDie extends Die {
+export class AnarchyGlitchDie extends foundry.dice.terms.Die {
   constructor(term) {
     term.faces = 6;
     super(term);
@@ -121,7 +121,7 @@ export class AnarchyGlitchDie extends Die {
   }
 }
 
-export class AnarchyRiskDie extends Die {
+export class AnarchyRiskDie extends foundry.dice.terms.Die {
   constructor(term) {
     term.faces = 6;
     super(term);

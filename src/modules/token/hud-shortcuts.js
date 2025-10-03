@@ -39,7 +39,10 @@ export class HUDShortcuts {
         classes: [game.system.anarchy.styles.selectCssClass()],
       },
     };
-    const html = await renderTemplate(TEMPLATE_HUD_SHORTCUTS, hbsHudData);
+    const html = await foundry.applications.handlebars.renderTemplate(
+      TEMPLATE_HUD_SHORTCUTS,
+      hbsHudData,
+    );
     const hud = $(html);
     const list = hud.find('.anarchy-shortcuts-list');
 
