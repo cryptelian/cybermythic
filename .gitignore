@@ -18,3 +18,16 @@ Caddyfile.txt
 
 # Cursor
 .cursorignore
+
+# Caddy proxy logs
+caddy-access.log
+
+# Copyrighted Shadowrun content (keep in ninjanarchy branch only)
+# WARNING: These paths contain copyrighted material from Catalyst Game Labs
+# They should ONLY exist on the private ninjanarchy branch, NEVER on main
+Anarchy Full.md
+/src/packs/anarchy-actors/
+/src/packs/anarchy-items-gear/
+/src/packs/anarchy-items-weapons/
+/src/packs/anarchy-wiki/
+/tools/importAnarchyMarkdown.mjs
