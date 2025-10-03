@@ -6,15 +6,15 @@ This README outlines the steps needed to set up and run the Foundry Vite project
 
 ### Node.js
 
-The project requires **Node.js v18** or higher. It is recommended to manage your Node.js versions using [NVM (Node Version Manager)](https://github.com/nvm-sh/nvm). This allows you to switch between Node versions without affecting other projects.
+Target **Node.js 20 LTS**. A `.nvmrc` file is provided so `nvm use` (or `fnm use`) automatically selects the supported version.
 
-To install NVM and Node.js, follow these steps:
+To install NVM and Node.js:
 
 ```bash
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
 # Restart your terminal and then:
-nvm install 18
-nvm use 18
+nvm install 20
+nvm use
 ```
 
 ## Installation
