@@ -1,0 +1,3 @@
+Automation & CI
+    • Public CI fails if any path pattern for restricted content exists in a PR (licensed/**, modules/private/**, known hash lists).
+    • Release packaging excludes any export-ignore paths (see .gitattributes).

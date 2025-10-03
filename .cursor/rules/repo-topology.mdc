@@ -1,0 +1,4 @@
+Repo Topology — Two Remotes, Two Homes
+    • Public repo: origin → github.com/<you>/<public-repo>; default branch: main.
+    • Private repo: private → github.com/<you>/ninjanarchy (visibility private).
+    • Local dev keeps two working trees: /public on main, /ninjanarchy on ninjanarchy branch, using git worktree to prevent accidental mixing.
