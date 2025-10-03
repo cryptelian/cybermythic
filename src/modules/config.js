@@ -252,12 +252,11 @@ export const ANARCHY = {
         },
         skill: {
             code: 'ANARCHY.item.skill.code',
-            copyDefault: 'ANARCHY.item.skill.useDefault',
+            copyDefault: 'ANARCHY.item.skill.copyDefault',
             isKnowledge: 'ANARCHY.item.skill.isKnowledge',
             attribute: 'ANARCHY.item.skill.attribute',
             value: 'ANARCHY.item.skill.value',
             specialization: 'ANARCHY.item.skill.specialization',
-            hasDrain: 'ANARCHY.item.skill.isSocial',
             hasDrain: 'ANARCHY.item.skill.hasDrain',
             hasConvergence: 'ANARCHY.item.skill.hasConvergence',
             specializationHelp: 'ANARCHY.item.skill.specializationHelp'
@@ -348,7 +347,7 @@ export const ANARCHY = {
         special: 'ANARCHY.shadowampCategory.special'
     },
     attributes: {
-        noAttribute: 'ANARCHY.attributes.noAttributes',
+        noAttribute: 'ANARCHY.attributes.noAttribute',
         strength: 'ANARCHY.attributes.strength',
         agility: 'ANARCHY.attributes.agility',
         willpower: 'ANARCHY.attributes.willpower',

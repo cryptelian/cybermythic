@@ -3,9 +3,11 @@
     "build": "npx vite build",
     "run": "npx vite serve",
     "packCompendiumsToDist": "node ./tools/packCompendiumsToDist.mjs",
-    "packCompendiumsToPublic": "node ./tools/packCompendiumsToPublic.mjs",
-    "unpackCompendiumsFromPublic": "node ./tools/unpackCompendiumsFromPublic.mjs",
-    "import:anarchy-md": "node ./tools/importAnarchyMarkdown.mjs"
+    "packCompendiumsToPublic": "node -e \"import('./tools/CompendiumsManager.mjs').then(m=>m.CompendiumsManager.packToDistDir('src/packs','public/packs','yaml'))\"",
+    "unpackCompendiumsFromPublic": "node -e \"import('./tools/CompendiumsManager.mjs').then(m=>m.CompendiumsManager.unpackToSrcDir('src/packs','public/packs','yaml'))\"",
+    "import:anarchy-md": "node ./tools/importAnarchyMarkdown.mjs",
+    "clean": "rimraf dist public/packs",
+    "postbuild": "cp -r dist/* public/"
   },
   "devDependencies": {
     "@foundryvtt/foundryvtt-cli": "^1.0.3",

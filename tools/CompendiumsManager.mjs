@@ -51,11 +51,11 @@ export class CompendiumsManager {
    * @param {object} doc - The document data
    */
   static transformName(doc) {
-    const safeFileName = doc.name.replace(/[^a-zA-Z0-9А-я]/g, "_");
+    const safeFileName = (doc.name || "").replace(/[^a-zA-Z0-9А-я]/g, "_");
     const type = doc._key.split("!")[1];
     const prefix = ["actors", "items"].includes(type) ? doc.type : type;
 
-    return `${doc.name ? `${prefix}_${safeFileName}_${doc._id}` : doc._id}.${yaml ? "yml" : "json"
-      }`;
+    // We always extract to YAML in this repo to keep diffs readable.
+    return `${doc.name ? `${prefix}_${safeFileName}_${doc._id}` : doc._id}.yml`;
   }
 }

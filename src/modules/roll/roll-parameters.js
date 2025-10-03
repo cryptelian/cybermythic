@@ -34,7 +34,7 @@ const DEFAULT_ROLL_PARAMETERS = [
     factory: context => {
       const attribute = context.attribute1 ?? context.skill?.system.attribute;
       return {
-        labelkey: attribute ? ANARCHY.attributes[attribute] : ANARCHY.attributes.noAttributes,
+        labelkey: attribute ? ANARCHY.attributes[attribute] : ANARCHY.attributes.noAttribute,
         value: context.actor.getAttributeValue(attribute, context.activeItem),
         flags: { editable: context.skill },
         selected: attribute,
@@ -57,7 +57,7 @@ const DEFAULT_ROLL_PARAMETERS = [
     factory: context => {
       const attribute = context.attribute2
       return {
-        labelkey: attribute ? ANARCHY.attributes[attribute] : ANARCHY.attributes.noAttributes,
+        labelkey: attribute ? ANARCHY.attributes[attribute] : ANARCHY.attributes.noAttribute,
         value: context.actor.getAttributeValue(attribute, context.activeItem),
         flags: { editable: ANARCHY_SYSTEM.rollType.attribute == context.mode },
         selected: attribute,

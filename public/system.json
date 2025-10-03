@@ -75,26 +75,7 @@
       "label": "Anarchy: Actors",
       "type": "Actor",
       "system": "anarchy",
-      "ownership": {
-        "PLAYER": "NONE",
-        "ASSISTANT": "OWNER"
-      }
-    },
-    {
-      "name": "anarchy-items-contacts",
-      "label": "Anarchy: Contacts",
-      "type": "Item",
-      "system": "anarchy",
-      "ownership": {
-        "PLAYER": "NONE",
-        "ASSISTANT": "OWNER"
-      }
-    },
-    {
-      "name": "anarchy-items-cyberdecks",
-      "label": "Anarchy: Cyberdecks",
-      "type": "Item",
-      "system": "anarchy",
+      "path": "packs/anarchy-actors",
       "ownership": {
         "PLAYER": "NONE",
         "ASSISTANT": "OWNER"
@@ -105,46 +86,7 @@
       "label": "Anarchy: Gear",
       "type": "Item",
       "system": "anarchy",
-      "ownership": {
-        "PLAYER": "NONE",
-        "ASSISTANT": "OWNER"
-      }
-    },
-    {
-      "name": "anarchy-items-metatypes",
-      "label": "Anarchy: Metatypes",
-      "type": "Item",
-      "system": "anarchy",
-      "ownership": {
-        "PLAYER": "NONE",
-        "ASSISTANT": "OWNER"
-      }
-    },
-    {
-      "name": "anarchy-items-qualities",
-      "label": "Anarchy: Qualities",
-      "type": "Item",
-      "system": "anarchy",
-      "ownership": {
-        "PLAYER": "NONE",
-        "ASSISTANT": "OWNER"
-      }
-    },
-    {
-      "name": "anarchy-items-shadowamps",
-      "label": "Anarchy: Shadow Amps",
-      "type": "Item",
-      "system": "anarchy",
-      "ownership": {
-        "PLAYER": "NONE",
-        "ASSISTANT": "OWNER"
-      }
-    },
-    {
-      "name": "anarchy-items-skills",
-      "label": "Anarchy: Skills",
-      "type": "Item",
-      "system": "anarchy",
+      "path": "packs/anarchy-items-gear",
       "ownership": {
         "PLAYER": "NONE",
         "ASSISTANT": "OWNER"
@@ -155,6 +97,7 @@
       "label": "Anarchy: Weapons",
       "type": "Item",
       "system": "anarchy",
+      "path": "packs/anarchy-items-weapons",
       "ownership": {
         "PLAYER": "NONE",
         "ASSISTANT": "OWNER"
@@ -165,6 +108,7 @@
       "label": "Anarchy: Wiki",
       "type": "JournalEntry",
       "system": "anarchy",
+      "path": "packs/anarchy-wiki",
       "ownership": {
         "PLAYER": "OBSERVER",
         "ASSISTANT": "OWNER"
@@ -175,6 +119,7 @@
       "label": "Gamemaster information",
       "type": "JournalEntry",
       "system": "anarchy",
+      "path": "packs/gm-info",
       "ownership": {
         "PLAYER": "NONE",
         "ASSISTANT": "OWNER"
@@ -185,6 +130,7 @@
       "label": "Macros",
       "type": "Macro",
       "system": "anarchy",
+      "path": "packs/macros",
       "ownership": {
         "PLAYER": "NONE",
         "ASSISTANT": "OWNER"
@@ -195,6 +141,7 @@
       "label": "Manuel SR Anarchy (FR)",
       "type": "JournalEntry",
       "system": "anarchy",
+      "path": "packs/manual-fr",
       "ownership": {
         "PLAYER": "OBSERVER",
         "ASSISTANT": "OWNER"
