@@ -37,27 +37,23 @@ jobs:
 
       - name: Visual regression tests
         run: npm run test:visual
->>>>>>> origin/cursor/resume-stalled-development-audit-and-completion-7f89
 
       - name: Build
         run: npm run build
 
-<<<<<<< HEAD
       - name: Collect metrics (no rebuild)
         run: npm run metrics:ci
-=======
+
       - name: Report bundle sizes
         run: |
           echo "dist sizes:" > sizes.txt
           du -h dist/* >> sizes.txt || true
           cat sizes.txt
->>>>>>> origin/cursor/resume-stalled-development-audit-and-completion-7f89
 
       - name: Upload dist artifact
         uses: actions/upload-artifact@v4
         with:
           name: dist
-<<<<<<< HEAD
           path: dist
 
       - name: Upload metrics artifact
@@ -65,9 +61,6 @@ jobs:
         with:
           name: metrics
           path: metrics/baseline.json
-=======
-          path: |
-            dist
 
       - name: Upload size report
         uses: actions/upload-artifact@v4
@@ -82,4 +75,3 @@ jobs:
           name: stats
           path: |
             stats.html
->>>>>>> origin/cursor/resume-stalled-development-audit-and-completion-7f89
