@@ -1,0 +1,17 @@
+_id: 0P1mOiMGmApGq6J3
+name: Area signal jammer
+type: gear
+img: systems/anarchy/icons/gear/gear.svg
+system:
+  inactive: false
+  references:
+    sourceReference: Anarchy Catalog
+    description: ""
+    gmnotes: ""
+ownership:
+  default: 0
+flags:
+  cybermythic:
+    origFile: gear_Area_signal_jammer_0P1mOiMGmApGq6J3.yml
+    bucket: gear
+    variant: general

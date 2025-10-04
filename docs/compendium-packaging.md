@@ -83,7 +83,7 @@ main().catch((err) => {
 
 ---
 
-**Next action:** run the normaliser across all packs and feed the outputs into the packaging script (`PACK_SRC=workspace/compendium/... OUT_DIR=dist-compendiums node tools/packCompendiumsWithRewrite.mjs`) to produce installable bundles for smoke testing.
+**Next action:** update the vanilla `system.json` (or companion module manifest) to register the new packs (`act-player`, `act-npc`, `itm-gear`, `itm-weap`, `wiki-hub`), then install `dist-compendiums/packs` into a test Foundry world and run smoke checks.
 
 ## Deployment & Validation Checklist
 

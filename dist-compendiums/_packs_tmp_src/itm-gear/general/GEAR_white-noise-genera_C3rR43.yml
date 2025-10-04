@@ -1,0 +1,17 @@
+_id: aN1xQ0G5kNC3rR43
+name: White noise generator
+type: gear
+img: systems/anarchy/icons/gear/gear.svg
+system:
+  inactive: false
+  references:
+    sourceReference: Anarchy Catalog
+    description: ""
+    gmnotes: ""
+ownership:
+  default: 0
+flags:
+  cybermythic:
+    origFile: gear_White_noise_generator_aN1xQ0G5kNC3rR43.yml
+    bucket: gear
+    variant: general

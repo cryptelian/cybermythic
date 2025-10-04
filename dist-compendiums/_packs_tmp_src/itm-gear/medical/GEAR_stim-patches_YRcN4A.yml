@@ -1,0 +1,17 @@
+_id: 2IExOhhNf5YRcN4A
+name: Stim patches
+type: gear
+img: systems/anarchy/icons/gear/gear.svg
+system:
+  inactive: false
+  references:
+    sourceReference: Anarchy Catalog
+    description: ""
+    gmnotes: ""
+ownership:
+  default: 0
+flags:
+  cybermythic:
+    origFile: gear_Stim_patches_2IExOhhNf5YRcN4A.yml
+    bucket: gear
+    variant: medical

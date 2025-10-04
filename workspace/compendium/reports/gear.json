@@ -1,0 +1,1091 @@
+{
+  "pack": "gear",
+  "stats": {
+    "processed": 240,
+    "written": 24,
+    "duplicates": 216,
+    "durationSeconds": 0.4
+  },
+  "duplicates": [
+    {
+      "name": "Area signal jammer",
+      "source": "gear_Area_signal_jammer_3TKIUeZcVHCZZcaC.yml",
+      "duplicateOf": "gear\\general\\GEAR_area-signal-jammer_pGq6J3.yml"
+    },
+    {
+      "name": "Area signal jammer",
+      "source": "gear_Area_signal_jammer_bDWdZpxwTFSHMGxq.yml",
+      "duplicateOf": "gear\\general\\GEAR_area-signal-jammer_pGq6J3.yml"
+    },
+    {
+      "name": "Area signal jammer",
+      "source": "gear_Area_signal_jammer_gFN76whawQIo9dDj.yml",
+      "duplicateOf": "gear\\general\\GEAR_area-signal-jammer_pGq6J3.yml"
+    },
+    {
+      "name": "Area signal jammer",
+      "source": "gear_Area_signal_jammer_KJ28qZMfl1yE4i16.yml",
+      "duplicateOf": "gear\\general\\GEAR_area-signal-jammer_pGq6J3.yml"
+    },
+    {
+      "name": "Area signal jammer",
+      "source": "gear_Area_signal_jammer_kmXM2Sgm0af4Vpep.yml",
+      "duplicateOf": "gear\\general\\GEAR_area-signal-jammer_pGq6J3.yml"
+    },
+    {
+      "name": "Area signal jammer",
+      "source": "gear_Area_signal_jammer_NzibjNtXr3z4KGEk.yml",
+      "duplicateOf": "gear\\general\\GEAR_area-signal-jammer_pGq6J3.yml"
+    },
+    {
+      "name": "Area signal jammer",
+      "source": "gear_Area_signal_jammer_rgQwrssC2B9DUwQY.yml",
+      "duplicateOf": "gear\\general\\GEAR_area-signal-jammer_pGq6J3.yml"
+    },
+    {
+      "name": "Area signal jammer",
+      "source": "gear_Area_signal_jammer_u9vJErkxWw5wyjOt.yml",
+      "duplicateOf": "gear\\general\\GEAR_area-signal-jammer_pGq6J3.yml"
+    },
+    {
+      "name": "Area signal jammer",
+      "source": "gear_Area_signal_jammer_YrpzU4bH2qXlL80v.yml",
+      "duplicateOf": "gear\\general\\GEAR_area-signal-jammer_pGq6J3.yml"
+    },
+    {
+      "name": "Bag of smooth rocks",
+      "source": "gear_Bag_of_smooth_rocks_AGMjx6FeDgbtYp2A.yml",
+      "duplicateOf": "gear\\general\\GEAR_bag-of-smooth-rock_SUTX8E.yml"
+    },
+    {
+      "name": "Bag of smooth rocks",
+      "source": "gear_Bag_of_smooth_rocks_AIWtsaduy0DIDMsc.yml",
+      "duplicateOf": "gear\\general\\GEAR_bag-of-smooth-rock_SUTX8E.yml"
+    },
+    {
+      "name": "Bag of smooth rocks",
+      "source": "gear_Bag_of_smooth_rocks_eFsIZ8XKAhmYtYjg.yml",
+      "duplicateOf": "gear\\general\\GEAR_bag-of-smooth-rock_SUTX8E.yml"
+    },
+    {
+      "name": "Bag of smooth rocks",
+      "source": "gear_Bag_of_smooth_rocks_gf1rvtlMLphdIunp.yml",
+      "duplicateOf": "gear\\general\\GEAR_bag-of-smooth-rock_SUTX8E.yml"
+    },
+    {
+      "name": "Bag of smooth rocks",
+      "source": "gear_Bag_of_smooth_rocks_I9scfHEH3xeJcS2G.yml",
+      "duplicateOf": "gear\\general\\GEAR_bag-of-smooth-rock_SUTX8E.yml"
+    },
+    {
+      "name": "Bag of smooth rocks",
+      "source": "gear_Bag_of_smooth_rocks_MN6uUGLR9v5g0ZOG.yml",
+      "duplicateOf": "gear\\general\\GEAR_bag-of-smooth-rock_SUTX8E.yml"
+    },
+    {
+      "name": "Bag of smooth rocks",
+      "source": "gear_Bag_of_smooth_rocks_MpnSdNSM1F8PhhZH.yml",
+      "duplicateOf": "gear\\general\\GEAR_bag-of-smooth-rock_SUTX8E.yml"
+    },
+    {
+      "name": "Bag of smooth rocks",
+      "source": "gear_Bag_of_smooth_rocks_u4L0BZ6WgFHjxT8q.yml",
+      "duplicateOf": "gear\\general\\GEAR_bag-of-smooth-rock_SUTX8E.yml"
+    },
+    {
+      "name": "Bag of smooth rocks",
+      "source": "gear_Bag_of_smooth_rocks_ZCmzrYmiwvFSzQWT.yml",
+      "duplicateOf": "gear\\general\\GEAR_bag-of-smooth-rock_SUTX8E.yml"
+    },
+    {
+      "name": "Commlink",
+      "source": "gear_Commlink_DVrqBMxPR7T5wk1A.yml",
+      "duplicateOf": "gear\\general\\GEAR_commlink_26K7ym.yml"
+    },
+    {
+      "name": "Commlink",
+      "source": "gear_Commlink_dzbw5z4b5CpR09J2.yml",
+      "duplicateOf": "gear\\general\\GEAR_commlink_26K7ym.yml"
+    },
+    {
+      "name": "Commlink",
+      "source": "gear_Commlink_l6sO16nugdufLgoV.yml",
+      "duplicateOf": "gear\\general\\GEAR_commlink_26K7ym.yml"
+    },
+    {
+      "name": "Commlink",
+      "source": "gear_Commlink_lwR6ePqwVLQgOrDB.yml",
+      "duplicateOf": "gear\\general\\GEAR_commlink_26K7ym.yml"
+    },
+    {
+      "name": "Commlink",
+      "source": "gear_Commlink_mE7HchN5nocswEpE.yml",
+      "duplicateOf": "gear\\general\\GEAR_commlink_26K7ym.yml"
+    },
+    {
+      "name": "Commlink",
+      "source": "gear_Commlink_NYtdR5l8eLe8CqHS.yml",
+      "duplicateOf": "gear\\general\\GEAR_commlink_26K7ym.yml"
+    },
+    {
+      "name": "Commlink",
+      "source": "gear_Commlink_V8p1kBNt9YEMUovK.yml",
+      "duplicateOf": "gear\\general\\GEAR_commlink_26K7ym.yml"
+    },
+    {
+      "name": "Commlink",
+      "source": "gear_Commlink_VGRj7bgJbWDR4u7D.yml",
+      "duplicateOf": "gear\\general\\GEAR_commlink_26K7ym.yml"
+    },
+    {
+      "name": "Commlink",
+      "source": "gear_Commlink_XA9cNzXg7euEWRwW.yml",
+      "duplicateOf": "gear\\general\\GEAR_commlink_26K7ym.yml"
+    },
+    {
+      "name": "Courier bag",
+      "source": "gear_Courier_bag_9hmNe41CahrGrxvS.yml",
+      "duplicateOf": "gear\\general\\GEAR_courier-bag_Ye39nk.yml"
+    },
+    {
+      "name": "Courier bag",
+      "source": "gear_Courier_bag_CLLHcdAIFK72Zqmk.yml",
+      "duplicateOf": "gear\\general\\GEAR_courier-bag_Ye39nk.yml"
+    },
+    {
+      "name": "Courier bag",
+      "source": "gear_Courier_bag_DkiGYGguAmkX24Uj.yml",
+      "duplicateOf": "gear\\general\\GEAR_courier-bag_Ye39nk.yml"
+    },
+    {
+      "name": "Courier bag",
+      "source": "gear_Courier_bag_FoXqHFdmKFIAmuMM.yml",
+      "duplicateOf": "gear\\general\\GEAR_courier-bag_Ye39nk.yml"
+    },
+    {
+      "name": "Courier bag",
+      "source": "gear_Courier_bag_hJTBTgzvyfdFAtKr.yml",
+      "duplicateOf": "gear\\general\\GEAR_courier-bag_Ye39nk.yml"
+    },
+    {
+      "name": "Courier bag",
+      "source": "gear_Courier_bag_IClf6Hu7reBEOeyA.yml",
+      "duplicateOf": "gear\\general\\GEAR_courier-bag_Ye39nk.yml"
+    },
+    {
+      "name": "Courier bag",
+      "source": "gear_Courier_bag_KlY28aQDWmTAc8os.yml",
+      "duplicateOf": "gear\\general\\GEAR_courier-bag_Ye39nk.yml"
+    },
+    {
+      "name": "Courier bag",
+      "source": "gear_Courier_bag_YQazfXuqTIz9Ivt0.yml",
+      "duplicateOf": "gear\\general\\GEAR_courier-bag_Ye39nk.yml"
+    },
+    {
+      "name": "Courier bag",
+      "source": "gear_Courier_bag_ZrKAKA6CPDXtbv3y.yml",
+      "duplicateOf": "gear\\general\\GEAR_courier-bag_Ye39nk.yml"
+    },
+    {
+      "name": "Crowbar",
+      "source": "gear_Crowbar_dA3Cko2au5rjTGPH.yml",
+      "duplicateOf": "gear\\general\\GEAR_crowbar_uWAAYI.yml"
+    },
+    {
+      "name": "Crowbar",
+      "source": "gear_Crowbar_IfuJAxalkOqHMKRm.yml",
+      "duplicateOf": "gear\\general\\GEAR_crowbar_uWAAYI.yml"
+    },
+    {
+      "name": "Crowbar",
+      "source": "gear_Crowbar_jOomgYOugm5oXwKj.yml",
+      "duplicateOf": "gear\\general\\GEAR_crowbar_uWAAYI.yml"
+    },
+    {
+      "name": "Crowbar",
+      "source": "gear_Crowbar_mcuhstBhRLw2yrxq.yml",
+      "duplicateOf": "gear\\general\\GEAR_crowbar_uWAAYI.yml"
+    },
+    {
+      "name": "Crowbar",
+      "source": "gear_Crowbar_oAackbDiiSYLG1h9.yml",
+      "duplicateOf": "gear\\general\\GEAR_crowbar_uWAAYI.yml"
+    },
+    {
+      "name": "Crowbar",
+      "source": "gear_Crowbar_PJyc6VtlAvQkI6lJ.yml",
+      "duplicateOf": "gear\\general\\GEAR_crowbar_uWAAYI.yml"
+    },
+    {
+      "name": "Crowbar",
+      "source": "gear_Crowbar_W7TyPs6UmA3EmiEr.yml",
+      "duplicateOf": "gear\\general\\GEAR_crowbar_uWAAYI.yml"
+    },
+    {
+      "name": "Crowbar",
+      "source": "gear_Crowbar_XKmRMsMOsoFJObQh.yml",
+      "duplicateOf": "gear\\general\\GEAR_crowbar_uWAAYI.yml"
+    },
+    {
+      "name": "Crowbar",
+      "source": "gear_Crowbar_ZFSfjUQCSD4oI8S9.yml",
+      "duplicateOf": "gear\\general\\GEAR_crowbar_uWAAYI.yml"
+    },
+    {
+      "name": "Enhanced vision goggles",
+      "source": "gear_Enhanced_vision_goggles_9uUdF79v4ppbGTGi.yml",
+      "duplicateOf": "gear\\optics\\GEAR_enhanced-vision-go_TgAhfm.yml"
+    },
+    {
+      "name": "Enhanced vision goggles",
+      "source": "gear_Enhanced_vision_goggles_A59GuashtBvHSV8p.yml",
+      "duplicateOf": "gear\\optics\\GEAR_enhanced-vision-go_TgAhfm.yml"
+    },
+    {
+      "name": "Enhanced vision goggles",
+      "source": "gear_Enhanced_vision_goggles_bd6bNTOEjBG0sheV.yml",
+      "duplicateOf": "gear\\optics\\GEAR_enhanced-vision-go_TgAhfm.yml"
+    },
+    {
+      "name": "Enhanced vision goggles",
+      "source": "gear_Enhanced_vision_goggles_fu9jaIa4Huz4i6VM.yml",
+      "duplicateOf": "gear\\optics\\GEAR_enhanced-vision-go_TgAhfm.yml"
+    },
+    {
+      "name": "Enhanced vision goggles",
+      "source": "gear_Enhanced_vision_goggles_lKvzIGtIs2oGZZIU.yml",
+      "duplicateOf": "gear\\optics\\GEAR_enhanced-vision-go_TgAhfm.yml"
+    },
+    {
+      "name": "Enhanced vision goggles",
+      "source": "gear_Enhanced_vision_goggles_Naj7jk2bjt3KFqLt.yml",
+      "duplicateOf": "gear\\optics\\GEAR_enhanced-vision-go_TgAhfm.yml"
+    },
+    {
+      "name": "Enhanced vision goggles",
+      "source": "gear_Enhanced_vision_goggles_PSYc52Nt5BCOzyCy.yml",
+      "duplicateOf": "gear\\optics\\GEAR_enhanced-vision-go_TgAhfm.yml"
+    },
+    {
+      "name": "Enhanced vision goggles",
+      "source": "gear_Enhanced_vision_goggles_UXjtceQ2BdOCdeil.yml",
+      "duplicateOf": "gear\\optics\\GEAR_enhanced-vision-go_TgAhfm.yml"
+    },
+    {
+      "name": "Enhanced vision goggles",
+      "source": "gear_Enhanced_vision_goggles_XcAuqB5IZuB0VNNx.yml",
+      "duplicateOf": "gear\\optics\\GEAR_enhanced-vision-go_TgAhfm.yml"
+    },
+    {
+      "name": "Fake SIN",
+      "source": "gear_Fake_SIN_axaMHJmPGQnNCYr7.yml",
+      "duplicateOf": "gear\\general\\GEAR_fake-sin_d24pZv.yml"
+    },
+    {
+      "name": "Fake SIN",
+      "source": "gear_Fake_SIN_EasG4yFjMmt8aXCM.yml",
+      "duplicateOf": "gear\\general\\GEAR_fake-sin_d24pZv.yml"
+    },
+    {
+      "name": "Fake SIN",
+      "source": "gear_Fake_SIN_fWblmxiL649pjy2L.yml",
+      "duplicateOf": "gear\\general\\GEAR_fake-sin_d24pZv.yml"
+    },
+    {
+      "name": "Fake SIN",
+      "source": "gear_Fake_SIN_iSUl3lY0iZDzjiXJ.yml",
+      "duplicateOf": "gear\\general\\GEAR_fake-sin_d24pZv.yml"
+    },
+    {
+      "name": "Fake SIN",
+      "source": "gear_Fake_SIN_JNSAeOP6JLUd75TX.yml",
+      "duplicateOf": "gear\\general\\GEAR_fake-sin_d24pZv.yml"
+    },
+    {
+      "name": "Fake SIN",
+      "source": "gear_Fake_SIN_T18oxiDoeVeU5mgi.yml",
+      "duplicateOf": "gear\\general\\GEAR_fake-sin_d24pZv.yml"
+    },
+    {
+      "name": "Fake SIN",
+      "source": "gear_Fake_SIN_tGJVBAWdU2yo73qR.yml",
+      "duplicateOf": "gear\\general\\GEAR_fake-sin_d24pZv.yml"
+    },
+    {
+      "name": "Fake SIN",
+      "source": "gear_Fake_SIN_Vym9cnMAlvO667YX.yml",
+      "duplicateOf": "gear\\general\\GEAR_fake-sin_d24pZv.yml"
+    },
+    {
+      "name": "Fake SIN",
+      "source": "gear_Fake_SIN_zvJs2X9Igm64V53o.yml",
+      "duplicateOf": "gear\\general\\GEAR_fake-sin_d24pZv.yml"
+    },
+    {
+      "name": "Fifty drams of reagents",
+      "source": "gear_Fifty_drams_of_reagents_DM3jNgvnsAB2ozC1.yml",
+      "duplicateOf": "gear\\general\\GEAR_fifty-drams-of-rea_xHfAc9.yml"
+    },
+    {
+      "name": "Fifty drams of reagents",
+      "source": "gear_Fifty_drams_of_reagents_fq2wHsKGKncPp1Nm.yml",
+      "duplicateOf": "gear\\general\\GEAR_fifty-drams-of-rea_xHfAc9.yml"
+    },
+    {
+      "name": "Fifty drams of reagents",
+      "source": "gear_Fifty_drams_of_reagents_FWpLHkq1FJA9Oj24.yml",
+      "duplicateOf": "gear\\general\\GEAR_fifty-drams-of-rea_xHfAc9.yml"
+    },
+    {
+      "name": "Fifty drams of reagents",
+      "source": "gear_Fifty_drams_of_reagents_k3I6N0l59u5ja66D.yml",
+      "duplicateOf": "gear\\general\\GEAR_fifty-drams-of-rea_xHfAc9.yml"
+    },
+    {
+      "name": "Fifty drams of reagents",
+      "source": "gear_Fifty_drams_of_reagents_Kwsb9EB9Ole1doDd.yml",
+      "duplicateOf": "gear\\general\\GEAR_fifty-drams-of-rea_xHfAc9.yml"
+    },
+    {
+      "name": "Fifty drams of reagents",
+      "source": "gear_Fifty_drams_of_reagents_P63Szda4z2sKlwia.yml",
+      "duplicateOf": "gear\\general\\GEAR_fifty-drams-of-rea_xHfAc9.yml"
+    },
+    {
+      "name": "Fifty drams of reagents",
+      "source": "gear_Fifty_drams_of_reagents_QBi75m2fLbhAkTwd.yml",
+      "duplicateOf": "gear\\general\\GEAR_fifty-drams-of-rea_xHfAc9.yml"
+    },
+    {
+      "name": "Fifty drams of reagents",
+      "source": "gear_Fifty_drams_of_reagents_t8FQjlJ4CmWINQrV.yml",
+      "duplicateOf": "gear\\general\\GEAR_fifty-drams-of-rea_xHfAc9.yml"
+    },
+    {
+      "name": "Fifty drams of reagents",
+      "source": "gear_Fifty_drams_of_reagents_tBLmFKWJ93FfSvE0.yml",
+      "duplicateOf": "gear\\general\\GEAR_fifty-drams-of-rea_xHfAc9.yml"
+    },
+    {
+      "name": "Frag grenades",
+      "source": "gear_Frag_grenades_Aj2WBOOt1Oj4S083.yml",
+      "duplicateOf": "gear\\grenades\\GEAR_frag-grenades_uvRZ5j.yml"
+    },
+    {
+      "name": "Frag grenades",
+      "source": "gear_Frag_grenades_BwPv2fJY2CgsoagR.yml",
+      "duplicateOf": "gear\\grenades\\GEAR_frag-grenades_uvRZ5j.yml"
+    },
+    {
+      "name": "Frag grenades",
+      "source": "gear_Frag_grenades_funSJqVMENAbeUbr.yml",
+      "duplicateOf": "gear\\grenades\\GEAR_frag-grenades_uvRZ5j.yml"
+    },
+    {
+      "name": "Frag grenades",
+      "source": "gear_Frag_grenades_IGVnK4IKI0sSAoue.yml",
+      "duplicateOf": "gear\\grenades\\GEAR_frag-grenades_uvRZ5j.yml"
+    },
+    {
+      "name": "Frag grenades",
+      "source": "gear_Frag_grenades_myiz197rp8gRZaCn.yml",
+      "duplicateOf": "gear\\grenades\\GEAR_frag-grenades_uvRZ5j.yml"
+    },
+    {
+      "name": "Frag grenades",
+      "source": "gear_Frag_grenades_QebxRtxD7kkENFmC.yml",
+      "duplicateOf": "gear\\grenades\\GEAR_frag-grenades_uvRZ5j.yml"
+    },
+    {
+      "name": "Frag grenades",
+      "source": "gear_Frag_grenades_yfPPc1WJmQr7ZfDk.yml",
+      "duplicateOf": "gear\\grenades\\GEAR_frag-grenades_uvRZ5j.yml"
+    },
+    {
+      "name": "Frag grenades",
+      "source": "gear_Frag_grenades_yz3Z3Q54Zw8w1qPh.yml",
+      "duplicateOf": "gear\\grenades\\GEAR_frag-grenades_uvRZ5j.yml"
+    },
+    {
+      "name": "Frag grenades",
+      "source": "gear_Frag_grenades_zErjV8JlnmswjFpz.yml",
+      "duplicateOf": "gear\\grenades\\GEAR_frag-grenades_uvRZ5j.yml"
+    },
+    {
+      "name": "GEAR",
+      "source": "gear_GEAR_aFGDfdUL3D0krbUn.yml",
+      "duplicateOf": "gear\\general\\GEAR_gear_VoS0kb.yml"
+    },
+    {
+      "name": "GEAR",
+      "source": "gear_GEAR_BPDebZaAk0Jf9fE4.yml",
+      "duplicateOf": "gear\\general\\GEAR_gear_VoS0kb.yml"
+    },
+    {
+      "name": "GEAR",
+      "source": "gear_GEAR_DR945QdjTMGrIKgs.yml",
+      "duplicateOf": "gear\\general\\GEAR_gear_VoS0kb.yml"
+    },
+    {
+      "name": "GEAR",
+      "source": "gear_GEAR_gtvJJc7V8P25fS9M.yml",
+      "duplicateOf": "gear\\general\\GEAR_gear_VoS0kb.yml"
+    },
+    {
+      "name": "GEAR",
+      "source": "gear_GEAR_HwMDwBVEQ5CO1YC4.yml",
+      "duplicateOf": "gear\\general\\GEAR_gear_VoS0kb.yml"
+    },
+    {
+      "name": "GEAR",
+      "source": "gear_GEAR_keFsab8YOTr2egTj.yml",
+      "duplicateOf": "gear\\general\\GEAR_gear_VoS0kb.yml"
+    },
+    {
+      "name": "GEAR",
+      "source": "gear_GEAR_PqnQo4x8xQMmYu1q.yml",
+      "duplicateOf": "gear\\general\\GEAR_gear_VoS0kb.yml"
+    },
+    {
+      "name": "GEAR",
+      "source": "gear_GEAR_Xaj6jkCqXUN0NNxH.yml",
+      "duplicateOf": "gear\\general\\GEAR_gear_VoS0kb.yml"
+    },
+    {
+      "name": "GEAR",
+      "source": "gear_GEAR_zr3sS8MMbb6iJyrj.yml",
+      "duplicateOf": "gear\\general\\GEAR_gear_VoS0kb.yml"
+    },
+    {
+      "name": "Hard shell briefcase",
+      "source": "gear_Hard_shell_briefcase_4Er7ZokUJtUxVTBH.yml",
+      "duplicateOf": "gear\\general\\GEAR_hard-shell-briefca_UaBcoC.yml"
+    },
+    {
+      "name": "Hard shell briefcase",
+      "source": "gear_Hard_shell_briefcase_cN3k3ORUJgpm4uhx.yml",
+      "duplicateOf": "gear\\general\\GEAR_hard-shell-briefca_UaBcoC.yml"
+    },
+    {
+      "name": "Hard shell briefcase",
+      "source": "gear_Hard_shell_briefcase_FEkdDF4j8NAjOUaR.yml",
+      "duplicateOf": "gear\\general\\GEAR_hard-shell-briefca_UaBcoC.yml"
+    },
+    {
+      "name": "Hard shell briefcase",
+      "source": "gear_Hard_shell_briefcase_P9dcXZArjjlpKwvi.yml",
+      "duplicateOf": "gear\\general\\GEAR_hard-shell-briefca_UaBcoC.yml"
+    },
+    {
+      "name": "Hard shell briefcase",
+      "source": "gear_Hard_shell_briefcase_pJLYYj7u2MlRj2Vq.yml",
+      "duplicateOf": "gear\\general\\GEAR_hard-shell-briefca_UaBcoC.yml"
+    },
+    {
+      "name": "Hard shell briefcase",
+      "source": "gear_Hard_shell_briefcase_SAtPshaWPIM6k3Ky.yml",
+      "duplicateOf": "gear\\general\\GEAR_hard-shell-briefca_UaBcoC.yml"
+    },
+    {
+      "name": "Hard shell briefcase",
+      "source": "gear_Hard_shell_briefcase_vxClL6FIE0mTfQzU.yml",
+      "duplicateOf": "gear\\general\\GEAR_hard-shell-briefca_UaBcoC.yml"
+    },
+    {
+      "name": "Hard shell briefcase",
+      "source": "gear_Hard_shell_briefcase_z42PVXXVZaBoyLpE.yml",
+      "duplicateOf": "gear\\general\\GEAR_hard-shell-briefca_UaBcoC.yml"
+    },
+    {
+      "name": "Hard shell briefcase",
+      "source": "gear_Hard_shell_briefcase_zvMsXHZZ4fugirvH.yml",
+      "duplicateOf": "gear\\general\\GEAR_hard-shell-briefca_UaBcoC.yml"
+    },
+    {
+      "name": "Keepsake, memento, heirloom, an- tique",
+      "source": "gear_Keepsake__memento__heirloom__an__tique_dhqndVmi7y9bsi4d.yml",
+      "duplicateOf": "gear\\general\\GEAR_keepsake-memento-h_VtXyZM.yml"
+    },
+    {
+      "name": "Keepsake, memento, heirloom, an- tique",
+      "source": "gear_Keepsake__memento__heirloom__an__tique_DntYeTvBNzFXWu8j.yml",
+      "duplicateOf": "gear\\general\\GEAR_keepsake-memento-h_VtXyZM.yml"
+    },
+    {
+      "name": "Keepsake, memento, heirloom, an- tique",
+      "source": "gear_Keepsake__memento__heirloom__an__tique_jQlog5U6mzCygTIP.yml",
+      "duplicateOf": "gear\\general\\GEAR_keepsake-memento-h_VtXyZM.yml"
+    },
+    {
+      "name": "Keepsake, memento, heirloom, an- tique",
+      "source": "gear_Keepsake__memento__heirloom__an__tique_M5FQjzbjTe6r5Z1P.yml",
+      "duplicateOf": "gear\\general\\GEAR_keepsake-memento-h_VtXyZM.yml"
+    },
+    {
+      "name": "Keepsake, memento, heirloom, an- tique",
+      "source": "gear_Keepsake__memento__heirloom__an__tique_oLRxISsBIaN4eO5y.yml",
+      "duplicateOf": "gear\\general\\GEAR_keepsake-memento-h_VtXyZM.yml"
+    },
+    {
+      "name": "Keepsake, memento, heirloom, an- tique",
+      "source": "gear_Keepsake__memento__heirloom__an__tique_OmRwG9UN3yU69YUd.yml",
+      "duplicateOf": "gear\\general\\GEAR_keepsake-memento-h_VtXyZM.yml"
+    },
+    {
+      "name": "Keepsake, memento, heirloom, an- tique",
+      "source": "gear_Keepsake__memento__heirloom__an__tique_RswJzxIdw5XzB2BH.yml",
+      "duplicateOf": "gear\\general\\GEAR_keepsake-memento-h_VtXyZM.yml"
+    },
+    {
+      "name": "Keepsake, memento, heirloom, an- tique",
+      "source": "gear_Keepsake__memento__heirloom__an__tique_xkThVZjNSdGPU8Sw.yml",
+      "duplicateOf": "gear\\general\\GEAR_keepsake-memento-h_VtXyZM.yml"
+    },
+    {
+      "name": "Keepsake, memento, heirloom, an- tique",
+      "source": "gear_Keepsake__memento__heirloom__an__tique_YYEwuGI8gNwL0PtN.yml",
+      "duplicateOf": "gear\\general\\GEAR_keepsake-memento-h_VtXyZM.yml"
+    },
+    {
+      "name": "Magical lodge materials",
+      "source": "gear_Magical_lodge_materials_4fnSwUeBRKdgowdi.yml",
+      "duplicateOf": "gear\\general\\GEAR_magical-lodge-mate_suNUoB.yml"
+    },
+    {
+      "name": "Magical lodge materials",
+      "source": "gear_Magical_lodge_materials_AaoDaUgFqsHnL1sy.yml",
+      "duplicateOf": "gear\\general\\GEAR_magical-lodge-mate_suNUoB.yml"
+    },
+    {
+      "name": "Magical lodge materials",
+      "source": "gear_Magical_lodge_materials_eaOJS7FX73XJunyY.yml",
+      "duplicateOf": "gear\\general\\GEAR_magical-lodge-mate_suNUoB.yml"
+    },
+    {
+      "name": "Magical lodge materials",
+      "source": "gear_Magical_lodge_materials_ko2eEoHu7EoztVDr.yml",
+      "duplicateOf": "gear\\general\\GEAR_magical-lodge-mate_suNUoB.yml"
+    },
+    {
+      "name": "Magical lodge materials",
+      "source": "gear_Magical_lodge_materials_MJCi81oPUprkEe5w.yml",
+      "duplicateOf": "gear\\general\\GEAR_magical-lodge-mate_suNUoB.yml"
+    },
+    {
+      "name": "Magical lodge materials",
+      "source": "gear_Magical_lodge_materials_sLVtSYW2nOsg2S1Y.yml",
+      "duplicateOf": "gear\\general\\GEAR_magical-lodge-mate_suNUoB.yml"
+    },
+    {
+      "name": "Magical lodge materials",
+      "source": "gear_Magical_lodge_materials_vEUrKtmeSnwEG2Xs.yml",
+      "duplicateOf": "gear\\general\\GEAR_magical-lodge-mate_suNUoB.yml"
+    },
+    {
+      "name": "Magical lodge materials",
+      "source": "gear_Magical_lodge_materials_WaoOXEVmgTM8Ulj6.yml",
+      "duplicateOf": "gear\\general\\GEAR_magical-lodge-mate_suNUoB.yml"
+    },
+    {
+      "name": "Magical lodge materials",
+      "source": "gear_Magical_lodge_materials_zRXFrKx2UAs7HZI2.yml",
+      "duplicateOf": "gear\\general\\GEAR_magical-lodge-mate_suNUoB.yml"
+    },
+    {
+      "name": "Mechanic toolkit",
+      "source": "gear_Mechanic_toolkit_9xme1ejtudf4Wfmh.yml",
+      "duplicateOf": "gear\\kits\\GEAR_mechanic-toolkit_Q3As2m.yml"
+    },
+    {
+      "name": "Mechanic toolkit",
+      "source": "gear_Mechanic_toolkit_FnLAqWS9v8lJNKsc.yml",
+      "duplicateOf": "gear\\kits\\GEAR_mechanic-toolkit_Q3As2m.yml"
+    },
+    {
+      "name": "Mechanic toolkit",
+      "source": "gear_Mechanic_toolkit_JTC23R7pIUtoaHO1.yml",
+      "duplicateOf": "gear\\kits\\GEAR_mechanic-toolkit_Q3As2m.yml"
+    },
+    {
+      "name": "Mechanic toolkit",
+      "source": "gear_Mechanic_toolkit_k3AtAj0lgcqwsIsc.yml",
+      "duplicateOf": "gear\\kits\\GEAR_mechanic-toolkit_Q3As2m.yml"
+    },
+    {
+      "name": "Mechanic toolkit",
+      "source": "gear_Mechanic_toolkit_KQmXGl6eWdDzvNA2.yml",
+      "duplicateOf": "gear\\kits\\GEAR_mechanic-toolkit_Q3As2m.yml"
+    },
+    {
+      "name": "Mechanic toolkit",
+      "source": "gear_Mechanic_toolkit_nRfRA1Qmk4QGNau5.yml",
+      "duplicateOf": "gear\\kits\\GEAR_mechanic-toolkit_Q3As2m.yml"
+    },
+    {
+      "name": "Mechanic toolkit",
+      "source": "gear_Mechanic_toolkit_PwOMHQleFCquuXMF.yml",
+      "duplicateOf": "gear\\kits\\GEAR_mechanic-toolkit_Q3As2m.yml"
+    },
+    {
+      "name": "Mechanic toolkit",
+      "source": "gear_Mechanic_toolkit_wrIqiqCGcfBdm0ha.yml",
+      "duplicateOf": "gear\\kits\\GEAR_mechanic-toolkit_Q3As2m.yml"
+    },
+    {
+      "name": "Mechanic toolkit",
+      "source": "gear_Mechanic_toolkit_X5hgFfudarQeMPFz.yml",
+      "duplicateOf": "gear\\kits\\GEAR_mechanic-toolkit_Q3As2m.yml"
+    },
+    {
+      "name": "Medkit",
+      "source": "gear_Medkit_LMo01Z0bgDXgLLxV.yml",
+      "duplicateOf": "gear\\medical\\GEAR_medkit_TC4CKt.yml"
+    },
+    {
+      "name": "Medkit",
+      "source": "gear_Medkit_MXyExNXJUWWn1G0X.yml",
+      "duplicateOf": "gear\\medical\\GEAR_medkit_TC4CKt.yml"
+    },
+    {
+      "name": "Medkit",
+      "source": "gear_Medkit_PiLGENHfO1cvFIjp.yml",
+      "duplicateOf": "gear\\medical\\GEAR_medkit_TC4CKt.yml"
+    },
+    {
+      "name": "Medkit",
+      "source": "gear_Medkit_rb1TbUJw8XLmbXOk.yml",
+      "duplicateOf": "gear\\medical\\GEAR_medkit_TC4CKt.yml"
+    },
+    {
+      "name": "Medkit",
+      "source": "gear_Medkit_RVnPNZrlgpeoCZxs.yml",
+      "duplicateOf": "gear\\medical\\GEAR_medkit_TC4CKt.yml"
+    },
+    {
+      "name": "Medkit",
+      "source": "gear_Medkit_U0Dc9VDTGiVE2kzN.yml",
+      "duplicateOf": "gear\\medical\\GEAR_medkit_TC4CKt.yml"
+    },
+    {
+      "name": "Medkit",
+      "source": "gear_Medkit_v8hltbftv6hL3e4j.yml",
+      "duplicateOf": "gear\\medical\\GEAR_medkit_TC4CKt.yml"
+    },
+    {
+      "name": "Medkit",
+      "source": "gear_Medkit_Wq09hyMe9GHeBm1w.yml",
+      "duplicateOf": "gear\\medical\\GEAR_medkit_TC4CKt.yml"
+    },
+    {
+      "name": "Medkit",
+      "source": "gear_Medkit_wsZclA4PDJhfsfzJ.yml",
+      "duplicateOf": "gear\\medical\\GEAR_medkit_TC4CKt.yml"
+    },
+    {
+      "name": "Metal restraints",
+      "source": "gear_Metal_restraints_6dF3NzpeNHzNJLo8.yml",
+      "duplicateOf": "gear\\restraints\\GEAR_metal-restraints_DoxvfC.yml"
+    },
+    {
+      "name": "Metal restraints",
+      "source": "gear_Metal_restraints_AkP4mcg9HlLppVeW.yml",
+      "duplicateOf": "gear\\restraints\\GEAR_metal-restraints_DoxvfC.yml"
+    },
+    {
+      "name": "Metal restraints",
+      "source": "gear_Metal_restraints_f2adSj9KGkPbwKS0.yml",
+      "duplicateOf": "gear\\restraints\\GEAR_metal-restraints_DoxvfC.yml"
+    },
+    {
+      "name": "Metal restraints",
+      "source": "gear_Metal_restraints_JUrjqkNtCCwT6u7x.yml",
+      "duplicateOf": "gear\\restraints\\GEAR_metal-restraints_DoxvfC.yml"
+    },
+    {
+      "name": "Metal restraints",
+      "source": "gear_Metal_restraints_pwG8zLw6UBofJGRV.yml",
+      "duplicateOf": "gear\\restraints\\GEAR_metal-restraints_DoxvfC.yml"
+    },
+    {
+      "name": "Metal restraints",
+      "source": "gear_Metal_restraints_Qbgetvz4fK26Zdjv.yml",
+      "duplicateOf": "gear\\restraints\\GEAR_metal-restraints_DoxvfC.yml"
+    },
+    {
+      "name": "Metal restraints",
+      "source": "gear_Metal_restraints_qj5Wh2dZumUZ68Ez.yml",
+      "duplicateOf": "gear\\restraints\\GEAR_metal-restraints_DoxvfC.yml"
+    },
+    {
+      "name": "Metal restraints",
+      "source": "gear_Metal_restraints_sAXJijV2IfnZL4fN.yml",
+      "duplicateOf": "gear\\restraints\\GEAR_metal-restraints_DoxvfC.yml"
+    },
+    {
+      "name": "Metal restraints",
+      "source": "gear_Metal_restraints_tx8ovYp8mSfFR6HL.yml",
+      "duplicateOf": "gear\\restraints\\GEAR_metal-restraints_DoxvfC.yml"
+    },
+    {
+      "name": "NERPS",
+      "source": "gear_NERPS_axDeAkWlHkfhxpEv.yml",
+      "duplicateOf": "gear\\general\\GEAR_nerps_v092OY.yml"
+    },
+    {
+      "name": "NERPS",
+      "source": "gear_NERPS_BJ2yyd1RWZvAyFbT.yml",
+      "duplicateOf": "gear\\general\\GEAR_nerps_v092OY.yml"
+    },
+    {
+      "name": "NERPS",
+      "source": "gear_NERPS_ECJaI04pRqWGlbNJ.yml",
+      "duplicateOf": "gear\\general\\GEAR_nerps_v092OY.yml"
+    },
+    {
+      "name": "NERPS",
+      "source": "gear_NERPS_kFNC7c1uCSD9aobS.yml",
+      "duplicateOf": "gear\\general\\GEAR_nerps_v092OY.yml"
+    },
+    {
+      "name": "NERPS",
+      "source": "gear_NERPS_kJuIsPjPHvcEINfL.yml",
+      "duplicateOf": "gear\\general\\GEAR_nerps_v092OY.yml"
+    },
+    {
+      "name": "NERPS",
+      "source": "gear_NERPS_L9HRaxm4VlfL9S6u.yml",
+      "duplicateOf": "gear\\general\\GEAR_nerps_v092OY.yml"
+    },
+    {
+      "name": "NERPS",
+      "source": "gear_NERPS_pLP1bitATYze0gAC.yml",
+      "duplicateOf": "gear\\general\\GEAR_nerps_v092OY.yml"
+    },
+    {
+      "name": "NERPS",
+      "source": "gear_NERPS_unncwL4oNf2fgo53.yml",
+      "duplicateOf": "gear\\general\\GEAR_nerps_v092OY.yml"
+    },
+    {
+      "name": "NERPS",
+      "source": "gear_NERPS_VGcsBnsSZhMs6Vqp.yml",
+      "duplicateOf": "gear\\general\\GEAR_nerps_v092OY.yml"
+    },
+    {
+      "name": "Plastic restraints",
+      "source": "gear_Plastic_restraints_DZoCQXDunCD91wF9.yml",
+      "duplicateOf": "gear\\restraints\\GEAR_plastic-restraints_94dxv9.yml"
+    },
+    {
+      "name": "Plastic restraints",
+      "source": "gear_Plastic_restraints_POWeW3BBDVDBKVmK.yml",
+      "duplicateOf": "gear\\restraints\\GEAR_plastic-restraints_94dxv9.yml"
+    },
+    {
+      "name": "Plastic restraints",
+      "source": "gear_Plastic_restraints_s7w3psiMiKlWHZmJ.yml",
+      "duplicateOf": "gear\\restraints\\GEAR_plastic-restraints_94dxv9.yml"
+    },
+    {
+      "name": "Plastic restraints",
+      "source": "gear_Plastic_restraints_tKGZLFgpMxpgH8WZ.yml",
+      "duplicateOf": "gear\\restraints\\GEAR_plastic-restraints_94dxv9.yml"
+    },
+    {
+      "name": "Plastic restraints",
+      "source": "gear_Plastic_restraints_UfVBg15A342P2w8g.yml",
+      "duplicateOf": "gear\\restraints\\GEAR_plastic-restraints_94dxv9.yml"
+    },
+    {
+      "name": "Plastic restraints",
+      "source": "gear_Plastic_restraints_vqhUwzQL6gOiEuUc.yml",
+      "duplicateOf": "gear\\restraints\\GEAR_plastic-restraints_94dxv9.yml"
+    },
+    {
+      "name": "Plastic restraints",
+      "source": "gear_Plastic_restraints_wxEUD9QWDQjBJ8oV.yml",
+      "duplicateOf": "gear\\restraints\\GEAR_plastic-restraints_94dxv9.yml"
+    },
+    {
+      "name": "Plastic restraints",
+      "source": "gear_Plastic_restraints_xpqlHRwjD8q5wLj5.yml",
+      "duplicateOf": "gear\\restraints\\GEAR_plastic-restraints_94dxv9.yml"
+    },
+    {
+      "name": "Plastic restraints",
+      "source": "gear_Plastic_restraints_xUL7jQaHbsnwnGJg.yml",
+      "duplicateOf": "gear\\restraints\\GEAR_plastic-restraints_94dxv9.yml"
+    },
+    {
+      "name": "Smoke grenades",
+      "source": "gear_Smoke_grenades_fHsmQTCthSwVvPS5.yml",
+      "duplicateOf": "gear\\grenades\\GEAR_smoke-grenades_aV17dR.yml"
+    },
+    {
+      "name": "Smoke grenades",
+      "source": "gear_Smoke_grenades_fVy8jRrji3nBlkYK.yml",
+      "duplicateOf": "gear\\grenades\\GEAR_smoke-grenades_aV17dR.yml"
+    },
+    {
+      "name": "Smoke grenades",
+      "source": "gear_Smoke_grenades_mfP72q4EjNtlvCKl.yml",
+      "duplicateOf": "gear\\grenades\\GEAR_smoke-grenades_aV17dR.yml"
+    },
+    {
+      "name": "Smoke grenades",
+      "source": "gear_Smoke_grenades_qQbQ97dGBbk0wWfS.yml",
+      "duplicateOf": "gear\\grenades\\GEAR_smoke-grenades_aV17dR.yml"
+    },
+    {
+      "name": "Smoke grenades",
+      "source": "gear_Smoke_grenades_SIbTP3IG57svW50l.yml",
+      "duplicateOf": "gear\\grenades\\GEAR_smoke-grenades_aV17dR.yml"
+    },
+    {
+      "name": "Smoke grenades",
+      "source": "gear_Smoke_grenades_VaeRO26RjVXP1yhm.yml",
+      "duplicateOf": "gear\\grenades\\GEAR_smoke-grenades_aV17dR.yml"
+    },
+    {
+      "name": "Smoke grenades",
+      "source": "gear_Smoke_grenades_WDPcz8CIyUO4vpih.yml",
+      "duplicateOf": "gear\\grenades\\GEAR_smoke-grenades_aV17dR.yml"
+    },
+    {
+      "name": "Smoke grenades",
+      "source": "gear_Smoke_grenades_YEHzDSKGEGinH1TM.yml",
+      "duplicateOf": "gear\\grenades\\GEAR_smoke-grenades_aV17dR.yml"
+    },
+    {
+      "name": "Smoke grenades",
+      "source": "gear_Smoke_grenades_zEcGzK3unHqeH68o.yml",
+      "duplicateOf": "gear\\grenades\\GEAR_smoke-grenades_aV17dR.yml"
+    },
+    {
+      "name": "Stim patches",
+      "source": "gear_Stim_patches_Btw3D5cqAKE2ftYs.yml",
+      "duplicateOf": "gear\\medical\\GEAR_stim-patches_YRcN4A.yml"
+    },
+    {
+      "name": "Stim patches",
+      "source": "gear_Stim_patches_Db1VmROxkpdJncb0.yml",
+      "duplicateOf": "gear\\medical\\GEAR_stim-patches_YRcN4A.yml"
+    },
+    {
+      "name": "Stim patches",
+      "source": "gear_Stim_patches_DDMF6nAL0Kf3Lo5U.yml",
+      "duplicateOf": "gear\\medical\\GEAR_stim-patches_YRcN4A.yml"
+    },
+    {
+      "name": "Stim patches",
+      "source": "gear_Stim_patches_E2YsHb0oW4vAMf8S.yml",
+      "duplicateOf": "gear\\medical\\GEAR_stim-patches_YRcN4A.yml"
+    },
+    {
+      "name": "Stim patches",
+      "source": "gear_Stim_patches_PiGQb7B3jnOosAtn.yml",
+      "duplicateOf": "gear\\medical\\GEAR_stim-patches_YRcN4A.yml"
+    },
+    {
+      "name": "Stim patches",
+      "source": "gear_Stim_patches_QZW30EUIpOgTiOMK.yml",
+      "duplicateOf": "gear\\medical\\GEAR_stim-patches_YRcN4A.yml"
+    },
+    {
+      "name": "Stim patches",
+      "source": "gear_Stim_patches_uhyiofvFe10dRxxh.yml",
+      "duplicateOf": "gear\\medical\\GEAR_stim-patches_YRcN4A.yml"
+    },
+    {
+      "name": "Stim patches",
+      "source": "gear_Stim_patches_xfnk9z1yXTdma20f.yml",
+      "duplicateOf": "gear\\medical\\GEAR_stim-patches_YRcN4A.yml"
+    },
+    {
+      "name": "Stim patches",
+      "source": "gear_Stim_patches_YhZUv5qYblFGgd4b.yml",
+      "duplicateOf": "gear\\medical\\GEAR_stim-patches_YRcN4A.yml"
+    },
+    {
+      "name": "Survival kit",
+      "source": "gear_Survival_kit_8Qzi62Lz0scnN1u9.yml",
+      "duplicateOf": "gear\\kits\\GEAR_survival-kit_Akqn25.yml"
+    },
+    {
+      "name": "Survival kit",
+      "source": "gear_Survival_kit_DgwWDy37thrOiGTw.yml",
+      "duplicateOf": "gear\\kits\\GEAR_survival-kit_Akqn25.yml"
+    },
+    {
+      "name": "Survival kit",
+      "source": "gear_Survival_kit_HdgcYAgNX0Ln4LNQ.yml",
+      "duplicateOf": "gear\\kits\\GEAR_survival-kit_Akqn25.yml"
+    },
+    {
+      "name": "Survival kit",
+      "source": "gear_Survival_kit_jlvmcBzIKkQiD3HJ.yml",
+      "duplicateOf": "gear\\kits\\GEAR_survival-kit_Akqn25.yml"
+    },
+    {
+      "name": "Survival kit",
+      "source": "gear_Survival_kit_NObNnMxKvbJmuj5O.yml",
+      "duplicateOf": "gear\\kits\\GEAR_survival-kit_Akqn25.yml"
+    },
+    {
+      "name": "Survival kit",
+      "source": "gear_Survival_kit_O1JhvUVf3eWKKpI8.yml",
+      "duplicateOf": "gear\\kits\\GEAR_survival-kit_Akqn25.yml"
+    },
+    {
+      "name": "Survival kit",
+      "source": "gear_Survival_kit_TZXA2DHRdBZpn2I7.yml",
+      "duplicateOf": "gear\\kits\\GEAR_survival-kit_Akqn25.yml"
+    },
+    {
+      "name": "Survival kit",
+      "source": "gear_Survival_kit_xRRPt2tc0RaFdHVq.yml",
+      "duplicateOf": "gear\\kits\\GEAR_survival-kit_Akqn25.yml"
+    },
+    {
+      "name": "Survival kit",
+      "source": "gear_Survival_kit_y20zsz8ChUgqqB46.yml",
+      "duplicateOf": "gear\\kits\\GEAR_survival-kit_Akqn25.yml"
+    },
+    {
+      "name": "The gear below represents just a sample of what the Sixth World has to offer. Players are encouraged to cre- ate their own unique gear or recreate a piece of gear they have found in previous Shadowrun products.",
+      "source": "gear_The_gear_below_represents_just_a_sample_of_what_the_Sixth_World_has_to_offer__Players_are_encouraged_to_cre__ate_their_own_unique_gear_or_recreate_a_piece_of_gear_they_have_found_in_previous_Shadowrun_products__Au2LvBSPQgAVHg7I.yml",
+      "duplicateOf": "gear\\general\\GEAR_the-gear-below-rep_txilpP.yml"
+    },
+    {
+      "name": "The gear below represents just a sample of what the Sixth World has to offer. Players are encouraged to cre- ate their own unique gear or recreate a piece of gear they have found in previous Shadowrun products.",
+      "source": "gear_The_gear_below_represents_just_a_sample_of_what_the_Sixth_World_has_to_offer__Players_are_encouraged_to_cre__ate_their_own_unique_gear_or_recreate_a_piece_of_gear_they_have_found_in_previous_Shadowrun_products__cXCMVUgjhTvVS4Yn.yml",
+      "duplicateOf": "gear\\general\\GEAR_the-gear-below-rep_txilpP.yml"
+    },
+    {
+      "name": "The gear below represents just a sample of what the Sixth World has to offer. Players are encouraged to cre- ate their own unique gear or recreate a piece of gear they have found in previous Shadowrun products.",
+      "source": "gear_The_gear_below_represents_just_a_sample_of_what_the_Sixth_World_has_to_offer__Players_are_encouraged_to_cre__ate_their_own_unique_gear_or_recreate_a_piece_of_gear_they_have_found_in_previous_Shadowrun_products__DY2Eaf2PUfGKV8d1.yml",
+      "duplicateOf": "gear\\general\\GEAR_the-gear-below-rep_txilpP.yml"
+    },
+    {
+      "name": "The gear below represents just a sample of what the Sixth World has to offer. Players are encouraged to cre- ate their own unique gear or recreate a piece of gear they have found in previous Shadowrun products.",
+      "source": "gear_The_gear_below_represents_just_a_sample_of_what_the_Sixth_World_has_to_offer__Players_are_encouraged_to_cre__ate_their_own_unique_gear_or_recreate_a_piece_of_gear_they_have_found_in_previous_Shadowrun_products__fu6XvZSQk3ZRhgyu.yml",
+      "duplicateOf": "gear\\general\\GEAR_the-gear-below-rep_txilpP.yml"
+    },
+    {
+      "name": "The gear below represents just a sample of what the Sixth World has to offer. Players are encouraged to cre- ate their own unique gear or recreate a piece of gear they have found in previous Shadowrun products.",
+      "source": "gear_The_gear_below_represents_just_a_sample_of_what_the_Sixth_World_has_to_offer__Players_are_encouraged_to_cre__ate_their_own_unique_gear_or_recreate_a_piece_of_gear_they_have_found_in_previous_Shadowrun_products__J0PNNhXYKtQ6gE5X.yml",
+      "duplicateOf": "gear\\general\\GEAR_the-gear-below-rep_txilpP.yml"
+    },
+    {
+      "name": "The gear below represents just a sample of what the Sixth World has to offer. Players are encouraged to cre- ate their own unique gear or recreate a piece of gear they have found in previous Shadowrun products.",
+      "source": "gear_The_gear_below_represents_just_a_sample_of_what_the_Sixth_World_has_to_offer__Players_are_encouraged_to_cre__ate_their_own_unique_gear_or_recreate_a_piece_of_gear_they_have_found_in_previous_Shadowrun_products__LolTjWUr3akdVtRq.yml",
+      "duplicateOf": "gear\\general\\GEAR_the-gear-below-rep_txilpP.yml"
+    },
+    {
+      "name": "The gear below represents just a sample of what the Sixth World has to offer. Players are encouraged to cre- ate their own unique gear or recreate a piece of gear they have found in previous Shadowrun products.",
+      "source": "gear_The_gear_below_represents_just_a_sample_of_what_the_Sixth_World_has_to_offer__Players_are_encouraged_to_cre__ate_their_own_unique_gear_or_recreate_a_piece_of_gear_they_have_found_in_previous_Shadowrun_products__PSnCadhioJ2qoL16.yml",
+      "duplicateOf": "gear\\general\\GEAR_the-gear-below-rep_txilpP.yml"
+    },
+    {
+      "name": "The gear below represents just a sample of what the Sixth World has to offer. Players are encouraged to cre- ate their own unique gear or recreate a piece of gear they have found in previous Shadowrun products.",
+      "source": "gear_The_gear_below_represents_just_a_sample_of_what_the_Sixth_World_has_to_offer__Players_are_encouraged_to_cre__ate_their_own_unique_gear_or_recreate_a_piece_of_gear_they_have_found_in_previous_Shadowrun_products__Q91nT4Ar6hzAZHkj.yml",
+      "duplicateOf": "gear\\general\\GEAR_the-gear-below-rep_txilpP.yml"
+    },
+    {
+      "name": "The gear below represents just a sample of what the Sixth World has to offer. Players are encouraged to cre- ate their own unique gear or recreate a piece of gear they have found in previous Shadowrun products.",
+      "source": "gear_The_gear_below_represents_just_a_sample_of_what_the_Sixth_World_has_to_offer__Players_are_encouraged_to_cre__ate_their_own_unique_gear_or_recreate_a_piece_of_gear_they_have_found_in_previous_Shadowrun_products__txvZFJpvQv1CtWvI.yml",
+      "duplicateOf": "gear\\general\\GEAR_the-gear-below-rep_txilpP.yml"
+    },
+    {
+      "name": "Trauma patches",
+      "source": "gear_Trauma_patches_1GiZ8vQr27tXeJjv.yml",
+      "duplicateOf": "gear\\medical\\GEAR_trauma-patches_bruOMB.yml"
+    },
+    {
+      "name": "Trauma patches",
+      "source": "gear_Trauma_patches_44keju9Oo6BsLjZQ.yml",
+      "duplicateOf": "gear\\medical\\GEAR_trauma-patches_bruOMB.yml"
+    },
+    {
+      "name": "Trauma patches",
+      "source": "gear_Trauma_patches_5QeIvAeLnLOz6pao.yml",
+      "duplicateOf": "gear\\medical\\GEAR_trauma-patches_bruOMB.yml"
+    },
+    {
+      "name": "Trauma patches",
+      "source": "gear_Trauma_patches_BTMOqmJgaW1sk7ks.yml",
+      "duplicateOf": "gear\\medical\\GEAR_trauma-patches_bruOMB.yml"
+    },
+    {
+      "name": "Trauma patches",
+      "source": "gear_Trauma_patches_dE0oysmUBsdH2uBP.yml",
+      "duplicateOf": "gear\\medical\\GEAR_trauma-patches_bruOMB.yml"
+    },
+    {
+      "name": "Trauma patches",
+      "source": "gear_Trauma_patches_HjcYYybQnA4kyBfb.yml",
+      "duplicateOf": "gear\\medical\\GEAR_trauma-patches_bruOMB.yml"
+    },
+    {
+      "name": "Trauma patches",
+      "source": "gear_Trauma_patches_i0fSazJiN3t52Fe6.yml",
+      "duplicateOf": "gear\\medical\\GEAR_trauma-patches_bruOMB.yml"
+    },
+    {
+      "name": "Trauma patches",
+      "source": "gear_Trauma_patches_Ocv1bq34oiN9xOI0.yml",
+      "duplicateOf": "gear\\medical\\GEAR_trauma-patches_bruOMB.yml"
+    },
+    {
+      "name": "Trauma patches",
+      "source": "gear_Trauma_patches_UH3AJ1z07NdRWo2J.yml",
+      "duplicateOf": "gear\\medical\\GEAR_trauma-patches_bruOMB.yml"
+    },
+    {
+      "name": "White noise generator",
+      "source": "gear_White_noise_generator_eZxfZvt9rm1xrXFj.yml",
+      "duplicateOf": "gear\\general\\GEAR_white-noise-genera_C3rR43.yml"
+    },
+    {
+      "name": "White noise generator",
+      "source": "gear_White_noise_generator_FjA8V7LzDNPL7Y1r.yml",
+      "duplicateOf": "gear\\general\\GEAR_white-noise-genera_C3rR43.yml"
+    },
+    {
+      "name": "White noise generator",
+      "source": "gear_White_noise_generator_gtbESKTsWzKKpOf1.yml",
+      "duplicateOf": "gear\\general\\GEAR_white-noise-genera_C3rR43.yml"
+    },
+    {
+      "name": "White noise generator",
+      "source": "gear_White_noise_generator_IVrTwiSdHGqYev3r.yml",
+      "duplicateOf": "gear\\general\\GEAR_white-noise-genera_C3rR43.yml"
+    },
+    {
+      "name": "White noise generator",
+      "source": "gear_White_noise_generator_KBcFLvbpMWMsSmOQ.yml",
+      "duplicateOf": "gear\\general\\GEAR_white-noise-genera_C3rR43.yml"
+    },
+    {
+      "name": "White noise generator",
+      "source": "gear_White_noise_generator_n17GZm4Wb7UNWQlL.yml",
+      "duplicateOf": "gear\\general\\GEAR_white-noise-genera_C3rR43.yml"
+    },
+    {
+      "name": "White noise generator",
+      "source": "gear_White_noise_generator_QxMCZKjW8tnF9mP9.yml",
+      "duplicateOf": "gear\\general\\GEAR_white-noise-genera_C3rR43.yml"
+    },
+    {
+      "name": "White noise generator",
+      "source": "gear_White_noise_generator_SK5KctYX2KSX75hs.yml",
+      "duplicateOf": "gear\\general\\GEAR_white-noise-genera_C3rR43.yml"
+    },
+    {
+      "name": "White noise generator",
+      "source": "gear_White_noise_generator_t9ONhdJ7fw6t7lCX.yml",
+      "duplicateOf": "gear\\general\\GEAR_white-noise-genera_C3rR43.yml"
+    }
+  ]
+}

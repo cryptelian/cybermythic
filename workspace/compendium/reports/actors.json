@@ -1,0 +1,1461 @@
+{
+  "pack": "actors",
+  "stats": {
+    "processed": 320,
+    "written": 30,
+    "duplicates": 290,
+    "durationSeconds": 0.7
+  },
+  "duplicates": [
+    {
+      "name": "DWARF PARKOUR ADEPT",
+      "source": "character_DWARF_PARKOUR_ADEPT_8ZFuW3TWDGtoLpOz.yml",
+      "duplicateOf": "pc\\general\\PC_dwarf-parkour-adep_dVYXJw.yml"
+    },
+    {
+      "name": "DWARF PARKOUR ADEPT",
+      "source": "character_DWARF_PARKOUR_ADEPT_A6SejK7q7MYwjP8P.yml",
+      "duplicateOf": "pc\\general\\PC_dwarf-parkour-adep_dVYXJw.yml"
+    },
+    {
+      "name": "DWARF PARKOUR ADEPT",
+      "source": "character_DWARF_PARKOUR_ADEPT_aRvCxBs3McTfsNmC.yml",
+      "duplicateOf": "pc\\general\\PC_dwarf-parkour-adep_dVYXJw.yml"
+    },
+    {
+      "name": "DWARF PARKOUR ADEPT",
+      "source": "character_DWARF_PARKOUR_ADEPT_B1YXDUGc6CIrA8Xy.yml",
+      "duplicateOf": "pc\\general\\PC_dwarf-parkour-adep_dVYXJw.yml"
+    },
+    {
+      "name": "DWARF PARKOUR ADEPT",
+      "source": "character_DWARF_PARKOUR_ADEPT_GXBP1orUo0NudLFA.yml",
+      "duplicateOf": "pc\\general\\PC_dwarf-parkour-adep_dVYXJw.yml"
+    },
+    {
+      "name": "DWARF PARKOUR ADEPT",
+      "source": "character_DWARF_PARKOUR_ADEPT_tD0iDoH05AOesXyS.yml",
+      "duplicateOf": "pc\\general\\PC_dwarf-parkour-adep_dVYXJw.yml"
+    },
+    {
+      "name": "DWARF PARKOUR ADEPT",
+      "source": "character_DWARF_PARKOUR_ADEPT_tfSm6jMG99P5l0U1.yml",
+      "duplicateOf": "pc\\general\\PC_dwarf-parkour-adep_dVYXJw.yml"
+    },
+    {
+      "name": "DWARF PARKOUR ADEPT",
+      "source": "character_DWARF_PARKOUR_ADEPT_xGf1A2QHZ1pmXa5U.yml",
+      "duplicateOf": "pc\\general\\PC_dwarf-parkour-adep_dVYXJw.yml"
+    },
+    {
+      "name": "DWARF PARKOUR ADEPT",
+      "source": "character_DWARF_PARKOUR_ADEPT_YE8QO62cxBm6WL8D.yml",
+      "duplicateOf": "pc\\general\\PC_dwarf-parkour-adep_dVYXJw.yml"
+    },
+    {
+      "name": "DWARF PARKOUR ADEPT",
+      "source": "character_DWARF_PARKOUR_ADEPT_ZPe1ePMNQ7plVP1L.yml",
+      "duplicateOf": "pc\\general\\PC_dwarf-parkour-adep_dVYXJw.yml"
+    },
+    {
+      "name": "DWARF SECURITY RIGGER",
+      "source": "character_DWARF_SECURITY_RIGGER_5wXvEe5bN466EgBH.yml",
+      "duplicateOf": "npc\\enemy\\NPC_dwarf-security-rig_KSjGKW.yml"
+    },
+    {
+      "name": "DWARF SECURITY RIGGER",
+      "source": "character_DWARF_SECURITY_RIGGER_75bMRta1zT3Q1vMH.yml",
+      "duplicateOf": "npc\\enemy\\NPC_dwarf-security-rig_KSjGKW.yml"
+    },
+    {
+      "name": "DWARF SECURITY RIGGER",
+      "source": "character_DWARF_SECURITY_RIGGER_Jnqk0lF3mx9wCA45.yml",
+      "duplicateOf": "npc\\enemy\\NPC_dwarf-security-rig_KSjGKW.yml"
+    },
+    {
+      "name": "DWARF SECURITY RIGGER",
+      "source": "character_DWARF_SECURITY_RIGGER_RlN8185X6BXoNLQz.yml",
+      "duplicateOf": "npc\\enemy\\NPC_dwarf-security-rig_KSjGKW.yml"
+    },
+    {
+      "name": "DWARF SECURITY RIGGER",
+      "source": "character_DWARF_SECURITY_RIGGER_uEiTDNgUQJVfnmGe.yml",
+      "duplicateOf": "npc\\enemy\\NPC_dwarf-security-rig_KSjGKW.yml"
+    },
+    {
+      "name": "DWARF SECURITY RIGGER",
+      "source": "character_DWARF_SECURITY_RIGGER_Uhd2erOFvlv23029.yml",
+      "duplicateOf": "npc\\enemy\\NPC_dwarf-security-rig_KSjGKW.yml"
+    },
+    {
+      "name": "DWARF SECURITY RIGGER",
+      "source": "character_DWARF_SECURITY_RIGGER_vEtfTrqufkjVmzL5.yml",
+      "duplicateOf": "npc\\enemy\\NPC_dwarf-security-rig_KSjGKW.yml"
+    },
+    {
+      "name": "DWARF SECURITY RIGGER",
+      "source": "character_DWARF_SECURITY_RIGGER_W70HKDVFvBrF0PA4.yml",
+      "duplicateOf": "npc\\enemy\\NPC_dwarf-security-rig_KSjGKW.yml"
+    },
+    {
+      "name": "DWARF SECURITY RIGGER",
+      "source": "character_DWARF_SECURITY_RIGGER_xWVDS3KTDentuv38.yml",
+      "duplicateOf": "npc\\enemy\\NPC_dwarf-security-rig_KSjGKW.yml"
+    },
+    {
+      "name": "DWARF SECURITY RIGGER",
+      "source": "character_DWARF_SECURITY_RIGGER_ZcqyWzKtHWbT7RCl.yml",
+      "duplicateOf": "npc\\enemy\\NPC_dwarf-security-rig_KSjGKW.yml"
+    },
+    {
+      "name": "DWARF SPIRIT WHISPERER",
+      "source": "character_DWARF_SPIRIT_WHISPERER_5icLKSZD1Vgs1DMB.yml",
+      "duplicateOf": "pc\\adept\\PC_dwarf-spirit-whisp_zikLKX.yml"
+    },
+    {
+      "name": "DWARF SPIRIT WHISPERER",
+      "source": "character_DWARF_SPIRIT_WHISPERER_iOlCCBo98eXAzaFj.yml",
+      "duplicateOf": "pc\\adept\\PC_dwarf-spirit-whisp_zikLKX.yml"
+    },
+    {
+      "name": "DWARF SPIRIT WHISPERER",
+      "source": "character_DWARF_SPIRIT_WHISPERER_kSTuanrF28nCq85R.yml",
+      "duplicateOf": "pc\\adept\\PC_dwarf-spirit-whisp_zikLKX.yml"
+    },
+    {
+      "name": "DWARF SPIRIT WHISPERER",
+      "source": "character_DWARF_SPIRIT_WHISPERER_LgALBtn73TqeC7xY.yml",
+      "duplicateOf": "pc\\adept\\PC_dwarf-spirit-whisp_zikLKX.yml"
+    },
+    {
+      "name": "DWARF SPIRIT WHISPERER",
+      "source": "character_DWARF_SPIRIT_WHISPERER_QHlZkNB4g76ohsFs.yml",
+      "duplicateOf": "pc\\adept\\PC_dwarf-spirit-whisp_zikLKX.yml"
+    },
+    {
+      "name": "DWARF SPIRIT WHISPERER",
+      "source": "character_DWARF_SPIRIT_WHISPERER_reiKdbMCe0wOMhsp.yml",
+      "duplicateOf": "pc\\adept\\PC_dwarf-spirit-whisp_zikLKX.yml"
+    },
+    {
+      "name": "DWARF SPIRIT WHISPERER",
+      "source": "character_DWARF_SPIRIT_WHISPERER_v3pBkUTZl9n1GWW2.yml",
+      "duplicateOf": "pc\\adept\\PC_dwarf-spirit-whisp_zikLKX.yml"
+    },
+    {
+      "name": "DWARF SPIRIT WHISPERER",
+      "source": "character_DWARF_SPIRIT_WHISPERER_xvaQC1SGtYkyGQX9.yml",
+      "duplicateOf": "pc\\adept\\PC_dwarf-spirit-whisp_zikLKX.yml"
+    },
+    {
+      "name": "DWARF SPIRIT WHISPERER",
+      "source": "character_DWARF_SPIRIT_WHISPERER_xXuse6N0VnBWZs0x.yml",
+      "duplicateOf": "pc\\adept\\PC_dwarf-spirit-whisp_zikLKX.yml"
+    },
+    {
+      "name": "DWARF SPIRIT WHISPERER",
+      "source": "character_DWARF_SPIRIT_WHISPERER_yLI5r8s3dp0F9jrQ.yml",
+      "duplicateOf": "pc\\adept\\PC_dwarf-spirit-whisp_zikLKX.yml"
+    },
+    {
+      "name": "DWARF STREET DOC",
+      "source": "character_DWARF_STREET_DOC_9aFpRgoXCaUeuz8U.yml",
+      "duplicateOf": "pc\\general\\PC_dwarf-street-doc_yebCS6.yml"
+    },
+    {
+      "name": "DWARF STREET DOC",
+      "source": "character_DWARF_STREET_DOC_Ah6At0zuaa9RwLt4.yml",
+      "duplicateOf": "pc\\general\\PC_dwarf-street-doc_yebCS6.yml"
+    },
+    {
+      "name": "DWARF STREET DOC",
+      "source": "character_DWARF_STREET_DOC_D896tu032Lz45VJF.yml",
+      "duplicateOf": "pc\\general\\PC_dwarf-street-doc_yebCS6.yml"
+    },
+    {
+      "name": "DWARF STREET DOC",
+      "source": "character_DWARF_STREET_DOC_Gkw92Hs3AUuQV3aZ.yml",
+      "duplicateOf": "pc\\general\\PC_dwarf-street-doc_yebCS6.yml"
+    },
+    {
+      "name": "DWARF STREET DOC",
+      "source": "character_DWARF_STREET_DOC_iSmJI95sRrmamF88.yml",
+      "duplicateOf": "pc\\general\\PC_dwarf-street-doc_yebCS6.yml"
+    },
+    {
+      "name": "DWARF STREET DOC",
+      "source": "character_DWARF_STREET_DOC_MrPhVDvpgrqULQDi.yml",
+      "duplicateOf": "pc\\general\\PC_dwarf-street-doc_yebCS6.yml"
+    },
+    {
+      "name": "DWARF STREET DOC",
+      "source": "character_DWARF_STREET_DOC_QRRB39j6RfmHgROT.yml",
+      "duplicateOf": "pc\\general\\PC_dwarf-street-doc_yebCS6.yml"
+    },
+    {
+      "name": "DWARF STREET DOC",
+      "source": "character_DWARF_STREET_DOC_qT0QY1XxxxoPPECf.yml",
+      "duplicateOf": "pc\\general\\PC_dwarf-street-doc_yebCS6.yml"
+    },
+    {
+      "name": "DWARF STREET DOC",
+      "source": "character_DWARF_STREET_DOC_RIi0ZFXK4NAxHOEf.yml",
+      "duplicateOf": "pc\\general\\PC_dwarf-street-doc_yebCS6.yml"
+    },
+    {
+      "name": "DWARF STREET DOC",
+      "source": "character_DWARF_STREET_DOC_zvpfUjFfNTzmHJNs.yml",
+      "duplicateOf": "pc\\general\\PC_dwarf-street-doc_yebCS6.yml"
+    },
+    {
+      "name": "DWARF STREET FIGHTING ADEPT",
+      "source": "character_DWARF_STREET_FIGHTING_ADEPT_4eb2HZUVxV9pwmbx.yml",
+      "duplicateOf": "pc\\general\\PC_dwarf-street-fight_bzmkfx.yml"
+    },
+    {
+      "name": "DWARF STREET FIGHTING ADEPT",
+      "source": "character_DWARF_STREET_FIGHTING_ADEPT_5UyYhjCmyhVEubK2.yml",
+      "duplicateOf": "pc\\general\\PC_dwarf-street-fight_bzmkfx.yml"
+    },
+    {
+      "name": "DWARF STREET FIGHTING ADEPT",
+      "source": "character_DWARF_STREET_FIGHTING_ADEPT_8lcw0JCibKyrlODy.yml",
+      "duplicateOf": "pc\\general\\PC_dwarf-street-fight_bzmkfx.yml"
+    },
+    {
+      "name": "DWARF STREET FIGHTING ADEPT",
+      "source": "character_DWARF_STREET_FIGHTING_ADEPT_ilKlup3vjahoaIiD.yml",
+      "duplicateOf": "pc\\general\\PC_dwarf-street-fight_bzmkfx.yml"
+    },
+    {
+      "name": "DWARF STREET FIGHTING ADEPT",
+      "source": "character_DWARF_STREET_FIGHTING_ADEPT_MTuxATayEZMibFtJ.yml",
+      "duplicateOf": "pc\\general\\PC_dwarf-street-fight_bzmkfx.yml"
+    },
+    {
+      "name": "DWARF STREET FIGHTING ADEPT",
+      "source": "character_DWARF_STREET_FIGHTING_ADEPT_pyqc4FI6taPrt3tt.yml",
+      "duplicateOf": "pc\\general\\PC_dwarf-street-fight_bzmkfx.yml"
+    },
+    {
+      "name": "DWARF STREET FIGHTING ADEPT",
+      "source": "character_DWARF_STREET_FIGHTING_ADEPT_SqscDrs8IRdrYcrm.yml",
+      "duplicateOf": "pc\\general\\PC_dwarf-street-fight_bzmkfx.yml"
+    },
+    {
+      "name": "DWARF STREET FIGHTING ADEPT",
+      "source": "character_DWARF_STREET_FIGHTING_ADEPT_tmobpDtSdAMwJYGp.yml",
+      "duplicateOf": "pc\\general\\PC_dwarf-street-fight_bzmkfx.yml"
+    },
+    {
+      "name": "DWARF STREET FIGHTING ADEPT",
+      "source": "character_DWARF_STREET_FIGHTING_ADEPT_TxV3SAAYi8Qanmb2.yml",
+      "duplicateOf": "pc\\general\\PC_dwarf-street-fight_bzmkfx.yml"
+    },
+    {
+      "name": "DWARF STREET FIGHTING ADEPT",
+      "source": "character_DWARF_STREET_FIGHTING_ADEPT_Vioo7fy96qf1X5d6.yml",
+      "duplicateOf": "pc\\general\\PC_dwarf-street-fight_bzmkfx.yml"
+    },
+    {
+      "name": "ELF BRUTE FORCE DECKER",
+      "source": "character_ELF_BRUTE_FORCE_DECKER_6yLGCwVVldH0L22k.yml",
+      "duplicateOf": "pc\\matrix\\PC_elf-brute-force-de_3pyDWV.yml"
+    },
+    {
+      "name": "ELF BRUTE FORCE DECKER",
+      "source": "character_ELF_BRUTE_FORCE_DECKER_Aoif8kNS1NZV1tPW.yml",
+      "duplicateOf": "pc\\matrix\\PC_elf-brute-force-de_3pyDWV.yml"
+    },
+    {
+      "name": "ELF BRUTE FORCE DECKER",
+      "source": "character_ELF_BRUTE_FORCE_DECKER_C8FYguaQW9Qt104f.yml",
+      "duplicateOf": "pc\\matrix\\PC_elf-brute-force-de_3pyDWV.yml"
+    },
+    {
+      "name": "ELF BRUTE FORCE DECKER",
+      "source": "character_ELF_BRUTE_FORCE_DECKER_EBerfvYhDvdl30mC.yml",
+      "duplicateOf": "pc\\matrix\\PC_elf-brute-force-de_3pyDWV.yml"
+    },
+    {
+      "name": "ELF BRUTE FORCE DECKER",
+      "source": "character_ELF_BRUTE_FORCE_DECKER_eusgj2ylop1JSGTe.yml",
+      "duplicateOf": "pc\\matrix\\PC_elf-brute-force-de_3pyDWV.yml"
+    },
+    {
+      "name": "ELF BRUTE FORCE DECKER",
+      "source": "character_ELF_BRUTE_FORCE_DECKER_hOdFXquj8rJ1azLi.yml",
+      "duplicateOf": "pc\\matrix\\PC_elf-brute-force-de_3pyDWV.yml"
+    },
+    {
+      "name": "ELF BRUTE FORCE DECKER",
+      "source": "character_ELF_BRUTE_FORCE_DECKER_mGnJc9dbmRDshlms.yml",
+      "duplicateOf": "pc\\matrix\\PC_elf-brute-force-de_3pyDWV.yml"
+    },
+    {
+      "name": "ELF BRUTE FORCE DECKER",
+      "source": "character_ELF_BRUTE_FORCE_DECKER_nxVk5C2L3dTuUgqS.yml",
+      "duplicateOf": "pc\\matrix\\PC_elf-brute-force-de_3pyDWV.yml"
+    },
+    {
+      "name": "ELF BRUTE FORCE DECKER",
+      "source": "character_ELF_BRUTE_FORCE_DECKER_vc7qtdHEh1EWZdz2.yml",
+      "duplicateOf": "pc\\matrix\\PC_elf-brute-force-de_3pyDWV.yml"
+    },
+    {
+      "name": "ELF BRUTE FORCE DECKER",
+      "source": "character_ELF_BRUTE_FORCE_DECKER_VpcpcJPh0a9ss78K.yml",
+      "duplicateOf": "pc\\matrix\\PC_elf-brute-force-de_3pyDWV.yml"
+    },
+    {
+      "name": "ELF COMBAT ARCHAEOLOGIST",
+      "source": "character_ELF_COMBAT_ARCHAEOLOGIST_7Y80u9gDEdUGEEjj.yml",
+      "duplicateOf": "pc\\general\\PC_elf-combat-archaeo_QJOIlP.yml"
+    },
+    {
+      "name": "ELF COMBAT ARCHAEOLOGIST",
+      "source": "character_ELF_COMBAT_ARCHAEOLOGIST_cwKTXG96OrI0TuTP.yml",
+      "duplicateOf": "pc\\general\\PC_elf-combat-archaeo_QJOIlP.yml"
+    },
+    {
+      "name": "ELF COMBAT ARCHAEOLOGIST",
+      "source": "character_ELF_COMBAT_ARCHAEOLOGIST_hvUmA6OcyOaRpM77.yml",
+      "duplicateOf": "pc\\general\\PC_elf-combat-archaeo_QJOIlP.yml"
+    },
+    {
+      "name": "ELF COMBAT ARCHAEOLOGIST",
+      "source": "character_ELF_COMBAT_ARCHAEOLOGIST_jFS4PJrUH2vBn2rH.yml",
+      "duplicateOf": "pc\\general\\PC_elf-combat-archaeo_QJOIlP.yml"
+    },
+    {
+      "name": "ELF COMBAT ARCHAEOLOGIST",
+      "source": "character_ELF_COMBAT_ARCHAEOLOGIST_jgmTs50yGP2oxUjA.yml",
+      "duplicateOf": "pc\\general\\PC_elf-combat-archaeo_QJOIlP.yml"
+    },
+    {
+      "name": "ELF COMBAT ARCHAEOLOGIST",
+      "source": "character_ELF_COMBAT_ARCHAEOLOGIST_M2MK4JKGLN93xoTq.yml",
+      "duplicateOf": "pc\\general\\PC_elf-combat-archaeo_QJOIlP.yml"
+    },
+    {
+      "name": "ELF COMBAT ARCHAEOLOGIST",
+      "source": "character_ELF_COMBAT_ARCHAEOLOGIST_n0MVQwBx8P1UpmQk.yml",
+      "duplicateOf": "pc\\general\\PC_elf-combat-archaeo_QJOIlP.yml"
+    },
+    {
+      "name": "ELF COMBAT ARCHAEOLOGIST",
+      "source": "character_ELF_COMBAT_ARCHAEOLOGIST_TJvqyia17ILNGape.yml",
+      "duplicateOf": "pc\\general\\PC_elf-combat-archaeo_QJOIlP.yml"
+    },
+    {
+      "name": "ELF COMBAT ARCHAEOLOGIST",
+      "source": "character_ELF_COMBAT_ARCHAEOLOGIST_TyVXJO8mT2RTXrGc.yml",
+      "duplicateOf": "pc\\general\\PC_elf-combat-archaeo_QJOIlP.yml"
+    },
+    {
+      "name": "ELF COMBAT ARCHAEOLOGIST",
+      "source": "character_ELF_COMBAT_ARCHAEOLOGIST_UmLtRdwltmXJHcav.yml",
+      "duplicateOf": "pc\\general\\PC_elf-combat-archaeo_QJOIlP.yml"
+    },
+    {
+      "name": "ELF MYSTIC ADEPT",
+      "source": "character_ELF_MYSTIC_ADEPT_7bNAngVrAiqnScQH.yml",
+      "duplicateOf": "pc\\general\\PC_elf-mystic-adept_FDpQLl.yml"
+    },
+    {
+      "name": "ELF MYSTIC ADEPT",
+      "source": "character_ELF_MYSTIC_ADEPT_A3hXFbSmXHJ5YOBN.yml",
+      "duplicateOf": "pc\\general\\PC_elf-mystic-adept_FDpQLl.yml"
+    },
+    {
+      "name": "ELF MYSTIC ADEPT",
+      "source": "character_ELF_MYSTIC_ADEPT_eLG00YcKGvLHtKHG.yml",
+      "duplicateOf": "pc\\general\\PC_elf-mystic-adept_FDpQLl.yml"
+    },
+    {
+      "name": "ELF MYSTIC ADEPT",
+      "source": "character_ELF_MYSTIC_ADEPT_gATSg66wrJUjuuQw.yml",
+      "duplicateOf": "pc\\general\\PC_elf-mystic-adept_FDpQLl.yml"
+    },
+    {
+      "name": "ELF MYSTIC ADEPT",
+      "source": "character_ELF_MYSTIC_ADEPT_kxDhUqAePGwakkv1.yml",
+      "duplicateOf": "pc\\general\\PC_elf-mystic-adept_FDpQLl.yml"
+    },
+    {
+      "name": "ELF MYSTIC ADEPT",
+      "source": "character_ELF_MYSTIC_ADEPT_L62lcZeqEcjQMdVP.yml",
+      "duplicateOf": "pc\\general\\PC_elf-mystic-adept_FDpQLl.yml"
+    },
+    {
+      "name": "ELF MYSTIC ADEPT",
+      "source": "character_ELF_MYSTIC_ADEPT_MI9K1yPjrS3ACeRk.yml",
+      "duplicateOf": "pc\\general\\PC_elf-mystic-adept_FDpQLl.yml"
+    },
+    {
+      "name": "ELF MYSTIC ADEPT",
+      "source": "character_ELF_MYSTIC_ADEPT_VbAXvAr1WCOA78T9.yml",
+      "duplicateOf": "pc\\general\\PC_elf-mystic-adept_FDpQLl.yml"
+    },
+    {
+      "name": "ELF MYSTIC ADEPT",
+      "source": "character_ELF_MYSTIC_ADEPT_wu9miTitbpBjwLv3.yml",
+      "duplicateOf": "pc\\general\\PC_elf-mystic-adept_FDpQLl.yml"
+    },
+    {
+      "name": "ELF MYSTIC ADEPT",
+      "source": "character_ELF_MYSTIC_ADEPT_YemBBbwbhhpmLLlB.yml",
+      "duplicateOf": "pc\\general\\PC_elf-mystic-adept_FDpQLl.yml"
+    },
+    {
+      "name": "ELF RAZORGIRL",
+      "source": "character_ELF_RAZORGIRL_4Y4ZajTSW7d40orl.yml",
+      "duplicateOf": "pc\\general\\PC_elf-razorgirl_41A1A6.yml"
+    },
+    {
+      "name": "ELF RAZORGIRL",
+      "source": "character_ELF_RAZORGIRL_68GA4jAiJcYn0Ok4.yml",
+      "duplicateOf": "pc\\general\\PC_elf-razorgirl_41A1A6.yml"
+    },
+    {
+      "name": "ELF RAZORGIRL",
+      "source": "character_ELF_RAZORGIRL_D1FNB0LvG3fPwTXa.yml",
+      "duplicateOf": "pc\\general\\PC_elf-razorgirl_41A1A6.yml"
+    },
+    {
+      "name": "ELF RAZORGIRL",
+      "source": "character_ELF_RAZORGIRL_FnYir0zlXbNdegZ4.yml",
+      "duplicateOf": "pc\\general\\PC_elf-razorgirl_41A1A6.yml"
+    },
+    {
+      "name": "ELF RAZORGIRL",
+      "source": "character_ELF_RAZORGIRL_hFx6IIUx2wFnO4Mx.yml",
+      "duplicateOf": "pc\\general\\PC_elf-razorgirl_41A1A6.yml"
+    },
+    {
+      "name": "ELF RAZORGIRL",
+      "source": "character_ELF_RAZORGIRL_IabSeud33dPv17kp.yml",
+      "duplicateOf": "pc\\general\\PC_elf-razorgirl_41A1A6.yml"
+    },
+    {
+      "name": "ELF RAZORGIRL",
+      "source": "character_ELF_RAZORGIRL_NTZsMGu5WXw08mNk.yml",
+      "duplicateOf": "pc\\general\\PC_elf-razorgirl_41A1A6.yml"
+    },
+    {
+      "name": "ELF RAZORGIRL",
+      "source": "character_ELF_RAZORGIRL_PDw1a0drOoITPtF7.yml",
+      "duplicateOf": "pc\\general\\PC_elf-razorgirl_41A1A6.yml"
+    },
+    {
+      "name": "ELF RAZORGIRL",
+      "source": "character_ELF_RAZORGIRL_r7aVQIYVzcTl2GXc.yml",
+      "duplicateOf": "pc\\general\\PC_elf-razorgirl_41A1A6.yml"
+    },
+    {
+      "name": "ELF RAZORGIRL",
+      "source": "character_ELF_RAZORGIRL_wwdKaWU93HmPUTW4.yml",
+      "duplicateOf": "pc\\general\\PC_elf-razorgirl_41A1A6.yml"
+    },
+    {
+      "name": "ELF STREET SHAMAN",
+      "source": "character_ELF_STREET_SHAMAN_EbOOnbO5bafAmvIg.yml",
+      "duplicateOf": "pc\\adept\\PC_elf-street-shaman_dkJ7kw.yml"
+    },
+    {
+      "name": "ELF STREET SHAMAN",
+      "source": "character_ELF_STREET_SHAMAN_MeyBMPMyuDr6dxrx.yml",
+      "duplicateOf": "pc\\adept\\PC_elf-street-shaman_dkJ7kw.yml"
+    },
+    {
+      "name": "ELF STREET SHAMAN",
+      "source": "character_ELF_STREET_SHAMAN_PazWPfXoY1UFUj2y.yml",
+      "duplicateOf": "pc\\adept\\PC_elf-street-shaman_dkJ7kw.yml"
+    },
+    {
+      "name": "ELF STREET SHAMAN",
+      "source": "character_ELF_STREET_SHAMAN_PqwJ0OEqhYrXBuoD.yml",
+      "duplicateOf": "pc\\adept\\PC_elf-street-shaman_dkJ7kw.yml"
+    },
+    {
+      "name": "ELF STREET SHAMAN",
+      "source": "character_ELF_STREET_SHAMAN_U65rgo8REAIW8eW1.yml",
+      "duplicateOf": "pc\\adept\\PC_elf-street-shaman_dkJ7kw.yml"
+    },
+    {
+      "name": "ELF STREET SHAMAN",
+      "source": "character_ELF_STREET_SHAMAN_UvWwdx0O9arfcMZ2.yml",
+      "duplicateOf": "pc\\adept\\PC_elf-street-shaman_dkJ7kw.yml"
+    },
+    {
+      "name": "ELF STREET SHAMAN",
+      "source": "character_ELF_STREET_SHAMAN_W1qgzHaX1HA2Vujy.yml",
+      "duplicateOf": "pc\\adept\\PC_elf-street-shaman_dkJ7kw.yml"
+    },
+    {
+      "name": "ELF STREET SHAMAN",
+      "source": "character_ELF_STREET_SHAMAN_WyHdP2zeZduvZAxT.yml",
+      "duplicateOf": "pc\\adept\\PC_elf-street-shaman_dkJ7kw.yml"
+    },
+    {
+      "name": "ELF STREET SHAMAN",
+      "source": "character_ELF_STREET_SHAMAN_XdVOPJDpfeUpXQqs.yml",
+      "duplicateOf": "pc\\adept\\PC_elf-street-shaman_dkJ7kw.yml"
+    },
+    {
+      "name": "ELF STREET SHAMAN",
+      "source": "character_ELF_STREET_SHAMAN_zLTosD9vVbHLUo92.yml",
+      "duplicateOf": "pc\\adept\\PC_elf-street-shaman_dkJ7kw.yml"
+    },
+    {
+      "name": "FUSION",
+      "source": "character_FUSION_cB2N1zkrSleE99uQ.yml",
+      "duplicateOf": "pc\\general\\PC_fusion_DdQ6aM.yml"
+    },
+    {
+      "name": "FUSION",
+      "source": "character_FUSION_HIp8Gzq3lzncCYBa.yml",
+      "duplicateOf": "pc\\general\\PC_fusion_DdQ6aM.yml"
+    },
+    {
+      "name": "FUSION",
+      "source": "character_FUSION_iprFpFC0fA1Ftcqt.yml",
+      "duplicateOf": "pc\\general\\PC_fusion_DdQ6aM.yml"
+    },
+    {
+      "name": "FUSION",
+      "source": "character_FUSION_j7dVfkuT6daQnESK.yml",
+      "duplicateOf": "pc\\general\\PC_fusion_DdQ6aM.yml"
+    },
+    {
+      "name": "FUSION",
+      "source": "character_FUSION_JCQMufuLkGtkCUIE.yml",
+      "duplicateOf": "pc\\general\\PC_fusion_DdQ6aM.yml"
+    },
+    {
+      "name": "FUSION",
+      "source": "character_FUSION_k4jB1joyuXkuw02f.yml",
+      "duplicateOf": "pc\\general\\PC_fusion_DdQ6aM.yml"
+    },
+    {
+      "name": "FUSION",
+      "source": "character_FUSION_LUu4WV1eJQBNox4W.yml",
+      "duplicateOf": "pc\\general\\PC_fusion_DdQ6aM.yml"
+    },
+    {
+      "name": "FUSION",
+      "source": "character_FUSION_sckxenDxD5DBHWT0.yml",
+      "duplicateOf": "pc\\general\\PC_fusion_DdQ6aM.yml"
+    },
+    {
+      "name": "FUSION",
+      "source": "character_FUSION_uJS0SbS5akGkfYt1.yml",
+      "duplicateOf": "pc\\general\\PC_fusion_DdQ6aM.yml"
+    },
+    {
+      "name": "FUSION",
+      "source": "character_FUSION_vc9peA37tKAWcxDb.yml",
+      "duplicateOf": "pc\\general\\PC_fusion_DdQ6aM.yml"
+    },
+    {
+      "name": "HUMAN ARMS DEALER",
+      "source": "character_HUMAN_ARMS_DEALER_2sixuIlHUYFvUlpo.yml",
+      "duplicateOf": "npc\\contact\\NPC_human-arms-dealer_dVjXpd.yml"
+    },
+    {
+      "name": "HUMAN ARMS DEALER",
+      "source": "character_HUMAN_ARMS_DEALER_bG5jktOdGRic9qsm.yml",
+      "duplicateOf": "npc\\contact\\NPC_human-arms-dealer_dVjXpd.yml"
+    },
+    {
+      "name": "HUMAN ARMS DEALER",
+      "source": "character_HUMAN_ARMS_DEALER_C4BIVE6siDG1kFvS.yml",
+      "duplicateOf": "npc\\contact\\NPC_human-arms-dealer_dVjXpd.yml"
+    },
+    {
+      "name": "HUMAN ARMS DEALER",
+      "source": "character_HUMAN_ARMS_DEALER_FHWvFWOZFyRmVHW9.yml",
+      "duplicateOf": "npc\\contact\\NPC_human-arms-dealer_dVjXpd.yml"
+    },
+    {
+      "name": "HUMAN ARMS DEALER",
+      "source": "character_HUMAN_ARMS_DEALER_HB9VurdO7ODFwVHE.yml",
+      "duplicateOf": "npc\\contact\\NPC_human-arms-dealer_dVjXpd.yml"
+    },
+    {
+      "name": "HUMAN ARMS DEALER",
+      "source": "character_HUMAN_ARMS_DEALER_J8S1j3TvsgJWWHds.yml",
+      "duplicateOf": "npc\\contact\\NPC_human-arms-dealer_dVjXpd.yml"
+    },
+    {
+      "name": "HUMAN ARMS DEALER",
+      "source": "character_HUMAN_ARMS_DEALER_kP3CKHISa7R9trXm.yml",
+      "duplicateOf": "npc\\contact\\NPC_human-arms-dealer_dVjXpd.yml"
+    },
+    {
+      "name": "HUMAN ARMS DEALER",
+      "source": "character_HUMAN_ARMS_DEALER_Q5VgCQPGX0wZp0wC.yml",
+      "duplicateOf": "npc\\contact\\NPC_human-arms-dealer_dVjXpd.yml"
+    },
+    {
+      "name": "HUMAN ARMS DEALER",
+      "source": "character_HUMAN_ARMS_DEALER_srTNtu6wsVGasuHH.yml",
+      "duplicateOf": "npc\\contact\\NPC_human-arms-dealer_dVjXpd.yml"
+    },
+    {
+      "name": "HUMAN ARMS DEALER",
+      "source": "character_HUMAN_ARMS_DEALER_XCjd4afFNc4kywPc.yml",
+      "duplicateOf": "npc\\contact\\NPC_human-arms-dealer_dVjXpd.yml"
+    },
+    {
+      "name": "HUMAN COMBAT DECKER",
+      "source": "character_HUMAN_COMBAT_DECKER_6uaB71xy1Vq6Tuhj.yml",
+      "duplicateOf": "pc\\matrix\\PC_human-combat-decke_kvVf2l.yml"
+    },
+    {
+      "name": "HUMAN COMBAT DECKER",
+      "source": "character_HUMAN_COMBAT_DECKER_DG3nQQBC7mbmpxWN.yml",
+      "duplicateOf": "pc\\matrix\\PC_human-combat-decke_kvVf2l.yml"
+    },
+    {
+      "name": "HUMAN COMBAT DECKER",
+      "source": "character_HUMAN_COMBAT_DECKER_GLB78aJoF9Yul50F.yml",
+      "duplicateOf": "pc\\matrix\\PC_human-combat-decke_kvVf2l.yml"
+    },
+    {
+      "name": "HUMAN COMBAT DECKER",
+      "source": "character_HUMAN_COMBAT_DECKER_jb9uEoAzGgIhFp3O.yml",
+      "duplicateOf": "pc\\matrix\\PC_human-combat-decke_kvVf2l.yml"
+    },
+    {
+      "name": "HUMAN COMBAT DECKER",
+      "source": "character_HUMAN_COMBAT_DECKER_JiI9Oiw3rA5CQEj9.yml",
+      "duplicateOf": "pc\\matrix\\PC_human-combat-decke_kvVf2l.yml"
+    },
+    {
+      "name": "HUMAN COMBAT DECKER",
+      "source": "character_HUMAN_COMBAT_DECKER_NC7cjBrGwjt5cBJZ.yml",
+      "duplicateOf": "pc\\matrix\\PC_human-combat-decke_kvVf2l.yml"
+    },
+    {
+      "name": "HUMAN COMBAT DECKER",
+      "source": "character_HUMAN_COMBAT_DECKER_oAKngVDkhYpVvoiF.yml",
+      "duplicateOf": "pc\\matrix\\PC_human-combat-decke_kvVf2l.yml"
+    },
+    {
+      "name": "HUMAN COMBAT DECKER",
+      "source": "character_HUMAN_COMBAT_DECKER_tTd8AkhZl0unQc7W.yml",
+      "duplicateOf": "pc\\matrix\\PC_human-combat-decke_kvVf2l.yml"
+    },
+    {
+      "name": "HUMAN COMBAT DECKER",
+      "source": "character_HUMAN_COMBAT_DECKER_VbfbINMfK33f1xTN.yml",
+      "duplicateOf": "pc\\matrix\\PC_human-combat-decke_kvVf2l.yml"
+    },
+    {
+      "name": "HUMAN COMBAT DECKER",
+      "source": "character_HUMAN_COMBAT_DECKER_vlnrBsSZLxqDIFbP.yml",
+      "duplicateOf": "pc\\matrix\\PC_human-combat-decke_kvVf2l.yml"
+    },
+    {
+      "name": "HUMAN COMBAT MEDIC",
+      "source": "character_HUMAN_COMBAT_MEDIC_5waFGVhfnR7oUI3I.yml",
+      "duplicateOf": "pc\\general\\PC_human-combat-medic_pLYcn0.yml"
+    },
+    {
+      "name": "HUMAN COMBAT MEDIC",
+      "source": "character_HUMAN_COMBAT_MEDIC_BG3XhsbzR0QB1ddl.yml",
+      "duplicateOf": "pc\\general\\PC_human-combat-medic_pLYcn0.yml"
+    },
+    {
+      "name": "HUMAN COMBAT MEDIC",
+      "source": "character_HUMAN_COMBAT_MEDIC_lmSmmk6RnmO2iiZK.yml",
+      "duplicateOf": "pc\\general\\PC_human-combat-medic_pLYcn0.yml"
+    },
+    {
+      "name": "HUMAN COMBAT MEDIC",
+      "source": "character_HUMAN_COMBAT_MEDIC_lyLazXNH2mmKXjMp.yml",
+      "duplicateOf": "pc\\general\\PC_human-combat-medic_pLYcn0.yml"
+    },
+    {
+      "name": "HUMAN COMBAT MEDIC",
+      "source": "character_HUMAN_COMBAT_MEDIC_m5krM5ExjF0Eov9q.yml",
+      "duplicateOf": "pc\\general\\PC_human-combat-medic_pLYcn0.yml"
+    },
+    {
+      "name": "HUMAN COMBAT MEDIC",
+      "source": "character_HUMAN_COMBAT_MEDIC_p29Oom4CRxNjApDd.yml",
+      "duplicateOf": "pc\\general\\PC_human-combat-medic_pLYcn0.yml"
+    },
+    {
+      "name": "HUMAN COMBAT MEDIC",
+      "source": "character_HUMAN_COMBAT_MEDIC_rJMkgrZqZeQ6gWa3.yml",
+      "duplicateOf": "pc\\general\\PC_human-combat-medic_pLYcn0.yml"
+    },
+    {
+      "name": "HUMAN COMBAT MEDIC",
+      "source": "character_HUMAN_COMBAT_MEDIC_RpUBQv8RQNdfkrnU.yml",
+      "duplicateOf": "pc\\general\\PC_human-combat-medic_pLYcn0.yml"
+    },
+    {
+      "name": "HUMAN COMBAT MEDIC",
+      "source": "character_HUMAN_COMBAT_MEDIC_v0oAXaWsMnqnKO3l.yml",
+      "duplicateOf": "pc\\general\\PC_human-combat-medic_pLYcn0.yml"
+    },
+    {
+      "name": "HUMAN COMBAT MEDIC",
+      "source": "character_HUMAN_COMBAT_MEDIC_xR56sKGmWIFc58KO.yml",
+      "duplicateOf": "pc\\general\\PC_human-combat-medic_pLYcn0.yml"
+    },
+    {
+      "name": "HUMAN FORMER COMPANY WOMAN",
+      "source": "character_HUMAN_FORMER_COMPANY_WOMAN_BDf3FrU8KdBjVLSJ.yml",
+      "duplicateOf": "pc\\general\\PC_human-former-compa_B1RZJS.yml"
+    },
+    {
+      "name": "HUMAN FORMER COMPANY WOMAN",
+      "source": "character_HUMAN_FORMER_COMPANY_WOMAN_cfzyXsyBfUz6dg06.yml",
+      "duplicateOf": "pc\\general\\PC_human-former-compa_B1RZJS.yml"
+    },
+    {
+      "name": "HUMAN FORMER COMPANY WOMAN",
+      "source": "character_HUMAN_FORMER_COMPANY_WOMAN_cI8HggVEQeVsPyg3.yml",
+      "duplicateOf": "pc\\general\\PC_human-former-compa_B1RZJS.yml"
+    },
+    {
+      "name": "HUMAN FORMER COMPANY WOMAN",
+      "source": "character_HUMAN_FORMER_COMPANY_WOMAN_E5wmxfS9Ke4jIVtU.yml",
+      "duplicateOf": "pc\\general\\PC_human-former-compa_B1RZJS.yml"
+    },
+    {
+      "name": "HUMAN FORMER COMPANY WOMAN",
+      "source": "character_HUMAN_FORMER_COMPANY_WOMAN_FqxAhiRCeJufyMT8.yml",
+      "duplicateOf": "pc\\general\\PC_human-former-compa_B1RZJS.yml"
+    },
+    {
+      "name": "HUMAN FORMER COMPANY WOMAN",
+      "source": "character_HUMAN_FORMER_COMPANY_WOMAN_kSLElCEfogsbLNjO.yml",
+      "duplicateOf": "pc\\general\\PC_human-former-compa_B1RZJS.yml"
+    },
+    {
+      "name": "HUMAN FORMER COMPANY WOMAN",
+      "source": "character_HUMAN_FORMER_COMPANY_WOMAN_mJfh5kdsVjoAaPe3.yml",
+      "duplicateOf": "pc\\general\\PC_human-former-compa_B1RZJS.yml"
+    },
+    {
+      "name": "HUMAN FORMER COMPANY WOMAN",
+      "source": "character_HUMAN_FORMER_COMPANY_WOMAN_oA8b5Sgh7wloXVvi.yml",
+      "duplicateOf": "pc\\general\\PC_human-former-compa_B1RZJS.yml"
+    },
+    {
+      "name": "HUMAN FORMER COMPANY WOMAN",
+      "source": "character_HUMAN_FORMER_COMPANY_WOMAN_tVZG5L2v5O4qu2ab.yml",
+      "duplicateOf": "pc\\general\\PC_human-former-compa_B1RZJS.yml"
+    },
+    {
+      "name": "HUMAN FORMER COMPANY WOMAN",
+      "source": "character_HUMAN_FORMER_COMPANY_WOMAN_zvuvnsQjdTdiu2l3.yml",
+      "duplicateOf": "pc\\general\\PC_human-former-compa_B1RZJS.yml"
+    },
+    {
+      "name": "HUMAN FORMER WAGE MAGE",
+      "source": "character_HUMAN_FORMER_WAGE_MAGE_BeM1iCnMp2WE12Lv.yml",
+      "duplicateOf": "pc\\adept\\PC_human-former-wage-_ikjuU5.yml"
+    },
+    {
+      "name": "HUMAN FORMER WAGE MAGE",
+      "source": "character_HUMAN_FORMER_WAGE_MAGE_bwXMKWtBLkN3KYfX.yml",
+      "duplicateOf": "pc\\adept\\PC_human-former-wage-_ikjuU5.yml"
+    },
+    {
+      "name": "HUMAN FORMER WAGE MAGE",
+      "source": "character_HUMAN_FORMER_WAGE_MAGE_HTDshxD39GaUsuSP.yml",
+      "duplicateOf": "pc\\adept\\PC_human-former-wage-_ikjuU5.yml"
+    },
+    {
+      "name": "HUMAN FORMER WAGE MAGE",
+      "source": "character_HUMAN_FORMER_WAGE_MAGE_LxQ74v8VVlJBEkX3.yml",
+      "duplicateOf": "pc\\adept\\PC_human-former-wage-_ikjuU5.yml"
+    },
+    {
+      "name": "HUMAN FORMER WAGE MAGE",
+      "source": "character_HUMAN_FORMER_WAGE_MAGE_msMP6XCys7pQz260.yml",
+      "duplicateOf": "pc\\adept\\PC_human-former-wage-_ikjuU5.yml"
+    },
+    {
+      "name": "HUMAN FORMER WAGE MAGE",
+      "source": "character_HUMAN_FORMER_WAGE_MAGE_QOvmpGj1OhuuFcQe.yml",
+      "duplicateOf": "pc\\adept\\PC_human-former-wage-_ikjuU5.yml"
+    },
+    {
+      "name": "HUMAN FORMER WAGE MAGE",
+      "source": "character_HUMAN_FORMER_WAGE_MAGE_qzyjI7EpL1UTCfIf.yml",
+      "duplicateOf": "pc\\adept\\PC_human-former-wage-_ikjuU5.yml"
+    },
+    {
+      "name": "HUMAN FORMER WAGE MAGE",
+      "source": "character_HUMAN_FORMER_WAGE_MAGE_wtzWS8Gu0R83pRS3.yml",
+      "duplicateOf": "pc\\adept\\PC_human-former-wage-_ikjuU5.yml"
+    },
+    {
+      "name": "HUMAN FORMER WAGE MAGE",
+      "source": "character_HUMAN_FORMER_WAGE_MAGE_wzEukqM9BpBvD2VE.yml",
+      "duplicateOf": "pc\\adept\\PC_human-former-wage-_ikjuU5.yml"
+    },
+    {
+      "name": "HUMAN FORMER WAGE MAGE",
+      "source": "character_HUMAN_FORMER_WAGE_MAGE_Zf45n9pY79ZHzlmP.yml",
+      "duplicateOf": "pc\\adept\\PC_human-former-wage-_ikjuU5.yml"
+    },
+    {
+      "name": "HUMAN GANGER RAZORGIRL",
+      "source": "character_HUMAN_GANGER_RAZORGIRL_7IT6gJWHw5St6bfT.yml",
+      "duplicateOf": "npc\\enemy\\NPC_human-ganger-razor_JAAUp7.yml"
+    },
+    {
+      "name": "HUMAN GANGER RAZORGIRL",
+      "source": "character_HUMAN_GANGER_RAZORGIRL_AZhn2255mlepzb82.yml",
+      "duplicateOf": "npc\\enemy\\NPC_human-ganger-razor_JAAUp7.yml"
+    },
+    {
+      "name": "HUMAN GANGER RAZORGIRL",
+      "source": "character_HUMAN_GANGER_RAZORGIRL_B3MByJKd8XWfn7rt.yml",
+      "duplicateOf": "npc\\enemy\\NPC_human-ganger-razor_JAAUp7.yml"
+    },
+    {
+      "name": "HUMAN GANGER RAZORGIRL",
+      "source": "character_HUMAN_GANGER_RAZORGIRL_cASNdHatdn3YrZiI.yml",
+      "duplicateOf": "npc\\enemy\\NPC_human-ganger-razor_JAAUp7.yml"
+    },
+    {
+      "name": "HUMAN GANGER RAZORGIRL",
+      "source": "character_HUMAN_GANGER_RAZORGIRL_ceuQ7OsYG5Zzv2sG.yml",
+      "duplicateOf": "npc\\enemy\\NPC_human-ganger-razor_JAAUp7.yml"
+    },
+    {
+      "name": "HUMAN GANGER RAZORGIRL",
+      "source": "character_HUMAN_GANGER_RAZORGIRL_hELBGu9FdegGvJIC.yml",
+      "duplicateOf": "npc\\enemy\\NPC_human-ganger-razor_JAAUp7.yml"
+    },
+    {
+      "name": "HUMAN GANGER RAZORGIRL",
+      "source": "character_HUMAN_GANGER_RAZORGIRL_kjxUkdWOaOAgWy6P.yml",
+      "duplicateOf": "npc\\enemy\\NPC_human-ganger-razor_JAAUp7.yml"
+    },
+    {
+      "name": "HUMAN GANGER RAZORGIRL",
+      "source": "character_HUMAN_GANGER_RAZORGIRL_kx9JX8Ukg3ze2AbI.yml",
+      "duplicateOf": "npc\\enemy\\NPC_human-ganger-razor_JAAUp7.yml"
+    },
+    {
+      "name": "HUMAN GANGER RAZORGIRL",
+      "source": "character_HUMAN_GANGER_RAZORGIRL_quAV4nEM6vzNRiFo.yml",
+      "duplicateOf": "npc\\enemy\\NPC_human-ganger-razor_JAAUp7.yml"
+    },
+    {
+      "name": "HUMAN GANGER RAZORGIRL",
+      "source": "character_HUMAN_GANGER_RAZORGIRL_WGBzheZt7AkgogHb.yml",
+      "duplicateOf": "npc\\enemy\\NPC_human-ganger-razor_JAAUp7.yml"
+    },
+    {
+      "name": "HUMAN INFILTRATION EXPERT",
+      "source": "character_HUMAN_INFILTRATION_EXPERT_8cVWOuebFCsww7QS.yml",
+      "duplicateOf": "pc\\general\\PC_human-infiltration_8byyhU.yml"
+    },
+    {
+      "name": "HUMAN INFILTRATION EXPERT",
+      "source": "character_HUMAN_INFILTRATION_EXPERT_AaiFqsGcZGrSzqul.yml",
+      "duplicateOf": "pc\\general\\PC_human-infiltration_8byyhU.yml"
+    },
+    {
+      "name": "HUMAN INFILTRATION EXPERT",
+      "source": "character_HUMAN_INFILTRATION_EXPERT_aMeSFSz036scmroi.yml",
+      "duplicateOf": "pc\\general\\PC_human-infiltration_8byyhU.yml"
+    },
+    {
+      "name": "HUMAN INFILTRATION EXPERT",
+      "source": "character_HUMAN_INFILTRATION_EXPERT_AT8SeLIB7zULpHCm.yml",
+      "duplicateOf": "pc\\general\\PC_human-infiltration_8byyhU.yml"
+    },
+    {
+      "name": "HUMAN INFILTRATION EXPERT",
+      "source": "character_HUMAN_INFILTRATION_EXPERT_oCvUTZ68ncAqSqOH.yml",
+      "duplicateOf": "pc\\general\\PC_human-infiltration_8byyhU.yml"
+    },
+    {
+      "name": "HUMAN INFILTRATION EXPERT",
+      "source": "character_HUMAN_INFILTRATION_EXPERT_qAfvbE8MwDI0OhO1.yml",
+      "duplicateOf": "pc\\general\\PC_human-infiltration_8byyhU.yml"
+    },
+    {
+      "name": "HUMAN INFILTRATION EXPERT",
+      "source": "character_HUMAN_INFILTRATION_EXPERT_V9cuVyzGQNIbOIYY.yml",
+      "duplicateOf": "pc\\general\\PC_human-infiltration_8byyhU.yml"
+    },
+    {
+      "name": "HUMAN INFILTRATION EXPERT",
+      "source": "character_HUMAN_INFILTRATION_EXPERT_WLLiJLCqaHWVHhXi.yml",
+      "duplicateOf": "pc\\general\\PC_human-infiltration_8byyhU.yml"
+    },
+    {
+      "name": "HUMAN INFILTRATION EXPERT",
+      "source": "character_HUMAN_INFILTRATION_EXPERT_YjMeh8ku3NNAUzPs.yml",
+      "duplicateOf": "pc\\general\\PC_human-infiltration_8byyhU.yml"
+    },
+    {
+      "name": "HUMAN INFILTRATION EXPERT",
+      "source": "character_HUMAN_INFILTRATION_EXPERT_zsygfPergLNkkuL1.yml",
+      "duplicateOf": "pc\\general\\PC_human-infiltration_8byyhU.yml"
+    },
+    {
+      "name": "HUMAN STREET SAMURAI",
+      "source": "character_HUMAN_STREET_SAMURAI_3cM4sNdbpF9wUY8X.yml",
+      "duplicateOf": "pc\\general\\PC_human-street-samur_U1JUUC.yml"
+    },
+    {
+      "name": "HUMAN STREET SAMURAI",
+      "source": "character_HUMAN_STREET_SAMURAI_4AYUZrfGqfxBLpxV.yml",
+      "duplicateOf": "pc\\general\\PC_human-street-samur_U1JUUC.yml"
+    },
+    {
+      "name": "HUMAN STREET SAMURAI",
+      "source": "character_HUMAN_STREET_SAMURAI_EHBBFHKlB41Aa6wA.yml",
+      "duplicateOf": "pc\\general\\PC_human-street-samur_U1JUUC.yml"
+    },
+    {
+      "name": "HUMAN STREET SAMURAI",
+      "source": "character_HUMAN_STREET_SAMURAI_gE6oKwZFkEGQkrMA.yml",
+      "duplicateOf": "pc\\general\\PC_human-street-samur_U1JUUC.yml"
+    },
+    {
+      "name": "HUMAN STREET SAMURAI",
+      "source": "character_HUMAN_STREET_SAMURAI_nk2Fx9sZT3onspvH.yml",
+      "duplicateOf": "pc\\general\\PC_human-street-samur_U1JUUC.yml"
+    },
+    {
+      "name": "HUMAN STREET SAMURAI",
+      "source": "character_HUMAN_STREET_SAMURAI_oL17eKxL4cZHL2Ms.yml",
+      "duplicateOf": "pc\\general\\PC_human-street-samur_U1JUUC.yml"
+    },
+    {
+      "name": "HUMAN STREET SAMURAI",
+      "source": "character_HUMAN_STREET_SAMURAI_OzH2zKFjORPIKviP.yml",
+      "duplicateOf": "pc\\general\\PC_human-street-samur_U1JUUC.yml"
+    },
+    {
+      "name": "HUMAN STREET SAMURAI",
+      "source": "character_HUMAN_STREET_SAMURAI_sipLU6SeDV9jJYF2.yml",
+      "duplicateOf": "pc\\general\\PC_human-street-samur_U1JUUC.yml"
+    },
+    {
+      "name": "HUMAN STREET SAMURAI",
+      "source": "character_HUMAN_STREET_SAMURAI_SosnJhzN8kgnJ4xu.yml",
+      "duplicateOf": "pc\\general\\PC_human-street-samur_U1JUUC.yml"
+    },
+    {
+      "name": "HUMAN STREET SAMURAI",
+      "source": "character_HUMAN_STREET_SAMURAI_zSIgJ5koLhNODzPT.yml",
+      "duplicateOf": "pc\\general\\PC_human-street-samur_U1JUUC.yml"
+    },
+    {
+      "name": "HUMAN VIGILANTE",
+      "source": "character_HUMAN_VIGILANTE_AbAxFHJ6wnwHzepj.yml",
+      "duplicateOf": "pc\\general\\PC_human-vigilante_v6355W.yml"
+    },
+    {
+      "name": "HUMAN VIGILANTE",
+      "source": "character_HUMAN_VIGILANTE_AQtH2ra4og9vQ3aA.yml",
+      "duplicateOf": "pc\\general\\PC_human-vigilante_v6355W.yml"
+    },
+    {
+      "name": "HUMAN VIGILANTE",
+      "source": "character_HUMAN_VIGILANTE_Igkhyu90scTsahV6.yml",
+      "duplicateOf": "pc\\general\\PC_human-vigilante_v6355W.yml"
+    },
+    {
+      "name": "HUMAN VIGILANTE",
+      "source": "character_HUMAN_VIGILANTE_JjdqwiAP6KHlilD2.yml",
+      "duplicateOf": "pc\\general\\PC_human-vigilante_v6355W.yml"
+    },
+    {
+      "name": "HUMAN VIGILANTE",
+      "source": "character_HUMAN_VIGILANTE_lmnOBqeBFjHKVUkO.yml",
+      "duplicateOf": "pc\\general\\PC_human-vigilante_v6355W.yml"
+    },
+    {
+      "name": "HUMAN VIGILANTE",
+      "source": "character_HUMAN_VIGILANTE_sJDTg5W0IYblRNUS.yml",
+      "duplicateOf": "pc\\general\\PC_human-vigilante_v6355W.yml"
+    },
+    {
+      "name": "HUMAN VIGILANTE",
+      "source": "character_HUMAN_VIGILANTE_TC4lSCeeHSOlg7kh.yml",
+      "duplicateOf": "pc\\general\\PC_human-vigilante_v6355W.yml"
+    },
+    {
+      "name": "HUMAN VIGILANTE",
+      "source": "character_HUMAN_VIGILANTE_uGAS1ERUnbEjNtBR.yml",
+      "duplicateOf": "pc\\general\\PC_human-vigilante_v6355W.yml"
+    },
+    {
+      "name": "HUMAN VIGILANTE",
+      "source": "character_HUMAN_VIGILANTE_XAOwa1WLghTRCmNK.yml",
+      "duplicateOf": "pc\\general\\PC_human-vigilante_v6355W.yml"
+    },
+    {
+      "name": "HUMAN VIGILANTE",
+      "source": "character_HUMAN_VIGILANTE_y4NAqdnOagbp55NY.yml",
+      "duplicateOf": "pc\\general\\PC_human-vigilante_v6355W.yml"
+    },
+    {
+      "name": "ORK DECKER",
+      "source": "character_ORK_DECKER_8LxXvuxdiT45UCY7.yml",
+      "duplicateOf": "pc\\matrix\\PC_ork-decker_1kwVZG.yml"
+    },
+    {
+      "name": "ORK DECKER",
+      "source": "character_ORK_DECKER_ciVWtmfoM42sQgOI.yml",
+      "duplicateOf": "pc\\matrix\\PC_ork-decker_1kwVZG.yml"
+    },
+    {
+      "name": "ORK DECKER",
+      "source": "character_ORK_DECKER_FsmcJgElyyitvych.yml",
+      "duplicateOf": "pc\\matrix\\PC_ork-decker_1kwVZG.yml"
+    },
+    {
+      "name": "ORK DECKER",
+      "source": "character_ORK_DECKER_IEmEcciZDArtmG8F.yml",
+      "duplicateOf": "pc\\matrix\\PC_ork-decker_1kwVZG.yml"
+    },
+    {
+      "name": "ORK DECKER",
+      "source": "character_ORK_DECKER_moQoI9iRhsd9SpZP.yml",
+      "duplicateOf": "pc\\matrix\\PC_ork-decker_1kwVZG.yml"
+    },
+    {
+      "name": "ORK DECKER",
+      "source": "character_ORK_DECKER_nmg9rxUQq0XuSZsJ.yml",
+      "duplicateOf": "pc\\matrix\\PC_ork-decker_1kwVZG.yml"
+    },
+    {
+      "name": "ORK DECKER",
+      "source": "character_ORK_DECKER_R3VQ158xHb1HyLNd.yml",
+      "duplicateOf": "pc\\matrix\\PC_ork-decker_1kwVZG.yml"
+    },
+    {
+      "name": "ORK DECKER",
+      "source": "character_ORK_DECKER_VlvZpqRqoWV4ZbV7.yml",
+      "duplicateOf": "pc\\matrix\\PC_ork-decker_1kwVZG.yml"
+    },
+    {
+      "name": "ORK DECKER",
+      "source": "character_ORK_DECKER_yz7U0mWqN0nI5BI7.yml",
+      "duplicateOf": "pc\\matrix\\PC_ork-decker_1kwVZG.yml"
+    },
+    {
+      "name": "ORK DECKER",
+      "source": "character_ORK_DECKER_z7EDQktFTYQNZ8jM.yml",
+      "duplicateOf": "pc\\matrix\\PC_ork-decker_1kwVZG.yml"
+    },
+    {
+      "name": "ORK ILLUSIONIST",
+      "source": "character_ORK_ILLUSIONIST_7wqwLWsfwvToNF1j.yml",
+      "duplicateOf": "pc\\general\\PC_ork-illusionist_6RzUVL.yml"
+    },
+    {
+      "name": "ORK ILLUSIONIST",
+      "source": "character_ORK_ILLUSIONIST_CJrGcDFgJhOAadWD.yml",
+      "duplicateOf": "pc\\general\\PC_ork-illusionist_6RzUVL.yml"
+    },
+    {
+      "name": "ORK ILLUSIONIST",
+      "source": "character_ORK_ILLUSIONIST_dVzmmLIL2v4jBz8B.yml",
+      "duplicateOf": "pc\\general\\PC_ork-illusionist_6RzUVL.yml"
+    },
+    {
+      "name": "ORK ILLUSIONIST",
+      "source": "character_ORK_ILLUSIONIST_EP2RtfbyVqvvXgOx.yml",
+      "duplicateOf": "pc\\general\\PC_ork-illusionist_6RzUVL.yml"
+    },
+    {
+      "name": "ORK ILLUSIONIST",
+      "source": "character_ORK_ILLUSIONIST_huRP6h0OHtMCHAMm.yml",
+      "duplicateOf": "pc\\general\\PC_ork-illusionist_6RzUVL.yml"
+    },
+    {
+      "name": "ORK ILLUSIONIST",
+      "source": "character_ORK_ILLUSIONIST_JlquArRytqVjgWVJ.yml",
+      "duplicateOf": "pc\\general\\PC_ork-illusionist_6RzUVL.yml"
+    },
+    {
+      "name": "ORK ILLUSIONIST",
+      "source": "character_ORK_ILLUSIONIST_prRgbCTwbcxPp1io.yml",
+      "duplicateOf": "pc\\general\\PC_ork-illusionist_6RzUVL.yml"
+    },
+    {
+      "name": "ORK ILLUSIONIST",
+      "source": "character_ORK_ILLUSIONIST_uBLQTqlcMqPAbEBw.yml",
+      "duplicateOf": "pc\\general\\PC_ork-illusionist_6RzUVL.yml"
+    },
+    {
+      "name": "ORK ILLUSIONIST",
+      "source": "character_ORK_ILLUSIONIST_UgGLhrcLPt24fhol.yml",
+      "duplicateOf": "pc\\general\\PC_ork-illusionist_6RzUVL.yml"
+    },
+    {
+      "name": "ORK ILLUSIONIST",
+      "source": "character_ORK_ILLUSIONIST_YepA1m8V01DeWDCi.yml",
+      "duplicateOf": "pc\\general\\PC_ork-illusionist_6RzUVL.yml"
+    },
+    {
+      "name": "ORK REPORTER",
+      "source": "character_ORK_REPORTER_1m6bSfL4RrWdmmL0.yml",
+      "duplicateOf": "pc\\general\\PC_ork-reporter_3Wnvdl.yml"
+    },
+    {
+      "name": "ORK REPORTER",
+      "source": "character_ORK_REPORTER_1q2oyQDZdESI4CGp.yml",
+      "duplicateOf": "pc\\general\\PC_ork-reporter_3Wnvdl.yml"
+    },
+    {
+      "name": "ORK REPORTER",
+      "source": "character_ORK_REPORTER_30Sqv4xxRRuJuZ7n.yml",
+      "duplicateOf": "pc\\general\\PC_ork-reporter_3Wnvdl.yml"
+    },
+    {
+      "name": "ORK REPORTER",
+      "source": "character_ORK_REPORTER_6YNKkuATYEmrJ91M.yml",
+      "duplicateOf": "pc\\general\\PC_ork-reporter_3Wnvdl.yml"
+    },
+    {
+      "name": "ORK REPORTER",
+      "source": "character_ORK_REPORTER_ctoY9XSZr2Oipd1M.yml",
+      "duplicateOf": "pc\\general\\PC_ork-reporter_3Wnvdl.yml"
+    },
+    {
+      "name": "ORK REPORTER",
+      "source": "character_ORK_REPORTER_na2m9A4MgUPDWp4q.yml",
+      "duplicateOf": "pc\\general\\PC_ork-reporter_3Wnvdl.yml"
+    },
+    {
+      "name": "ORK REPORTER",
+      "source": "character_ORK_REPORTER_nzFafjIcga1IbD2N.yml",
+      "duplicateOf": "pc\\general\\PC_ork-reporter_3Wnvdl.yml"
+    },
+    {
+      "name": "ORK REPORTER",
+      "source": "character_ORK_REPORTER_oz8UdNzZLBjrywpu.yml",
+      "duplicateOf": "pc\\general\\PC_ork-reporter_3Wnvdl.yml"
+    },
+    {
+      "name": "ORK REPORTER",
+      "source": "character_ORK_REPORTER_SvSmUsSSQhEwq7WL.yml",
+      "duplicateOf": "pc\\general\\PC_ork-reporter_3Wnvdl.yml"
+    },
+    {
+      "name": "ORK REPORTER",
+      "source": "character_ORK_REPORTER_ZjZXDGL8Yqbg2ssF.yml",
+      "duplicateOf": "pc\\general\\PC_ork-reporter_3Wnvdl.yml"
+    },
+    {
+      "name": "ORK STREET SAMURAI",
+      "source": "character_ORK_STREET_SAMURAI_aFfQcBKc5K9EAbgj.yml",
+      "duplicateOf": "pc\\general\\PC_ork-street-samurai_3nTb0A.yml"
+    },
+    {
+      "name": "ORK STREET SAMURAI",
+      "source": "character_ORK_STREET_SAMURAI_HfnjfkbKFhjzje31.yml",
+      "duplicateOf": "pc\\general\\PC_ork-street-samurai_3nTb0A.yml"
+    },
+    {
+      "name": "ORK STREET SAMURAI",
+      "source": "character_ORK_STREET_SAMURAI_IVUwYWAHp3cFgHsB.yml",
+      "duplicateOf": "pc\\general\\PC_ork-street-samurai_3nTb0A.yml"
+    },
+    {
+      "name": "ORK STREET SAMURAI",
+      "source": "character_ORK_STREET_SAMURAI_k8uZ0EV7hWrh6SAj.yml",
+      "duplicateOf": "pc\\general\\PC_ork-street-samurai_3nTb0A.yml"
+    },
+    {
+      "name": "ORK STREET SAMURAI",
+      "source": "character_ORK_STREET_SAMURAI_krNvrBSmsn5P73kU.yml",
+      "duplicateOf": "pc\\general\\PC_ork-street-samurai_3nTb0A.yml"
+    },
+    {
+      "name": "ORK STREET SAMURAI",
+      "source": "character_ORK_STREET_SAMURAI_lSY7kegqVVbkE7kC.yml",
+      "duplicateOf": "pc\\general\\PC_ork-street-samurai_3nTb0A.yml"
+    },
+    {
+      "name": "ORK STREET SAMURAI",
+      "source": "character_ORK_STREET_SAMURAI_pwKuDT0KQexpPPIR.yml",
+      "duplicateOf": "pc\\general\\PC_ork-street-samurai_3nTb0A.yml"
+    },
+    {
+      "name": "ORK STREET SAMURAI",
+      "source": "character_ORK_STREET_SAMURAI_UrGrtrSwHyhvBbxD.yml",
+      "duplicateOf": "pc\\general\\PC_ork-street-samurai_3nTb0A.yml"
+    },
+    {
+      "name": "ORK STREET SAMURAI",
+      "source": "character_ORK_STREET_SAMURAI_XugbpOdGylAXVmCb.yml",
+      "duplicateOf": "pc\\general\\PC_ork-street-samurai_3nTb0A.yml"
+    },
+    {
+      "name": "ORK STREET SAMURAI",
+      "source": "character_ORK_STREET_SAMURAI_YJgtSxMecuocV0fX.yml",
+      "duplicateOf": "pc\\general\\PC_ork-street-samurai_3nTb0A.yml"
+    },
+    {
+      "name": "REESE FRENZY",
+      "source": "character_REESE_FRENZY_EBNMY0QZuoh8gTns.yml",
+      "duplicateOf": "pc\\general\\PC_reese-frenzy_B3j0Bh.yml"
+    },
+    {
+      "name": "REESE FRENZY",
+      "source": "character_REESE_FRENZY_eVMboABXAN9W4N4A.yml",
+      "duplicateOf": "pc\\general\\PC_reese-frenzy_B3j0Bh.yml"
+    },
+    {
+      "name": "REESE FRENZY",
+      "source": "character_REESE_FRENZY_gRyvYeY7tj7GFmUk.yml",
+      "duplicateOf": "pc\\general\\PC_reese-frenzy_B3j0Bh.yml"
+    },
+    {
+      "name": "REESE FRENZY",
+      "source": "character_REESE_FRENZY_I9AUNwgIHNNoeieU.yml",
+      "duplicateOf": "pc\\general\\PC_reese-frenzy_B3j0Bh.yml"
+    },
+    {
+      "name": "REESE FRENZY",
+      "source": "character_REESE_FRENZY_l9Vep3dX8QN9dtfI.yml",
+      "duplicateOf": "pc\\general\\PC_reese-frenzy_B3j0Bh.yml"
+    },
+    {
+      "name": "REESE FRENZY",
+      "source": "character_REESE_FRENZY_LsVU5c1SLdB2Def4.yml",
+      "duplicateOf": "pc\\general\\PC_reese-frenzy_B3j0Bh.yml"
+    },
+    {
+      "name": "REESE FRENZY",
+      "source": "character_REESE_FRENZY_N4QoRgyJ1ZCJW6UO.yml",
+      "duplicateOf": "pc\\general\\PC_reese-frenzy_B3j0Bh.yml"
+    },
+    {
+      "name": "REESE FRENZY",
+      "source": "character_REESE_FRENZY_sNrqJoRuVAJwQWtm.yml",
+      "duplicateOf": "pc\\general\\PC_reese-frenzy_B3j0Bh.yml"
+    },
+    {
+      "name": "REESE FRENZY",
+      "source": "character_REESE_FRENZY_vpvMQDuq7nOvCOSI.yml",
+      "duplicateOf": "pc\\general\\PC_reese-frenzy_B3j0Bh.yml"
+    },
+    {
+      "name": "REESE FRENZY",
+      "source": "character_REESE_FRENZY_xDSZKQBA4ffgx1su.yml",
+      "duplicateOf": "pc\\general\\PC_reese-frenzy_B3j0Bh.yml"
+    },
+    {
+      "name": "TROLL BRUISER",
+      "source": "character_TROLL_BRUISER_7OT3Kg40PayOYhYE.yml",
+      "duplicateOf": "npc\\enemy\\NPC_troll-bruiser_TjyYVe.yml"
+    },
+    {
+      "name": "TROLL BRUISER",
+      "source": "character_TROLL_BRUISER_8m7zXqc7ojMjnTB1.yml",
+      "duplicateOf": "npc\\enemy\\NPC_troll-bruiser_TjyYVe.yml"
+    },
+    {
+      "name": "TROLL BRUISER",
+      "source": "character_TROLL_BRUISER_8QZlvVlxgmF0X4T0.yml",
+      "duplicateOf": "npc\\enemy\\NPC_troll-bruiser_TjyYVe.yml"
+    },
+    {
+      "name": "TROLL BRUISER",
+      "source": "character_TROLL_BRUISER_c8hrmllOH2AKnVN4.yml",
+      "duplicateOf": "npc\\enemy\\NPC_troll-bruiser_TjyYVe.yml"
+    },
+    {
+      "name": "TROLL BRUISER",
+      "source": "character_TROLL_BRUISER_ELG638nrbvLFjb2D.yml",
+      "duplicateOf": "npc\\enemy\\NPC_troll-bruiser_TjyYVe.yml"
+    },
+    {
+      "name": "TROLL BRUISER",
+      "source": "character_TROLL_BRUISER_OYPiRnOnt2ZfXI7M.yml",
+      "duplicateOf": "npc\\enemy\\NPC_troll-bruiser_TjyYVe.yml"
+    },
+    {
+      "name": "TROLL BRUISER",
+      "source": "character_TROLL_BRUISER_sIJ0yGKpMmr1KqFQ.yml",
+      "duplicateOf": "npc\\enemy\\NPC_troll-bruiser_TjyYVe.yml"
+    },
+    {
+      "name": "TROLL BRUISER",
+      "source": "character_TROLL_BRUISER_SX0s13Ph2jyJq05N.yml",
+      "duplicateOf": "npc\\enemy\\NPC_troll-bruiser_TjyYVe.yml"
+    },
+    {
+      "name": "TROLL BRUISER",
+      "source": "character_TROLL_BRUISER_ViKH1AXkn4jNZ6Hq.yml",
+      "duplicateOf": "npc\\enemy\\NPC_troll-bruiser_TjyYVe.yml"
+    },
+    {
+      "name": "TROLL BRUISER",
+      "source": "character_TROLL_BRUISER_y0Skhutylf0rdFGb.yml",
+      "duplicateOf": "npc\\enemy\\NPC_troll-bruiser_TjyYVe.yml"
+    },
+    {
+      "name": "TROLL FACE",
+      "source": "character_TROLL_FACE_CMHCfhPl3gTNsask.yml",
+      "duplicateOf": "pc\\general\\PC_troll-face_wFTBzX.yml"
+    },
+    {
+      "name": "TROLL FACE",
+      "source": "character_TROLL_FACE_DgqYJohyyn4PKQ1O.yml",
+      "duplicateOf": "pc\\general\\PC_troll-face_wFTBzX.yml"
+    },
+    {
+      "name": "TROLL FACE",
+      "source": "character_TROLL_FACE_ecdQW44lVq3fISJV.yml",
+      "duplicateOf": "pc\\general\\PC_troll-face_wFTBzX.yml"
+    },
+    {
+      "name": "TROLL FACE",
+      "source": "character_TROLL_FACE_LW5OtfA7v4DxvgXo.yml",
+      "duplicateOf": "pc\\general\\PC_troll-face_wFTBzX.yml"
+    },
+    {
+      "name": "TROLL FACE",
+      "source": "character_TROLL_FACE_mODR47coGbBN3AXr.yml",
+      "duplicateOf": "pc\\general\\PC_troll-face_wFTBzX.yml"
+    },
+    {
+      "name": "TROLL FACE",
+      "source": "character_TROLL_FACE_NolYBi9ZRlItTihf.yml",
+      "duplicateOf": "pc\\general\\PC_troll-face_wFTBzX.yml"
+    },
+    {
+      "name": "TROLL FACE",
+      "source": "character_TROLL_FACE_raZNrwD0TiXagum2.yml",
+      "duplicateOf": "pc\\general\\PC_troll-face_wFTBzX.yml"
+    },
+    {
+      "name": "TROLL FACE",
+      "source": "character_TROLL_FACE_UwylEOJ5dKWH1cuj.yml",
+      "duplicateOf": "pc\\general\\PC_troll-face_wFTBzX.yml"
+    },
+    {
+      "name": "TROLL FACE",
+      "source": "character_TROLL_FACE_vGFKmWP1tCBmEJGn.yml",
+      "duplicateOf": "pc\\general\\PC_troll-face_wFTBzX.yml"
+    },
+    {
+      "name": "TROLL FACE",
+      "source": "character_TROLL_FACE_w9CW8okzzZaAQizy.yml",
+      "duplicateOf": "pc\\general\\PC_troll-face_wFTBzX.yml"
+    },
+    {
+      "name": "TROLL GANG LEADER",
+      "source": "character_TROLL_GANG_LEADER_aa8VVRlLDZB7gK64.yml",
+      "duplicateOf": "npc\\enemy\\NPC_troll-gang-leader_1dXrH8.yml"
+    },
+    {
+      "name": "TROLL GANG LEADER",
+      "source": "character_TROLL_GANG_LEADER_DhDfmp88ysORNVvp.yml",
+      "duplicateOf": "npc\\enemy\\NPC_troll-gang-leader_1dXrH8.yml"
+    },
+    {
+      "name": "TROLL GANG LEADER",
+      "source": "character_TROLL_GANG_LEADER_FsIxmO49GiEnDdPL.yml",
+      "duplicateOf": "npc\\enemy\\NPC_troll-gang-leader_1dXrH8.yml"
+    },
+    {
+      "name": "TROLL GANG LEADER",
+      "source": "character_TROLL_GANG_LEADER_K2Lt7ZbvFNLzkdTf.yml",
+      "duplicateOf": "npc\\enemy\\NPC_troll-gang-leader_1dXrH8.yml"
+    },
+    {
+      "name": "TROLL GANG LEADER",
+      "source": "character_TROLL_GANG_LEADER_kAb50crTxKIG6O4s.yml",
+      "duplicateOf": "npc\\enemy\\NPC_troll-gang-leader_1dXrH8.yml"
+    },
+    {
+      "name": "TROLL GANG LEADER",
+      "source": "character_TROLL_GANG_LEADER_Lkz3VhAWoqjOC9VM.yml",
+      "duplicateOf": "npc\\enemy\\NPC_troll-gang-leader_1dXrH8.yml"
+    },
+    {
+      "name": "TROLL GANG LEADER",
+      "source": "character_TROLL_GANG_LEADER_P2dAx0jdGkg8bKIW.yml",
+      "duplicateOf": "npc\\enemy\\NPC_troll-gang-leader_1dXrH8.yml"
+    },
+    {
+      "name": "TROLL GANG LEADER",
+      "source": "character_TROLL_GANG_LEADER_RBPKpmCarWHajeu1.yml",
+      "duplicateOf": "npc\\enemy\\NPC_troll-gang-leader_1dXrH8.yml"
+    },
+    {
+      "name": "TROLL GANG LEADER",
+      "source": "character_TROLL_GANG_LEADER_sxZvI09AJAxQBpZn.yml",
+      "duplicateOf": "npc\\enemy\\NPC_troll-gang-leader_1dXrH8.yml"
+    },
+    {
+      "name": "TROLL GANG LEADER",
+      "source": "character_TROLL_GANG_LEADER_yPsWJXkr6TzuP2ce.yml",
+      "duplicateOf": "npc\\enemy\\NPC_troll-gang-leader_1dXrH8.yml"
+    },
+    {
+      "name": "TROLL STREET SAMURAI",
+      "source": "character_TROLL_STREET_SAMURAI_awk9StZoreIYr5vY.yml",
+      "duplicateOf": "pc\\general\\PC_troll-street-samur_sjQXy6.yml"
+    },
+    {
+      "name": "TROLL STREET SAMURAI",
+      "source": "character_TROLL_STREET_SAMURAI_CMZZE02ki4mZTMS2.yml",
+      "duplicateOf": "pc\\general\\PC_troll-street-samur_sjQXy6.yml"
+    },
+    {
+      "name": "TROLL STREET SAMURAI",
+      "source": "character_TROLL_STREET_SAMURAI_EJVN7RTZvR2eGCoy.yml",
+      "duplicateOf": "pc\\general\\PC_troll-street-samur_sjQXy6.yml"
+    },
+    {
+      "name": "TROLL STREET SAMURAI",
+      "source": "character_TROLL_STREET_SAMURAI_HDl7VY3DKUaHzmI7.yml",
+      "duplicateOf": "pc\\general\\PC_troll-street-samur_sjQXy6.yml"
+    },
+    {
+      "name": "TROLL STREET SAMURAI",
+      "source": "character_TROLL_STREET_SAMURAI_LoM4RpaHxa6s4wXT.yml",
+      "duplicateOf": "pc\\general\\PC_troll-street-samur_sjQXy6.yml"
+    },
+    {
+      "name": "TROLL STREET SAMURAI",
+      "source": "character_TROLL_STREET_SAMURAI_nI9CiMez9b6jSuQS.yml",
+      "duplicateOf": "pc\\general\\PC_troll-street-samur_sjQXy6.yml"
+    },
+    {
+      "name": "TROLL STREET SAMURAI",
+      "source": "character_TROLL_STREET_SAMURAI_Ujp9EAhZC1chRHOK.yml",
+      "duplicateOf": "pc\\general\\PC_troll-street-samur_sjQXy6.yml"
+    },
+    {
+      "name": "TROLL STREET SAMURAI",
+      "source": "character_TROLL_STREET_SAMURAI_vj5oUypx3rkCGhTH.yml",
+      "duplicateOf": "pc\\general\\PC_troll-street-samur_sjQXy6.yml"
+    },
+    {
+      "name": "TROLL STREET SAMURAI",
+      "source": "character_TROLL_STREET_SAMURAI_Y0uQEHH5TNezy9IJ.yml",
+      "duplicateOf": "pc\\general\\PC_troll-street-samur_sjQXy6.yml"
+    },
+    {
+      "name": "TROLL STREET SAMURAI",
+      "source": "character_TROLL_STREET_SAMURAI_Yloln9ZzNAWtvqJL.yml",
+      "duplicateOf": "pc\\general\\PC_troll-street-samur_sjQXy6.yml"
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+_id: 7A6K9wXCclBed4PH
+name: traditional bow
+type: weapon
+img: systems/anarchy/icons/weapons/pistol-gun.svg
+system:
+  skill: projectileWeapons
+  specialization: ""
+  strength: true
+  damage: 1
+  damageAttribute: strength
+  noArmor: false
+  monitor: physical
+  defense: ""
+  area: ""
+  drain: 0
+  range:
+    max: long
+    short: -2
+    medium: 0
+    long: -2
+  modifiers: []
+  inactive: false
+  references:
+    sourceReference: Anarchy Catalog
+    description: Bow and arrow STR/2 +1P -2 OK -2 (Compound bow, traditional bow,
+      dynamic tension bow)
+    gmnotes: ""
+ownership:
+  default: 0
+flags:
+  cybermythic:
+    origFile: weapon_traditional_bow_7A6K9wXCclBed4PH.yml
+    bucket: weapon
+    variant: bows

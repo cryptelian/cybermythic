@@ -1,0 +1,17 @@
+_id: 447sMzjNClAkqn25
+name: Survival kit
+type: gear
+img: systems/anarchy/icons/gear/gear.svg
+system:
+  inactive: false
+  references:
+    sourceReference: Anarchy Catalog
+    description: ""
+    gmnotes: ""
+ownership:
+  default: 0
+flags:
+  cybermythic:
+    origFile: gear_Survival_kit_447sMzjNClAkqn25.yml
+    bucket: gear
+    variant: kits

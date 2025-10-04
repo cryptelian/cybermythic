@@ -1,0 +1,17 @@
+_id: 2yaZI2sOv3suNUoB
+name: Magical lodge materials
+type: gear
+img: systems/anarchy/icons/gear/gear.svg
+system:
+  inactive: false
+  references:
+    sourceReference: Anarchy Catalog
+    description: ""
+    gmnotes: ""
+ownership:
+  default: 0
+flags:
+  cybermythic:
+    origFile: gear_Magical_lodge_materials_2yaZI2sOv3suNUoB.yml
+    bucket: gear
+    variant: general

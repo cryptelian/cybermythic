@@ -1,0 +1,17 @@
+_id: 8SDTQ6eIQiTgAhfm
+name: Enhanced vision goggles
+type: gear
+img: systems/anarchy/icons/gear/gear.svg
+system:
+  inactive: false
+  references:
+    sourceReference: Anarchy Catalog
+    description: ""
+    gmnotes: ""
+ownership:
+  default: 0
+flags:
+  cybermythic:
+    origFile: gear_Enhanced_vision_goggles_8SDTQ6eIQiTgAhfm.yml
+    bucket: gear
+    variant: optics

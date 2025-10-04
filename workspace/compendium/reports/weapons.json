@@ -1,0 +1,206 @@
+{
+  "pack": "weapons",
+  "stats": {
+    "processed": 79,
+    "written": 40,
+    "duplicates": 39,
+    "durationSeconds": 0.2
+  },
+  "duplicates": [
+    {
+      "name": "AK-97",
+      "source": "weapon_AK_97_SsFBU90JtFxzNmeP.yml",
+      "duplicateOf": "weapon\\rifles\\WPN_ak-97_a3Iiat.yml"
+    },
+    {
+      "name": "Ares Alpha",
+      "source": "weapon_Ares_Alpha_PNbPu3H3Zx6nzJl1.yml",
+      "duplicateOf": "weapon\\rifles\\WPN_ares-alpha_t2nchV.yml"
+    },
+    {
+      "name": "Ares Desert Strike",
+      "source": "weapon_Ares_Desert_Strike_KN7k9pxV2UbezFuJ.yml",
+      "duplicateOf": "weapon\\rifles\\WPN_ares-desert-strike_qPVSF9.yml"
+    },
+    {
+      "name": "Ares Light Fire",
+      "source": "weapon_Ares_Light_Fire_9NZeATHHxL7mdogK.yml",
+      "duplicateOf": "weapon\\rifles\\WPN_ares-light-fire_Yhk4L8.yml"
+    },
+    {
+      "name": "Ares Predator V",
+      "source": "weapon_Ares_Predator_V_L0s8C0f9fAWJsFXY.yml",
+      "duplicateOf": "weapon\\rifles\\WPN_ares-predator-v_ejX1Cu.yml"
+    },
+    {
+      "name": "Beretta 201T",
+      "source": "weapon_Beretta_201T_XOAshvGlP6IQScQy.yml",
+      "duplicateOf": "weapon\\other\\WPN_beretta-201t_WER7SY.yml"
+    },
+    {
+      "name": "Browning Ultra-Power",
+      "source": "weapon_Browning_Ultra_Power_LcivXyN54iiaxzSi.yml",
+      "duplicateOf": "weapon\\other\\WPN_browning-ultra-pow_NXLE3l.yml"
+    },
+    {
+      "name": "Cavalier Arms Crockett EBR",
+      "source": "weapon_Cavalier_Arms_Crockett_EBR_Wxdqywq11kZUj1Gu.yml",
+      "duplicateOf": "weapon\\rifles\\WPN_cavalier-arms-croc_ImHQTc.yml"
+    },
+    {
+      "name": "Colt America L36",
+      "source": "weapon_Colt_America_L36_OmG4aSUNZHjLy1a0.yml",
+      "duplicateOf": "weapon\\other\\WPN_colt-america-l36_5hLkFp.yml"
+    },
+    {
+      "name": "Colt Cobra TZ-120",
+      "source": "weapon_Colt_Cobra_TZ_120_QlYjXU0R18SzlKh8.yml",
+      "duplicateOf": "weapon\\other\\WPN_colt-cobra-tz-120_NC70lN.yml"
+    },
+    {
+      "name": "Colt Government 2066",
+      "source": "weapon_Colt_Government_2066_YuXJR6zkpwqfRTut.yml",
+      "duplicateOf": "weapon\\other\\WPN_colt-government-20_BKYfaT.yml"
+    },
+    {
+      "name": "Colt M23",
+      "source": "weapon_Colt_M23_jnFCkevj60kQ8kRb.yml",
+      "duplicateOf": "weapon\\other\\WPN_colt-m23_g32e2h.yml"
+    },
+    {
+      "name": "Colt New Model Revolver",
+      "source": "weapon_Colt_New_Model_Revolver_VQWu1lH2ilWsKN6m.yml",
+      "duplicateOf": "weapon\\pistols\\WPN_colt-new-model-rev_m7KBA7.yml"
+    },
+    {
+      "name": "Compound bow",
+      "source": "weapon_Compound_bow_YAQaJUvLcWQSCb8O.yml",
+      "duplicateOf": "weapon\\bows\\WPN_compound-bow_kCaz1Z.yml"
+    },
+    {
+      "name": "dynamic tension bow",
+      "source": "weapon_dynamic_tension_bow_OIIrjA9MD4UQRfSW.yml",
+      "duplicateOf": "weapon\\bows\\WPN_dynamic-tension-bo_o2vSsz.yml"
+    },
+    {
+      "name": "Fichetti Security 600",
+      "source": "weapon_Fichetti_Security_600_npQ74S48O9YFZbZK.yml",
+      "duplicateOf": "weapon\\other\\WPN_fichetti-security-_mUp1AM.yml"
+    },
+    {
+      "name": "FN HAR",
+      "source": "weapon_FN_HAR_lRlcz1oAwDpiPvQO.yml",
+      "duplicateOf": "weapon\\rifles\\WPN_fn-har_jrwtoH.yml"
+    },
+    {
+      "name": "FN P93 Praetor",
+      "source": "weapon_FN_P93_Praetor_6sOeJUeQQNStG0ZF.yml",
+      "duplicateOf": "weapon\\pistols\\WPN_fn-p93-praetor_EpmFnF.yml"
+    },
+    {
+      "name": "Heavy",
+      "source": "weapon_Heavy_S136b8vC3yY9hqj2.yml",
+      "duplicateOf": "weapon\\other\\WPN_heavy_2MjTfN.yml"
+    },
+    {
+      "name": "HK-227",
+      "source": "weapon_HK_227_iTZt99nRJoGi9qek.yml",
+      "duplicateOf": "weapon\\other\\WPN_hk-227_GX1RaC.yml"
+    },
+    {
+      "name": "Ingram Smartgun X",
+      "source": "weapon_Ingram_Smartgun_X_vLcLMN5pEJ5415nT.yml",
+      "duplicateOf": "weapon\\pistols\\WPN_ingram-smartgun-x_2CQm3N.yml"
+    },
+    {
+      "name": "light",
+      "source": "weapon_light_mRcTKA2Z8sW3fIiL.yml",
+      "duplicateOf": "weapon\\other\\WPN_light_FlxdTZ.yml"
+    },
+    {
+      "name": "Machine Pistols",
+      "source": "weapon_Machine_Pistols_quvGVwvkyEw7daow.yml",
+      "duplicateOf": "weapon\\pistols\\WPN_machine-pistols_Yx1aTL.yml"
+    },
+    {
+      "name": "medium",
+      "source": "weapon_medium_vk2uQH8TpaKWSCrW.yml",
+      "duplicateOf": "weapon\\other\\WPN_medium_6QBKe7.yml"
+    },
+    {
+      "name": "Ranger Arms SM-5",
+      "source": "weapon_Ranger_Arms_SM_5_rtBMJVCtI4EjuY0q.yml",
+      "duplicateOf": "weapon\\rifles\\WPN_ranger-arms-sm-5_cnjyjW.yml"
+    },
+    {
+      "name": "ranger sliver pistol crossbow",
+      "source": "weapon_ranger_sliver_pistol_crossbow_DfL9eO34BnsHy3hp.yml",
+      "duplicateOf": "weapon\\bows\\WPN_ranger-sliver-pist_O5PyF3.yml"
+    },
+    {
+      "name": "Remington 950",
+      "source": "weapon_Remington_950_k6fCU9T1xIbPXene.yml",
+      "duplicateOf": "weapon\\rifles\\WPN_remington-950_eT7UlP.yml"
+    },
+    {
+      "name": "Remington Roomsweeper",
+      "source": "weapon_Remington_Roomsweeper_VXstGsqNoR9e3Cws.yml",
+      "duplicateOf": "weapon\\rifles\\WPN_remington-roomswee_34XIvx.yml"
+    },
+    {
+      "name": "Ruger 100",
+      "source": "weapon_Ruger_100_YK2Y63du75dSzZS8.yml",
+      "duplicateOf": "weapon\\other\\WPN_ruger-100_l2RVlm.yml"
+    },
+    {
+      "name": "Ruger Super Warhawk",
+      "source": "weapon_Ruger_Super_Warhawk_YdZq6CpENI0JRr9o.yml",
+      "duplicateOf": "weapon\\rifles\\WPN_ruger-super-warhaw_ktLllF.yml"
+    },
+    {
+      "name": "SCK Model 100",
+      "source": "weapon_SCK_Model_100_fUZAJn2pU6GIyas0.yml",
+      "duplicateOf": "weapon\\other\\WPN_sck-model-100_5wpQ9v.yml"
+    },
+    {
+      "name": "Shiawase Arms Monsoon",
+      "source": "weapon_Shiawase_Arms_Monsoon_J5kTzIPYeTCCTLw7.yml",
+      "duplicateOf": "weapon\\rifles\\WPN_shiawase-arms-mons_dczruR.yml"
+    },
+    {
+      "name": "Shiawase/Nemesis Arms Maul stun staff",
+      "source": "weapon_Shiawase_Nemesis_Arms_Maul_stun_staff_YEnS61kmg82rpSoB.yml",
+      "duplicateOf": "weapon\\melee\\WPN_shiawase-nemesis-a_JCt0DK.yml"
+    },
+    {
+      "name": "Streetline Special",
+      "source": "weapon_Streetline_Special_ZGHGiBrkczvJ2dgG.yml",
+      "duplicateOf": "weapon\\other\\WPN_streetline-special_ZCjkSR.yml"
+    },
+    {
+      "name": "stun baton",
+      "source": "weapon_stun_baton_uJ1y483Agv8gCogV.yml",
+      "duplicateOf": "weapon\\melee\\WPN_stun-baton_ZjYHBL.yml"
+    },
+    {
+      "name": "Taurus Omni-6",
+      "source": "weapon_Taurus_Omni_6_MGnovQuAZII5EsRv.yml",
+      "duplicateOf": "weapon\\other\\WPN_taurus-omni-6_mWBgKd.yml"
+    },
+    {
+      "name": "traditional bow",
+      "source": "weapon_traditional_bow_gsqIxMwLiXqtGScq.yml",
+      "duplicateOf": "weapon\\bows\\WPN_traditional-bow_Bed4PH.yml"
+    },
+    {
+      "name": "Uzi IV",
+      "source": "weapon_Uzi_IV_sTCX0FcAeAn6zdJ1.yml",
+      "duplicateOf": "weapon\\smg\\WPN_uzi-iv_D11UaN.yml"
+    },
+    {
+      "name": "Yamaha Raiden",
+      "source": "weapon_Yamaha_Raiden_gKu2aKY4q3z9IxRB.yml",
+      "duplicateOf": "weapon\\rifles\\WPN_yamaha-raiden_49qGiW.yml"
+    }
+  ]
+}

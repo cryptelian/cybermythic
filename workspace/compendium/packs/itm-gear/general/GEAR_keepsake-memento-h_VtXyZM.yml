@@ -1,0 +1,17 @@
+_id: 48HAhKXeT9VtXyZM
+name: Keepsake, memento, heirloom, an- tique
+type: gear
+img: systems/anarchy/icons/gear/gear.svg
+system:
+  inactive: false
+  references:
+    sourceReference: Anarchy Catalog
+    description: ""
+    gmnotes: ""
+ownership:
+  default: 0
+flags:
+  cybermythic:
+    origFile: gear_Keepsake__memento__heirloom__an__tique_48HAhKXeT9VtXyZM.yml
+    bucket: gear
+    variant: general

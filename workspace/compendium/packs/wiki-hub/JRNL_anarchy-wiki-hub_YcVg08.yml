@@ -1,0 +1,33 @@
+_id: 6O08vHyElDYcVg08
+name: Anarchy Wiki Hub
+folder: null
+sort: 0
+flags:
+  cybermythic:
+    origFile: journal_Anarchy_Wiki_Hub_igb4cj3I.yml
+    bucket: journal
+    variant: hub
+pages:
+  - name: Welcome
+    type: text
+    title:
+      show: true
+      level: 1
+    text:
+      format: 1
+      content: <p>Use this wiki to centralize rules, gear, amps, and NPC notes. Tag
+        pages and cross-link to items and actors via UUID.</p>
+      markdown: ""
+    _id: 9q5WnTWIAB4hryhL
+    image: {}
+    video:
+      controls: true
+      volume: 0.5
+    src: null
+    system: {}
+    sort: 0
+    ownership:
+      default: -1
+    flags: {}
+ownership:
+  default: 0

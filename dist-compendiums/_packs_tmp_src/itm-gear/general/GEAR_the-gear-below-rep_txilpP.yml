@@ -1,0 +1,19 @@
+_id: 95CeMmk3eEtxilpP
+name: The gear below represents just a sample of what the Sixth World has to
+  offer. Players are encouraged to cre- ate their own unique gear or recreate a
+  piece of gear they have found in previous Shadowrun products.
+type: gear
+img: systems/anarchy/icons/gear/gear.svg
+system:
+  inactive: false
+  references:
+    sourceReference: Anarchy Catalog
+    description: ""
+    gmnotes: ""
+ownership:
+  default: 0
+flags:
+  cybermythic:
+    origFile: gear_The_gear_below_represents_just_a_sample_of_what_the_Sixth_World_has_to_offer__Players_are_encouraged_to_cre__ate_their_own_unique_gear_or_recreate_a_piece_of_gear_they_have_found_in_previous_Shadowrun_products__95CeMmk3eEtxilpP.yml
+    bucket: gear
+    variant: general

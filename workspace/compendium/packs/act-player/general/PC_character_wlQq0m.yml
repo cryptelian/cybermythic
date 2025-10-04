@@ -1,0 +1,232 @@
+_id: wx1PDH31jlwlQq0m
+name: Character
+type: character
+img: systems/anarchy/icons/vitruvian-man.svg
+system:
+  description:
+    ownerId: ""
+    description: ""
+    gmnotes: ""
+    favorites: []
+    state:
+      matrix:
+        value: 0
+        max: 0
+      physical:
+        value: 0
+        max: 0
+  counters:
+    essence:
+      value: 6
+    karma:
+      value: 0
+      total: 0
+    anarchy:
+      value: 3
+      max: 6
+    sceneAnarchy:
+      value: 0
+      max: 3
+    social:
+      celebrity:
+        value: 0
+      credibility:
+        value: 0
+        max: 1
+      rumor:
+        value: 0
+        max: 1
+  monitors:
+    physical:
+      value: 0
+      max: 10
+      resistance: 0
+    stun:
+      value: 0
+      max: 10
+      resistance: 0
+    armor:
+      label: Armor
+      value: 0
+      max: 9
+  attributes:
+    agility:
+      value: 40
+    strength:
+      value: 12
+    willpower:
+      value: 1
+    logic:
+      value: 42
+    charisma:
+      value: 2078
+    edge:
+      value: 12
+  style: ""
+  genre: ""
+  capacity: emerged
+  connectionMode: disconnected
+  ownAnarchy: false
+  keywords: []
+  dispositions: []
+  cues: []
+ownership:
+  default: 0
+flags:
+  cybermythic:
+    origFile: character_Character_wx1PDH31jlwlQq0m.yml
+    bucket: pc
+    variant: general
+items:
+  - _id: 6jbVvx8L4OBnQLjm
+    name: S
+    type: skill
+    img: systems/anarchy/icons/skills/skills.svg
+    system:
+      code: s
+      attribute: knowledge
+      value: 0
+      specialization: ""
+      hasDrain: false
+      hasConvergence: false
+      isSocial: false
+      listspecialization: []
+    ownership:
+      default: 0
+    flags: {}
+  - _id: 0uCVDsK5hAzrbVwk
+    name: C
+    type: skill
+    img: systems/anarchy/icons/skills/skills.svg
+    system:
+      code: c
+      attribute: knowledge
+      value: 0
+      specialization: ""
+      hasDrain: false
+      hasConvergence: false
+      isSocial: false
+      listspecialization: []
+    ownership:
+      default: 0
+    flags: {}
+  - _id: 0WqDVCOCaNhOzFGF
+    name: A
+    type: skill
+    img: systems/anarchy/icons/skills/skills.svg
+    system:
+      code: a
+      attribute: knowledge
+      value: 0
+      specialization: ""
+      hasDrain: false
+      hasConvergence: false
+      isSocial: false
+      listspecialization: []
+    ownership:
+      default: 0
+    flags: {}
+  - _id: QFT20hGGR4es7vHs
+    name: C
+    type: skill
+    img: systems/anarchy/icons/skills/skills.svg
+    system:
+      code: c
+      attribute: knowledge
+      value: 0
+      specialization: ""
+      hasDrain: false
+      hasConvergence: false
+      isSocial: false
+      listspecialization: []
+    ownership:
+      default: 0
+    flags: {}
+  - _id: vuFw7qQtxCrXTAb7
+    name: P
+    type: shadowamp
+    img: systems/anarchy/icons/shadowamps/other.svg
+    system:
+      category: special
+      capacity: emerged
+      level: 1
+      essence: 0
+      modifiers: []
+      inactive: false
+      references:
+        sourceReference: ""
+        description: ""
+        gmnotes: ""
+    ownership:
+      default: 0
+    flags: {}
+  - _id: 26u8Wynkd86lqh4R
+    name: E
+    type: shadowamp
+    img: systems/anarchy/icons/shadowamps/other.svg
+    system:
+      category: special
+      capacity: emerged
+      level: 1
+      essence: 0
+      modifiers: []
+      inactive: false
+      references:
+        sourceReference: ""
+        description: ""
+        gmnotes: ""
+    ownership:
+      default: 0
+    flags: {}
+  - _id: RGfATCVX0sut2zKN
+    name: A
+    type: shadowamp
+    img: systems/anarchy/icons/shadowamps/other.svg
+    system:
+      category: special
+      capacity: emerged
+      level: 1
+      essence: 0
+      modifiers: []
+      inactive: false
+      references:
+        sourceReference: ""
+        description: ""
+        gmnotes: ""
+    ownership:
+      default: 0
+    flags: {}
+  - _id: L3IFcN4Hu7rhza9V
+    name: B
+    type: shadowamp
+    img: systems/anarchy/icons/shadowamps/other.svg
+    system:
+      category: special
+      capacity: emerged
+      level: 1
+      essence: 0
+      modifiers: []
+      inactive: false
+      references:
+        sourceReference: ""
+        description: ""
+        gmnotes: ""
+    ownership:
+      default: 0
+    flags: {}
+  - _id: yvVOVnvTSa1lOOfS
+    name: namely the people your character knows. These can run the gamut from
+      street lowlifes to people in corporate penthouses, and they'll be the ones
+      your character gets in touch with when things go south, you need some in-
+      formation, or you just need a shoulder to bleed on.
+    type: contact
+    img: systems/anarchy/icons/contacts/contact.svg
+    system:
+      inactive: false
+      references:
+        sourceReference: ""
+        description: ""
+        gmnotes: ""
+    ownership:
+      default: 0
+    flags: {}
