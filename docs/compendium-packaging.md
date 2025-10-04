@@ -83,7 +83,7 @@ main().catch((err) => {
 
 ---
 
-**Next action:** implement the normalisation script against the staged `ninjanarchy` data, beginning with actors (largest volume) and extending to gear/weapons once the pipeline is proven.
+**Next action:** run the normaliser across all packs and feed the outputs into the packaging script (`PACK_SRC=workspace/compendium/... OUT_DIR=dist-compendiums node tools/packCompendiumsWithRewrite.mjs`) to produce installable bundles for smoke testing.
 
 ## Deployment & Validation Checklist
 

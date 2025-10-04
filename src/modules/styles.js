@@ -47,4 +47,32 @@ export class Styles {
     const style = game.settings.get(SYSTEM_NAME, DEFAULT_CSS_CLASS);
     return this.availableStyles[style] ? style : CSS_DEFAULT;
   }
+
+  /**
+   * Extract theme ID from a CSS class name
+   * @param {string} cssClass - The CSS class name
+   * @returns {string} The theme ID
+   */
+  getThemeIdFromClass(cssClass) {
+    if (!cssClass) return 'default';
+
+    // Map CSS classes to theme IDs
+    const themeMap = {
+      'style-anarchy-shadowrun': 'shadowrun',
+      'style-dark': 'dark',
+      'style-darkglass': 'darkglass',
+      'default-css-class': 'default',
+    };
+
+    return themeMap[cssClass] || cssClass.replace(/^style-/, '').replace(/-/g, '_');
+  }
+
+  /**
+   * Get the current theme ID
+   * @returns {string} The current theme ID
+   */
+  getCurrentThemeId() {
+    const cssClass = this.selectCssClass();
+    return this.getThemeIdFromClass(cssClass);
+  }
 }

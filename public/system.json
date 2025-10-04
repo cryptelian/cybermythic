@@ -40,14 +40,8 @@
   },
   "license": "LICENSE.md",
   "scripts": [],
-  "esmodules": ["index.mjs"],
-  "styles": [
-    "style/anarchy.css",
-    "style/anarchy-shadowrun.css",
-    "style/anarchy-dark.css",
-    "style/anarchy-darkglass.css",
-    "style.css"
-  ],
+  "esmodules": ["dist/index.mjs"],
+  "styles": ["dist/style.css"],
   "languages": [
     {
       "lang": "en",

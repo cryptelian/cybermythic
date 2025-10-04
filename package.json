@@ -1,12 +1,15 @@
 {
   "scripts": {
-    "build": "npx vite build",
+    "build": "vite build && npm run build:copy-dist",
+    "build:copy-dist": "powershell -Command \"New-Item -ItemType Directory -Force -Path public/dist | Out-Null; Copy-Item dist/* public/dist/ -Force\"",
     "build:styles": "sass src/styles/main.scss public/style/compiled.css --source-map --embed-sources",
     "build:styles:optimized": "sass src/styles/main.scss public/style/compiled.css --style=compressed --embed-sources",
     "build:styles:watch": "sass --watch src/styles/main.scss:public/style/compiled.css --source-map --embed-sources",
     "build:critical": "sass src/styles/build/critical.scss public/style/critical.css --style=compressed --no-source-map",
-    "run": "npx vite serve",
-    "dev": "concurrently \"npm run build:styles:watch\" \"npm run run\"",
+    "run": "vite serve",
+    "build:production": "vite build --mode production && npm run build:copy-dist",
+    "dev": "npm run build && vite serve",
+    "dev:watch": "concurrently \"npm run build:styles:watch\" \"npm run run\"",
     "packCompendiumsToDist": "node ./tools/packCompendiumsToDist.mjs",
     "packCompendiumsToPublic": "node ./tools/packCompendiumsToPublic.mjs",
     "unpackCompendiumsFromPublic": "node ./tools/unpackCompendiumsFromPublic.mjs",

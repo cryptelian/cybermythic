@@ -203,6 +203,10 @@ export class AnarchySystem {
     if (!this.sheetsRegistered) {
       this._ensureSheetsWhenAvailable();
     }
+
+    // Fix truncated sheet names and other database issues
+    await this._fixDatabaseCorruption();
+
     if (game.user.isGM) {
       new Migrations().migrate();
 
@@ -493,6 +497,92 @@ export class AnarchySystem {
     } catch (_) {}
   }
 
+  async _fixDatabaseCorruption() {
+    if (!game.user.isGM) return;
+
+    console.log(LOG_HEAD + 'Checking for database corruption...');
+    let fixedCount = 0;
+
+    // Fix truncated sheet names for actors
+    const actorUpdates = [];
+    const sheetNameMap = {
+      'anarchy.se': 'anarchy.CharacterEnhancedSheet',
+      'anarchy.Ch': 'anarchy.CharacterEnhancedSheet',
+      'anarchy.Cha': 'anarchy.CharacterEnhancedSheet',
+      'anarchy.Ve': 'anarchy.VehicleSheet',
+      'anarchy.De': 'anarchy.DeviceSheet',
+      'anarchy.Sp': 'anarchy.SpriteActorSheet',
+      'anarchy.IC': 'anarchy.ICSheet',
+    };
+
+    for (const actor of game.actors.contents) {
+      const currentSheet = actor.getFlag('core', 'sheetClass');
+      if (currentSheet && sheetNameMap[currentSheet]) {
+        console.log(
+          LOG_HEAD +
+            `Fixing truncated sheet name for actor ${actor.name}: ${currentSheet} -> ${sheetNameMap[currentSheet]}`,
+        );
+        actorUpdates.push(
+          actor.update({
+            'flags.core.sheetClass': sheetNameMap[currentSheet],
+          }),
+        );
+        fixedCount++;
+      } else if (!currentSheet && actor.type === 'character') {
+        // Set default if missing
+        actorUpdates.push(
+          actor.update({
+            'flags.core.sheetClass': 'anarchy.CharacterEnhancedSheet',
+          }),
+        );
+        fixedCount++;
+      }
+    }
+
+    // Fix item sheets if needed
+    const itemUpdates = [];
+    const itemSheetMap = {
+      contact: 'anarchy.ContactItemSheet',
+      cyberdeck: 'anarchy.CyberdeckItemSheet',
+      gear: 'anarchy.GearItemSheet',
+      metatype: 'anarchy.MetatypeItemSheet',
+      quality: 'anarchy.QualityItemSheet',
+      shadowamp: 'anarchy.ShadowampItemSheet',
+      skill: 'anarchy.SkillItemSheet',
+      weapon: 'anarchy.WeaponItemSheet',
+    };
+
+    for (const item of game.items.contents) {
+      const currentSheet = item.getFlag('core', 'sheetClass');
+      const expectedSheet = itemSheetMap[item.type];
+
+      if (
+        expectedSheet &&
+        (!currentSheet || currentSheet.length < 20 || currentSheet.startsWith('core.'))
+      ) {
+        console.log(
+          LOG_HEAD +
+            `Fixing sheet for item ${item.name}: ${currentSheet || 'none'} -> ${expectedSheet}`,
+        );
+        itemUpdates.push(
+          item.update({
+            'flags.core.sheetClass': expectedSheet,
+          }),
+        );
+        fixedCount++;
+      }
+    }
+
+    // Apply all updates
+    if (actorUpdates.length || itemUpdates.length) {
+      await Promise.all([...actorUpdates, ...itemUpdates]);
+      console.log(LOG_HEAD + `Fixed ${fixedCount} corrupted sheet assignments`);
+      ui.notifications.info(`Anarchy System: Fixed ${fixedCount} corrupted sheet assignments`);
+    } else {
+      console.log(LOG_HEAD + 'No database corruption found');
+    }
+  }
+
   async fixSheets() {
     const DSC = foundry.applications.api.DocumentSheetConfig;
     const summary = { actorsUpdated: 0, itemsUpdated: 0 };
@@ -591,92 +681,123 @@ export class AnarchySystem {
   }
 
   loadActorSheets() {
-    const DSC = foundry.applications.api.DocumentSheetConfig;
-    const ActorDoc = CONFIG.Actor.documentClass || Actor;
-    // Ensure core sheet is removed so Foundry cannot fall back
-    try {
-      DSC.unregisterSheet(ActorDoc, 'core');
-    } catch (e) {
-      /* ignore */
-    }
-    DSC.registerSheet(ActorDoc, SYSTEM_NAME, CharacterActorSheet, {
-      label: game.i18n.localize(ANARCHY.actor.characterSheet),
-      makeDefault: false,
-      types: ['character'],
-    });
-    DSC.registerSheet(ActorDoc, SYSTEM_NAME, CharacterNPCSheet, {
-      label: game.i18n.localize(ANARCHY.actor.characterNPCSheet),
-      makeDefault: false,
-      types: ['character'],
-    });
-    DSC.registerSheet(ActorDoc, SYSTEM_NAME, CharacterTabbedSheet, {
-      label: game.i18n.localize(ANARCHY.actor.characterTabbedSheet),
-      makeDefault: false,
-      types: ['character'],
-    });
-    DSC.registerSheet(ActorDoc, SYSTEM_NAME, CharacterEnhancedSheet, {
-      label: game.i18n.localize(ANARCHY.actor.characterEnhancedSheet),
-      makeDefault: true,
-      types: ['character'],
-    });
-    DSC.registerSheet(ActorDoc, SYSTEM_NAME, VehicleSheet, {
-      label: game.i18n.localize(ANARCHY.actor.vehicleSheet),
-      makeDefault: true,
-      types: ['vehicle'],
-    });
-    DSC.registerSheet(ActorDoc, SYSTEM_NAME, DeviceSheet, {
-      label: game.i18n.localize(ANARCHY.actor.deviceSheet),
-      makeDefault: true,
-      types: ['device'],
-    });
-    DSC.registerSheet(ActorDoc, SYSTEM_NAME, SpriteActorSheet, {
-      label: game.i18n.localize(ANARCHY.actor.spriteSheet),
-      makeDefault: true,
-      types: ['sprite'],
-    });
-    DSC.registerSheet(ActorDoc, SYSTEM_NAME, ICSheet, {
-      label: game.i18n.localize(ANARCHY.actor.icSheet),
-      makeDefault: true,
-      types: ['ic'],
+    const sheets = [
+      {
+        class: CharacterActorSheet,
+        types: ['character'],
+        makeDefault: false,
+        label: 'ANARCHY.actor.characterSheet',
+      },
+      {
+        class: CharacterNPCSheet,
+        types: ['character'],
+        makeDefault: false,
+        label: 'ANARCHY.actor.characterNPCSheet',
+      },
+      {
+        class: CharacterTabbedSheet,
+        types: ['character'],
+        makeDefault: false,
+        label: 'ANARCHY.actor.characterTabbedSheet',
+      },
+      {
+        class: CharacterEnhancedSheet,
+        types: ['character'],
+        makeDefault: true,
+        label: 'ANARCHY.actor.characterEnhancedSheet',
+      },
+      {
+        class: VehicleSheet,
+        types: ['vehicle'],
+        makeDefault: true,
+        label: 'ANARCHY.actor.vehicleSheet',
+      },
+      {
+        class: DeviceSheet,
+        types: ['device'],
+        makeDefault: true,
+        label: 'ANARCHY.actor.deviceSheet',
+      },
+      {
+        class: SpriteActorSheet,
+        types: ['sprite'],
+        makeDefault: true,
+        label: 'ANARCHY.actor.spriteSheet',
+      },
+      { class: ICSheet, types: ['ic'], makeDefault: true, label: 'ANARCHY.actor.icSheet' },
+    ];
+
+    // Register sheets to CONFIG directly for V13
+    sheets.forEach((sheetConfig) => {
+      sheetConfig.types.forEach((type) => {
+        // Ensure CONFIG structure exists
+        if (!CONFIG.Actor.sheetClasses) CONFIG.Actor.sheetClasses = {};
+        if (!CONFIG.Actor.sheetClasses[type]) CONFIG.Actor.sheetClasses[type] = {};
+        if (!CONFIG.Actor.sheetClasses[type][SYSTEM_NAME])
+          CONFIG.Actor.sheetClasses[type][SYSTEM_NAME] = {};
+
+        // Register the sheet
+        const sheetId = `${SYSTEM_NAME}.${sheetConfig.class.name}`;
+        CONFIG.Actor.sheetClasses[type][SYSTEM_NAME][sheetId] = {
+          id: sheetId,
+          cls: sheetConfig.class,
+          label: game.i18n.localize(sheetConfig.label),
+          canBeDefault: true,
+          canConfigure: true,
+        };
+
+        // Set as default if specified
+        if (sheetConfig.makeDefault) {
+          if (!game.settings.get('core', 'sheetClasses')?.Actor?.[type]) {
+            DocumentSheetConfig.updateDefaultSheets({
+              [`Actor.${type}`]: sheetId,
+            });
+          }
+        }
+      });
     });
   }
 
   loadItemSheets() {
-    const DSC = foundry.applications.api.DocumentSheetConfig;
-    const ItemDoc = CONFIG.Item.documentClass || Item;
-    try {
-      DSC.unregisterSheet(ItemDoc, 'core');
-    } catch (e) {
-      /* ignore */
-    }
-    DSC.registerSheet(ItemDoc, SYSTEM_NAME, ContactItemSheet, {
-      types: ['contact'],
-      makeDefault: true,
-    });
-    DSC.registerSheet(ItemDoc, SYSTEM_NAME, CyberdeckItemSheet, {
-      types: ['cyberdeck'],
-      makeDefault: true,
-    });
-    DSC.registerSheet(ItemDoc, SYSTEM_NAME, GearItemSheet, { types: ['gear'], makeDefault: true });
-    DSC.registerSheet(ItemDoc, SYSTEM_NAME, MetatypeItemSheet, {
-      types: ['metatype'],
-      makeDefault: true,
-    });
-    DSC.registerSheet(ItemDoc, SYSTEM_NAME, QualityItemSheet, {
-      types: ['quality'],
-      makeDefault: true,
-    });
-    DSC.registerSheet(ItemDoc, SYSTEM_NAME, ShadowampItemSheet, {
-      types: ['shadowamp'],
-      makeDefault: true,
-    });
-    DSC.registerSheet(ItemDoc, SYSTEM_NAME, SkillItemSheet, {
-      types: ['skill'],
-      makeDefault: true,
-    });
-    DSC.registerSheet(ItemDoc, SYSTEM_NAME, WeaponItemSheet, {
-      types: ['weapon'],
-      makeDefault: true,
+    const sheets = [
+      { class: ContactItemSheet, types: ['contact'], makeDefault: true },
+      { class: CyberdeckItemSheet, types: ['cyberdeck'], makeDefault: true },
+      { class: GearItemSheet, types: ['gear'], makeDefault: true },
+      { class: MetatypeItemSheet, types: ['metatype'], makeDefault: true },
+      { class: QualityItemSheet, types: ['quality'], makeDefault: true },
+      { class: ShadowampItemSheet, types: ['shadowamp'], makeDefault: true },
+      { class: SkillItemSheet, types: ['skill'], makeDefault: true },
+      { class: WeaponItemSheet, types: ['weapon'], makeDefault: true },
+    ];
+
+    // Register sheets to CONFIG directly for V13
+    sheets.forEach((sheetConfig) => {
+      sheetConfig.types.forEach((type) => {
+        // Ensure CONFIG structure exists
+        if (!CONFIG.Item.sheetClasses) CONFIG.Item.sheetClasses = {};
+        if (!CONFIG.Item.sheetClasses[type]) CONFIG.Item.sheetClasses[type] = {};
+        if (!CONFIG.Item.sheetClasses[type][SYSTEM_NAME])
+          CONFIG.Item.sheetClasses[type][SYSTEM_NAME] = {};
+
+        // Register the sheet
+        const sheetId = `${SYSTEM_NAME}.${sheetConfig.class.name}`;
+        CONFIG.Item.sheetClasses[type][SYSTEM_NAME][sheetId] = {
+          id: sheetId,
+          cls: sheetConfig.class,
+          label: `${type.charAt(0).toUpperCase()}${type.slice(1)} Sheet`,
+          canBeDefault: true,
+          canConfigure: true,
+        };
+
+        // Set as default if specified
+        if (sheetConfig.makeDefault) {
+          if (!game.settings.get('core', 'sheetClasses')?.Item?.[type]) {
+            DocumentSheetConfig.updateDefaultSheets({
+              [`Item.${type}`]: sheetId,
+            });
+          }
+        }
+      });
     });
   }
 }
