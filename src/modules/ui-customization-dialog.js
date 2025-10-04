@@ -14,25 +14,25 @@ export class UICustomizationDialog extends Dialog {
       buttons: {
         apply: {
           label: 'Apply',
-          callback: (html) => this.onApply(html)
+          callback: (html) => this.onApply(html),
         },
         reset: {
           label: 'Reset All',
-          callback: () => this.onReset()
+          callback: () => this.onReset(),
         },
         export: {
           label: 'Export',
-          callback: () => this.onExport()
+          callback: () => this.onExport(),
         },
         import: {
           label: 'Import',
-          callback: () => this.onImport()
+          callback: () => this.onImport(),
         },
         close: {
-          label: 'Close'
-        }
+          label: 'Close',
+        },
       },
-      default: 'apply'
+      default: 'apply',
     };
 
     const dialogOptions = {
@@ -40,11 +40,11 @@ export class UICustomizationDialog extends Dialog {
       width: 600,
       height: 'auto',
       resizable: true,
-      ...options
+      ...options,
     };
 
     super(dialogData, dialogOptions);
-    
+
     this.uiCustomization = uiCustomization;
     this.currentSettings = {};
   }
@@ -53,12 +53,12 @@ export class UICustomizationDialog extends Dialog {
     // Load current customization settings
     await this.uiCustomization.loadUserCustomizations();
     this.currentSettings = this.uiCustomization.userCustomizations;
-    
+
     return {
       customizations: this.uiCustomization.customizations,
       presets: this.uiCustomization.getAvailablePresets(),
       currentSettings: this.currentSettings,
-      categories: Array.from(this.uiCustomization.customizations.entries())
+      categories: Array.from(this.uiCustomization.customizations.entries()),
     };
   }
 
@@ -277,7 +277,7 @@ export class UICustomizationDialog extends Dialog {
             <div class="preview-sheet">
               <div class="preview-header">
                 <div class="preview-passport">
-                  <img src="systems/anarchy/img/sample-character.webp" alt="Preview">
+                  <img src="${SYSTEM_PATH}/img/sample-character.webp" alt="Preview">
                 </div>
                 <div class="preview-info">
                   <h3>Sample Character</h3>
@@ -297,7 +297,7 @@ export class UICustomizationDialog extends Dialog {
                 <div class="preview-section">
                   <h4>Skills</h4>
                   <div class="preview-item">
-                    <img src="systems/anarchy/icons/skills/athletics.svg" alt="Athletics">
+                    <img src="${ICONS_SKILLS_PATH}/athletics.svg" alt="Athletics">
                     <span>Athletics</span>
                     <span class="skill-rating">6</span>
                   </div>
@@ -308,35 +308,35 @@ export class UICustomizationDialog extends Dialog {
         </div>
       </div>
     `;
-    
+
     return template;
   }
 
   activateListeners(html) {
     super.activateListeners(html);
-    
+
     // Tab navigation
-    html.find('.tab-button').click(event => {
+    html.find('.tab-button').click((event) => {
       const tabId = $(event.currentTarget).data('tab');
       this.switchTab(html, tabId);
     });
-    
+
     // Preset application
-    html.find('.apply-preset-btn').click(event => {
+    html.find('.apply-preset-btn').click((event) => {
       const presetId = $(event.currentTarget).data('preset');
       this.applyPreset(presetId);
     });
-    
+
     // Live preview updates
-    html.find('select, input[type="checkbox"], textarea').change(event => {
+    html.find('select, input[type="checkbox"], textarea').change((event) => {
       this.updateLivePreview(html);
     });
-    
+
     // CSS validation
     html.find('.validate-css-btn').click(() => {
       this.validateCustomCSS(html);
     });
-    
+
     // Clear CSS
     html.find('.clear-css-btn').click(() => {
       html.find('textarea[name="advanced.customCSS"]').val('');
@@ -348,7 +348,7 @@ export class UICustomizationDialog extends Dialog {
     // Update tab buttons
     html.find('.tab-button').removeClass('active');
     html.find(`.tab-button[data-tab="${tabId}"]`).addClass('active');
-    
+
     // Update tab panels
     html.find('.tab-panel').removeClass('active');
     html.find(`.tab-panel[data-tab="${tabId}"]`).addClass('active');
@@ -358,11 +358,11 @@ export class UICustomizationDialog extends Dialog {
     // Collect current form values
     const formData = new FormData(html.find('form')[0]);
     const settings = {};
-    
+
     for (let [key, value] of formData.entries()) {
       const [category, setting] = key.split('.');
       if (!settings[category]) settings[category] = {};
-      
+
       // Handle different input types
       if (html.find(`input[name="${key}"]`).attr('type') === 'checkbox') {
         settings[category][setting] = html.find(`input[name="${key}"]`).is(':checked');
@@ -370,37 +370,42 @@ export class UICustomizationDialog extends Dialog {
         settings[category][setting] = value;
       }
     }
-    
+
     // Apply to preview area
     this.applyPreviewSettings(html, settings);
   }
 
   applyPreviewSettings(html, settings) {
     const previewArea = html.find('.preview-area');
-    
+
     // Apply font scaling
     if (settings.visual?.fontSize) {
-      const fontScale = { small: '0.85', default: '1', large: '1.15', xl: '1.3' }[settings.visual.fontSize];
+      const fontScale = { small: '0.85', default: '1', large: '1.15', xl: '1.3' }[
+        settings.visual.fontSize
+      ];
       previewArea.css('--font-scale', fontScale);
     }
-    
+
     // Apply icon scaling
     if (settings.visual?.iconSize) {
       const iconScale = { small: '0.8', default: '1', large: '1.2' }[settings.visual.iconSize];
       previewArea.css('--icon-scale', iconScale);
     }
-    
+
     // Apply spacing
     if (settings.visual?.spacing) {
       const spacingScale = { tight: '0.75', default: '1', loose: '1.25' }[settings.visual.spacing];
       previewArea.css('--spacing-scale', spacingScale);
     }
-    
+
     // Apply component visibility
     if (settings.components) {
       Object.entries(settings.components).forEach(([key, visible]) => {
-        const className = `hide-${key.replace(/([A-Z])/g, '-$1').toLowerCase().replace('show-', '')}`;
-        
+        const className = `hide-${key
+          .replace(/([A-Z])/g, '-$1')
+          .toLowerCase()
+          .replace('show-', '')}`;
+
         if (!visible) {
           previewArea.addClass(className);
         } else {
@@ -412,15 +417,15 @@ export class UICustomizationDialog extends Dialog {
 
   async onApply(html) {
     console.groupCollapsed(LOG_HEAD + 'UICustomizationDialog.onApply');
-    
+
     // Collect all form data
     const formData = new FormData(html.find('form')[0]);
     const settings = {};
-    
+
     for (let [key, value] of formData.entries()) {
       const [category, setting] = key.split('.');
       if (!settings[category]) settings[category] = {};
-      
+
       // Handle different input types
       if (html.find(`input[name="${key}"]`).attr('type') === 'checkbox') {
         settings[category][setting] = html.find(`input[name="${key}"]`).is(':checked');
@@ -428,14 +433,14 @@ export class UICustomizationDialog extends Dialog {
         settings[category][setting] = value;
       }
     }
-    
+
     // Apply each category of settings
     Object.entries(settings).forEach(([category, categorySettings]) => {
       Object.entries(categorySettings).forEach(([key, value]) => {
         this.uiCustomization.setCustomization(category, key, value);
       });
     });
-    
+
     ui.notifications.info('UI customizations applied successfully.');
     console.groupEnd();
   }
@@ -443,18 +448,19 @@ export class UICustomizationDialog extends Dialog {
   onReset() {
     Dialog.confirm({
       title: 'Reset All Customizations',
-      content: '<p>Are you sure you want to reset all UI customizations to defaults? This cannot be undone.</p>',
+      content:
+        '<p>Are you sure you want to reset all UI customizations to defaults? This cannot be undone.</p>',
       yes: () => {
         this.uiCustomization.resetAllCustomizations();
         this.render(true); // Re-render dialog with default values
-      }
+      },
     });
   }
 
   onExport() {
     const exportData = this.uiCustomization.exportCustomizations();
     const dataStr = JSON.stringify(exportData, null, 2);
-    
+
     // Create download link
     const blob = new Blob([dataStr], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -462,7 +468,7 @@ export class UICustomizationDialog extends Dialog {
     link.href = url;
     link.download = `anarchy-ui-customizations-${new Date().toISOString().split('T')[0]}.json`;
     link.click();
-    
+
     URL.revokeObjectURL(url);
     ui.notifications.info('UI customizations exported successfully.');
   }
@@ -471,11 +477,11 @@ export class UICustomizationDialog extends Dialog {
     const input = document.createElement('input');
     input.type = 'file';
     input.accept = '.json';
-    
+
     input.onchange = (event) => {
       const file = event.target.files[0];
       if (!file) return;
-      
+
       const reader = new FileReader();
       reader.onload = (e) => {
         try {
@@ -489,7 +495,7 @@ export class UICustomizationDialog extends Dialog {
       };
       reader.readAsText(file);
     };
-    
+
     input.click();
   }
 
@@ -500,25 +506,25 @@ export class UICustomizationDialog extends Dialog {
       yes: () => {
         this.uiCustomization.applyPreset(presetId);
         this.render(true); // Re-render dialog with preset values
-      }
+      },
     });
   }
 
   validateCustomCSS(html) {
     const css = html.find('textarea[name="advanced.customCSS"]').val();
-    
+
     if (!css.trim()) {
       ui.notifications.info('No custom CSS to validate.');
       return;
     }
-    
+
     try {
       // Basic CSS validation
       const style = document.createElement('style');
       style.textContent = css;
       document.head.appendChild(style);
       document.head.removeChild(style);
-      
+
       ui.notifications.info('Custom CSS is valid.');
     } catch (error) {
       ui.notifications.error('Custom CSS contains errors. Please check your syntax.');

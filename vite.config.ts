@@ -1,19 +1,26 @@
 import type { PluginOption, UserConfig } from 'vite';
 import { visualizer } from 'rollup-plugin-visualizer';
 
+// Resolve system id dynamically to support forks (e.g., ninjanarchy)
+const systemId = process.env.VITE_SYSTEM_ID?.trim() || 'anarchy';
+
 const config: UserConfig = {
   publicDir: 'public',
-  base: '/systems/anarchy/',
+  base: `/systems/${systemId}/`,
   server: {
     port: 30001,
     open: true,
     proxy: {
-      '^(?!/systems/anarchy/)': 'http://localhost:30000/',
+      // Proxy everything except our system's assets to Foundry
+      [`^(?!/systems/${systemId}/)`]: 'http://localhost:30000/',
       '/socket.io': {
         target: 'ws://localhost:30000',
         ws: true,
       },
     },
+  },
+  define: {
+    __SYSTEM_ID__: JSON.stringify(systemId),
   },
   build: {
     outDir: 'dist',

@@ -60,7 +60,7 @@ export class GMDifficulty {
 
   async _renderBar() {
     return await foundry.applications.handlebars.renderTemplate(
-      'systems/anarchy/templates/app/gm-difficulty-buttons.hbs',
+      `${TEMPLATES_PATH}/app/gm-difficulty-buttons.hbs`,
       {
         difficultyPools: this.difficultyPools,
       },

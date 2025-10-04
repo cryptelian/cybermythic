@@ -5096,7 +5096,7 @@ i.fab {
 }
 
 #logo {
-  content: url("anarchy-logo.webp");
+  content: url('/systems/var(--system-id, "anarchy")/style/anarchy-logo.webp');
   width: 100px;
   height: 57px;
 }

@@ -92,7 +92,7 @@ export class GMAnarchy {
 
   async _renderBar() {
     return await foundry.applications.handlebars.renderTemplate(
-      'systems/anarchy/templates/monitors/anarchy.hbs',
+      `${TEMPLATES_PATH}/monitors/anarchy.hbs`,
       {
         code: 'plot',
         rowlength: 6,

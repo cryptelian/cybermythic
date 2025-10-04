@@ -47,6 +47,18 @@
           "armorGivesResistance": "RD = Armure/3 + For/4, Armure -1 par coup, CA ignore",
           "armorGiveResistanceHitsAvoid": "RD = Armure/3, armure -1 par coup, CA diminue la RD"
         }
+      },
+      "anarchyFirstMode": {
+        "name": "Mode Anarchy en priorité",
+        "hint": "Utiliser en priorité les feuilles/typos Anarchy; masquer/rétrograder le core"
+      },
+      "allowCoreFallback": {
+        "name": "Autoriser le fallback core",
+        "hint": "Permettre le recours aux feuilles core seulement si Anarchy est indisponible"
+      },
+      "preferCoreSheets": {
+        "name": "Préférer les feuilles core (cet utilisateur)",
+        "hint": "Désactiver l'échange de feuille à l'affichage pour ce client"
       }
     },
     "gmManager": {

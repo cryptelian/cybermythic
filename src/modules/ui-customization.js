@@ -1,7 +1,7 @@
 // UI/HUD Customization System - User preference storage and runtime adjustments
 // This module provides comprehensive UI/HUD customization capabilities
 
-import { LOG_HEAD, SYSTEM_NAME } from './constants.js';
+import { LOG_HEAD, SYSTEM_NAME, SYSTEM_PATH } from './constants.js';
 
 /**
  * UI Customization Manager - Handles all UI/HUD customization features
@@ -370,8 +370,8 @@ export class UICustomization {
   /**
    * Background rotation and fallback
    * Priority:
-   * 1) files under systems/anarchy/img/backgrounds/
-   * 2) fallback file systems/anarchy/img/2025.10_Bckgrnd.img.01.png if present
+   * 1) files under systems/<id>/img/backgrounds/
+   * 2) fallback file systems/<id>/img/2025.10_Bckgrnd.img.01.png if present
    * 3) transparent 1x1 png data URI
    */
   async applyBackgroundRotation() {
@@ -379,7 +379,7 @@ export class UICustomization {
       const root = document.documentElement;
 
       // Candidate list
-      const base = '/systems/anarchy/img';
+      const base = `/${SYSTEM_PATH}/img`;
       const dir = `${base}/backgrounds/`;
 
       // Probe a list of common names plus any numbered backgrounds we know about
