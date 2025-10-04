@@ -29,7 +29,8 @@ window.global = window; // some dependencies expect window.global
           return;
         }
         if (port === '30000') {
-          const viteUrl = `http://localhost:30001${window.location.pathname}${window.location.search}${window.location.hash}`;
+          const sys = (window.__ANARCHY_SYSTEM_ID__ || 'anarchy');
+          const viteUrl = `http://localhost:30001/systems/${sys}${window.location.pathname.replace(/.*\/systems\/[^/]+/, '')}${window.location.search}${window.location.hash}`;
           console.warn('[Anarchy] No proxy detected on 30000. Redirecting to Vite dev server:', viteUrl);
           window.location.replace(viteUrl);
         } else {
@@ -68,7 +69,8 @@ window.global = window; // some dependencies expect window.global
     const isOnVite = String(window.location.port) === '30001';
     if (!isOnVite) {
       try {
-        await import('http://localhost:30001/systems/anarchy/src/start.js');
+        const sys = (window.__ANARCHY_SYSTEM_ID__ || 'anarchy');
+        await import(`http://localhost:30001/systems/${sys}/src/start.js`);
         console.warn('[Anarchy] Loaded dev entry from Vite fallback (30001). Consider opening Foundry via http://localhost:30001 for best DX.');
         return;
       } catch (secondError) {

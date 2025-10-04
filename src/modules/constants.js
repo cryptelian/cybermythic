@@ -3,7 +3,11 @@
  *
  * Constants are written in ALL_CAPS_CONSTANTS and should never be changed during runtime.
  */
-export const SYSTEM_NAME = 'anarchy';
+// Derive system id dynamically: prefer build-time constant, then runtime global, fallback to 'anarchy'
+export const SYSTEM_NAME =
+  (typeof __SYSTEM_ID__ !== 'undefined' && __SYSTEM_ID__) ||
+  (typeof globalThis !== 'undefined' && globalThis.__ANARCHY_SYSTEM_ID__) ||
+  'anarchy';
 export const SYSTEM_DESCRIPTION = 'Anarchy';
 export const SYSTEM_SOCKET = `system.${SYSTEM_NAME}`;
 export const SYSTEM_SCOPE = SYSTEM_NAME;

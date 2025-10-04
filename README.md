@@ -37,15 +37,15 @@ To start the project in development mode, run:
 npx vite serve
 ```
 
-This will launch a Vite development server that is configured to intercept calls made to **systems/anarchy** and proxy them appropriately, while serving all other files directly from Foundry.
+This launches Vite on 30001 with a proxy to Foundry 30000. Open `http://localhost:30001` so `systems/<id>/*` are served by Vite and everything else proxies to Foundry.
 
 ### Troubleshooting dev (404 on ./src/start.js, base sheet shows)
 
-If you see a console error like `GET /systems/anarchy/src/start.js 404 (Not Found)` and actor sheets revert to the base/core sheet:
+If you see a console error like `GET /systems/<id>/src/start.js 404 (Not Found)` and actor sheets revert to the base/core sheet:
 
-- Ensure you opened Foundry via Vite: `http://localhost:30001` (not `30000`).
+- Ensure you opened via Vite: `http://localhost:30001` (not `30000`).
 - Ensure Vite is running: `npm run dev`.
-- Verify your data directory link: `<foundrydata>/systems/anarchy` should point to this repo's `public` directory.
+- Verify your data directory link: `<foundrydata>/systems/<id>` points to `./public`.
 - Our dev loader now attempts a fallback import from `http://localhost:30001`, but opening via 30001 is the most reliable flow.
 
 ## Building for Production
@@ -56,7 +56,13 @@ If you need to build the project for production, use:
 npx vite build
 ```
 
-This command compiles your JavaScript and assets into static files ready for production deployment. These files are in `./dist` directory.
+This compiles to `./dist` and production loads only `dist/index.mjs` (plus static assets under `public/`).
+Checklist:
+
+- `public/system.json` esmodules → `dist/index.mjs`
+- No `/src` paths in manifest
+- Styles include `dist/style.css` if emitted
+- `media/background` use `systems/<id>/*`
 
 ### Releases & changelog
 
@@ -71,11 +77,10 @@ Ensure Foundry is running locally on port 30000 to allow seamless interaction be
 node resources/app/main.js --dataPath=<path_to_foundry_data>/foundrydata --port=30000
 ```
 
-You need to link `<foundrydata>/systems/anarchy` to the `public` directory of your repository.
+Link `<foundrydata>/systems/<id>` to this repo's `public` directory. The folder name must equal the `id` in `public/system.json`.
 
-When Foundry starts in the backend (Node.js), it will detect the necessary files in the public directory of the repository (these files are `systems/anarchy/index.mjs` and `systems/anarchy/style.css`).
-
-When you connect to Foundry from a browser (frontend), Vite will intercept all requests and redirect them to Foundry, except for requests to `systems/anarchy`. These files will be served by the Vite project.
+Production: Foundry loads `systems/<id>/dist/index.mjs` as defined in `public/system.json`.
+Development: `public/index.mjs` detects Vite and imports `/src/start.js`; otherwise it shows a clear banner with remediation steps.
 
 ### Developer style guide
 
@@ -91,7 +96,7 @@ See `docs/theming.md` for token conventions and debugging tips. Visual tests cap
 
 ## Note on Vite Server and Foundry Interaction
 
-The Vite server is configured to handle specific API calls (e.g., to **systems/anarchy**) directly, enhancing development efficiency. All other requests are forwarded to the local Foundry server, ensuring that the environment replicates the production setup as closely as possible.
+The Vite server serves `systems/<id>/*` and proxies all other requests to the local Foundry server for a same-origin experience.
 
 ## Compendiums management
 
