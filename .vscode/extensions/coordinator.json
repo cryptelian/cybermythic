@@ -1,0 +1,105 @@
+{
+  "name": "CyberMythic Foundry VTT System",
+  "description": "VS Code workspace configuration for CyberMythic (Anarchy) Foundry VTT system development",
+  "version": "1.0.0",
+  "author": "CyberMythic Development Team",
+  "repository": "https://github.com/VincentVk9373/anarchy",
+
+  "workspace": {
+    "type": "foundry-vtt-system",
+    "language": "javascript",
+    "frameworks": ["foundry-vtt", "vite", "sass", "handlebars"],
+    "testing": ["playwright", "vitest"],
+    "linting": ["eslint", "stylelint", "prettier"]
+  },
+
+  "extensionConfigurations": {
+    "extensions.json": {
+      "description": "Defines recommended and unwanted VS Code extensions for this workspace",
+      "purpose": "Ensures developers have the right tools for Foundry VTT system development",
+      "criticalExtensions": [
+        "league-of-foundry-developers.foundry-vtt-types",
+        "ms-vscode.vscode-typescript-next",
+        "vite.vite",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode"
+      ]
+    },
+
+    "workspace-settings.json": {
+      "description": "Workspace-specific VS Code settings optimized for Foundry development",
+      "purpose": "Provides consistent development environment and automates common tasks",
+      "keySettings": [
+        "editor.formatOnSave",
+        "eslint.workingDirectories",
+        "files.associations",
+        "search.exclude"
+      ]
+    }
+  },
+
+  "developmentWorkflow": {
+    "setup": [
+      "Install recommended extensions from extensions.json",
+      "Configure user settings to inherit workspace settings",
+      "Run 'npm install' to install dependencies",
+      "Run 'npm run dev' to start development server"
+    ],
+
+    "recommendedExtensions": {
+      "essential": [
+        "league-of-foundry-developers.foundry-vtt-types",
+        "ms-vscode.vscode-typescript-next",
+        "vite.vite",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "stylelint.vscode-stylelint"
+      ],
+
+      "recommended": [
+        "ms-vscode.vscode-git-graph",
+        "eamodio.gitlens",
+        "ms-vscode.vscode-json",
+        "redhat.vscode-yaml",
+        "ms-vscode.vscode-handlebars"
+      ],
+
+      "testing": [
+        "ms-playwright.playwright",
+        "vitest.explorer"
+      ],
+
+      "buildTools": [
+        "sass.sassy",
+        "ms-vscode.powershell"
+      ]
+    },
+
+    "buildCommands": [
+      "npm run build - Build for production",
+      "npm run dev - Start development server",
+      "npm run lint - Run linting",
+      "npm run test - Run tests",
+      "npm run validate - Validate system configuration"
+    ]
+  },
+
+  "troubleshooting": {
+    "commonIssues": {
+      "extensionNotFound": "Some extensions may require VS Code restart or manual installation from marketplace",
+      "buildErrors": "Check that all dependencies are installed with 'npm install'",
+      "lintingErrors": "Ensure ESLint and Prettier extensions are installed and enabled",
+      "foundryConnection": "Ensure Foundry VTT is running and proxy settings are correct in vite.config.ts"
+    },
+
+    "gettingHelp": {
+      "documentation": "./docs/",
+      "issues": "https://github.com/VincentVk9373/anarchy/issues",
+      "foundryVTT": "https://foundryvtt.com/",
+      "community": "Foundry VTT Discord community"
+    }
+  },
+
+  "lastUpdated": "2025-10-13",
+  "schemaVersion": "1.0"
+}

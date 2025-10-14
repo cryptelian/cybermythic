@@ -31,12 +31,12 @@ jobs:
         run: npx vite build
 
       - name: Build the compendiums
-        run: node ./tools/packCompendiumsToDist.mjs
+        run: node ./scripts/build/packCompendiumsToDist.mjs
 
-      - name: Archive dist directory
+      - name: Archive build output directory
         run: |
           VERSION=$(git describe --tags --abbrev=0)
-          zip -r foundry-anarchy-$VERSION.zip dist
+          zip -r foundry-anarchy-$VERSION.zip build/output
 
       - name: Create Release
         id: create_release

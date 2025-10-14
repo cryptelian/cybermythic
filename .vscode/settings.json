@@ -1,0 +1,9 @@
+{
+  // CyberMythic Foundry VTT Development Workspace Settings
+  // Inherits comprehensive configuration from .vscode/extensions/workspace-settings.json
+  // See .vscode/extensions/coordinator.json for full documentation
+
+  // This workspace uses the organized configuration structure
+  // All settings are defined in .vscode/extensions/workspace-settings.json
+  // Extension recommendations are in .vscode/extensions/extensions.json
+}

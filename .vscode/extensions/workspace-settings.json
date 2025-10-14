@@ -1,0 +1,65 @@
+{
+  // Editor settings for Foundry VTT development
+  "window.density.editorTabHeight": "compact",
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "explicit"
+  },
+
+  // JavaScript/TypeScript settings
+  "typescript.preferences.importModuleSpecifier": "relative",
+  "javascript.preferences.importModuleSpecifier": "relative",
+
+  // File associations for Foundry VTT
+  "files.associations": {
+    "*.hbs": "handlebars",
+    "*.yml": "yaml",
+    "*.yaml": "yaml"
+  },
+
+  // Exclude common Foundry build artifacts and temporary files
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/dist-compendiums": true,
+    "**/test-results": true,
+    "**/*.log": true
+  },
+
+  // Search exclusions
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/dist-compendiums": true,
+    "**/*.log": true
+  },
+
+  // Git settings
+  "git.confirmSync": false,
+  "git.autofetch": true,
+
+  // Terminal settings for npm scripts
+  "terminal.integrated.defaultProfile.windows": "PowerShell",
+  "terminal.integrated.scrollback": 10000,
+
+  // Disable telemetry for privacy
+  "telemetry.telemetryLevel": "off",
+
+  // Extension specific settings
+  "eslint.workingDirectories": [
+    { "pattern": "src/**/*" },
+    { "pattern": "tools/**/*" },
+    { "pattern": "tests/**/*" }
+  ],
+
+  "stylelint.configFile": "./postcss.config.cjs",
+  "stylelint.validate": ["css", "scss"],
+
+  "prettier.requireConfig": true,
+
+  // Foundry VTT development settings
+  "foundryvtt.development.enabled": true,
+  "foundryvtt.development.autoInstallTypes": true
+}

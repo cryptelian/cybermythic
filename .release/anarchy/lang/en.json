@@ -47,6 +47,18 @@
           "armorGivesResistance": "RD = Armor/3 + Str/4, damaged per blow, AA ignores armor",
           "armorGiveResistanceHitsAvoid": "RD = Armor/3, damaged per blow, AA reduces resistance"
         }
+      },
+      "anarchyFirstMode": {
+        "name": "Anarchy-first mode",
+        "hint": "Prefer Anarchy sheets/types everywhere; hide/demote core where possible"
+      },
+      "allowCoreFallback": {
+        "name": "Allow core fallback",
+        "hint": "Permit fallback to core sheets only if no Anarchy sheet exists"
+      },
+      "preferCoreSheets": {
+        "name": "Prefer core sheets (this user)",
+        "hint": "Disable render-time sheet hot-swap for this client"
       }
     },
     "gmManager": {

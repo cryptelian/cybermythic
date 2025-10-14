@@ -47,6 +47,18 @@
           "armorGivesResistance": "RD = Armure/3 + For/4, Armure -1 par coup, CA ignore",
           "armorGiveResistanceHitsAvoid": "RD = Armure/3, armure -1 par coup, CA diminue la RD"
         }
+      },
+      "anarchyFirstMode": {
+        "name": "Mode Anarchy prioritaire",
+        "hint": "Privilégie partout les feuilles et types Anarchy; masque ou rétrograde autant que possible les éléments du cœur"
+      },
+      "allowCoreFallback": {
+        "name": "Autoriser le repli sur le cœur",
+        "hint": "Permettre l'utilisation ponctuelle des feuilles du cœur uniquement si aucune feuille Anarchy n'existe"
+      },
+      "preferCoreSheets": {
+        "name": "Préférer les feuilles du cœur (ce client)",
+        "hint": "Désactiver l'échange automatique des feuilles Anarchy pour ce client"
       }
     },
     "gmManager": {

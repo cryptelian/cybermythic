@@ -46,15 +46,15 @@ jobs:
 
       - name: Report bundle sizes
         run: |
-          echo "dist sizes:" > sizes.txt
-          du -h dist/* >> sizes.txt || true
+          echo "build output sizes:" > sizes.txt
+          du -h build/output/* >> sizes.txt || true
           cat sizes.txt
 
-      - name: Upload dist artifact
+      - name: Upload build output artifact
         uses: actions/upload-artifact@v4
         with:
-          name: dist
-          path: dist
+          name: build-output
+          path: build/output
 
       - name: Upload metrics artifact
         uses: actions/upload-artifact@v4
@@ -74,4 +74,4 @@ jobs:
         with:
           name: stats
           path: |
-            stats.html
+            docs/development/stats.html

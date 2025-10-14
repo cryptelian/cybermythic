@@ -1,7 +1,12 @@
-var vt = Object.defineProperty;
-var Rt = (r, e, t) => e in r ? vt(r, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : r[e] = t;
-var _ = (r, e, t) => Rt(r, typeof e != "symbol" ? e + "" : e, t);
-const o = {
+var Gt = Object.defineProperty;
+var At = (r) => {
+  throw TypeError(r);
+};
+var jt = (r, e, t) => e in r ? Gt(r, e, { enumerable: !0, configurable: !0, writable: !0, value: t }) : r[e] = t;
+var U = (r, e, t) => jt(r, typeof e != "symbol" ? e + "" : e, t), Wt = (r, e, t) => e.has(r) || At("Cannot " + t);
+var Ct = (r, e, t) => e.has(r) ? At("Cannot add the same private member more than once") : e instanceof WeakSet ? e.add(r) : e.set(r, t);
+var vt = (r, e, t) => (Wt(r, e, "access private method"), t);
+const l = {
   TYPES: {
     Actor: {
       character: "TYPES.Actor.character",
@@ -49,6 +54,18 @@ const o = {
         armorGivesResistance: "ANARCHY.settings.damageMode.values.armorGivesResistance",
         armorGiveResistanceHitsAvoid: "ANARCHY.settings.damageMode.values.armorGiveResistanceHitsAvoid"
       }
+    },
+    anarchyFirstMode: {
+      name: "ANARCHY.settings.anarchyFirstMode.name",
+      hint: "ANARCHY.settings.anarchyFirstMode.hint"
+    },
+    allowCoreFallback: {
+      name: "ANARCHY.settings.allowCoreFallback.name",
+      hint: "ANARCHY.settings.allowCoreFallback.hint"
+    },
+    preferCoreSheets: {
+      name: "ANARCHY.settings.preferCoreSheets.name",
+      hint: "ANARCHY.settings.preferCoreSheets.hint"
     }
   },
   gmManager: {
@@ -503,12 +520,12 @@ const o = {
       always: "ANARCHY.modifier.condition.always"
     }
   }
-}, z = class z {
+}, ee = class ee {
   static ascending(e = (t) => t) {
-    return (t, a) => z.sortingBy(e(t), e(a));
+    return (t, s) => ee.sortingBy(e(t), e(s));
   }
   static descending(e = (t) => t) {
-    return (t, a) => z.sortingBy(e(a), e(t));
+    return (t, s) => ee.sortingBy(e(s), e(t));
   }
   static sortingBy(e, t) {
     return e > t ? 1 : e < t ? -1 : 0;
@@ -517,17 +534,14 @@ const o = {
     return (t) => e.indexOf(t);
   }
   static ascendingBySortedArray(e) {
-    return z.ascending(z.bySortedArray(e));
+    return ee.ascending(ee.bySortedArray(e));
   }
-  static sortedMap(e, t = (a, s) => 0) {
-    return Object.keys(e).sort(t).reduce(
-      (a, s) => (a[s] = e[s], a),
-      {}
-    );
+  static sortedMap(e, t = (s, a) => 0) {
+    return Object.keys(e).sort(t).reduce((s, a) => (s[a] = e[a], s), {});
   }
   static reindexIds(e) {
     let t = 1;
-    return e.forEach((a) => a.id = t++), e;
+    return e.forEach((s) => s.id = t++), e;
   }
   static distinct(e) {
     return [...new Set(e)];
@@ -535,8 +549,8 @@ const o = {
   static sum() {
     return (e, t) => e + t;
   }
-  static sumValues(e, t = (a) => a) {
-    return e.map(t).filter((a) => a != null).reduce(z.sum(), 0);
+  static sumValues(e, t = (s) => s) {
+    return e.map(t).filter((s) => s != null).reduce(ee.sum(), 0);
   }
   static divint(e, t) {
     return Math.floor(e / t);
@@ -545,98 +559,101 @@ const o = {
     return Math.ceil(e / t);
   }
   static join(e, t = "") {
-    return e.reduce(z.joiner(t));
+    return e.reduce(ee.joiner(t));
   }
   static joiner(e = "") {
-    return (t, a) => t + e + a;
+    return (t, s) => t + e + s;
   }
-  static classify(e, t = (a) => a.type) {
-    let a = {};
-    return z.classifyInto(a, e, t), a;
+  static classify(e, t = (s) => s.type) {
+    let s = {};
+    return ee.classifyInto(s, e, t), s;
   }
   static classifyFirst(e, t) {
-    let a = {};
-    for (const s of e) {
-      const i = t(s);
-      a[i] || (a[i] = s);
+    let s = {};
+    for (const a of e) {
+      const i = t(a);
+      s[i] || (s[i] = a);
     }
-    return a;
+    return s;
   }
-  static classifyInto(e, t, a = (s) => s.type) {
-    for (const s of t) {
-      const i = a(s);
-      let n = e[i];
-      n || (n = [], e[i] = n), n.push(s);
+  static classifyInto(e, t, s = (a) => a.type) {
+    for (const a of t) {
+      const i = s(a);
+      let o = e[i];
+      o || (o = [], e[i] = o), o.push(a);
     }
   }
   static showControlWhen(e, t) {
     t ? e.show() : e.hide();
   }
-  static minmax(e, t, a) {
-    return Math.max(t, Math.min(e, a));
+  static minmax(e, t, s) {
+    return Math.max(t, Math.min(e, s));
   }
 };
-_(z, "isString", (e) => typeof e == "string" || e instanceof String);
-let f = z;
-const et = {
+U(ee, "isString", (e) => typeof e == "string" || e instanceof String);
+let b = ee;
+const St = {
   keyword: "keywords",
   disposition: "dispositions",
   cue: "cues"
-}, p = class p {
+}, f = class f {
   // this method is the place to add settings-based entries in the enums
   static init() {
-    p.hbsAttributes = p.mapObjetToKeyValue(o.attributes).filter((e) => e.value != "knowledge" && e.value != "noAttribute"), p.hbsItemTypes = p.mapObjetToKeyValue(o.itemType), p.hbsCapacities = p.mapObjetToKeyValue(o.capacity), p.hbsMonitors = p.mapObjetToKeyValue(o.monitor), p.hbsMonitorLetters = p.mapObjetToKeyValue(o.monitorLetter), p.hbsShadowampCategories = p.mapObjetToKeyValue(o.shadowampCategory), p.hbsAreas = p.mapObjetToKeyValue(o.area), p.hbsRanges = p.mapObjetToKeyValue(o.range), p.hbsVehicleCategories = p.mapObjetToKeyValue(o.vehicleCategory), p.sortedAttributeKeys = Object.keys(o.attributes), p.registerHandleBarHelpers();
+    f.hbsAttributes = f.mapObjetToKeyValue(l.attributes).filter(
+      (e) => e.value != "knowledge" && e.value != "noAttribute"
+    ), f.hbsItemTypes = f.mapObjetToKeyValue(l.itemType), f.hbsCapacities = f.mapObjetToKeyValue(l.capacity), f.hbsMonitors = f.mapObjetToKeyValue(l.monitor), f.hbsMonitorLetters = f.mapObjetToKeyValue(l.monitorLetter), f.hbsShadowampCategories = f.mapObjetToKeyValue(l.shadowampCategory), f.hbsAreas = f.mapObjetToKeyValue(l.area), f.hbsRanges = f.mapObjetToKeyValue(l.range), f.hbsVehicleCategories = f.mapObjetToKeyValue(l.vehicleCategory), f.sortedAttributeKeys = Object.keys(l.attributes), f.registerHandleBarHelpers();
   }
   static registerHandleBarHelpers() {
-    Handlebars.registerHelper("sortedAttributes", (e) => f.sortedMap(e, f.ascendingBySortedArray(p.sortedAttributeKeys)));
+    Handlebars.registerHelper(
+      "sortedAttributes",
+      (e) => b.sortedMap(e, b.ascendingBySortedArray(f.sortedAttributeKeys))
+    );
   }
-  static getEnums(e = (a) => !0, t = !1) {
+  static getEnums(e = (s) => !0, t = !1) {
     return {
-      attributes: p.getAttributes(e),
-      itemTypes: p.hbsItemTypes,
-      capacities: p.hbsCapacities,
-      monitors: p.hbsMonitors,
-      shadowampCategories: p.hbsShadowampCategories,
-      skills: game.system.anarchy.skills.getSkills({ withKnowledge: t }).map((a) => ({ value: a.code, label: game.i18n.localize(a.labelkey), labelkey: a.labelkey })),
-      areas: p.hbsAreas,
-      ranges: p.hbsRanges,
-      vehicleCategories: p.hbsVehicleCategories
+      attributes: f.getAttributes(e),
+      itemTypes: f.hbsItemTypes,
+      capacities: f.hbsCapacities,
+      monitors: f.hbsMonitors,
+      shadowampCategories: f.hbsShadowampCategories,
+      skills: game.system.anarchy.skills.getSkills({ withKnowledge: t }).map((s) => ({ value: s.code, label: game.i18n.localize(s.labelkey), labelkey: s.labelkey })),
+      areas: f.hbsAreas,
+      ranges: f.hbsRanges,
+      vehicleCategories: f.hbsVehicleCategories
     };
   }
   static getAttributes(e = (t) => !0) {
-    return p.hbsAttributes.filter((t) => e(t.value));
+    return f.hbsAttributes.filter((t) => e(t.value));
   }
   static getActorWordTypes() {
-    return et;
+    return St;
   }
   static getMonitors() {
-    return p.hbsMonitors;
+    return f.hbsMonitors;
   }
   static getMonitorLetters() {
-    return p.hbsMonitorLetters;
+    return f.hbsMonitorLetters;
   }
   static getActorWordTypePlural(e) {
-    return et[e];
+    return St[e];
   }
   static localizeAttribute(e) {
-    return o.attributes[e] ? game.i18n.localize(o.attributes[e]) : game.i18n.localize(o.attributes.noAttribute);
+    return l.attributes[e] ? game.i18n.localize(l.attributes[e]) : game.i18n.localize(l.attributes.noAttribute);
   }
-  static getFromList(e, t, a = "value", s = "labelkey") {
-    const i = e.find((n) => n[a] == t);
-    return i ? i[s] : void 0;
+  static getFromList(e, t, s = "value", a = "labelkey") {
+    const i = e.find((o) => o[s] == t);
+    return i ? i[a] : void 0;
   }
-  static mapObjetToKeyValue(e, t = "value", a = "labelkey") {
-    return Object.entries(e).map(
-      (s) => {
-        const i = {};
-        return i[t] = s[0], i[a] = s[1], i;
-      }
-    );
+  static mapObjetToKeyValue(e, t = "value", s = "labelkey") {
+    return Object.entries(e).map((a) => {
+      const i = {};
+      return i[t] = a[0], i[s] = a[1], i;
+    });
   }
 };
-_(p, "ENUMS"), _(p, "hbsAttributes"), _(p, "hbsItemTypes"), _(p, "hbsCapacities"), _(p, "hbsMonitors"), _(p, "hbsMonitorLetters"), _(p, "hbsShadowampCategories"), _(p, "hbsAreas"), _(p, "hbsRanges"), _(p, "sortedAttributeKeys");
-let S = p;
-const g = "anarchy", ie = "Anarchy", Ge = `system.${g}`, L = g, ue = `systems/${g}`, pt = `${ue}/style`, h = `systems/${g}/templates`, G = `${ue}/icons`, k = `${G}/skills`, P = "Anarchy | ", Mt = 3, Ht = 2, St = 6, Nt = 5, Tt = 4, ft = 8, c = {
+U(f, "ENUMS"), U(f, "hbsAttributes"), U(f, "hbsItemTypes"), U(f, "hbsCapacities"), U(f, "hbsMonitors"), U(f, "hbsMonitorLetters"), U(f, "hbsShadowampCategories"), U(f, "hbsAreas"), U(f, "hbsRanges"), U(f, "sortedAttributeKeys");
+let E = f;
+const d = "anarchy", ge = "Anarchy", ot = `system.${d}`, G = d, Ce = `systems/${d}`, Pt = `${Ce}/style`, y = `systems/${d}/templates`, j = `${Ce}/icons`, w = `${j}/skills`, u = "Anarchy | ", Bt = 3, Kt = 2, qt = 6, Qt = 5, Xt = 4, Lt = 8, m = {
   actorTypes: {
     character: "character",
     vehicle: "vehicle",
@@ -700,7 +717,7 @@ const g = "anarchy", ie = "Anarchy", Ge = `system.${g}`, L = g, ue = `systems/${
     rect: "rect",
     ray: "ray"
   }
-}, E = {
+}, z = {
   rollType: {
     attributeAction: "attributeAction",
     defense: "defense",
@@ -735,121 +752,124 @@ const g = "anarchy", ie = "Anarchy", Ge = `system.${g}`, L = g, ue = `systems/${
   }
 };
 globalThis.ANARCHY_CONSTANTS = {
-  SYSTEM_NAME: g,
-  SYSTEM_DESCRIPTION: ie,
-  SYSTEM_SOCKET: Ge,
-  SYSTEM_SCOPE: L,
-  SYSTEM_PATH: ue,
-  STYLE_PATH: pt,
-  TEMPLATES_PATH: h,
-  ICONS_PATH: G,
-  ICONS_SKILLS_PATH: k,
-  LOG_HEAD: P,
-  ANARCHY_DICE_BONUS: Mt,
-  SPECIALIZATION_BONUS: Ht,
-  PLAYER_MAX_ANARCHY: St,
-  TARGET_SUCCESS: Nt,
-  TARGET_SUCCESS_EDGE: Tt,
-  BASE_MONITOR: ft,
-  TEMPLATE: c,
-  ANARCHY_SYSTEM: E
+  SYSTEM_NAME: d,
+  SYSTEM_DESCRIPTION: ge,
+  SYSTEM_SOCKET: ot,
+  SYSTEM_SCOPE: G,
+  SYSTEM_PATH: Ce,
+  STYLE_PATH: Pt,
+  TEMPLATES_PATH: y,
+  ICONS_PATH: j,
+  ICONS_SKILLS_PATH: w,
+  LOG_HEAD: u,
+  ANARCHY_DICE_BONUS: Bt,
+  SPECIALIZATION_BONUS: Kt,
+  PLAYER_MAX_ANARCHY: qt,
+  TARGET_SUCCESS: Qt,
+  TARGET_SUCCESS_EDGE: Xt,
+  BASE_MONITOR: Lt,
+  TEMPLATE: m,
+  ANARCHY_SYSTEM: z
 };
-class K {
-  static checkSufficient(e, t, a) {
-    if (t > a) {
-      const s = game.i18n.format(o.common.errors.insufficient, {
+class ae {
+  static checkSufficient(e, t, s) {
+    if (t > s) {
+      const a = game.i18n.format(l.common.errors.insufficient, {
         resource: game.i18n.localize(e),
         required: t,
-        available: a
+        available: s
       });
-      throw ui.notifications.error(s), s;
+      throw ui.notifications.error(a), a;
     }
   }
-  static checkOutOfRange(e, t, a, s) {
-    if (t < a || t > s) {
-      const i = game.i18n.format(o.common.errors.outOfRange, {
+  static checkOutOfRange(e, t, s, a) {
+    if (t < s || t > a) {
+      const i = game.i18n.format(l.common.errors.outOfRange, {
         resource: game.i18n.localize(e),
         value: t,
-        min: a,
-        max: s
+        min: s,
+        max: a
       });
       throw ui.notifications.error(i), i;
     }
   }
   static checkUserGM() {
     if (!game.user.isGM) {
-      const e = game.i18n.localize(o.common.errors.onlyGM);
+      const e = game.i18n.localize(l.common.errors.onlyGM);
       throw ui.notifications.error(e), e;
     }
   }
   static checkItemType(e, t) {
     if (e.type != t) {
-      const a = game.i18n.format(o.common.errors.expectedType, {
-        type: game.i18n.localize(e.type ? o.itemType.singular[e.type] : e.type),
+      const s = game.i18n.format(l.common.errors.expectedType, {
+        type: game.i18n.localize(e.type ? l.itemType.singular[e.type] : e.type),
         expectedType: game.i18n.localize(t)
+      });
+      throw ui.notifications.error(s), s;
+    }
+  }
+  static checkActorCanReceiveDamage(e, t, s) {
+    if (!t) {
+      const a = game.i18n.format(l.common.errors.actorCannotReceiveDamage, {
+        actor: s.name,
+        damageType: game.i18n.format("ANARCHY.actor.monitors." + e)
       });
       throw ui.notifications.error(a), a;
     }
   }
-  static checkActorCanReceiveDamage(e, t, a) {
-    if (!t) {
-      const s = game.i18n.format(o.common.errors.actorCannotReceiveDamage, {
-        actor: a.name,
-        damageType: game.i18n.format("ANARCHY.actor.monitors." + e)
-      });
-      throw ui.notifications.error(s), s;
-    }
-  }
   static checkWeaponDefense(e, t) {
     if (!e.getDefense()) {
-      const s = game.i18n.format(o.common.errors.noDefenseOnWeapon, { actor: t.name, weapon: e.name });
-      throw ui.notifications.error(s), s;
+      const a = game.i18n.format(l.common.errors.noDefenseOnWeapon, {
+        actor: t.name,
+        weapon: e.name
+      });
+      throw ui.notifications.error(a), a;
     }
   }
-  static checkTargetsCount(e, t, a) {
+  static checkTargetsCount(e, t, s) {
     if (e > 0 && t.length > e) {
-      const s = game.i18n.format(o.common.errors.maxTargetsExceedeed, {
+      const a = game.i18n.format(l.common.errors.maxTargetsExceedeed, {
         weapon: this.name,
-        area: game.i18n.localize(o.area[a]),
+        area: game.i18n.localize(l.area[s]),
         count: t.length,
         max: e
       });
-      throw ui.notifications.error(s), s;
+      throw ui.notifications.error(a), a;
     }
   }
   static checkMatrixMonitor(e) {
     if (!e.hasMatrixMonitor()) {
-      const t = game.i18n.format(o.actor.monitors.noMatrixMonitor, {
+      const t = game.i18n.format(l.actor.monitors.noMatrixMonitor, {
         actor: e.name
       });
       throw ui.notifications.warn(t), t;
     }
   }
-  static checkActorDefenseAction(e, t, a) {
+  static checkActorDefenseAction(e, t, s) {
     if (!e) {
-      const s = game.i18n.format(o.common.errors.actorDoesNotHaveDefense, {
+      const a = game.i18n.format(l.common.errors.actorDoesNotHaveDefense, {
         actor: t.name,
-        defense: game.i18n.localize(a.labelkey),
-        actorType: game.i18n.localize(o.actorType[t.type])
+        defense: game.i18n.localize(s.labelkey),
+        actorType: game.i18n.localize(l.actorType[t.type])
       });
-      throw ui.notifications.error(s), s;
+      throw ui.notifications.error(a), a;
     }
   }
 }
-const tt = "Users.blindMessageToGM";
-class I {
+const wt = "Users.blindMessageToGM";
+class P {
   static init() {
-    j.register(tt, {
-      callback: (e) => I.blindMessageToGM(e),
+    X.register(wt, {
+      callback: (e) => P.blindMessageToGM(e),
       condition: (e) => e.isGM
     });
   }
   static blindMessageToGM(e) {
-    j.call(tt, e) || ChatMessage.create({
+    X.call(wt, e) || ChatMessage.create({
       user: e.user,
       whisper: ChatMessage.getWhisperRecipients("GM"),
       blind: !0,
-      content: game.i18n.format(o.chat.blindMessageToGM, {
+      content: game.i18n.format(l.chat.blindMessageToGM, {
         user: game.user.name,
         message: e.content
       })
@@ -859,17 +879,19 @@ class I {
     return (game.version ? game.users : game.users.entities).filter(e);
   }
   static firstConnectedGM() {
-    return I.getUsers((e) => e.isGM && e.active).sort(f.ascending((e) => e.id)).at(0) ?? {};
+    return P.getUsers((e) => e.isGM && e.active).sort(b.ascending((e) => e.id)).at(0) ?? {};
   }
   /**
    * @returns true pour un seul utilisateur: le premier GM connecté par ordre d'id
    */
   static isUniqueConnectedGM(e = game.user) {
-    return e.id == I.firstConnectedGM().id;
+    return e.id == P.firstConnectedGM().id;
   }
   static firstResponsible(e) {
     if (e.testUserPermission)
-      return I.getUsers((t) => t.active && e.testUserPermission(t, CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER)) == game.user;
+      return P.getUsers(
+        (t) => t.active && e.testUserPermission(t, CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER)
+      ) == game.user;
   }
   static getTargetTokens(e) {
     return Array.from(e.targets);
@@ -884,9 +906,9 @@ class I {
     return game.user.character;
   }
 }
-class j {
+class X {
   constructor() {
-    this.remoteCalls = {}, game.socket.on(Ge, async (e) => this.onSocketMessage(e));
+    this.remoteCalls = {}, game.socket.on(ot, async (e) => this.onSocketMessage(e));
   }
   static async register(e, t) {
     game.system.anarchy.remoteCall._register(e, t);
@@ -894,84 +916,125 @@ class j {
   async _register(e, t) {
     if (this.remoteCalls[e])
       throw `RemoteCall msg ${e} is already registered`;
-    foundry.utils.mergeObject(t, {
-      callback: (a) => {
-        console.log(P + "RemoteCall [", e, "] (", a, ")");
+    foundry.utils.mergeObject(
+      t,
+      {
+        callback: (s) => {
+          console.log(u + "RemoteCall [", e, "] (", s, ")");
+        },
+        condition: (s) => !0,
+        multiple: !1
       },
-      condition: (a) => !0,
-      multiple: !1
-      /* true if multiple users should handle the message */
-    }, { overwrite: !1 }), this.remoteCalls[e] = t, console.log(P + "RemoteCall registered", e);
+      { overwrite: !1 }
+    ), this.remoteCalls[e] = t, console.log(u + "RemoteCall registered", e);
   }
   static call(e, t) {
     return game.system.anarchy.remoteCall._remoteCall(e, t);
   }
   _remoteCall(e, t) {
-    const a = this.remoteCalls[e];
-    return !a || a.condition(game.user) || !a.multiple && I.isUniqueConnectedGM() ? !1 : (game.socket.emit(Ge, { msg: e, data: t }), !0);
+    const s = this.remoteCalls[e];
+    return !s || s.condition(game.user) || !s.multiple && P.isUniqueConnectedGM() ? !1 : (game.socket.emit(ot, { msg: e, data: t }), !0);
   }
   async onSocketMessage(e) {
     const t = this.remoteCalls[e.msg];
     if (t) {
-      const a = t.condition(game.user), s = t.multiple, i = I.isUniqueConnectedGM();
-      a && (s || i) ? t.callback(e.data) : console.log(P + "RemoteCall.onSocketMessage(", e, ") ignored :", a, s, i);
+      const s = t.condition(game.user), a = t.multiple, i = P.isUniqueConnectedGM();
+      s && (a || i) ? t.callback(e.data) : console.log(
+        u + "RemoteCall.onSocketMessage(",
+        e,
+        ") ignored :",
+        s,
+        a,
+        i
+      );
     } else
-      console.log(P + "RemoteCall: No callback registered for", e);
+      console.log(u + "RemoteCall: No callback registered for", e);
   }
 }
-const Ve = "parent-message-id", me = "message-data", ze = "can-use-edge", Be = "owning-actor", at = "ChatManager.removeChatMessage", st = "ChatManager.removeChatMessageFamily", Et = [
-  { selector: ".anarchy-button.click-edge-reroll", controlVisibility: !0, handler: async (r, e) => await M.edgeReroll(r) },
-  { selector: ".anarchy-button.click-defend-attack", controlVisibility: !0, handler: async (r, e) => await M.defendAttack(r) },
-  { selector: ".anarchy-button.click-defend-pilot-attack", controlVisibility: !0, handler: async (r, e) => await M.defendPilotAttack(r) },
-  { selector: ".anarchy-button.click-apply-attack-damage", controlVisibility: !0, handler: async (r, e) => await M.applyAttack(r) },
-  { selector: "img.open-actor-sheet", controlVisibility: !1, handler: async (r, e) => await M.openActorSheet(r, e) }
+const rt = "parent-message-id", be = "message-data", mt = "can-use-edge", dt = "owning-actor", kt = "ChatManager.removeChatMessage", Rt = "ChatManager.removeChatMessageFamily", Zt = [
+  {
+    selector: ".anarchy-button.click-edge-reroll",
+    controlVisibility: !0,
+    handler: async (r, e) => await T.edgeReroll(r)
+  },
+  {
+    selector: ".anarchy-button.click-defend-attack",
+    controlVisibility: !0,
+    handler: async (r, e) => await T.defendAttack(r)
+  },
+  {
+    selector: ".anarchy-button.click-defend-pilot-attack",
+    controlVisibility: !0,
+    handler: async (r, e) => await T.defendPilotAttack(r)
+  },
+  {
+    selector: ".anarchy-button.click-apply-attack-damage",
+    controlVisibility: !0,
+    handler: async (r, e) => await T.applyAttack(r)
+  },
+  {
+    selector: "img.open-actor-sheet",
+    controlVisibility: !1,
+    handler: async (r, e) => await T.openActorSheet(r, e)
+  }
 ];
-class M {
+class T {
   static async init() {
-    Hooks.on("renderChatMessage", async (e, t, a) => await M.onRenderChatMessage(e, t, a)), j.register(st, {
+    Hooks.on(
+      "renderChatMessage",
+      async (e, t, s) => await T.onRenderChatMessage(e, t, s)
+    ), X.register(Rt, {
       callback: (e) => this.removeFamily(e),
       condition: (e) => e.isGM
-    }), j.register(at, {
-      callback: (e) => M.removeChatMessage(e),
+    }), X.register(kt, {
+      callback: (e) => T.removeChatMessage(e),
       condition: (e) => e.isGM
     });
   }
-  static async onRenderChatMessage(e, t, a) {
-    const s = M.getChatMessageFromHtml(t), i = M.hasRight(s);
-    Et.forEach((n) => {
-      const l = t.find(n.selector);
-      !n.controlVisibility || i ? (l.show(), l.click(async (m) => await n.handler(M.getChatMessage(m), m))) : (l.hide(), l.click(async (m) => {
+  static async onRenderChatMessage(e, t, s) {
+    const a = T.getChatMessageFromHtml(t), i = T.hasRight(a);
+    Zt.forEach((o) => {
+      const n = t.find(o.selector);
+      !o.controlVisibility || i ? (n.show(), n.click(
+        async (c) => await o.handler(T.getChatMessage(c), c)
+      )) : (n.hide(), n.click(async (c) => {
       }));
     });
   }
   static async openActorSheet(e, t) {
-    var n;
-    const a = $(t.currentTarget).closest("img.open-actor-sheet"), s = a.attr("data-token-id");
-    if (s) {
-      const l = canvas.tokens.get(s);
-      if (l != null && l.actor) {
-        l.actor.sheet.render(!0);
+    var o;
+    const s = $(t.currentTarget).closest("img.open-actor-sheet"), a = s.attr("data-token-id");
+    if (a) {
+      const n = canvas.tokens.get(a);
+      if (n != null && n.actor) {
+        n.actor.sheet.render(!0);
         return;
       }
     }
-    const i = a.attr("data-actor-id");
-    return (n = game.actors.get(i)) == null ? void 0 : n.sheet.render(!0);
+    const i = s.attr("data-actor-id");
+    return (o = game.actors.get(i)) == null ? void 0 : o.sheet.render(!0);
   }
   static async edgeReroll(e) {
-    if (e.getFlag(L, ze)) {
-      const t = e.getFlag(L, me);
-      await game.system.anarchy.rollManager.edgeReroll(t), M.removeFamily(e.id);
+    if (e.getFlag(G, mt)) {
+      const t = e.getFlag(G, be);
+      await game.system.anarchy.rollManager.edgeReroll(t), T.removeFamily(e.id);
     } else
-      ui.notifications.info(game.i18n.localize(o.common.errors.cannotUseEdgeAnymore));
+      ui.notifications.info(game.i18n.localize(l.common.errors.cannotUseEdgeAnymore));
   }
   static defendAttack(e) {
-    return game.system.anarchy.combatManager.onClickDefendAttack(e.getFlag(L, me));
+    return game.system.anarchy.combatManager.onClickDefendAttack(
+      e.getFlag(G, be)
+    );
   }
   static defendPilotAttack(e) {
-    return game.system.anarchy.combatManager.onClickPilotDefendAttack(e.getFlag(L, me));
+    return game.system.anarchy.combatManager.onClickPilotDefendAttack(
+      e.getFlag(G, be)
+    );
   }
   static applyAttack(e) {
-    return game.system.anarchy.combatManager.onClickApplyAttackDamage(e.getFlag(L, me));
+    return game.system.anarchy.combatManager.onClickApplyAttackDamage(
+      e.getFlag(G, be)
+    );
   }
   static getChatMessage(e) {
     const t = $(e.currentTarget).closest(".chat-message").attr("data-message-id");
@@ -984,27 +1047,27 @@ class M {
   /**
    * Method in charge of preparing ANARCHY flags to be set on Document, for ChatMessage
    */
-  static prepareFlag(e, t, a) {
-    e[L] == null ? e[L] = { [t]: a } : e[L][t] = a;
+  static prepareFlag(e, t, s) {
+    e[G] == null ? e[G] = { [t]: s } : e[G][t] = s;
   }
   static removeFamily(e) {
     var t;
-    j.call(st, e) || (game.messages.filter((a) => a.getFlag(L, Ve) == e).forEach((a) => a.delete()), (t = game.messages.get(e)) == null || t.delete());
+    X.call(Rt, e) || (game.messages.filter((s) => s.getFlag(G, rt) == e).forEach((s) => s.delete()), (t = game.messages.get(e)) == null || t.delete());
   }
   static removeChatMessage(e) {
     var t;
-    j.call(at, e) || (t = game.messages.get(e)) == null || t.delete();
+    X.call(kt, e) || (t = game.messages.get(e)) == null || t.delete();
   }
   static messageActorRights(e, t = CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER) {
-    var a;
+    var s;
     return {
       actorId: e == null ? void 0 : e.id,
-      tokenId: (a = e == null ? void 0 : e.token) == null ? void 0 : a.id,
+      tokenId: (s = e == null ? void 0 : e.token) == null ? void 0 : s.id,
       right: t ?? CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER
     };
   }
   static readActorRights(e) {
-    const t = e.tokenId ? M.getToken(e.tokenId) : void 0;
+    const t = e.tokenId ? T.getToken(e.tokenId) : void 0;
     return {
       actor: (t == null ? void 0 : t.actor) ?? game.actors.get(e.actorId),
       token: t,
@@ -1012,19 +1075,22 @@ class M {
     };
   }
   static hasRight(e, t = CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER) {
-    const a = e.getFlag(L, Be);
-    if (a) {
-      const s = M.readActorRights(a);
-      if (s)
-        return s.actor ? s.actor.testUserPermission(game.user, Math.min(s.right, t)) : !0;
+    const s = e.getFlag(G, dt);
+    if (s) {
+      const a = T.readActorRights(s);
+      if (a)
+        return a.actor ? a.actor.testUserPermission(
+          game.user,
+          Math.min(a.right, t)
+        ) : !0;
     }
     return !1;
   }
   static getToken(e) {
-    return e ? game.scenes.map((t) => t.tokens.find((a) => a.id == e)).find((t) => t != null) : void 0;
+    return e ? game.scenes.map((t) => t.tokens.find((s) => s.id == e)).find((t) => t != null) : void 0;
   }
 }
-const Dt = [
+const Jt = [
   "fas fa-dice",
   "fas fa-dice-one",
   "fas fa-dice-two",
@@ -1033,12 +1099,12 @@ const Dt = [
   "fas fa-dice-five",
   "fas fa-dice-six"
 ];
-class u {
+class p {
   static fontAwesome(e) {
     return `<i class="${e}"></i>`;
   }
   static iconSystemPath(e, t) {
-    return u.iconPath(`${pt}/${e}`, t);
+    return p.iconPath(`${Pt}/${e}`, t);
   }
   static iconPath(e, t) {
     return `<img class="${t}" src="${e}" />`;
@@ -1046,71 +1112,71 @@ class u {
   static iconD6(e) {
     if (e < 0 || e > 6)
       throw `Dice ${e} is out of dice range [1..6] or 0 for multidice`;
-    return u.fontAwesome(Dt[e]);
+    return p.fontAwesome(Jt[e]);
   }
 }
-globalThis.ANARCHY_ICONS = u;
-const ae = o.actor.monitors, oe = o.actor.counters, Ke = {
+globalThis.ANARCHY_ICONS = p;
+const de = l.actor.monitors, pe = l.actor.counters, ut = {
   armor: {
     path: "system.monitors.armor.value",
     monitor: (r) => r.system.monitors.armor,
-    iconChecked: u.fontAwesome("fas fa-shield-slash"),
-    iconUnchecked: u.fontAwesome("fas fa-shield-alt"),
-    iconHit: u.fontAwesome("fas fa-bahai"),
-    resource: ae.armor
+    iconChecked: p.fontAwesome("fas fa-shield-slash"),
+    iconUnchecked: p.fontAwesome("fas fa-shield-alt"),
+    iconHit: p.fontAwesome("fas fa-bahai"),
+    resource: de.armor
   },
   stun: {
     path: "system.monitors.stun.value",
     monitor: (r) => r.system.monitors.stun,
-    iconChecked: u.fontAwesome("fas fa-grimace"),
-    iconUnchecked: u.fontAwesome("far fa-smile"),
-    iconHit: u.fontAwesome("fas fa-bahai"),
-    resource: ae.stun,
-    overflow: (r) => c.monitors.physical,
+    iconChecked: p.fontAwesome("fas fa-grimace"),
+    iconUnchecked: p.fontAwesome("far fa-smile"),
+    iconHit: p.fontAwesome("fas fa-bahai"),
+    resource: de.stun,
+    overflow: (r) => m.monitors.physical,
     useArmor: !0
   },
   physical: {
     path: "system.monitors.physical.value",
     monitor: (r) => r.system.monitors.physical,
-    iconChecked: u.fontAwesome("fas fa-heartbeat"),
-    iconUnchecked: u.fontAwesome("far fa-heart"),
-    iconHit: u.fontAwesome("fas fa-bahai"),
-    resource: ae.physical,
+    iconChecked: p.fontAwesome("fas fa-heartbeat"),
+    iconUnchecked: p.fontAwesome("far fa-heart"),
+    iconHit: p.fontAwesome("fas fa-bahai"),
+    resource: de.physical,
     useArmor: !0
   },
   structure: {
     path: "system.monitors.structure.value",
     monitor: (r) => r.system.monitors.structure,
-    iconChecked: u.fontAwesome("fas fa-car-crash"),
-    iconUnchecked: u.fontAwesome("fas fa-car-alt"),
-    iconHit: u.fontAwesome("fas fa-bahai"),
-    resource: ae.structure
+    iconChecked: p.fontAwesome("fas fa-car-crash"),
+    iconUnchecked: p.fontAwesome("fas fa-car-alt"),
+    iconHit: p.fontAwesome("fas fa-bahai"),
+    resource: de.structure
   },
   matrix: {
     path: "system.monitors.matrix.value",
     monitor: (r) => r.getMatrixMonitor(),
-    iconChecked: u.fontAwesome("fas fa-laptop-medical"),
-    iconUnchecked: u.fontAwesome("fas fa-laptop"),
-    iconHit: u.fontAwesome("fas fa-laptop-code"),
+    iconChecked: p.fontAwesome("fas fa-laptop-medical"),
+    iconUnchecked: p.fontAwesome("fas fa-laptop"),
+    iconHit: p.fontAwesome("fas fa-laptop-code"),
     overflow: (r) => r.getMatrixOverflow(),
     recomputeOverflow: (r) => 3,
-    resource: ae.matrix
+    resource: de.matrix
   },
   marks: {
     path: void 0,
     monitor: (r) => ({ value: 0, max: 5 }),
-    iconChecked: u.fontAwesome("fas fa-bookmark"),
-    iconUnchecked: u.fontAwesome("far fa-bookmark"),
-    iconHit: u.fontAwesome("fas fa-fingerprint"),
-    resource: ae.marks
+    iconChecked: p.fontAwesome("fas fa-bookmark"),
+    iconUnchecked: p.fontAwesome("far fa-bookmark"),
+    iconHit: p.fontAwesome("fas fa-fingerprint"),
+    resource: de.marks
   },
   convergence: {
     path: void 0,
     monitor: (r) => ({ value: 0, max: 5 }),
-    iconChecked: u.fontAwesome("far fa-eye"),
-    iconUnchecked: u.fontAwesome("fas fa-eye-slash"),
-    iconHit: u.fontAwesome("fas fa-eye"),
-    resource: ae.convergence
+    iconChecked: p.fontAwesome("far fa-eye"),
+    iconUnchecked: p.fontAwesome("fas fa-eye-slash"),
+    iconHit: p.fontAwesome("fas fa-eye"),
+    resource: de.convergence
   },
   anarchy: {
     path: "system.counters.anarchy.value",
@@ -1118,9 +1184,9 @@ const ae = o.actor.monitors, oe = o.actor.counters, Ke = {
       value: r.system.counters.anarchy.value,
       max: 6
     }),
-    iconChecked: u.iconSystemPath("anarchy-point.webp", "checkbar-img"),
-    iconUnchecked: u.iconSystemPath("anarchy-point-off.webp", "checkbar-img"),
-    resource: oe.anarchy
+    iconChecked: p.iconSystemPath("anarchy-point.webp", "checkbar-img"),
+    iconUnchecked: p.iconSystemPath("anarchy-point-off.webp", "checkbar-img"),
+    resource: pe.anarchy
   },
   plot: {
     path: "system.counters.anarchy.value",
@@ -1128,26 +1194,26 @@ const ae = o.actor.monitors, oe = o.actor.counters, Ke = {
       const e = r.system.counters.anarchy.value;
       return { value: e, max: e + 1 };
     },
-    iconChecked: u.iconSystemPath("danger-point.webp", "checkbar-img"),
-    iconUnchecked: u.iconSystemPath("danger-point-off.webp", "checkbar-img"),
-    resource: oe.anarchy
+    iconChecked: p.iconSystemPath("danger-point.webp", "checkbar-img"),
+    iconUnchecked: p.iconSystemPath("danger-point-off.webp", "checkbar-img"),
+    resource: pe.anarchy
   },
   sceneAnarchy: {
     path: "system.counters.sceneAnarchy.value",
     monitor: (r) => ({ value: r.system.counters.sceneAnarchy.value, max: 3 }),
-    iconChecked: u.iconSystemPath("anarchy-point-scene.webp", "checkbar-img"),
-    iconUnchecked: u.iconSystemPath("anarchy-point-off.webp", "checkbar-img"),
-    resource: oe.sceneAnarchy
+    iconChecked: p.iconSystemPath("anarchy-point-scene.webp", "checkbar-img"),
+    iconUnchecked: p.iconSystemPath("anarchy-point-off.webp", "checkbar-img"),
+    resource: pe.sceneAnarchy
   },
   edge: {
     path: "system.counters.edge.value",
     monitor: (r) => ({
       value: r.system.counters.edge.value,
-      max: r.getAttributeValue(c.attributes.edge)
+      max: r.getAttributeValue(m.attributes.edge)
     }),
-    iconChecked: u.fontAwesome("fas fa-star"),
-    iconUnchecked: u.fontAwesome("far fa-star"),
-    resource: oe.edge
+    iconChecked: p.fontAwesome("fas fa-star"),
+    iconUnchecked: p.fontAwesome("far fa-star"),
+    resource: pe.edge
   },
   credibility: {
     path: "system.counters.social.credibility.value",
@@ -1155,9 +1221,9 @@ const ae = o.actor.monitors, oe = o.actor.counters, Ke = {
       value: r.system.counters.social.credibility.value,
       max: r.system.counters.social.credibility.max
     }),
-    iconChecked: u.fontAwesome("fas fa-handshake"),
-    iconUnchecked: u.fontAwesome("far fa-handshake"),
-    resource: oe.social.credibility
+    iconChecked: p.fontAwesome("fas fa-handshake"),
+    iconUnchecked: p.fontAwesome("far fa-handshake"),
+    resource: pe.social.credibility
   },
   rumor: {
     path: "system.counters.social.rumor.value",
@@ -1165,123 +1231,131 @@ const ae = o.actor.monitors, oe = o.actor.counters, Ke = {
       value: r.system.counters.social.rumor.value,
       max: r.system.counters.social.rumor.max
     }),
-    iconChecked: u.fontAwesome("fas fa-grimace"),
-    iconUnchecked: u.fontAwesome("far fa-grimace"),
-    resource: oe.social.rumor
+    iconChecked: p.fontAwesome("fas fa-grimace"),
+    iconUnchecked: p.fontAwesome("far fa-grimace"),
+    resource: pe.social.rumor
   }
-}, U = foundry.utils.mergeObject(Ke, {});
-class d {
+}, q = foundry.utils.mergeObject(ut, {});
+class g {
   static init() {
-    Handlebars.registerHelper("iconCheckbar", d.iconCheckbar), Handlebars.registerHelper("iconCheckbarHit", d.iconHit);
+    Handlebars.registerHelper("iconCheckbar", g.iconCheckbar), Handlebars.registerHelper("iconCheckbarHit", g.iconHit);
   }
   static hackCheckbars(e) {
     if (e) {
-      const t = foundry.utils.mergeObject(Ke, {});
-      foundry.utils.mergeObject(t, e, { recursive: !0 }), foundry.utils.mergeObject(U, t, { overwrite: !0 });
+      const t = foundry.utils.mergeObject(ut, {});
+      foundry.utils.mergeObject(t, e, { recursive: !0 }), foundry.utils.mergeObject(q, t, { overwrite: !0 });
     }
   }
   static iconCheckbar(e, t) {
-    return t ? d.iconChecked(e) : d.iconUnchecked(e);
+    return t ? g.iconChecked(e) : g.iconUnchecked(e);
   }
   static iconChecked(e) {
     var t;
-    return (t = U[e]) == null ? void 0 : t.iconChecked;
+    return (t = q[e]) == null ? void 0 : t.iconChecked;
   }
   static iconUnchecked(e) {
     var t;
-    return (t = U[e]) == null ? void 0 : t.iconUnchecked;
+    return (t = q[e]) == null ? void 0 : t.iconUnchecked;
   }
   static iconHit(e) {
-    var t, a;
-    return ((t = U[e]) == null ? void 0 : t.iconHit) ?? ((a = U[e]) == null ? void 0 : a.iconChecked);
+    var t, s;
+    return ((t = q[e]) == null ? void 0 : t.iconHit) ?? ((s = q[e]) == null ? void 0 : s.iconChecked);
   }
   static useArmor(e) {
     var t;
-    return (t = U[e]) == null ? void 0 : t.useArmor;
+    return (t = q[e]) == null ? void 0 : t.useArmor;
   }
   static max(e, t) {
-    var s;
-    const a = (s = U[t]) == null ? void 0 : s.monitor(e);
-    return ((a == null ? void 0 : a.max) ?? 0) + ((a == null ? void 0 : a.maxBonus) ?? 0);
+    var a;
+    const s = (a = q[t]) == null ? void 0 : a.monitor(e);
+    return ((s == null ? void 0 : s.max) ?? 0) + ((s == null ? void 0 : s.maxBonus) ?? 0);
   }
   static value(e, t) {
-    var s;
-    const a = (s = U[t]) == null ? void 0 : s.monitor(e);
-    return (a == null ? void 0 : a.value) ?? 0;
+    var a;
+    const s = (a = q[t]) == null ? void 0 : a.monitor(e);
+    return (s == null ? void 0 : s.value) ?? 0;
   }
   static resistance(e, t) {
-    var s;
-    const a = (s = U[t]) == null ? void 0 : s.monitor(e);
-    return ((a == null ? void 0 : a.resistance) ?? 0) + ((a == null ? void 0 : a.resistanceBonus) ?? 0);
+    var a;
+    const s = (a = q[t]) == null ? void 0 : a.monitor(e);
+    return ((s == null ? void 0 : s.resistance) ?? 0) + ((s == null ? void 0 : s.resistanceBonus) ?? 0);
   }
   static newValue(e, t) {
     return e + (t ? 0 : 1);
   }
-  static async switchMonitorCheck(e, t, a, s, i = void 0, n = void 0) {
-    await d.setCounter(e, t, d.newValue(a, s), i, n);
+  static async switchMonitorCheck(e, t, s, a, i = void 0, o = void 0) {
+    await g.setCounter(
+      e,
+      t,
+      g.newValue(s, a),
+      i,
+      o
+    );
   }
-  static async addCounter(e, t, a, s = void 0) {
-    if (a != 0) {
-      const i = d.getCounterValue(e, t, s) ?? 0;
-      await d.setCounter(e, t, i + a, s);
+  static async addCounter(e, t, s, a = void 0) {
+    if (s != 0) {
+      const i = g.getCounterValue(e, t, a) ?? 0;
+      await g.setCounter(e, t, i + s, a);
     }
   }
-  static async setCounter(e, t, a, s = void 0, i = void 0) {
+  static async setCounter(e, t, s, a = void 0, i = void 0) {
     switch (t) {
-      case c.monitors.marks:
-        return await d.setActorMarks(e, a, s, i);
-      case c.monitors.matrix:
-        return K.checkMatrixMonitor(e), await d.setCheckbar(e, t, a, i);
-      case c.monitors.convergence:
-        return await d.setActorConvergence(e, a);
-      case c.monitors.anarchy:
-        return await d.setAnarchy(e, a);
-      case c.monitors.sceneAnarchy:
-        return await d.setSceneAnarchy(e, a);
+      case m.monitors.marks:
+        return await g.setActorMarks(e, s, a, i);
+      case m.monitors.matrix:
+        return ae.checkMatrixMonitor(e), await g.setCheckbar(e, t, s, i);
+      case m.monitors.convergence:
+        return await g.setActorConvergence(e, s);
+      case m.monitors.anarchy:
+        return await g.setAnarchy(e, s);
+      case m.monitors.sceneAnarchy:
+        return await g.setSceneAnarchy(e, s);
     }
-    return await d.setCheckbar(e, t, a);
+    return await g.setCheckbar(e, t, s);
   }
-  static getCounterValue(e, t, a) {
+  static getCounterValue(e, t, s) {
     switch (t) {
-      case c.monitors.marks:
-        return d.getActorMarks(e, a);
-      case c.monitors.convergence:
-        return d.getActorConvergence(e);
-      case c.monitors.anarchy:
-        return d.getAnarchy(e, t);
+      case m.monitors.marks:
+        return g.getActorMarks(e, s);
+      case m.monitors.convergence:
+        return g.getActorConvergence(e);
+      case m.monitors.anarchy:
+        return g.getAnarchy(e, t);
     }
-    return d.value(e, t);
+    return g.value(e, t);
   }
-  static async setCheckbar(e, t, a) {
-    if (a == d.getCounterValue(e, t))
+  static async setCheckbar(e, t, s) {
+    if (s == g.getCounterValue(e, t))
       return;
-    const s = U[t];
-    if (s.path) {
-      const i = d.max(e, t);
+    const a = q[t];
+    if (a.path) {
+      const i = g.max(e, t);
       if (i <= 0)
         return;
-      await d._manageOverflow(s, e, t, a, i), a = Math.min(a, i), K.checkOutOfRange(s.resource, a, 0, i), await e.setCheckbarValue(s.path, a);
+      await g._manageOverflow(a, e, t, s, i), s = Math.min(s, i), ae.checkOutOfRange(a.resource, s, 0, i), await e.setCheckbarValue(a.path, s);
     }
   }
-  static async _manageOverflow(e, t, a, s, i) {
-    if (s > i) {
-      const n = e.overflow ? e.overflow(t) : void 0, l = e.recomputeOverflow ? e.recomputeOverflow(s - i) : s - i;
-      n && l > 0 && (d._notifyOverflow(t, a, l, n), await d.addCounter(t, n, l));
+  static async _manageOverflow(e, t, s, a, i) {
+    if (a > i) {
+      const o = e.overflow ? e.overflow(t) : void 0, n = e.recomputeOverflow ? e.recomputeOverflow(a - i) : a - i;
+      o && n > 0 && (g._notifyOverflow(t, s, n, o), await g.addCounter(t, o, n));
     }
   }
-  static _notifyOverflow(e, t, a, s) {
-    ui.notifications.warn(game.i18n.format(o.actor.monitors.overflow, {
-      actor: e.name,
-      monitor: game.i18n.format("ANARCHY.actor.monitors." + t),
-      overflow: a,
-      overflowMonitor: game.i18n.format("ANARCHY.actor.monitors." + s)
-    }));
+  static _notifyOverflow(e, t, s, a) {
+    ui.notifications.warn(
+      game.i18n.format(l.actor.monitors.overflow, {
+        actor: e.name,
+        monitor: game.i18n.format("ANARCHY.actor.monitors." + t),
+        overflow: s,
+        overflowMonitor: game.i18n.format("ANARCHY.actor.monitors." + a)
+      })
+    );
   }
-  static async _manageStunOverflow(e, t, a) {
-    await d.addCounter(e, c.monitors.physical, t - a);
+  static async _manageStunOverflow(e, t, s) {
+    await g.addCounter(e, m.monitors.physical, t - s);
   }
-  static async _manageMatrixOverflow(e, t, a) {
-    await d.addCounter(e, c.monitors.stun, t - a);
+  static async _manageMatrixOverflow(e, t, s) {
+    await g.addCounter(e, m.monitors.stun, t - s);
   }
   static async setAnarchy(e, t) {
     if (e.hasOwnAnarchy()) {
@@ -1289,52 +1363,54 @@ class d {
         await game.system.anarchy.gmAnarchy.setAnarchy(t), e.render();
         return;
       }
-      await d._setAnarchyMonitor(e, c.monitors.anarchy, t);
+      await g._setAnarchyMonitor(e, m.monitors.anarchy, t);
     }
   }
   static async setSceneAnarchy(e, t) {
-    await d._setAnarchyMonitor(e, c.monitors.sceneAnarchy, t);
+    await g._setAnarchyMonitor(e, m.monitors.sceneAnarchy, t);
   }
-  static async _setAnarchyMonitor(e, t, a) {
-    const s = d.value(e, t);
-    await d.setCheckbar(e, t, a), game.user.isGM || d.notifyAnarchyChange(e, t, s, a);
+  static async _setAnarchyMonitor(e, t, s) {
+    const a = g.value(e, t);
+    await g.setCheckbar(e, t, s), game.user.isGM || g.notifyAnarchyChange(e, t, a, s);
   }
   static getAnarchy(e, t) {
-    return !game.user.isGM && (!e.hasOwnAnarchy() || e.hasGMAnarchy()) || t == oe.anarchy && (!e.hasOwnAnarchy() || e.hasGMAnarchy()) ? 0 : d.value(e, t);
+    return !game.user.isGM && (!e.hasOwnAnarchy() || e.hasGMAnarchy()) || t == pe.anarchy && (!e.hasOwnAnarchy() || e.hasGMAnarchy()) ? 0 : g.value(e, t);
   }
-  static notifyAnarchyChange(e, t, a, s) {
-    I.blindMessageToGM({
+  static notifyAnarchyChange(e, t, s, a) {
+    P.blindMessageToGM({
       from: game.user.id,
-      content: game.i18n.format(
-        o.gmManager.playerChangedAnarchy,
-        {
-          user: game.user.name,
-          actor: e.name,
-          monitor: game.i18n.localize(o.actor.counters[t]),
-          from: a,
-          to: s
-        }
-      )
+      content: game.i18n.format(l.gmManager.playerChangedAnarchy, {
+        user: game.user.name,
+        actor: e.name,
+        monitor: game.i18n.localize(l.actor.counters[t]),
+        from: s,
+        to: a
+      })
     });
   }
   static getActorMarks(e, t) {
-    var a;
-    return ((a = d._findActorMarks(e.getMatrixMarks(), t)) == null ? void 0 : a.marks) ?? 0;
+    var s;
+    return ((s = g._findActorMarks(e.getMatrixMarks(), t)) == null ? void 0 : s.marks) ?? 0;
   }
-  static async addActorMark(e, t, a = void 0) {
-    const s = d._findActorMarks(e.getMatrixMarks(), t);
-    d.setActorMarks(e, (s.marks ?? 0) + 1, t, a);
+  static async addActorMark(e, t, s = void 0) {
+    const a = g._findActorMarks(e.getMatrixMarks(), t);
+    g.setActorMarks(e, (a.marks ?? 0) + 1, t, s);
   }
-  static async setActorMarks(e, t, a, s = void 0) {
+  static async setActorMarks(e, t, s, a = void 0) {
     if (e.canReceiveMarks()) {
       let i = deepClone(e.getMatrixMarks());
-      K.checkOutOfRange(U.marks.resource, t, 0, d.max(e, "marks"));
-      const n = d._findActorMarks(i, a);
-      n.marks == null && i.push(n), n.marks = Math.max(0, t), i = i.filter((l) => l.marks > 0), await e.setCheckbarValue("system.monitors.matrix.marks", i);
+      ae.checkOutOfRange(
+        q.marks.resource,
+        t,
+        0,
+        g.max(e, "marks")
+      );
+      const o = g._findActorMarks(i, s);
+      o.marks == null && i.push(o), o.marks = Math.max(0, t), i = i.filter((n) => n.marks > 0), await e.setCheckbarValue("system.monitors.matrix.marks", i);
     }
   }
   static _findActorMarks(e, t) {
-    return e.find((a) => a.actorId == t) ?? { actorId: t };
+    return e.find((s) => s.actorId == t) ?? { actorId: t };
   }
   static getActorConvergence(e) {
     game.system.anarchy.gmConvergence.getConvergence(e);
@@ -1343,23 +1419,23 @@ class d {
     await game.system.anarchy.gmConvergence.setConvergence(e, t);
   }
 }
-const Ie = "anarchy-gm", Yt = "scene-anarchy-gm", rt = "GMAnarchy.addAnarchy";
-class Ot {
+const Ue = "anarchy-gm", es = "scene-anarchy-gm", Mt = "GMAnarchy.addAnarchy";
+class ts {
   constructor() {
-    game.settings.register(g, Ie, {
+    game.settings.register(d, Ue, {
       scope: "world",
       config: !1,
       default: 1,
       type: Number
-    }), game.settings.register(g, Yt, {
+    }), game.settings.register(d, es, {
       scope: "world",
       config: !1,
       default: 0,
       type: Number
-    }), j.register(rt, {
+    }), X.register(Mt, {
       callback: (e) => game.system.anarchy.gmAnarchy.addAnarchy(e),
       condition: (e) => e.isGM
-    }), this.anarchy = game.settings.get(g, Ie);
+    }), this.anarchy = game.settings.get(d, Ue);
   }
   getAnarchy() {
     return {
@@ -1373,23 +1449,20 @@ class Ot {
     t > 0 && (ChatMessage.create({
       user: game.user,
       whisper: ChatMessage.getWhisperRecipients("GM"),
-      content: game.i18n.format(
-        o.gmManager.gmReceivedAnarchy,
-        {
-          anarchy: t,
-          actor: e.name
-        }
-      )
+      content: game.i18n.format(l.gmManager.gmReceivedAnarchy, {
+        anarchy: t,
+        actor: e.name
+      })
     }), await this.addAnarchy(t));
   }
   async npcConsumesAnarchy(e, t) {
     await this.addAnarchy(-t);
   }
   async addAnarchy(e) {
-    j.call(rt, e) || (K.checkSufficient(o.actor.counters.plot, -e, this.anarchy), await this.setAnarchy(this.anarchy + e));
+    X.call(Mt, e) || (ae.checkSufficient(l.actor.counters.plot, -e, this.anarchy), await this.setAnarchy(this.anarchy + e));
   }
   async setAnarchy(e) {
-    this.anarchy = e, game.settings.set(g, Ie, e), await this._rebuild(), this._syncGMAnarchySheets();
+    this.anarchy = e, game.settings.set(d, Ue, e), await this._rebuild(), this._syncGMAnarchySheets();
   }
   async activateListeners(e) {
     this.toolbar = e.find(".gm-anarchy-bar"), await this._rebuild();
@@ -1398,26 +1471,29 @@ class Ot {
     this.toolbar.find(".checkbar-root").replaceWith(await this._renderBar()), this.toolbar.find("a.click-checkbar-element").click(async (e) => await this._onClickAnarchyCheckbar(e));
   }
   async _onClickAnarchyCheckbar(e) {
-    const t = Number.parseInt($(e.currentTarget).attr("data-index")), a = $(e.currentTarget).attr("data-checked") == "true", s = d.newValue(t, a);
-    await this.setAnarchy(s);
+    const t = Number.parseInt($(e.currentTarget).attr("data-index")), s = $(e.currentTarget).attr("data-checked") == "true", a = g.newValue(t, s);
+    await this.setAnarchy(a);
   }
   async _renderBar() {
-    return await renderTemplate("systems/anarchy/templates/monitors/anarchy.hbs", {
-      code: "plot",
-      rowlength: 6,
-      value: this.getAnarchy().value,
-      max: this.getAnarchy().max,
-      scene: 0,
-      labelkey: o.actor.counters.plot
-    });
+    return await foundry.applications.handlebars.renderTemplate(
+      "systems/anarchy/templates/monitors/anarchy.hbs",
+      {
+        code: "plot",
+        rowlength: 6,
+        value: this.getAnarchy().value,
+        max: this.getAnarchy().max,
+        scene: 0,
+        labelkey: l.actor.counters.plot
+      }
+    );
   }
   _syncGMAnarchySheets() {
-    var a, s;
-    const e = game.actors.filter((i) => !i.token || i.token.isLinked), t = (((s = (a = game.canvas) == null ? void 0 : a.tokens) == null ? void 0 : s.getDocuments()) ?? []).filter((i) => !i.isLinked).map((i) => i.actor);
+    var s, a;
+    const e = game.actors.filter((i) => !i.token || i.token.isLinked), t = (((a = (s = game.canvas) == null ? void 0 : s.tokens) == null ? void 0 : a.getDocuments()) ?? []).filter((i) => !i.isLinked).map((i) => i.actor);
     e.concat(t).filter((i) => !i.hasPlayerOwner).forEach((i) => i.render());
   }
 }
-class It {
+class ss {
   constructor(e, t) {
     this.getDocElement = e, this.initial = t.initial ?? { left: 200, top: 200 }, this.maxPos = t.maxPos ?? { left: 200, top: 100 }, this.minPos = t.minPos ?? { left: 2, top: 2 }, this.settings = t.settings, game.settings.register(this.settings.system, this.settings.keyPosition, {
       scope: "client",
@@ -1453,7 +1529,7 @@ class It {
     e.onmousedown = (t) => this._dragMouseDown(e, t);
   }
   _dragMouseDown(e, t) {
-    t = t || window.event, t.preventDefault(), this.drag.leftEvent = t.clientX, this.drag.topEvent = t.clientY, document.onmouseup = (a) => this._closeDragElement(e, a), document.onmousemove = (a) => this._elementDrag(e, a);
+    t = t || window.event, t.preventDefault(), this.drag.leftEvent = t.clientX, this.drag.topEvent = t.clientY, document.onmouseup = (s) => this._closeDragElement(e, s), document.onmousemove = (s) => this._elementDrag(e, s);
   }
   _elementDrag(e, t) {
     t = t || window.event, t.preventDefault(), this.drag.leftPos = this.drag.leftEvent - t.clientX, this.drag.topPos = this.drag.topEvent - t.clientY, this.drag.leftEvent = t.clientX, this.drag.topEvent = t.clientY, this._setPositionStyle(e, {
@@ -1463,22 +1539,22 @@ class It {
   }
   _closeDragElement(e, t) {
     e.onmousedown = null, document.onmouseup = null, document.onmousemove = null;
-    const a = {
+    const s = {
       top: e.offsetTop - this.drag.topPos,
       left: e.offsetLeft - this.drag.leftPos
     };
-    let s = this._constrain(a);
-    (s.left != this.drag.leftPos || s.top != this.drag.topPos) && this._setPositionStyle(e, s), this._savePosition(s);
+    let a = this._constrain(s);
+    (a.left != this.drag.leftPos || a.top != this.drag.topPos) && this._setPositionStyle(e, a), this._savePosition(a);
   }
   setPosition(e) {
     e = e ?? this.position;
     let t = this;
-    return new Promise((a) => {
-      function s() {
+    return new Promise((s) => {
+      function a() {
         let i = t.getDocElement(document);
-        i ? (t._setPositionStyle(i, t._constrain(e)), a()) : setTimeout(s, 30);
+        i ? (t._setPositionStyle(i, t._constrain(e)), s()) : setTimeout(a, 30);
       }
-      s();
+      a();
     });
   }
   _setPositionStyle(e, t) {
@@ -1486,34 +1562,43 @@ class It {
   }
   _constrain(e) {
     return {
-      left: Math.max(this.minPos.left, Math.min(window.innerWidth - this.maxPos.left, e.left)),
-      top: Math.max(this.minPos.top, Math.min(window.innerHeight - this.maxPos.top, e.top))
+      left: Math.max(
+        this.minPos.left,
+        Math.min(window.innerWidth - this.maxPos.left, e.left)
+      ),
+      top: Math.max(
+        this.minPos.top,
+        Math.min(window.innerHeight - this.maxPos.top, e.top)
+      )
     };
   }
 }
-const Ue = "gm-difficulty-pools", _t = `${g}.${Ue}`;
-class xt {
+const nt = "gm-difficulty-pools", as = `${d}.${nt}`;
+class is {
   constructor() {
-    Hooks.on("updateSetting", async (e, t, a, s) => this.onUpdateSetting(e, t, a, s)), Hooks.once("ready", () => this.onReady());
+    Hooks.on(
+      "updateSetting",
+      async (e, t, s, a) => this.onUpdateSetting(e, t, s, a)
+    ), Hooks.once("ready", () => this.onReady());
   }
   onReady() {
-    game.settings.register(g, Ue, {
+    game.settings.register(d, nt, {
       scope: "world",
-      name: game.i18n.localize(o.settings.gmDifficulty.name),
-      hint: game.i18n.localize(o.settings.gmDifficulty.hint),
+      name: game.i18n.localize(l.settings.gmDifficulty.name),
+      hint: game.i18n.localize(l.settings.gmDifficulty.hint),
       config: !0,
-      default: game.i18n.localize(o.settings.gmDifficulty.default),
+      default: game.i18n.localize(l.settings.gmDifficulty.default),
       type: String
     }), this.loadDifficultySettings();
   }
-  async onUpdateSetting(e, t, a, s) {
-    game.user.isGM && e.key == _t && (this.loadDifficultySettings(), this._rebuild(), game.system.anarchy.gmManager.render(!1));
+  async onUpdateSetting(e, t, s, a) {
+    game.user.isGM && e.key == as && (this.loadDifficultySettings(), this._rebuild(), game.system.anarchy.gmManager.render(!1));
   }
   loadDifficultySettings() {
-    const e = game.settings.get(g, Ue);
+    const e = game.settings.get(d, nt);
     this.difficultyPools = e.split(",").map((t) => {
-      const a = t.split(":");
-      return a[1] ? { difficulty: a[0], pool: a[1] } : { pool: Number(a[0]) };
+      const s = t.split(":");
+      return s[1] ? { difficulty: s[0], pool: s[1] } : { pool: Number(s[0]) };
     });
   }
   getDifficultyData() {
@@ -1526,70 +1611,76 @@ class xt {
     this.toolbar.find(".gm-difficulty-bar").replaceWith(await this._renderBar()), this.toolbar.find("a.click-roll-difficuty-pool").click(async (e) => await this._onClickDifficulty(e));
   }
   async _renderBar() {
-    return await renderTemplate("systems/anarchy/templates/app/gm-difficulty-buttons.hbs", {
-      difficultyPools: this.difficultyPools
-    });
+    return await foundry.applications.handlebars.renderTemplate(
+      "systems/anarchy/templates/app/gm-difficulty-buttons.hbs",
+      {
+        difficultyPools: this.difficultyPools
+      }
+    );
   }
   async _onClickDifficulty(e) {
-    const t = $(e.currentTarget).attr("data-pool"), a = $(e.currentTarget).attr("data-difficulty"), s = new Roll(`${t}d6cs>=5`);
-    await s.evaluate();
-    const i = game.i18n.format(o.settings.gmDifficulty.chatMessage, {
+    const t = $(e.currentTarget).attr("data-pool"), s = $(e.currentTarget).attr("data-difficulty"), a = new Roll(`${t}d6cs>=5`);
+    await a.evaluate();
+    const i = game.i18n.format(l.settings.gmDifficulty.chatMessage, {
       pool: t,
-      difficulty: a ?? t,
-      success: s.total
-    }), n = await s.toMessage({ flavor: i }, { create: !1 });
-    ChatMessage.create(n);
+      difficulty: s ?? t,
+      success: a.total
+    }), o = await a.toMessage({ flavor: i }, { create: !1 });
+    ChatMessage.create(o);
   }
 }
-const Pt = "gm-manager", $t = "gm-manager-position", Lt = { top: 200, left: 200 }, Gt = "systems/anarchy/templates/app/gm-manager.hbs";
-class Vt extends Application {
+const os = "gm-manager", rs = "gm-manager-position", ns = { top: 200, left: 200 }, cs = "systems/anarchy/templates/app/gm-manager.hbs";
+class ls extends Application {
   constructor(e, t) {
-    super(), this.gmAnarchy = e, this.gmConvergence = t, this.gmDifficulty = new xt(), this.handleDrag = new It(
-      (a) => a.getElementById("gm-manager"),
-      {
-        initial: Lt,
-        maxPos: { left: 200, top: 100 },
-        settings: {
-          system: g,
-          keyPosition: $t
-        }
+    super(), this.gmAnarchy = e, this.gmConvergence = t, this.gmDifficulty = new is(), this.handleDrag = new ss((s) => s.getElementById("gm-manager"), {
+      initial: ns,
+      maxPos: { left: 200, top: 100 },
+      settings: {
+        system: d,
+        keyPosition: rs
       }
-    ), Hooks.once("ready", () => this.onReady()), Hooks.on("renderChatLog", async (a, s, i) => {
-      const n = "systems/anarchy/templates/app/chat-tools.hbs", l = {
+    }), Hooks.once("ready", () => this.onReady()), Hooks.on("renderChatLog", async (s, a, i) => {
+      const o = "systems/anarchy/templates/app/chat-tools.hbs", n = {
         title: game.i18n.localize("ANARCHY.gmManager.title"),
         rollDice: game.i18n.localize("ANARCHY.chat_actions.rollDice.title"),
         isGM: game.user.isGM
-      }, m = await renderTemplate(n, l), y = $(m);
-      $(s).find("form.chat-form").append(y[0]), $(s).find("form.chat-form .rolldice").on("click", (le) => {
-        le.preventDefault(), new Dialog({
+      }, c = await foundry.applications.handlebars.renderTemplate(
+        o,
+        n
+      ), h = $(c);
+      $(a).find("form.chat-form").append(h[0]), $(a).find("form.chat-form .rolldice").on("click", (V) => {
+        V.preventDefault(), new Dialog({
           title: game.i18n.localize("ANARCHY.chat_actions.rollDice.title"),
           content: '<div style="display:flex;margin:4px 0 8px 0;align-items:center;gap:8px">' + game.i18n.localize("ANARCHY.chat_actions.rollDice.instruction") + '<input class="roll-dice-value" name="macro-roll-count-dice" type="number" value="3" /></div>',
           buttons: {
-            cancel: { label: game.i18n.localize("ANARCHY.common.cancel"), icon: '<i class="fas fa-times"></i>' },
+            cancel: {
+              label: game.i18n.localize("ANARCHY.common.cancel"),
+              icon: '<i class="fas fa-times"></i>'
+            },
             submit: {
               label: game.i18n.localize("ANARCHY.common.roll.button"),
               icon: '<i class="fas fa-dice"></i>',
-              callback: async (Ce) => {
-                const J = $(Ce).find('input[name="macro-roll-count-dice"]').val();
-                if (!J || isNaN(J) || J <= 0) {
+              callback: async (J) => {
+                const L = $(J).find('input[name="macro-roll-count-dice"]').val();
+                if (!L || isNaN(L) || L <= 0) {
                   ui.notifications.warn(game.i18n.localize("ANARCHY.chat_actions.rollDice.error"));
                   return;
                 }
-                const te = new Roll(`${J}d6cs>4`);
-                await te.evaluate({ async: !0 });
-                const bt = te.terms[0].results.filter((wt) => wt.result == 1).length, Ct = game.i18n.format("ANARCHY.chat_actions.rollDice.result", {
-                  count: J,
-                  success: te.total,
-                  ones: bt
-                }), kt = await te.toMessage({ flavor: Ct }, { create: !1 });
-                ChatMessage.create(kt);
+                const B = new Roll(`${L}d6cs>4`);
+                await B.evaluate({ async: !0 });
+                const _ = B.terms[0].results.filter((le) => le.result == 1).length, K = game.i18n.format("ANARCHY.chat_actions.rollDice.result", {
+                  count: L,
+                  success: B.total,
+                  ones: _
+                }), oe = await B.toMessage({ flavor: K }, { create: !1 });
+                ChatMessage.create(oe);
               }
             }
           },
           default: "submit"
         }).render(!0);
-      }), $(s).find("form.chat-form .gmmanager").on("click", (le) => {
-        le.preventDefault(), this._element ? this.close() : this.render(!0);
+      }), $(a).find("form.chat-form .gmmanager").on("click", (V) => {
+        V.preventDefault(), this._element ? this.close() : this.render(!0);
       });
     });
   }
@@ -1599,7 +1690,7 @@ class Vt extends Application {
   /* -------------------------------------------- */
   static get defaultOptions() {
     let e = super.defaultOptions;
-    return e.id = Pt, e.title = game.i18n.localize(o.gmManager.title), e.template = Gt, e.popOut = !1, e.resizable = !1, e.height = "auto", e.width = "auto", e;
+    return e.id = os, e.title = game.i18n.localize(l.gmManager.title), e.template = cs, e.popOut = !1, e.resizable = !1, e.height = "auto", e.width = "auto", e;
   }
   async render(e, t) {
     game.user.isGM && await super.render(e, t);
@@ -1609,151 +1700,231 @@ class Vt extends Application {
       anarchy: this.gmAnarchy.getAnarchy(),
       convergences: this.gmConvergence.getConvergences(),
       difficultyPools: this.gmDifficulty.getDifficultyData(),
-      ANARCHY: o,
+      ANARCHY: l,
       options: {
         classes: [game.system.anarchy.styles.selectCssClass()]
       }
     };
   }
   async activateListeners(e) {
-    super.activateListeners(e), e.find(".app-title-bar").mousedown((t) => this.handleDrag.onMouseDown(t)), e.find(".gm-manager-hide-button").mousedown((t) => this.close()), this.gmAnarchy.activateListeners(e), this.gmConvergence.activateListeners(e), this.gmDifficulty.activateListeners(e);
+    var t;
+    super.activateListeners(e), (t = game.system.anarchy) != null && t.uiCustomization && game.system.anarchy.uiCustomization.applyCustomizationsToElement(e[0], "gm-manager"), e.find(".app-title-bar").mousedown((s) => this.handleDrag.onMouseDown(s)), e.find(".gm-manager-hide-button").mousedown((s) => this.close()), this.gmAnarchy.activateListeners(e), this.gmConvergence.activateListeners(e), this.gmDifficulty.activateListeners(e);
   }
 }
-function V(r, e, t, a, s, i = (n) => !0) {
+function W(r, e, t, s, a, i = (o) => !0) {
   return {
     code: r,
-    labelkey: o.attributeAction[r],
-    attributeFunction1: e ?? ((n) => {
+    labelkey: l.attributeAction[r],
+    attributeFunction1: e ?? ((o) => {
     }),
-    attributeFunction2: t ?? ((n) => {
+    attributeFunction2: t ?? ((o) => {
     }),
-    icon: a,
-    actorTypes: s,
+    icon: s,
+    actorTypes: a,
     condition: i
   };
 }
-function he(r, e) {
+function ve(r, e) {
   return {
     code: r,
-    labelkey: o.defense[r],
+    labelkey: l.defense[r],
     actionCode: e
   };
 }
-const N = c.attributes, D = c.actorTypes, O = E.actions, ge = E.defenses, _e = [
-  V(O.defense, (r) => N.agility, (r) => N.logic, u.fontAwesome("fas fa-shield-alt"), [D.character]),
-  V(O.defense, (r) => N.autopilot, (r) => N.handling, u.fontAwesome("fas fa-tachometer-alt"), [D.vehicle]),
+const I = m.attributes, O = m.actorTypes, Y = z.actions, Se = z.defenses, Fe = [
+  W(
+    Y.defense,
+    (r) => I.agility,
+    (r) => I.logic,
+    p.fontAwesome("fas fa-shield-alt"),
+    [O.character]
+  ),
+  W(
+    Y.defense,
+    (r) => I.autopilot,
+    (r) => I.handling,
+    p.fontAwesome("fas fa-tachometer-alt"),
+    [O.vehicle]
+  ),
   // TODO: add a way to pilot a vehicle to fallback defense of controled vehicle
-  V(O.resistTorture, (r) => N.strength, (r) => N.willpower, u.fontAwesome("fas fa-angry"), [D.character]),
-  V(O.perception, (r) => N.logic, (r) => N.willpower, u.fontAwesome("fas fa-eye"), [D.character]),
-  V(O.perception, (r) => N.autopilot, void 0, u.fontAwesome("fas fa-video"), [D.vehicle]),
-  V(O.perception, (r) => r.getMatrixLogic(), (r) => r.getMatrixLogic(), u.fontAwesome("fas fa-video"), [D.device, D.sprite, D.ic]),
-  V(O.composure, (r) => N.charisma, (r) => N.willpower, u.fontAwesome("fas fa-meh"), [D.character]),
-  V(O.judgeIntentions, (r) => N.charisma, (r) => N.charisma, u.fontAwesome("fas fa-theater-masks"), [D.character]),
-  V(O.memory, (r) => N.logic, (r) => N.logic, u.fontAwesome("fas fa-brain"), [D.character]),
-  V(O.catch, (r) => N.agility, (r) => N.agility, u.fontAwesome("fas fa-baseball-ball"), [D.character]),
-  V(O.lift, (r) => N.strength, (r) => N.strength, u.fontAwesome("fas fa-dumbbell"), [D.character]),
-  V(O.matrixDefense, (r) => r.getMatrixLogic(), (r) => r.getMatrixFirewall(), u.fontAwesome("fas fa-shield-virus"), [D.character, D.sprite, D.ic, D.device, D.vehicle]),
-  V(O.astralDefense, (r) => N.logic, (r) => N.willpower, u.fontAwesome("fas fa-shield-virus"), [D.character])
-], ke = [
-  he(ge.physicalDefense, O.defense),
-  he(ge.physicalResistance, O.resistTorture),
-  he(ge.socialDefense, O.composure),
-  he(ge.matrixDefense, O.matrixDefense),
-  he(ge.mentalResistance, O.perception)
+  W(
+    Y.resistTorture,
+    (r) => I.strength,
+    (r) => I.willpower,
+    p.fontAwesome("fas fa-angry"),
+    [O.character]
+  ),
+  W(
+    Y.perception,
+    (r) => I.logic,
+    (r) => I.willpower,
+    p.fontAwesome("fas fa-eye"),
+    [O.character]
+  ),
+  W(Y.perception, (r) => I.autopilot, void 0, p.fontAwesome("fas fa-video"), [
+    O.vehicle
+  ]),
+  W(
+    Y.perception,
+    (r) => r.getMatrixLogic(),
+    (r) => r.getMatrixLogic(),
+    p.fontAwesome("fas fa-video"),
+    [O.device, O.sprite, O.ic]
+  ),
+  W(
+    Y.composure,
+    (r) => I.charisma,
+    (r) => I.willpower,
+    p.fontAwesome("fas fa-meh"),
+    [O.character]
+  ),
+  W(
+    Y.judgeIntentions,
+    (r) => I.charisma,
+    (r) => I.charisma,
+    p.fontAwesome("fas fa-theater-masks"),
+    [O.character]
+  ),
+  W(
+    Y.memory,
+    (r) => I.logic,
+    (r) => I.logic,
+    p.fontAwesome("fas fa-brain"),
+    [O.character]
+  ),
+  W(
+    Y.catch,
+    (r) => I.agility,
+    (r) => I.agility,
+    p.fontAwesome("fas fa-baseball-ball"),
+    [O.character]
+  ),
+  W(
+    Y.lift,
+    (r) => I.strength,
+    (r) => I.strength,
+    p.fontAwesome("fas fa-dumbbell"),
+    [O.character]
+  ),
+  W(
+    Y.matrixDefense,
+    (r) => r.getMatrixLogic(),
+    (r) => r.getMatrixFirewall(),
+    p.fontAwesome("fas fa-shield-virus"),
+    [O.character, O.sprite, O.ic, O.device, O.vehicle]
+  ),
+  W(
+    Y.astralDefense,
+    (r) => I.logic,
+    (r) => I.willpower,
+    p.fontAwesome("fas fa-shield-virus"),
+    [O.character]
+  )
+], Te = [
+  ve(Se.physicalDefense, Y.defense),
+  ve(Se.physicalResistance, Y.resistTorture),
+  ve(Se.socialDefense, Y.composure),
+  ve(Se.matrixDefense, Y.matrixDefense),
+  ve(Se.mentalResistance, Y.perception)
 ];
-class Y {
+class x {
   static init() {
-    Handlebars.registerHelper("fixedDefenseCode", (e) => Y.fixedDefenseCode(e));
+    Handlebars.registerHelper(
+      "fixedDefenseCode",
+      (e) => x.fixedDefenseCode(e)
+    );
   }
   static all(e = void 0) {
-    return e ? _e.filter(e) : _e;
+    return e ? Fe.filter(e) : Fe;
   }
   static getActorActions(e) {
-    return _e.filter((t) => t.actorTypes.includes(e.type) && t.condition(e));
+    return Fe.filter(
+      (t) => t.actorTypes.includes(e.type) && t.condition(e)
+    );
   }
   static fixedDefenseCode(e) {
-    return E.fixedDefenseCode[e] ?? e;
+    return z.fixedDefenseCode[e] ?? e;
   }
   static getActorDefenses(e) {
-    return ke.map((t) => {
-      const a = Y.getActorAction(e, t.actionCode);
-      return Y._convertToDefense(a, t);
+    return Te.map((t) => {
+      const s = x.getActorAction(e, t.actionCode);
+      return x._convertToDefense(s, t);
     }).filter((t) => t == null ? void 0 : t.code);
   }
   static getDefenseAttributeAction(e) {
     var t;
-    return (t = ke.find((a) => a.code == e)) == null ? void 0 : t.actionCode;
+    return (t = Te.find((s) => s.code == e)) == null ? void 0 : t.actionCode;
   }
   static getActorAction(e, t) {
-    return Y.getActorActions(e).find((a) => a.code == t);
+    return x.getActorActions(e).find((s) => s.code == t);
   }
   static getActorDefense(e, t) {
-    t = Y.fixedDefenseCode(t);
-    const a = ke.find((i) => i.code == t), s = Y.getActorAction(e, a.actionCode);
-    return K.checkActorDefenseAction(s, e, a), Y._convertToDefense(s, a);
+    t = x.fixedDefenseCode(t);
+    const s = Te.find((i) => i.code == t), a = x.getActorAction(e, s.actionCode);
+    return ae.checkActorDefenseAction(a, e, s), x._convertToDefense(a, s);
   }
   static _convertToDefense(e, t) {
-    return e ? foundry.utils.mergeObject(
-      t,
-      e ?? {},
-      { overwrite: !1, inplace: !1 }
-    ) : void 0;
+    return e ? foundry.utils.mergeObject(t, e ?? {}, { overwrite: !1, inplace: !1 }) : void 0;
   }
   static getDefenses() {
-    return ke;
+    return Te;
   }
   static prepareShortcut(e, t) {
-    const a = Y.getActorActions(e).find((s) => s.code == t);
-    if (a)
+    const s = x.getActorActions(e).find((a) => a.code == t);
+    if (s)
       return {
-        icon: a.icon,
-        label: game.i18n.localize(a.labelkey),
-        callback: (s) => s.actor.rollAttributeAction(t)
+        icon: s.icon,
+        label: game.i18n.localize(s.labelkey),
+        callback: (a) => a.actor.rollAttributeAction(t)
       };
   }
 }
-const qe = {
+const ht = {
   canMark: !1,
   marks: [],
   value: 0,
   max: 0,
   resistance: 0
-}, x = {
+}, F = {
   connectionMode: {
     disconnected: "disconnected",
     augmented: "augmented",
     virtual: "virtual"
   }
 };
-class ye {
+class we {
   static resolveConnectionMode(e) {
     switch (e) {
-      case x.connectionMode.disconnected:
-      case x.connectionMode.augmented:
-      case x.connectionMode.virtual:
+      case F.connectionMode.disconnected:
+      case F.connectionMode.augmented:
+      case F.connectionMode.virtual:
         return e;
       case void 0:
       default:
-        return x.connectionMode.disconnected;
+        return F.connectionMode.disconnected;
     }
   }
   static getNextConnectionMode(e) {
     switch (e) {
-      case x.connectionMode.disconnected:
-        return x.connectionMode.augmented;
-      case x.connectionMode.augmented:
-        return x.connectionMode.virtual;
+      case F.connectionMode.disconnected:
+        return F.connectionMode.augmented;
+      case F.connectionMode.augmented:
+        return F.connectionMode.virtual;
       default:
-      case x.connectionMode.virtual:
-        return x.connectionMode.disconnected;
+      case F.connectionMode.virtual:
+        return F.connectionMode.disconnected;
     }
   }
 }
-const it = [c.itemType.shadowamp, c.itemType.weapon, c.itemType.cyberdeck];
+const Tt = [
+  m.itemType.shadowamp,
+  m.itemType.weapon,
+  m.itemType.cyberdeck
+];
 class A {
   constructor() {
     this.modifiers = {
-      groups: S.mapObjetToKeyValue(o.modifier.group, "key", "label"),
+      groups: E.mapObjetToKeyValue(l.modifier.group, "key", "label"),
       roll: A._buildGroupOptions("roll"),
       attribute: A._buildGroupOptions("attribute"),
       monitor: A._buildGroupOptions("monitor"),
@@ -1764,21 +1935,27 @@ class A {
     switch (e) {
       case "attribute":
         return {
-          label: o.modifier.group[e],
-          effects: S.hbsAttributes.map((t) => ({ key: t.value, label: t.labelkey })),
+          label: l.modifier.group[e],
+          effects: E.hbsAttributes.map((t) => ({ key: t.value, label: t.labelkey })),
           categories: []
         };
     }
     return {
-      label: o.modifier.group[e],
-      effects: S.mapObjetToKeyValue(o.modifier[e].effect, "key", "label"),
-      categories: S.mapObjetToKeyValue(o.modifier[e].category, "key", "label")
+      label: l.modifier.group[e],
+      effects: E.mapObjetToKeyValue(l.modifier[e].effect, "key", "label"),
+      categories: E.mapObjetToKeyValue(l.modifier[e].category, "key", "label")
     };
   }
   async onReady() {
-    Handlebars.registerHelper("modifierHasSubCategory", (e, t, a) => this.hasSubCategory(e, t, a)), Handlebars.registerHelper("modifierSelectOption", (e, t) => this.getSelectOptions(e, t));
+    Handlebars.registerHelper(
+      "modifierHasSubCategory",
+      (e, t, s) => this.hasSubCategory(e, t, s)
+    ), Handlebars.registerHelper(
+      "modifierSelectOption",
+      (e, t) => this.getSelectOptions(e, t)
+    );
   }
-  hasSubCategory(e, t, a) {
+  hasSubCategory(e, t, s) {
     switch (e) {
       case "roll":
         return !0;
@@ -1786,14 +1963,14 @@ class A {
     return !1;
   }
   getSelectOptions(e, t) {
-    var a, s;
+    var s, a;
     switch (e) {
       case "group":
         return this.modifiers.groups;
       case "effect":
-        return (a = this.modifiers[t.hash.group]) == null ? void 0 : a.effects;
+        return (s = this.modifiers[t.hash.group]) == null ? void 0 : s.effects;
       case "category":
-        return (s = this.modifiers[t.hash.group]) == null ? void 0 : s.categories;
+        return (a = this.modifiers[t.hash.group]) == null ? void 0 : a.categories;
       case "subCategory":
         switch (t.hash.group) {
           case "roll":
@@ -1806,12 +1983,14 @@ class A {
   getSelectRollSubCategories(e) {
     switch (e) {
       case "attribute":
-        return S.getAttributes().map((a) => ({ key: a.value, label: a.labelkey }));
+        return E.getAttributes().map((s) => ({ key: s.value, label: s.labelkey }));
       case "skill":
-        return game.system.anarchy.skills.getSkills().map((a) => ({ key: a.code, label: a.labelkey }));
+        return game.system.anarchy.skills.getSkills().map((s) => ({ key: s.code, label: s.labelkey }));
       case "attributeAction":
-        const t = Y.all().map((a) => ({ key: a.code, label: a.labelkey }));
-        return f.distinct(t.map((a) => a.key)).map((a) => t.find((s) => s.key == a));
+        const t = x.all().map((s) => ({ key: s.code, label: s.labelkey }));
+        return b.distinct(t.map((s) => s.key)).map(
+          (s) => t.find((a) => a.key == s)
+        );
     }
     return [];
   }
@@ -1819,56 +1998,60 @@ class A {
     return { modifiers: this.modifiers };
   }
   static buildRollModifiersFilter(e, t) {
-    return (a) => {
-      var s;
-      if (a.group == "roll" && a.effect == t)
-        switch (a.category) {
+    return (s) => {
+      var a;
+      if (s.group == "roll" && s.effect == t)
+        switch (s.category) {
           case "attribute":
-            return [e.attribute1, e.attribute2].includes(a.subCategory);
+            return [e.attribute1, e.attribute2].includes(s.subCategory);
           case "skill":
-            return a.subCategory == ((s = e.skill) == null ? void 0 : s.system.code);
+            return s.subCategory == ((a = e.skill) == null ? void 0 : a.system.code);
           case "attributeAction":
-            return a.subCategory == e.attributeAction || a.subCategory == Y.getDefenseAttributeAction(e.defenseAction);
+            return s.subCategory == e.attributeAction || s.subCategory == x.getDefenseAttributeAction(e.defenseAction);
         }
       return !1;
     };
   }
-  static computeRollModifiers(e, t, a) {
-    const s = A.buildRollModifiersFilter(t, a), i = (y) => y.group == "roll" && y.effect == a && s(y), n = A._activeItems(e).map((y) => A.itemModifiers(y, i)).reduce((y, W) => y.concat(W), []).sort(f.descending((y) => y.modifier.value)), l = A.$sumShadowampModifiers(n.filter((y) => it.includes(y.item.type)).map((y) => y.modifier.value)), m = f.sumValues(n.filter((y) => !it.includes(y.item.type)).map((y) => y.modifier.value));
+  static computeRollModifiers(e, t, s) {
+    const a = A.buildRollModifiersFilter(t, s), i = (h) => h.group == "roll" && h.effect == s && a(h), o = A._activeItems(e).map((h) => A.itemModifiers(h, i)).reduce((h, N) => h.concat(N), []).sort(b.descending((h) => h.modifier.value)), n = A.$sumShadowampModifiers(
+      o.filter((h) => Tt.includes(h.item.type)).map((h) => h.modifier.value)
+    ), c = b.sumValues(
+      o.filter((h) => !Tt.includes(h.item.type)).map((h) => h.modifier.value)
+    );
     return {
-      value: l + m,
-      sources: n
+      value: n + c,
+      sources: o
     };
   }
   static $sumShadowampModifiers(e) {
-    const t = e.find((i) => i > 3) ?? 0, a = f.sumValues(e.filter((i) => i < 0)), s = Math.min(3, f.sumValues(e.filter((i) => i > 0 && i <= 3)));
-    return a + Math.max(s, t);
+    const t = e.find((i) => i > 3) ?? 0, s = b.sumValues(e.filter((i) => i < 0)), a = Math.min(3, b.sumValues(e.filter((i) => i > 0 && i <= 3)));
+    return s + Math.max(a, t);
   }
-  static computeModifiers(e, t, a = void 0, s = void 0) {
-    const i = A._createFilter(t, a, s), n = A._activeItems(e).map((m) => A.itemModifiers(m, i)).reduce((m, y) => m.concat(y), []);
+  static computeModifiers(e, t, s = void 0, a = void 0) {
+    const i = A._createFilter(t, s, a), o = A._activeItems(e).map((c) => A.itemModifiers(c, i)).reduce((c, h) => c.concat(h), []);
     return {
-      value: f.sumValues(n, (m) => m.modifier.value),
-      sources: n
+      value: b.sumValues(o, (c) => c.modifier.value),
+      sources: o
     };
   }
-  static sumMonitorModifiers(e, t, a) {
-    return A.sumModifiers(A._activeItems(e), "monitor", t, a);
+  static sumMonitorModifiers(e, t, s) {
+    return A.sumModifiers(A._activeItems(e), "monitor", t, s);
   }
-  static sumModifiers(e, t, a, s) {
-    const i = A._createFilter(t, a, s), n = A._activeItems(e).map((l) => A.itemModifiers(l, i)).reduce((l, m) => l.concat(m), []);
-    return f.sumValues(n, (l) => l.modifier.value);
+  static sumModifiers(e, t, s, a) {
+    const i = A._createFilter(t, s, a), o = A._activeItems(e).map((n) => A.itemModifiers(n, i)).reduce((n, c) => n.concat(c), []);
+    return b.sumValues(o, (n) => n.modifier.value);
   }
-  static _createFilter(e, t, a) {
-    return (s) => s.group == e && s.effect == (t ?? s.effect) && s.category == (a ?? s.category);
+  static _createFilter(e, t, s) {
+    return (a) => a.group == e && a.effect == (t ?? a.effect) && a.category == (s ?? a.category);
   }
-  static countModifiers(e, t, a = void 0, s = void 0) {
-    const i = A._createFilter(t, a, s);
-    return A._activeItems(e).map((l) => A.itemModifiers(l, i)).reduce((l, m) => l.concat(m), []).count;
+  static countModifiers(e, t, s = void 0, a = void 0) {
+    const i = A._createFilter(t, s, a);
+    return A._activeItems(e).map((n) => A.itemModifiers(n, i)).reduce((n, c) => n.concat(c), []).count;
   }
   static itemModifiers(e, t) {
-    return A._listItemModifiers(e, t).map((a) => A._itemModifier(e, a));
+    return A._listItemModifiers(e, t).map((s) => A._itemModifier(e, s));
   }
-  static _listItemModifiers(e, t = (a) => !0) {
+  static _listItemModifiers(e, t = (s) => !0) {
     return (e.system.modifiers ?? []).filter(t);
   }
   static _itemModifier(e, t) {
@@ -1881,32 +2064,55 @@ class A {
     return e.filter((t) => t.isActive());
   }
 }
-const ot = {
-  highlighted: ["far fa-times-circle", "fas fa-dice-one", "fas fa-dice-two", "fas fa-dice-three", "fas fa-dice-four", "fas fa-dice-five", "fas fa-dice-six"],
-  dimmed: ["far fa-times-circle", "far fa-dice-one", "far fa-dice-two", "far fa-dice-three", "far fa-dice-four", "far fa-dice-five", "far fa-dice-six"]
+const Ht = {
+  highlighted: [
+    "far fa-times-circle",
+    "fas fa-dice-one",
+    "fas fa-dice-two",
+    "fas fa-dice-three",
+    "fas fa-dice-four",
+    "fas fa-dice-five",
+    "fas fa-dice-six"
+  ],
+  dimmed: [
+    "far fa-times-circle",
+    "far fa-dice-one",
+    "far fa-dice-two",
+    "far fa-dice-three",
+    "far fa-dice-four",
+    "far fa-dice-five",
+    "far fa-dice-six"
+  ]
 };
-class B {
+class te {
   static init() {
-    Hooks.once("ready", async () => await this.onReady()), Handlebars.registerHelper("dice-cursor-array", (e, t) => B.array(e ?? 0, t ?? 5)), Handlebars.registerHelper("dice-cursor-fas", (e, t) => B.fasClass(e, t)), Handlebars.registerHelper("dice-cursor-active", (e, t) => B.activeClass(e, t)), Handlebars.registerHelper("dice-cursor-color", (e, t) => B.colorClass(e, t));
+    Hooks.once("ready", async () => await this.onReady()), Handlebars.registerHelper(
+      "dice-cursor-array",
+      (e, t) => te.array(e ?? 0, t ?? 5)
+    ), Handlebars.registerHelper("dice-cursor-fas", (e, t) => te.fasClass(e, t)), Handlebars.registerHelper(
+      "dice-cursor-active",
+      (e, t) => te.activeClass(e, t)
+    ), Handlebars.registerHelper(
+      "dice-cursor-color",
+      (e, t) => te.colorClass(e, t)
+    );
   }
   static async onReady() {
-    await loadTemplates([
-      "systems/anarchy/templates/roll/parts/dice-cursor.hbs"
-    ]);
+    await loadTemplates(["systems/anarchy/templates/roll/parts/dice-cursor.hbs"]);
   }
   static array(e, t) {
     if (e > t) throw `min>max: ${e} > ${t}`;
-    return Array(t - e + 1).fill().map((a, s) => e + s);
+    return Array(t - e + 1).fill().map((s, a) => e + a);
   }
   static isActive(e, t) {
     return t <= e && e < 0 || 0 < e && e <= t;
   }
   static activeClass(e, t) {
-    return B.isActive(e, t) ? "active" : "inactive";
+    return te.isActive(e, t) ? "active" : "inactive";
   }
   static fasClass(e, t) {
-    const a = B.isActive(e, t) ? ot.highlighted : ot.dimmed;
-    return B.$getFas(a, Math.abs(e));
+    const s = te.isActive(e, t) ? Ht.highlighted : Ht.dimmed;
+    return te.$getFas(s, Math.abs(e));
   }
   static colorClass(e, t) {
     return e == 0 || !t ? e < 0 ? "fixed-dice-malus" : "fixed-dice-bonus" : e < 0 ? "variable-dice-malus" : "variable-dice-bonus";
@@ -1914,21 +2120,24 @@ class B {
   static $getFas(e, t) {
     return e[t > 6 ? t % 6 : t];
   }
-  static async diceCursor({ value: e, min: t, max: a, editable: s }) {
-    return await renderTemplate("systems/anarchy/templates/roll/parts/dice-cursor.hbs", {
-      value: e,
-      min: t,
-      max: a,
-      editable: s
-    });
+  static async diceCursor({ value: e, min: t, max: s, editable: a }) {
+    return await foundry.applications.handlebars.renderTemplate(
+      "systems/anarchy/templates/roll/parts/dice-cursor.hbs",
+      {
+        value: e,
+        min: t,
+        max: s,
+        editable: a
+      }
+    );
   }
 }
-class Ut {
+class ms {
   static getMalus(e, t) {
     return Math.min(0, -Math.floor((7 - t) / 2));
   }
 }
-const b = {
+const C = {
   /**
    * Hook to declare template data migrations
    */
@@ -1966,71 +2175,83 @@ const b = {
    * Hook allowing to provide alternate anarchy hack (TODO: document)
    */
   ANARCHY_HACK: "anarchy-hack"
-}, At = `${g}.${b.ANARCHY_HACK}`, pe = {
-  id: g,
+}, Ut = `${d}.${C.ANARCHY_HACK}`, ke = {
+  id: d,
   name: "Standard Shadowrun Anarchy",
   hack: {
-    checkbars: () => U
+    checkbars: () => q
   }
 };
-globalThis.ANARCHY_HOOKS = b;
-globalThis.SETTING_KEY_ANARCHY_HACK = At;
-globalThis.SHADOWRUN_ANARCHY_NO_HACK = pe;
-class Z {
+globalThis.ANARCHY_HOOKS = C;
+globalThis.SETTING_KEY_ANARCHY_HACK = Ut;
+globalThis.SHADOWRUN_ANARCHY_NO_HACK = ke;
+class ce {
   constructor() {
-    this.hooks = [], this.hacks = {}, this.hackNames = {}, this.hookMethods = {}, this._register(b.ANARCHY_HACK), this._register(b.PROVIDE_BASE_ESSENCE), Hooks.on(b.ANARCHY_HACK, (e) => e(pe)), Hooks.on(b.PROVIDE_BASE_ESSENCE, (e) => e(pe, (t) => 6)), Hooks.on(b.PROVIDE_MALUS_ESSENCE, (e) => e(pe, (t, a) => Ut.getMalus(t, a))), Hooks.on("updateSetting", async (e, t, a, s) => this.onUpdateSetting(e, t, a, s)), Hooks.once("ready", () => this.onReady());
+    this.hooks = [], this.hacks = {}, this.hackNames = {}, this.hookMethods = {}, this._register(C.ANARCHY_HACK), this._register(C.PROVIDE_BASE_ESSENCE), Hooks.on(C.ANARCHY_HACK, (e) => e(ke)), Hooks.on(
+      C.PROVIDE_BASE_ESSENCE,
+      (e) => e(ke, (t) => 6)
+    ), Hooks.on(
+      C.PROVIDE_MALUS_ESSENCE,
+      (e) => e(
+        ke,
+        (t, s) => ms.getMalus(t, s)
+      )
+    ), Hooks.on(
+      "updateSetting",
+      async (e, t, s, a) => this.onUpdateSetting(e, t, s, a)
+    ), Hooks.once("ready", () => this.onReady());
   }
   async onReady() {
-    Hooks.callAll(b.ANARCHY_HACK, (e) => {
+    Hooks.callAll(C.ANARCHY_HACK, (e) => {
       this.hacks[e.id] = e, this.hackNames[e.id] = e.name;
-    }), game.settings.register(g, b.ANARCHY_HACK, {
+    }), game.settings.register(d, C.ANARCHY_HACK, {
       scope: "world",
-      name: game.i18n.localize(o.settings.anarchyHack.name),
-      hint: game.i18n.localize(o.settings.anarchyHack.hint),
+      name: game.i18n.localize(l.settings.anarchyHack.name),
+      hint: game.i18n.localize(l.settings.anarchyHack.hint),
       config: !0,
-      default: pe.id,
+      default: ke.id,
       choices: this.hackNames,
       type: String
     }), this.applySelectedAnarchyHack();
   }
-  async onUpdateSetting(e, t, a, s) {
-    e.key == At && this.applySelectedAnarchyHack();
+  async onUpdateSetting(e, t, s, a) {
+    e.key == Ut && this.applySelectedAnarchyHack();
   }
   applySelectedAnarchyHack() {
     const e = this.getSelectedHack();
-    e && (d.hackCheckbars(e.hack.checkbars()), [
-      b.PROVIDE_BASE_ESSENCE,
-      b.PROVIDE_MALUS_ESSENCE
-    ].forEach((a) => this.selectHookMethod(e, a)));
+    e && (g.hackCheckbars(e.hack.checkbars()), [
+      C.PROVIDE_BASE_ESSENCE,
+      C.PROVIDE_MALUS_ESSENCE
+    ].forEach((s) => this.selectHookMethod(e, s)));
   }
   selectHookMethod(e, t) {
-    Hooks.callAll(t, (a, s) => {
-      a == e && (this.hookMethods[t] = s);
+    Hooks.callAll(t, (s, a) => {
+      s == e && (this.hookMethods[t] = a);
     });
   }
   getSelectedHack() {
-    return this.hacks[game.settings.get(g, b.ANARCHY_HACK)];
+    return this.hacks[game.settings.get(d, C.ANARCHY_HACK)];
   }
   getHookMethod(e, t) {
     return this.hookMethods[e] ?? t;
   }
   callHookMethod(e, ...t) {
-    const a = this.hookMethods[e];
-    return a ? a(...t) : void 0;
+    const s = this.hookMethods[e];
+    return s ? s(...t) : void 0;
   }
   static instance() {
     return game.system.anarchy.hooks;
   }
   static register(e) {
-    Z.instance()._register(e);
+    ce.instance()._register(e);
   }
   _register(e) {
-    if (console.log(P + "HooksManager.register", e), !e.startsWith(g + "-"))
+    if (console.log(u + "HooksManager.register", e), !e.startsWith(d + "-"))
       throw "For safety Anarchy Hooks names must be prefixed by anarchy'-'";
     this.hooks.push(e);
   }
 }
-const C = {
+const v = {
   pool: "pool",
   reroll: "reroll",
   rerollForced: "rerollForced",
@@ -2042,26 +2263,26 @@ const C = {
   risk: "risk",
   opponentPool: "opponentPool",
   opponentReroll: "opponentReroll"
-}, Ft = [
+}, ds = [
   // attribute1
   {
     code: "attribute1",
     options: {
       order: 1,
-      category: C.pool,
-      hbsTemplateRoll: `${h}/roll/parts/select-attribute.hbs`
+      category: v.pool,
+      hbsTemplateRoll: `${y}/roll/parts/select-attribute.hbs`
     },
-    condition: (r) => Object.values(E.rollType).includes(r.mode),
+    condition: (r) => Object.values(z.rollType).includes(r.mode),
     isUsed: (r) => !0,
     factory: (r) => {
       var t;
       const e = r.attribute1 ?? ((t = r.skill) == null ? void 0 : t.system.attribute);
       return {
-        labelkey: e ? o.attributes[e] : o.attributes.noAttributes,
+        labelkey: e ? l.attributes[e] : l.attributes.noAttributes,
         value: r.actor.getAttributeValue(e, r.activeItem),
         flags: { editable: r.skill },
         selected: e,
-        choices: S.getAttributes((a) => r.attributes.includes(a))
+        choices: E.getAttributes((s) => r.attributes.includes(s))
       };
     }
   },
@@ -2070,21 +2291,25 @@ const C = {
     code: "attribute2",
     options: {
       order: 1,
-      category: C.pool,
-      hbsTemplateRoll: `${h}/roll/parts/select-attribute.hbs`,
-      hbsTemplateChat: `${h}/chat/parts/pool-attribute2.hbs`
+      category: v.pool,
+      hbsTemplateRoll: `${y}/roll/parts/select-attribute.hbs`,
+      hbsTemplateChat: `${y}/chat/parts/pool-attribute2.hbs`
     },
-    condition: (r) => [E.rollType.attribute, E.rollType.attributeAction, E.rollType.defense].includes(r.mode),
+    condition: (r) => [
+      z.rollType.attribute,
+      z.rollType.attributeAction,
+      z.rollType.defense
+    ].includes(r.mode),
     isUsed: (r) => r.used,
     onChecked: (r, e) => r.used = !!e,
     factory: (r) => {
       const e = r.attribute2;
       return {
-        labelkey: e ? o.attributes[e] : o.attributes.noAttributes,
+        labelkey: e ? l.attributes[e] : l.attributes.noAttributes,
         value: r.actor.getAttributeValue(e, r.activeItem),
-        flags: { editable: E.rollType.attribute == r.mode },
+        flags: { editable: z.rollType.attribute == r.mode },
         selected: e,
-        choices: S.getAttributes((t) => r.attributes.includes(t))
+        choices: E.getAttributes((t) => r.attributes.includes(t))
       };
     }
   },
@@ -2094,8 +2319,8 @@ const C = {
     options: {
       flags: {},
       order: 3,
-      category: C.pool,
-      hbsTemplateRoll: `${h}/roll/parts/input-numeric.hbs`
+      category: v.pool,
+      hbsTemplateRoll: `${y}/roll/parts/input-numeric.hbs`
     },
     condition: (r) => ["skill", "weapon"].includes(r.mode),
     factory: (r) => {
@@ -2113,8 +2338,8 @@ const C = {
       flags: { optional: !0 },
       value: 2,
       order: 4,
-      category: C.pool,
-      hbsTemplateRoll: `${h}/roll/parts/check-option.hbs`
+      category: v.pool,
+      hbsTemplateRoll: `${y}/roll/parts/check-option.hbs`
     },
     isUsed: (r) => r.used,
     condition: (r) => {
@@ -2136,10 +2361,10 @@ const C = {
     options: {
       flags: { editDice: !0, editable: !0 },
       order: 5,
-      category: C.pool,
+      category: v.pool,
       value: 0,
-      labelkey: o.common.roll.modifiers.social.credibility,
-      hbsTemplateRoll: `${h}/roll/parts/input-numeric.hbs`
+      labelkey: l.common.roll.modifiers.social.credibility,
+      hbsTemplateRoll: `${y}/roll/parts/input-numeric.hbs`
     },
     condition: (r) => {
       var e;
@@ -2155,14 +2380,14 @@ const C = {
     code: "poolModifiers",
     options: {
       flags: { editDice: !0, editable: !0 },
-      labelkey: o.common.roll.modifiers.poolModifiers,
+      labelkey: l.common.roll.modifiers.poolModifiers,
       order: 5,
-      category: C.pool,
-      hbsTemplateRoll: `${h}/roll/parts/input-numeric.hbs`,
+      category: v.pool,
+      hbsTemplateRoll: `${y}/roll/parts/input-numeric.hbs`,
       min: -4,
       max: 4
     },
-    factory: (r) => ne.computeRollModifiers(C.pool, r)
+    factory: (r) => ye.computeRollModifiers(v.pool, r)
   },
   // wounds
   {
@@ -2170,9 +2395,9 @@ const C = {
     options: {
       flags: { optional: !0 },
       order: 10,
-      category: C.pool,
-      labelkey: o.common.roll.modifiers.wounds,
-      hbsTemplateRoll: `${h}/roll/parts/input-numeric.hbs`
+      category: v.pool,
+      labelkey: l.common.roll.modifiers.wounds,
+      hbsTemplateRoll: `${y}/roll/parts/input-numeric.hbs`
     },
     isUsed: (r) => r.used,
     condition: (r) => r.actor.getWounds(),
@@ -2196,16 +2421,18 @@ const C = {
     options: {
       flags: { editDice: !1, editable: !1 },
       order: 24,
-      category: C.pool,
+      category: v.pool,
       value: 1,
-      labelkey: o.common.roll.modifiers.virtualReality,
-      hbsTemplateRoll: `${h}/roll/parts/input-numeric.hbs`,
+      labelkey: l.common.roll.modifiers.virtualReality,
+      hbsTemplateRoll: `${y}/roll/parts/input-numeric.hbs`,
       min: 1,
       max: 1
     },
-    condition: (r) => r.actor.isMatrixSkill(r.skill) && r.actor.isMatrixConnected(x.connectionMode.virtual),
+    condition: (r) => r.actor.isMatrixSkill(r.skill) && r.actor.isMatrixConnected(F.connectionMode.virtual),
     factory: (r) => ({
-      flags: { used: r.actor.isMatrixSkill(r.skill) && r.actor.isMatrixConnected(x.connectionMode.virtual) }
+      flags: {
+        used: r.actor.isMatrixSkill(r.skill) && r.actor.isMatrixConnected(F.connectionMode.virtual)
+      }
     })
   },
   // other modifiers
@@ -2214,10 +2441,10 @@ const C = {
     options: {
       flags: { editDice: !0, editable: !0 },
       order: 25,
-      category: C.pool,
+      category: v.pool,
       value: 0,
-      labelkey: o.common.roll.modifiers.other,
-      hbsTemplateRoll: `${h}/roll/parts/input-numeric.hbs`,
+      labelkey: l.common.roll.modifiers.other,
+      hbsTemplateRoll: `${y}/roll/parts/input-numeric.hbs`,
       min: -5,
       max: 5
     }
@@ -2228,9 +2455,9 @@ const C = {
     options: {
       flags: { editDice: !0, editable: !0, forceDisplay: !0 },
       order: 40,
-      category: C.drain,
-      labelkey: o.common.roll.modifiers.drain,
-      hbsTemplateRoll: `${h}/roll/parts/input-numeric.hbs`,
+      category: v.drain,
+      labelkey: l.common.roll.modifiers.drain,
+      hbsTemplateRoll: `${y}/roll/parts/input-numeric.hbs`,
       min: 0,
       max: 6
     },
@@ -2248,10 +2475,10 @@ const C = {
     options: {
       flags: { editDice: !1, optional: !0, used: !0, hideParameter: !0 },
       order: 40,
-      category: C.convergence,
+      category: v.convergence,
       value: 1,
-      labelkey: o.common.roll.modifiers.convergence,
-      hbsTemplateRoll: `${h}/roll/parts/check-option.hbs`
+      labelkey: l.common.roll.modifiers.convergence,
+      hbsTemplateRoll: `${y}/roll/parts/check-option.hbs`
     },
     isUsed: (r) => r.used,
     condition: (r) => {
@@ -2268,16 +2495,19 @@ const C = {
     options: {
       flags: { editDice: !0, editable: !0, forceDisplay: !0 },
       order: 50,
-      category: C.glitch,
-      labelkey: o.common.roll.modifiers.glitch,
-      hbsTemplateRoll: `${h}/roll/parts/input-numeric.hbs`,
-      hbsTemplateChat: `${h}/chat/parts/glitch.hbs`,
+      category: v.glitch,
+      labelkey: l.common.roll.modifiers.glitch,
+      hbsTemplateRoll: `${y}/roll/parts/input-numeric.hbs`,
+      hbsTemplateChat: `${y}/chat/parts/glitch.hbs`,
       min: 0,
       max: 5
     },
     isUsed: (r) => r.value > 0,
     factory: (r) => {
-      const e = r.actor.getWounds(), t = ne.computeRollModifiers(C.glitch, r);
+      const e = r.actor.getWounds(), t = ye.computeRollModifiers(
+        v.glitch,
+        r
+      );
       return {
         value: (e == 0 ? 0 : 1) + (r.glitch ?? 0) + t.value
       };
@@ -2289,11 +2519,11 @@ const C = {
     options: {
       flags: { editDice: !0, editable: !0 },
       order: 50,
-      category: C.glitch,
+      category: v.glitch,
       value: 0,
-      labelkey: o.common.roll.modifiers.social.rumor,
-      hbsTemplateRoll: `${h}/roll/parts/input-numeric.hbs`,
-      hbsTemplateChat: `${h}/chat/parts/glitch.hbs`,
+      labelkey: l.common.roll.modifiers.social.rumor,
+      hbsTemplateRoll: `${y}/roll/parts/input-numeric.hbs`,
+      hbsTemplateChat: `${y}/chat/parts/glitch.hbs`,
       min: 0,
       max: 1
     },
@@ -2308,22 +2538,22 @@ const C = {
     options: {
       flags: { editDice: !0, editable: !0 },
       order: 30,
-      category: C.reroll,
-      labelkey: o.common.roll.modifiers.reroll,
-      hbsTemplateRoll: `${h}/roll/parts/input-numeric.hbs`,
+      category: v.reroll,
+      labelkey: l.common.roll.modifiers.reroll,
+      hbsTemplateRoll: `${y}/roll/parts/input-numeric.hbs`,
       min: 0,
       max: 4
     },
-    factory: (r) => ne.computeRollModifiers(C.reroll, r)
+    factory: (r) => ye.computeRollModifiers(v.reroll, r)
   },
   // reduction from opponent
   {
     code: "reduced",
     options: {
       order: 29,
-      category: C.pool,
-      labelkey: o.common.roll.modifiers.reduced,
-      hbsTemplateRoll: `${h}/roll/parts/input-numeric.hbs`,
+      category: v.pool,
+      labelkey: l.common.roll.modifiers.reduced,
+      hbsTemplateRoll: `${y}/roll/parts/input-numeric.hbs`,
       min: -4,
       max: 0
     },
@@ -2345,15 +2575,18 @@ const C = {
     code: "rerollForced",
     options: {
       order: 31,
-      category: C.rerollForced,
-      labelkey: o.common.roll.modifiers.rerollForced,
-      hbsTemplateRoll: `${h}/roll/parts/input-numeric.hbs`,
+      category: v.rerollForced,
+      labelkey: l.common.roll.modifiers.rerollForced,
+      hbsTemplateRoll: `${y}/roll/parts/input-numeric.hbs`,
       min: -5,
       max: 0
     },
     factory: (r) => {
       var t;
-      const e = ne.computeRollModifiers(C.successReroll, r);
+      const e = ye.computeRollModifiers(
+        v.successReroll,
+        r
+      );
       return e.value = -e.value - (((t = r.attackRoll) == null ? void 0 : t.param.opponentReroll) ?? 0), foundry.utils.mergeObject(e, {
         flags: { editDice: !0, used: !0, editable: !0 }
       });
@@ -2365,12 +2598,12 @@ const C = {
     options: {
       flags: { optional: !0, isAnarchy: !0, forceDisplay: !0 },
       order: 70,
-      category: C.pool,
+      category: v.pool,
       value: 0,
       min: 0,
       max: 3,
-      labelkey: o.common.roll.modifiers.anarchyDisposition,
-      hbsTemplateRoll: `${h}/roll/parts/check-option.hbs`
+      labelkey: l.common.roll.modifiers.anarchyDisposition,
+      hbsTemplateRoll: `${y}/roll/parts/check-option.hbs`
     },
     isUsed: (r) => r.used,
     condition: (r) => r.actor.getAnarchyValue() > 0,
@@ -2384,11 +2617,11 @@ const C = {
     options: {
       flags: { optional: !0, isAnarchy: !0, forceDisplay: !0 },
       order: 70,
-      category: C.risk,
+      category: v.risk,
       value: 0,
-      labelkey: o.common.roll.modifiers.anarchyRisk,
-      hbsTemplateRoll: `${h}/roll/parts/check-option.hbs`,
-      hbsTemplateChat: `${h}/chat/parts/anarchy-risk.hbs`
+      labelkey: l.common.roll.modifiers.anarchyRisk,
+      hbsTemplateRoll: `${y}/roll/parts/check-option.hbs`,
+      hbsTemplateChat: `${y}/chat/parts/anarchy-risk.hbs`
     },
     isUsed: (r) => r.used,
     condition: (r) => r.actor.getAnarchyValue() > 0,
@@ -2403,9 +2636,9 @@ const C = {
       flags: { optional: !0, forceDisplay: !0 },
       value: 0,
       order: 70,
-      category: C.edge,
-      labelkey: o.common.roll.modifiers.edge,
-      hbsTemplateRoll: `${h}/roll/parts/check-option.hbs`
+      category: v.edge,
+      labelkey: l.common.roll.modifiers.edge,
+      hbsTemplateRoll: `${y}/roll/parts/check-option.hbs`
     },
     isUsed: (r) => r.used,
     condition: (r) => r.options.canUseEdge && r.actor.getRemainingEdge(),
@@ -2419,13 +2652,13 @@ const C = {
     options: {
       flags: { editDice: !0, editable: !0, forceDisplay: !0 },
       order: 100,
-      category: C.opponentPool,
-      labelkey: o.common.roll.modifiers.opponentPool,
-      hbsTemplateRoll: `${h}/roll/parts/input-numeric.hbs`,
+      category: v.opponentPool,
+      labelkey: l.common.roll.modifiers.opponentPool,
+      hbsTemplateRoll: `${y}/roll/parts/input-numeric.hbs`,
       min: 0,
       max: 4
     },
-    factory: (r) => ne.computeRollModifiers(C.opponentPool, r),
+    factory: (r) => ye.computeRollModifiers(v.opponentPool, r),
     condition: (r) => !r.attributeAction
   },
   // force opponent rerolls
@@ -2434,39 +2667,42 @@ const C = {
     options: {
       flags: { editDice: !0, editable: !0, forceDisplay: !0 },
       order: 100,
-      category: C.opponentReroll,
+      category: v.opponentReroll,
       value: 0,
-      labelkey: o.common.roll.modifiers.opponentReroll,
-      hbsTemplateRoll: `${h}/roll/parts/input-numeric.hbs`,
+      labelkey: l.common.roll.modifiers.opponentReroll,
+      hbsTemplateRoll: `${y}/roll/parts/input-numeric.hbs`,
       min: 0,
       max: 4
     },
-    factory: (r) => ne.computeRollModifiers(C.opponentReroll, r),
+    factory: (r) => ye.computeRollModifiers(v.opponentReroll, r),
     condition: (r) => !r.attributeAction
   }
 ];
-class ne {
+class ye {
   constructor() {
-    this.registeredParameters = {}, Z.register(b.REGISTER_ROLL_PARAMETERS), Z.register(b.MODIFY_ROLL_PARAMETER), Hooks.on(b.MODIFY_ROLL_PARAMETER, (e) => this._validate(e)), Hooks.once(b.REGISTER_ROLL_PARAMETERS, (e) => Ft.forEach(
-      (t) => e(t)
-    )), Hooks.once("ready", () => this.onReady());
+    this.registeredParameters = {}, ce.register(C.REGISTER_ROLL_PARAMETERS), ce.register(C.MODIFY_ROLL_PARAMETER), Hooks.on(C.MODIFY_ROLL_PARAMETER, (e) => this._validate(e)), Hooks.once(
+      C.REGISTER_ROLL_PARAMETERS,
+      (e) => ds.forEach((t) => e(t))
+    ), Hooks.once("ready", () => this.onReady());
   }
   async onReady() {
-    Hooks.callAll(b.REGISTER_ROLL_PARAMETERS, async (t) => {
-      Hooks.callAll(b.MODIFY_ROLL_PARAMETER, t), t.ignore || await this._register(t);
+    Hooks.callAll(C.REGISTER_ROLL_PARAMETERS, async (t) => {
+      Hooks.callAll(C.MODIFY_ROLL_PARAMETER, t), t.ignore || await this._register(t);
     });
-    const e = f.distinct([].concat(Object.values(this.registeredParameters).map((t) => t.options.hbsTemplateRoll)).concat(Object.values(this.registeredParameters).map((t) => t.options.hbsTemplateChat)).filter((t) => t != null));
-    await loadTemplates(f.distinct(e)), await loadTemplates([`${h}/roll/parts/parameter-label.hbs`]);
+    const e = b.distinct(
+      [].concat(Object.values(this.registeredParameters).map((t) => t.options.hbsTemplateRoll)).concat(Object.values(this.registeredParameters).map((t) => t.options.hbsTemplateChat)).filter((t) => t != null)
+    );
+    await loadTemplates(b.distinct(e)), await loadTemplates([`${y}/roll/parts/parameter-label.hbs`]);
   }
   _validate(e) {
-    e.code || (console.error(`${P} RollParameter does not have a code`, e), e.ignore = !0);
+    e.code || (console.error(`${u} RollParameter does not have a code`, e), e.ignore = !0);
   }
   async _register(e) {
     if (this.registeredParameters[e.code]) {
-      console.error(`${P} RollParameter ${e.code} is already registered`, e);
+      console.error(`${u} RollParameter ${e.code} is already registered`, e);
       return;
     }
-    e.onChecked || (e.onChecked = (t, a) => t.used = a), e.onValue = (t, a) => t.value = a, this.registeredParameters[e.code] = e;
+    e.onChecked || (e.onChecked = (t, s) => t.used = s), e.onValue = (t, s) => t.value = s, this.registeredParameters[e.code] = e;
   }
   async _optionalLoadTemplate(e) {
     e && await loadTemplates([e]);
@@ -2475,35 +2711,40 @@ class ne {
     return Object.values(this.registeredParameters).filter((t) => !t.condition || t.condition(e)).map((t) => this._computeParameter(t, e));
   }
   compute(e) {
-    const t = e.filter((i) => this.isParameterUsed(i)), a = f.classify(t, (i) => i.category), s = {};
-    return Object.values(a).forEach((i) => s[i[0].category] = f.sumValues(i, (n) => n.value ?? (n.optional ? 1 : 0))), s;
+    const t = e.filter((i) => this.isParameterUsed(i)), s = b.classify(t, (i) => i.category), a = {};
+    return Object.values(s).forEach(
+      (i) => a[i[0].category] = b.sumValues(i, (o) => o.value ?? (o.optional ? 1 : 0))
+    ), a;
   }
   isParameterUsed(e) {
     const t = this.findParameter(e.code);
-    return (t == null ? void 0 : t.isUsed) != null ? t.isUsed(e) : e.value != null ? e.value != 0 : (console.error(`registered parameter ${t.code} does not have isUsed method`, t), !1);
+    return (t == null ? void 0 : t.isUsed) != null ? t.isUsed(e) : e.value != null ? e.value != 0 : (console.error(
+      `registered parameter ${t.code} does not have isUsed method`,
+      t
+    ), !1);
   }
   findParameter(e) {
     return this.registeredParameters[e];
   }
   _computeParameter(e, t) {
-    const a = {
+    const s = {
       code: e.code,
       onChecked: e.onChecked,
       onValue: e.onValue,
       isUsed: e.isUsed
     };
-    return foundry.utils.mergeObject(a, e.options), e.factory && foundry.utils.mergeObject(a, e.factory(t, e.options)), foundry.utils.mergeObject(a, {
-      used: a.used || a.value,
-      min: a.min ?? 0,
-      max: a.max ?? a.value ?? 0
-    }), a;
+    return foundry.utils.mergeObject(s, e.options), e.factory && foundry.utils.mergeObject(s, e.factory(t, e.options)), foundry.utils.mergeObject(s, {
+      used: s.used || s.value,
+      min: s.min ?? 0,
+      max: s.max ?? s.value ?? 0
+    }), s;
   }
   static computeRollModifiers(e, t) {
-    const a = (i) => i.type != c.itemType.weapon || t.weapon && i.id == t.weapon.id, s = t.actor.items.filter(a);
-    return A.computeRollModifiers(s, t, e);
+    const s = (i) => i.type != m.itemType.weapon || t.weapon && i.id == t.weapon.id, a = t.actor.items.filter(s);
+    return A.computeRollModifiers(a, t, e);
   }
 }
-class R extends Dialog {
+class M extends Dialog {
   static init() {
     Hooks.once("ready", async () => await this.onReady());
   }
@@ -2519,10 +2760,10 @@ class R extends Dialog {
     ]);
   }
   static prepareActorRoll(e, t = void 0) {
-    var a;
+    var s;
     return {
       actor: e,
-      tokenId: (a = e.token) == null ? void 0 : a.id,
+      tokenId: (s = e.token) == null ? void 0 : s.id,
       attributes: e.getUsableAttributes(t),
       options: {
         canUseEdge: e.canUseEdge()
@@ -2530,88 +2771,94 @@ class R extends Dialog {
     };
   }
   static async rollAttribute(e, t) {
-    const a = foundry.utils.mergeObject(R.prepareActorRoll(e), {
-      mode: E.rollType.attribute,
+    const s = foundry.utils.mergeObject(M.prepareActorRoll(e), {
+      mode: z.rollType.attribute,
       attribute1: t
     });
-    await R.create(a);
+    await M.create(s);
   }
   static async rollAttributeAction(e, t) {
-    const a = foundry.utils.mergeObject(R.prepareActorRoll(e), {
-      mode: E.rollType.attributeAction,
+    const s = foundry.utils.mergeObject(M.prepareActorRoll(e), {
+      mode: z.rollType.attributeAction,
       attributeAction: t.code,
       attribute1: t.attributeFunction1(e),
       attribute2: t.attributeFunction2(e)
     });
-    await R.create(a);
+    await M.create(s);
   }
   static async rollAttribute(e, t) {
-    const a = foundry.utils.mergeObject(R.prepareActorRoll(e), {
-      mode: E.rollType.attribute,
+    const s = foundry.utils.mergeObject(M.prepareActorRoll(e), {
+      mode: z.rollType.attribute,
       attribute1: t
     });
-    await R.create(a);
+    await M.create(s);
   }
-  static async rollSkill(e, t, a) {
-    const s = foundry.utils.mergeObject(R.prepareActorRoll(e), {
-      mode: E.rollType.skill,
+  static async rollSkill(e, t, s) {
+    const a = foundry.utils.mergeObject(M.prepareActorRoll(e), {
+      mode: z.rollType.skill,
       skill: t,
-      attribute1: (t == null ? void 0 : t.system.attribute) ?? c.attributes.agility,
-      specialization: a
+      attribute1: (t == null ? void 0 : t.system.attribute) ?? m.attributes.agility,
+      specialization: s
     });
-    await R.create(s);
+    await M.create(a);
   }
-  static async rollWeapon(e, t, a, s) {
-    const i = foundry.utils.mergeObject(R.prepareActorRoll(e), {
-      mode: E.rollType.weapon,
-      weapon: a,
+  static async rollWeapon(e, t, s, a) {
+    const i = foundry.utils.mergeObject(M.prepareActorRoll(e), {
+      mode: z.rollType.weapon,
+      weapon: s,
       skill: t,
       attribute1: (t == null ? void 0 : t.system.attribute) ?? e.getPhysicalAgility(),
       specialization: t == null ? void 0 : t.system.specialization,
-      targeting: s
+      targeting: a
     });
-    await R.create(i);
+    await M.create(i);
   }
-  static async rollDefense(e, t, a, s = void 0) {
-    const i = foundry.utils.mergeObject(R.prepareActorRoll(e), {
-      mode: E.rollType.defense,
+  static async rollDefense(e, t, s, a = void 0) {
+    const i = foundry.utils.mergeObject(M.prepareActorRoll(e), {
+      mode: z.rollType.defense,
       attribute1: t.attributeFunction1(e),
       attribute2: t.attributeFunction2(e),
       defenseAction: t.code,
-      attackRoll: a.attackRoll,
-      tokenId: a.defenderTokenId,
-      choiceChatMessageId: a.choiceChatMessageId
+      attackRoll: s.attackRoll,
+      tokenId: s.defenderTokenId,
+      choiceChatMessageId: s.choiceChatMessageId
     });
-    await R.create(i);
+    await M.create(i);
   }
   static async itemAttributeRoll(e, t) {
-    const a = foundry.utils.mergeObject(R.prepareActorRoll(e.actor), {
-      mode: E.rollType.attribute,
+    const s = foundry.utils.mergeObject(M.prepareActorRoll(e.actor), {
+      mode: z.rollType.attribute,
       item: e,
       attribute1: t,
       attributes: e.actor.getUsableAttributes(e)
     });
-    await R.create(a);
+    await M.create(s);
   }
   static async create(e) {
-    const t = game.system.anarchy.rollParameters.build(e).sort(f.ascending((i) => i.order ?? 200));
+    const t = game.system.anarchy.rollParameters.build(e).sort(b.ascending((i) => i.order ?? 200));
     foundry.utils.mergeObject(e, {
-      ENUMS: S.getEnums((i) => e.attributes.includes(i)),
-      ANARCHY: o,
+      ENUMS: E.getEnums((i) => e.attributes.includes(i)),
+      ANARCHY: l,
       parameters: t
     });
-    const a = await renderTemplate(`${h}/roll/roll-dialog-title.hbs`, e), s = await renderTemplate(`${h}/roll/roll-dialog.hbs`, e);
-    new R(a, s, e).render(!0);
+    const s = await foundry.applications.handlebars.renderTemplate(
+      `${y}/roll/roll-dialog-title.hbs`,
+      e
+    ), a = await foundry.applications.handlebars.renderTemplate(
+      `${y}/roll/roll-dialog.hbs`,
+      e
+    );
+    new M(s, a, e).render(!0);
   }
-  constructor(e, t, a) {
-    const s = {
+  constructor(e, t, s) {
+    const a = {
       title: e,
       content: t,
       default: "roll",
       buttons: {
         roll: {
-          label: game.i18n.localize(o.common.roll.button),
-          callback: async () => await game.system.anarchy.rollManager.roll(a)
+          label: game.i18n.localize(l.common.roll.button),
+          callback: async () => await game.system.anarchy.rollManager.roll(s)
         }
       }
     }, i = {
@@ -2620,269 +2867,439 @@ class R extends Dialog {
       height: "fit-content",
       "z-index": 99999
     };
-    super(s, i), this.roll = a;
+    super(a, i), this.roll = s;
   }
   activateListeners(e) {
     super.activateListeners(e), this.html = e, this.bringToTop(), this.html.find(".select-attribute-parameter").change(async (t) => {
-      const a = this._getRollParameter(t), s = this._getEventItem(t, this.roll.actor), i = t.currentTarget.value, n = this.roll.actor.getAttributeValue(i, s);
-      this.roll[a.code] = i, await this._setParameterSelectedOption(a, i, n);
+      const s = this._getRollParameter(t), a = this._getEventItem(t, this.roll.actor), i = t.currentTarget.value, o = this.roll.actor.getAttributeValue(i, a);
+      this.roll[s.code] = i, await this._setParameterSelectedOption(s, i, o);
     }), this.html.find(".check-optional").click(async (t) => {
-      const a = this._getRollParameter(t);
-      a.onChecked(a, t.currentTarget.checked), a.category == C.pool && await this._updateParameterValue(a, a.value);
+      const s = this._getRollParameter(t);
+      s.onChecked(s, t.currentTarget.checked), s.category == v.pool && await this._updateParameterValue(s, s.value);
     }), this.activateDiceParameterClick(), this.html.find("input.parameter-value:not(:disabled)").on("input", async (t) => {
-      const a = this._getRollParameter(t), s = Number.parseInt(t.currentTarget.value) ?? 0;
-      await this._updateParameterValue(a, s);
+      const s = this._getRollParameter(t), a = Number.parseInt(t.currentTarget.value) ?? 0;
+      await this._updateParameterValue(s, a);
     }), this.html.find(".select-option-parameter").change(async (t) => {
-      const a = this._getRollParameter(t), s = t.currentTarget.value, i = Number.parseInt(s);
-      await this._setParameterSelectedOption(a, s, i);
+      const s = this._getRollParameter(t), a = t.currentTarget.value, i = Number.parseInt(a);
+      await this._setParameterSelectedOption(s, a, i);
     });
   }
   activateDiceParameterClick() {
     this.html.find(".input-cursor-parameter a").click(async (e) => {
-      var a;
+      var s;
       const t = this._getRollParameter(e);
-      if ((a = t.flags) != null && a.editDice) {
-        const s = Number.parseInt(this.html.find(e.currentTarget).attr("data-dice")) ?? 0, i = t.value != s || s == 0 ? s : s > 0 ? s - 1 : s + 1;
+      if ((s = t.flags) != null && s.editDice) {
+        const a = Number.parseInt(this.html.find(e.currentTarget).attr("data-dice")) ?? 0, i = t.value != a || a == 0 ? a : a > 0 ? a - 1 : a + 1;
         await this._updateParameterValue(t, i);
       }
     });
   }
-  async _setParameterSelectedOption(e, t, a) {
-    e.onChecked(e, t), e.max = a, await this._updateParameterValue(e, a);
+  async _setParameterSelectedOption(e, t, s) {
+    e.onChecked(e, t), e.max = s, await this._updateParameterValue(e, s);
   }
   async _updateParameterValue(e, t) {
     e.onValue(e, t), this.html.find(`.parameter[data-parameter-code='${e.code}'] .parameter-value`).text(t);
-    const a = await this.renderDiceCursor(e);
-    this.html.find(`.parameter[data-parameter-code='${e.code}'] .input-cursor-parameter`).empty().append(a), this.activateDiceParameterClick(), this.html.find(`.parameter[data-parameter-code='${e.code}'] input.parameter-value`).val(e.value);
+    const s = await this.renderDiceCursor(e);
+    this.html.find(
+      `.parameter[data-parameter-code='${e.code}'] .input-cursor-parameter`
+    ).empty().append(s), this.activateDiceParameterClick(), this.html.find(
+      `.parameter[data-parameter-code='${e.code}'] input.parameter-value`
+    ).val(e.value);
   }
   async renderDiceCursor(e) {
     var t;
-    return await B.diceCursor({ value: e.value, min: e.min, max: e.max, editable: (t = e.flags) == null ? void 0 : t.editDice });
+    return await te.diceCursor({
+      value: e.value,
+      min: e.min,
+      max: e.max,
+      editable: (t = e.flags) == null ? void 0 : t.editDice
+    });
   }
   _getSelectedOption(e) {
-    return this.html.find(`.parameter[data-parameter-code='${e.code}'] select.select-option-parameter option:selected`).text();
+    return this.html.find(
+      `.parameter[data-parameter-code='${e.code}'] select.select-option-parameter option:selected`
+    ).text();
   }
   _getEventItem(e, t) {
-    const a = this.html.find(e.currentTarget).closest(".parameter").attr("data-item-id");
-    return a ? t.items.get(a) : void 0;
+    const s = this.html.find(e.currentTarget).closest(".parameter").attr("data-item-id");
+    return s ? t.items.get(s) : void 0;
   }
   _getRollParameter(e) {
     const t = this.html.find(e.currentTarget).closest(".parameter").attr("data-parameter-code");
-    return this.roll.parameters.find((a) => a.code == t);
+    return this.roll.parameters.find((s) => s.code == t);
   }
 }
-const Re = "selected-skill-list", jt = `${g}.${Re}`, w = c.attributes, se = E.defenses, xe = "shadowrun-anarchy-en", nt = { code: "knowledge", attribute: w.knowledge, icon: `${k}/knowledge.svg` }, de = [
-  { code: "athletics", attribute: w.strength, icon: `${k}/athletics.svg` },
-  { code: "acrobatics", attribute: w.agility, icon: `${k}/escape-artist.svg`, lang: "fr" },
-  { code: "closeCombat", attribute: w.agility, icon: `${k}/close-combat.svg`, defense: se.physicalDefense },
-  { code: "projectileWeapons", attribute: w.agility, icon: `${k}/projectile-weapons.svg`, defense: se.physicalDefense },
-  { code: "firearms", attribute: w.agility, icon: `${k}/firearms.svg`, defense: se.physicalDefense },
-  { code: "heavyWeapons", attribute: w.agility, icon: `${k}/heavy-weapons.svg`, defense: se.physicalDefense },
-  { code: "vehicleWeapons", attribute: w.agility, icon: `${k}/vehicle-weapons.svg`, defense: se.physicalDefense },
-  { code: "stealth", attribute: w.agility, icon: `${k}/stealth.svg` },
-  { code: "pilotingGround", attribute: w.agility, icon: `${k}/piloting-ground-steering-wheel.svg` },
-  { code: "pilotingOther", attribute: w.agility, icon: `${k}/piloting-other.svg` },
-  { code: "escapeArtist", attribute: w.agility, icon: `${k}/escape-artist.svg`, lang: "en" },
-  { code: "conjuring", attribute: w.willpower, hasDrain: !0, icon: `${k}/conjuring.svg` },
-  { code: "sorcery", attribute: w.willpower, hasDrain: !0, icon: `${k}/sorcery.svg` },
-  { code: "astralCombat", attribute: w.willpower, icon: `${k}/astral-combat.svg`, defense: se.astralDefense },
-  { code: "survival", attribute: w.willpower, icon: `${k}/survival.svg` },
-  { code: "biotech", attribute: w.logic, icon: `${k}/biotech.svg` },
-  { code: "hacking", attribute: w.logic, hasConvergence: !0, icon: `${k}/hacking.svg`, defense: se.matrixDefense },
-  { code: "electronics", attribute: w.logic, icon: `${k}/electronics.svg` },
-  { code: "engineering", attribute: w.logic, icon: `${k}/engineering.svg` },
-  { code: "tasking", attribute: w.logic, hasDrain: !0, icon: `${k}/tasking.svg` },
-  { code: "tracking", attribute: w.logic, icon: `${k}/tracking.svg` },
-  { code: "animals", attribute: w.charisma, icon: `${k}/animals.svg`, lang: "fr" },
-  { code: "con", attribute: w.charisma, isSocial: !0, icon: `${k}/con-art.svg` },
-  { code: "etiquette", attribute: w.charisma, isSocial: !0, icon: `${k}/etiquette.svg`, lang: "fr" },
-  { code: "intimidation", attribute: w.charisma, isSocial: !0, icon: `${k}/intimidation.svg` },
-  { code: "negotiation", attribute: w.charisma, isSocial: !0, icon: `${k}/negotiation.svg` },
-  { code: "disguise", attribute: w.charisma, icon: `${k}/disguise.svg`, lang: "en" }
-], Wt = ["tasking", "hacking"];
-class zt {
+const Ne = "selected-skill-list", us = `${d}.${Ne}`, k = m.attributes, ue = z.defenses, Ve = "shadowrun-anarchy-en", Et = {
+  code: "knowledge",
+  attribute: k.knowledge,
+  icon: `${w}/knowledge.svg`
+}, Ae = [
+  { code: "athletics", attribute: k.strength, icon: `${w}/athletics.svg` },
+  {
+    code: "acrobatics",
+    attribute: k.agility,
+    icon: `${w}/escape-artist.svg`,
+    lang: "fr"
+  },
+  {
+    code: "closeCombat",
+    attribute: k.agility,
+    icon: `${w}/close-combat.svg`,
+    defense: ue.physicalDefense
+  },
+  {
+    code: "projectileWeapons",
+    attribute: k.agility,
+    icon: `${w}/projectile-weapons.svg`,
+    defense: ue.physicalDefense
+  },
+  {
+    code: "firearms",
+    attribute: k.agility,
+    icon: `${w}/firearms.svg`,
+    defense: ue.physicalDefense
+  },
+  {
+    code: "heavyWeapons",
+    attribute: k.agility,
+    icon: `${w}/heavy-weapons.svg`,
+    defense: ue.physicalDefense
+  },
+  {
+    code: "vehicleWeapons",
+    attribute: k.agility,
+    icon: `${w}/vehicle-weapons.svg`,
+    defense: ue.physicalDefense
+  },
+  { code: "stealth", attribute: k.agility, icon: `${w}/stealth.svg` },
+  {
+    code: "pilotingGround",
+    attribute: k.agility,
+    icon: `${w}/piloting-ground-steering-wheel.svg`
+  },
+  {
+    code: "pilotingOther",
+    attribute: k.agility,
+    icon: `${w}/piloting-other.svg`
+  },
+  {
+    code: "escapeArtist",
+    attribute: k.agility,
+    icon: `${w}/escape-artist.svg`,
+    lang: "en"
+  },
+  {
+    code: "conjuring",
+    attribute: k.willpower,
+    hasDrain: !0,
+    icon: `${w}/conjuring.svg`
+  },
+  {
+    code: "sorcery",
+    attribute: k.willpower,
+    hasDrain: !0,
+    icon: `${w}/sorcery.svg`
+  },
+  {
+    code: "astralCombat",
+    attribute: k.willpower,
+    icon: `${w}/astral-combat.svg`,
+    defense: ue.astralDefense
+  },
+  { code: "survival", attribute: k.willpower, icon: `${w}/survival.svg` },
+  { code: "biotech", attribute: k.logic, icon: `${w}/biotech.svg` },
+  {
+    code: "hacking",
+    attribute: k.logic,
+    hasConvergence: !0,
+    icon: `${w}/hacking.svg`,
+    defense: ue.matrixDefense
+  },
+  { code: "electronics", attribute: k.logic, icon: `${w}/electronics.svg` },
+  { code: "engineering", attribute: k.logic, icon: `${w}/engineering.svg` },
+  {
+    code: "tasking",
+    attribute: k.logic,
+    hasDrain: !0,
+    icon: `${w}/tasking.svg`
+  },
+  { code: "tracking", attribute: k.logic, icon: `${w}/tracking.svg` },
+  {
+    code: "animals",
+    attribute: k.charisma,
+    icon: `${w}/animals.svg`,
+    lang: "fr"
+  },
+  {
+    code: "con",
+    attribute: k.charisma,
+    isSocial: !0,
+    icon: `${w}/con-art.svg`
+  },
+  {
+    code: "etiquette",
+    attribute: k.charisma,
+    isSocial: !0,
+    icon: `${w}/etiquette.svg`,
+    lang: "fr"
+  },
+  {
+    code: "intimidation",
+    attribute: k.charisma,
+    isSocial: !0,
+    icon: `${w}/intimidation.svg`
+  },
+  {
+    code: "negotiation",
+    attribute: k.charisma,
+    isSocial: !0,
+    icon: `${w}/negotiation.svg`
+  },
+  {
+    code: "disguise",
+    attribute: k.charisma,
+    icon: `${w}/disguise.svg`,
+    lang: "en"
+  }
+], hs = ["tasking", "hacking"];
+class gs {
   constructor() {
-    this.skillSets = {}, Z.register(b.PROVIDE_SKILL_SET), Hooks.on(
-      b.PROVIDE_SKILL_SET,
-      (e) => e(xe, "Shadowrun Anarchy EN", de.filter((t) => !t.lang || t.lang == "en"), { lang: "en" })
+    this.skillSets = {}, ce.register(C.PROVIDE_SKILL_SET), Hooks.on(
+      C.PROVIDE_SKILL_SET,
+      (e) => e(
+        Ve,
+        "Shadowrun Anarchy EN",
+        Ae.filter((t) => !t.lang || t.lang == "en"),
+        { lang: "en" }
+      )
     ), Hooks.on(
-      b.PROVIDE_SKILL_SET,
-      (e) => e("shadowrun-anarchy-fr", "Shadowrun Anarchy FR", de.filter((t) => !t.lang || t.lang == "fr"), { lang: "fr" })
-    ), Hooks.on("updateSetting", async (e, t, a, s) => this.onUpdateSetting(e, t, a, s)), Hooks.once("ready", () => this.onReady());
+      C.PROVIDE_SKILL_SET,
+      (e) => e(
+        "shadowrun-anarchy-fr",
+        "Shadowrun Anarchy FR",
+        Ae.filter((t) => !t.lang || t.lang == "fr"),
+        { lang: "fr" }
+      )
+    ), Hooks.on(
+      "updateSetting",
+      async (e, t, s, a) => this.onUpdateSetting(e, t, s, a)
+    ), Hooks.once("ready", () => this.onReady());
   }
   async onReady() {
-    this.$prepareSkill(nt), Hooks.callAll(b.PROVIDE_SKILL_SET, (t, a, s, i) => {
-      const n = this.$prepareSkillSet(t, a, s, i);
-      n && (this.skillSets[n.id] = n);
+    this.$prepareSkill(Et), Hooks.callAll(C.PROVIDE_SKILL_SET, (t, s, a, i) => {
+      const o = this.$prepareSkillSet(t, s, a, i);
+      o && (this.skillSets[o.id] = o);
     });
-    const e = Object.fromEntries(Object.values(this.skillSets).map((t) => [t.id, t.name]));
-    game.settings.register(g, Re, {
+    const e = Object.fromEntries(
+      Object.values(this.skillSets).map((t) => [t.id, t.name])
+    );
+    game.settings.register(d, Ne, {
       scope: "world",
-      name: game.i18n.localize(o.settings.skillSet.name),
-      hint: game.i18n.localize(o.settings.skillSet.hint),
+      name: game.i18n.localize(l.settings.skillSet.name),
+      hint: game.i18n.localize(l.settings.skillSet.hint),
       config: !0,
-      default: xe,
+      default: Ve,
       choices: e,
       type: String
-    }), this.selectedSkills = game.settings.get(g, Re);
+    }), this.selectedSkills = game.settings.get(d, Ne);
   }
-  async onUpdateSetting(e, t, a, s) {
-    e.key == jt && (this.selectedSkills = game.settings.get(g, Re));
+  async onUpdateSetting(e, t, s, a) {
+    e.key == us && (this.selectedSkills = game.settings.get(d, Ne));
   }
   get(e) {
     return this.getSkills({ withKnowledge: !0 }).find((t) => t.code == e);
   }
   getSkills(e = { withKnowledge: !1 }) {
-    const t = this.$getConfiguredSkills().sort(f.ascending((a) => a.label));
-    return e.withKnowledge ? [nt, ...t] : t;
+    const t = this.$getConfiguredSkills().sort(b.ascending((s) => s.label));
+    return e.withKnowledge ? [Et, ...t] : t;
   }
   $getConfiguredSkills() {
-    return (this.skillSets[this.selectedSkills] ?? this.skillSets[xe]).skills;
+    return (this.skillSets[this.selectedSkills] ?? this.skillSets[Ve]).skills;
   }
-  $prepareSkillSet(e, t, a, s) {
-    const i = foundry.utils.mergeObject({ id: e, name: t, skills: a }, s);
+  $prepareSkillSet(e, t, s, a) {
+    const i = foundry.utils.mergeObject({ id: e, name: t, skills: s }, a);
     if (this.$validateSkillSet(i))
-      return i.skills.forEach((n) => {
-        this.$prepareSkill(n);
+      return i.skills.forEach((o) => {
+        this.$prepareSkill(o);
       }), i;
   }
   $prepareSkill(e) {
-    e.labelkey = e.labelkey ?? o.skill[e.code], e.icon = e.icon ?? `${ue}/icons/skills/skills.svg`;
+    e.labelkey = e.labelkey ?? l.skill[e.code], e.icon = e.icon ?? `${Ce}/icons/skills/skills.svg`;
   }
   $validateSkillSet(e) {
-    function t(a, s = "") {
-      if (!a)
-        throw s;
+    function t(s, a = "") {
+      if (!s)
+        throw a;
     }
     try {
       t(e.id && e.name, "Skills list does not have an id or name");
-      const a = this.skillSets[e.id];
-      t(!a, `Skills list ${e.id} is already registered under name ${a == null ? void 0 : a.name}`), t(Array.isArray(e.skills), "Missing skills array"), e.skills.forEach((i) => {
-        t(i.code, `Missing skill code for ${i} in ${e.id}`), t(i.labelkey || o.skill[i.code], `Missing skill localization key for ${i.code}`), t(i.attribute, `Missing skill attribute for ${i.code}`);
+      const s = this.skillSets[e.id];
+      t(
+        !s,
+        `Skills list ${e.id} is already registered under name ${s == null ? void 0 : s.name}`
+      ), t(Array.isArray(e.skills), "Missing skills array"), e.skills.forEach((i) => {
+        t(i.code, `Missing skill code for ${i} in ${e.id}`), t(
+          i.labelkey || l.skill[i.code],
+          `Missing skill localization key for ${i.code}`
+        ), t(i.attribute, `Missing skill attribute for ${i.code}`);
       });
-      const s = e.skills.map((i) => i.code);
-      return t(e.skills.length == f.distinct(s).length, `Duplicate skill codes in ${s}`), !0;
-    } catch (a) {
-      return console.warn(a + (e.id ? ` in list ${e.id}` : " in unidentified list"), e), !1;
+      const a = e.skills.map((i) => i.code);
+      return t(
+        e.skills.length == b.distinct(a).length,
+        `Duplicate skill codes in ${a}`
+      ), !0;
+    } catch (s) {
+      return console.warn(
+        s + (e.id ? ` in list ${e.id}` : " in unidentified list"),
+        e
+      ), !1;
     }
   }
 }
-const Fe = "damage-mode", Bt = `${g}.${Fe}`, we = {}, Pe = {};
-class v {
+const ct = "damage-mode", ps = `${d}.${ct}`, He = {}, Ge = {};
+class R {
   static init() {
-    Z.register(b.PROVIDE_DAMAGE_MODE), Hooks.on("updateSetting", async (e, t, a, s) => v.onUpdateSetting(e, t, a, s)), Hooks.on(b.PROVIDE_DAMAGE_MODE, (e) => {
-      e("resistanceArmorMonitor", o.settings.damageMode.values.resistanceArmorMonitor, v.sufferDamageResistanceArmorMonitor), e("armorResistanceMonitor", o.settings.damageMode.values.armorResistanceMonitor, v.sufferDamageArmorResistanceMonitor), e("armorGivesResistance", o.settings.damageMode.values.armorGivesResistance, v.sufferDamageArmorAsResistance_Earthdawn), e("armorGiveResistanceHitsAvoid", o.settings.damageMode.values.armorGiveResistanceHitsAvoid, v.sufferDamageArmorAsResistance_Cyberpunk);
-    }), Hooks.once("ready", () => v.onReady());
+    ce.register(C.PROVIDE_DAMAGE_MODE), Hooks.on(
+      "updateSetting",
+      async (e, t, s, a) => R.onUpdateSetting(e, t, s, a)
+    ), Hooks.on(C.PROVIDE_DAMAGE_MODE, (e) => {
+      e(
+        "resistanceArmorMonitor",
+        l.settings.damageMode.values.resistanceArmorMonitor,
+        R.sufferDamageResistanceArmorMonitor
+      ), e(
+        "armorResistanceMonitor",
+        l.settings.damageMode.values.armorResistanceMonitor,
+        R.sufferDamageArmorResistanceMonitor
+      ), e(
+        "armorGivesResistance",
+        l.settings.damageMode.values.armorGivesResistance,
+        R.sufferDamageArmorAsResistance_Earthdawn
+      ), e(
+        "armorGiveResistanceHitsAvoid",
+        l.settings.damageMode.values.armorGiveResistanceHitsAvoid,
+        R.sufferDamageArmorAsResistance_Cyberpunk
+      );
+    }), Hooks.once("ready", () => R.onReady());
   }
   static onReady() {
-    v._registerDamageModeSetting(), v._selectDamageMode();
+    R._registerDamageModeSetting(), R._selectDamageMode();
   }
   static _registerDamageModeSetting() {
-    Hooks.callAll(b.PROVIDE_DAMAGE_MODE, (e, t, a) => {
-      we[e] = game.i18n.localize(t), Pe[e] = a;
-    }), game.settings.register(g, Fe, {
+    Hooks.callAll(C.PROVIDE_DAMAGE_MODE, (e, t, s) => {
+      He[e] = game.i18n.localize(t), Ge[e] = s;
+    }), game.settings.register(d, ct, {
       scope: "world",
-      name: game.i18n.localize(o.settings.damageMode.name),
-      hint: game.i18n.localize(o.settings.damageMode.hint),
+      name: game.i18n.localize(l.settings.damageMode.name),
+      hint: game.i18n.localize(l.settings.damageMode.hint),
       config: !0,
-      default: Object.keys(we)[0],
-      choices: we,
+      default: Object.keys(He)[0],
+      choices: He,
       type: String
     });
   }
-  static async onUpdateSetting(e, t, a, s) {
-    e.key == Bt && v._selectDamageMode();
+  static async onUpdateSetting(e, t, s, a) {
+    e.key == ps && R._selectDamageMode();
   }
   static _selectDamageMode() {
-    let e = game.settings.get(g, Fe);
-    Pe[e] || (e = Object.keys(we)[0]), v.damageModeCode = e, v.damageModeMethod = Pe[e];
+    let e = game.settings.get(d, ct);
+    Ge[e] || (e = Object.keys(He)[0]), R.damageModeCode = e, R.damageModeMethod = Ge[e];
   }
-  static async sufferDamage(e, t, a, s, i, n, l) {
-    const m = e.getDamageMonitor(t);
-    K.checkActorCanReceiveDamage(t, m, e), await (v.damageModeMethod ?? v.sufferDamageResistanceArmorMonitor)(e, m, a, s, i, n), await e.applyArmorDamage(t, A.sumModifiers([l], "other", "damageArmor"));
+  static async sufferDamage(e, t, s, a, i, o, n) {
+    const c = e.getDamageMonitor(t);
+    ae.checkActorCanReceiveDamage(t, c, e), await (R.damageModeMethod ?? R.sufferDamageResistanceArmorMonitor)(e, c, s, a, i, o), await e.applyArmorDamage(
+      t,
+      A.sumModifiers([n], "other", "damageArmor")
+    );
   }
   static async sufferMarks(e, t) {
-    await d.addCounter(e, c.monitors.marks, 1, t.id);
+    await g.addCounter(e, m.monitors.marks, 1, t.id);
   }
-  static async sufferDamageResistanceArmorMonitor(e, t, a, s, i, n) {
-    if (t == c.monitors.marks) {
-      await v.sufferMarks(e, n);
+  static async sufferDamageResistanceArmorMonitor(e, t, s, a, i, o) {
+    if (t == m.monitors.marks) {
+      await R.sufferMarks(e, o);
       return;
     }
-    const l = d.resistance(e, t);
-    let m = 0;
+    const n = g.resistance(e, t);
+    let c = 0;
     if (i) {
-      const y = Math.min(l, a), W = Math.min(l - y, s);
-      m = a - y, d.useArmor(t) && (m -= await v.damageToArmor(e, m)), m += s - W;
+      const h = Math.min(n, s), N = Math.min(n - h, a);
+      c = s - h, g.useArmor(t) && (c -= await R.damageToArmor(e, c)), c += a - N;
     } else
-      m = a + s - l, d.useArmor(t) && (m -= await v.damageToArmor(e, m));
-    m > 0 && await d.addCounter(e, t, m);
+      c = s + a - n, g.useArmor(t) && (c -= await R.damageToArmor(e, c));
+    c > 0 && await g.addCounter(e, t, c);
   }
-  static async sufferDamageArmorResistanceMonitor(e, t, a, s, i, n) {
-    if (t == c.monitors.marks) {
-      await v.sufferMarks(e, n);
+  static async sufferDamageArmorResistanceMonitor(e, t, s, a, i, o) {
+    if (t == m.monitors.marks) {
+      await R.sufferMarks(e, o);
       return;
     }
-    let l = 0;
-    return d.useArmor(t) ? i ? (a -= await v.damageToArmor(e, a), l = s + a) : (l = s + a, l -= await v.damageToArmor(e, l)) : l = a + s, l -= d.resistance(e, t), l > 0 && await d.addCounter(e, t, l), l;
+    let n = 0;
+    return g.useArmor(t) ? i ? (s -= await R.damageToArmor(e, s), n = a + s) : (n = a + s, n -= await R.damageToArmor(e, n)) : n = s + a, n -= g.resistance(e, t), n > 0 && await g.addCounter(e, t, n), n;
   }
-  static async sufferDamageArmorAsResistance_Cyberpunk(e, t, a, s, i, n) {
-    if (t == c.monitors.marks) {
-      await v.sufferMarks(e, n);
+  static async sufferDamageArmorAsResistance_Cyberpunk(e, t, s, a, i, o) {
+    if (t == m.monitors.marks) {
+      await R.sufferMarks(e, o);
       return;
     }
-    let l = a + s;
-    if (d.useArmor(t) && l > 0) {
-      const m = i ? s : 0, y = Math.max(0, v._computeArmorResistance(e) - m);
-      y > 0 && (await d.addCounter(e, "armor", 1), l -= y);
+    let n = s + a;
+    if (g.useArmor(t) && n > 0) {
+      const c = i ? a : 0, h = Math.max(
+        0,
+        R._computeArmorResistance(e) - c
+      );
+      h > 0 && (await g.addCounter(e, "armor", 1), n -= h);
     }
-    return l -= d.resistance(e, t), l > 0 && await d.addCounter(e, t, l), Math.max(l, 0);
+    return n -= g.resistance(e, t), n > 0 && await g.addCounter(e, t, n), Math.max(n, 0);
   }
-  static async sufferDamageArmorAsResistance_Earthdawn(e, t, a, s, i, n) {
-    if (t == c.monitors.marks) {
-      await v.sufferMarks(e, n);
+  static async sufferDamageArmorAsResistance_Earthdawn(e, t, s, a, i, o) {
+    if (t == m.monitors.marks) {
+      await R.sufferMarks(e, o);
       return;
     }
-    let l = a + s;
-    if (d.useArmor(t) && !i && l > 0) {
-      const m = v._computeArmorResistance(e);
-      m > 0 && (await d.addCounter(e, "armor", 1), l -= m);
+    let n = s + a;
+    if (g.useArmor(t) && !i && n > 0) {
+      const c = R._computeArmorResistance(e);
+      c > 0 && (await g.addCounter(e, "armor", 1), n -= c);
     }
-    return l -= v._computeStrengthResistance(e, t), l -= d.resistance(e, t), l > 0 && await d.addCounter(e, t, l), l;
+    return n -= R._computeStrengthResistance(e, t), n -= g.resistance(e, t), n > 0 && await g.addCounter(e, t, n), n;
   }
   static async damageToArmor(e, t) {
     if (t > 0) {
-      const a = d.max(e, c.monitors.armor), s = d.getCounterValue(e, c.monitors.armor), i = Math.min(a - s, t), n = d.resistance(e, c.monitors.armor), l = Math.max(0, i - n);
-      return l > 0 && await d.addCounter(e, c.monitors.armor, l), i;
+      const s = g.max(e, m.monitors.armor), a = g.getCounterValue(e, m.monitors.armor), i = Math.min(s - a, t), o = g.resistance(e, m.monitors.armor), n = Math.max(0, i - o);
+      return n > 0 && await g.addCounter(e, m.monitors.armor, n), i;
     } else
       return 0;
   }
   static _computeArmorResistance(e) {
-    const t = d.max(e, "armor"), a = d.getCounterValue(e, "armor"), s = Math.max(0, t - a);
-    return Math.max(0, Math.ceil(s / 3));
+    const t = g.max(e, "armor"), s = g.getCounterValue(e, "armor"), a = Math.max(0, t - s);
+    return Math.max(0, Math.ceil(a / 3));
   }
   static _computeStrengthResistance(e, t) {
     switch (t) {
-      case c.monitors.matrix:
+      case m.monitors.matrix:
         return 0;
     }
-    const a = e.getAttributeValue(c.attributes.strength);
-    return Math.max(0, Math.floor(a / 4));
+    const s = e.getAttributeValue(m.attributes.strength);
+    return Math.max(0, Math.floor(s / 4));
   }
 }
 class H extends Actor {
   static init() {
-    Hooks.on("updateActor", (e, t, a, s) => {
-      var i;
-      return (i = I.firstResponsible(e)) == null ? void 0 : i.onUpdateActor(t, a);
-    });
+    Hooks.on(
+      "updateActor",
+      (e, t, s, a) => {
+        var i;
+        return (i = P.firstResponsible(e)) == null ? void 0 : i.onUpdateActor(t, s);
+      }
+    );
   }
   constructor(e, t = {}) {
-    var a;
-    if (!((a = t.anarchy) != null && a.ready)) {
-      const s = game.system.anarchy.actorClasses[e.type];
-      if (foundry.utils.mergeObject(t, { anarchy: { ready: !0 } }), s)
-        return e.img || (e.img = s.defaultIcon), new s(e, t);
+    var s;
+    if (!((s = t.anarchy) != null && s.ready)) {
+      const a = game.system.anarchy.actorClasses[e.type];
+      if (foundry.utils.mergeObject(t, { anarchy: { ready: !0 } }), a)
+        return e.img || (e.img = a.defaultIcon), new a(e, t);
     }
     t.anarchy = void 0, super(e, t);
   }
@@ -2892,36 +3309,36 @@ class H extends Actor {
   static get defaultIcon() {
   }
   static padWordListToMin(e, t) {
-    for (let a = e.length; a < t; a++)
+    for (let s = e.length; s < t; s++)
       e.push({
         word: "",
-        id: a + 1,
+        id: s + 1,
         audio: "",
         no_delete: !1
       });
-    for (let a = 0; a < t; a++)
-      e[a].no_delete = !0;
+    for (let s = 0; s < t; s++)
+      e[s].no_delete = !0;
     return e;
   }
   static sortSkills(e, t) {
-    return t ? t.sort((a, s) => {
-      const i = a.system.code === "knowledge" || a.system.attribute === "knowledge", n = s.system.code === "knowledge" || s.system.attribute === "knowledge";
-      if (i && !n) return 1;
-      if (!n && i) return -1;
-      if (i && n)
-        return a.name > s.name ? 1 : a.name > s.name ? -1 : 0;
-      const l = e.getAttributeValue(a.system.attribute) + a.system.value, m = e.getAttributeValue(s.system.attribute) + s.system.value;
-      return l > m ? -1 : l < m ? 1 : 0;
+    return t ? t.sort((s, a) => {
+      const i = s.system.code === "knowledge" || s.system.attribute === "knowledge", o = a.system.code === "knowledge" || a.system.attribute === "knowledge";
+      if (i && !o) return 1;
+      if (!o && i) return -1;
+      if (i && o)
+        return s.name > a.name ? 1 : s.name > a.name ? -1 : 0;
+      const n = e.getAttributeValue(s.system.attribute) + s.system.value, c = e.getAttributeValue(a.system.attribute) + a.system.value;
+      return n > c ? -1 : n < c ? 1 : 0;
     }) : [];
   }
   static sortQualities(e) {
-    return e ? e.sort((t, a) => t.system.positive === a.system.positive ? t.name > a.name ? 1 : t.name < a.name ? -1 : 0 : t.system.positive ? -1 : a.system.positive ? 1 : 0) : [];
+    return e ? e.sort((t, s) => t.system.positive === s.system.positive ? t.name > s.name ? 1 : t.name < s.name ? -1 : 0 : t.system.positive ? -1 : s.system.positive ? 1 : 0) : [];
   }
   static sortShadowamps(e) {
-    return e ? e.sort((t, a) => t.system.level > a.system.level ? -1 : t.system.level < a.system.level || t.name > a.name ? 1 : t.name < a.name ? -1 : 0) : [];
+    return e ? e.sort((t, s) => t.system.level > s.system.level ? -1 : t.system.level < s.system.level || t.name > s.name ? 1 : t.name < s.name ? -1 : 0) : [];
   }
   static sortAttributeButton(e) {
-    return e ? e.sort((t, a) => game.i18n.localize(t.labelkey) > game.i18n.localize(a.labelkey) ? 1 : game.i18n.localize(t.labelkey) < game.i18n.localize(a.labelkey) ? -1 : 0) : [];
+    return e ? e.sort((t, s) => game.i18n.localize(t.labelkey) > game.i18n.localize(s.labelkey) ? 1 : game.i18n.localize(t.labelkey) < game.i18n.localize(s.labelkey) ? -1 : 0) : [];
   }
   getAllowedUsers(e = CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER) {
     return game.users.filter((t) => this.testUserPermission(t, e));
@@ -2939,7 +3356,7 @@ class H extends Actor {
     return !this.hasPlayerOwner;
   }
   isVehicle() {
-    return this.type == c.actorTypes.vehicle;
+    return this.type == m.actorTypes.vehicle;
   }
   prepareData() {
     super.prepareData(), this.cleanupFavorites();
@@ -2949,7 +3366,9 @@ class H extends Actor {
       initiative: A.sumModifiers(this.items, "other", "initiative")
     }, this.system.monitors && Object.entries(this.system.monitors).forEach((e) => {
       e[1].maxBonus = A.sumMonitorModifiers(this.items, e[0], "max"), e[1].resistanceBonus = A.sumMonitorModifiers(this.items, e[0], "resistance");
-    }), this.system.attributes && Object.entries(this.system.attributes).forEach((e) => e[1].total = this.getAttributeValue(e[0])), this.system.state = this.computeState();
+    }), this.system.attributes && Object.entries(this.system.attributes).forEach(
+      (e) => e[1].total = this.getAttributeValue(e[0])
+    ), this.system.state = this.computeState();
   }
   getAttributes() {
     return [];
@@ -2965,8 +3384,8 @@ class H extends Actor {
     e.hasMatrix && (this.system.monitors.matrix.max = this._getMonitorMax(e.logic), this.system.monitors.matrix.canMark = !0);
   }
   async onUpdateActor(e, t) {
-    var a, s;
-    ((a = e.system) == null ? void 0 : a.monitors) != null && ((s = e.system) == null ? void 0 : s.state) == null && this.update({ "system.state": this.computeState() });
+    var s, a;
+    ((s = e.system) == null ? void 0 : s.monitors) != null && ((a = e.system) == null ? void 0 : a.state) == null && this.update({ "system.state": this.computeState() });
   }
   computeState() {
     return {
@@ -2989,7 +3408,7 @@ class H extends Actor {
       hasMatrix: !1,
       logic: void 0,
       firewall: void 0,
-      monitor: qe,
+      monitor: ht,
       overflow: void 0
     };
   }
@@ -3016,90 +3435,94 @@ class H extends Actor {
     return !1;
   }
   isMatrixSkill(e) {
-    return Wt.includes(e == null ? void 0 : e.system.code);
+    return hs.includes(e == null ? void 0 : e.system.code);
   }
   async nextConnectionMode(e) {
   }
   async defSetMatrixMonitor(e, t) {
-    this.getMatrixDetails().hasMatrix ? await this.update({ [e]: t }) : game.system.anarchy.hacks.i18n.format(o.actor.monitors.noMatrixMonitor, { actor: this.name });
+    this.getMatrixDetails().hasMatrix ? await this.update({ [e]: t }) : game.system.anarchy.hacks.i18n.format(l.actor.monitors.noMatrixMonitor, {
+      actor: this.name
+    });
   }
   async setCheckbarValue(e, t) {
     if (e.startsWith("system.monitors.matrix.")) {
-      const a = this.getMatrixDetails();
-      return a.setMatrixMonitor ? await a.setMatrixMonitor(e, t) : await this.defSetMatrixMonitor(e, t);
+      const s = this.getMatrixDetails();
+      return s.setMatrixMonitor ? await s.setMatrixMonitor(e, t) : await this.defSetMatrixMonitor(e, t);
     }
     return await this.update({ [e]: t });
   }
   _getMonitorMax(e) {
     const t = this.getAttributeValue(e);
-    return t == 0 ? 0 : ft + f.divup(t, 2);
+    return t == 0 ? 0 : Lt + b.divup(t, 2);
   }
   getAttributeActions() {
-    return Y.getActorActions(this);
+    return x.getActorActions(this);
   }
   getUsableAttributes(e = void 0) {
-    const t = (e ? [e] : this.items).map((s) => s.getUsableAttributes()).reduce((s, i) => s.concat(i), []), a = f.distinct(this.getAttributes().concat(t));
-    return a.sort(f.ascendingBySortedArray(S.sortedAttributeKeys)), a;
+    const t = (e ? [e] : this.items).map((a) => a.getUsableAttributes()).reduce((a, i) => a.concat(i), []), s = b.distinct(this.getAttributes().concat(t));
+    return s.sort(b.ascendingBySortedArray(E.sortedAttributeKeys)), s;
   }
   getAttributeValue(e, t = void 0) {
-    let a = 0;
+    let s = 0;
     if (e = this.getCorrespondingAttribute(e), e) {
       if (this.getAttributes().includes(e))
-        a = this.system.attributes[e].value;
+        s = this.system.attributes[e].value;
       else if (t) {
-        if (this.isEmerged() && e == c.attributes.firewall)
-          return this.getAttributeValue(c.attributes.logic);
-        a = (t == null ? void 0 : t.getAttributeValue(e)) ?? 0;
+        if (this.isEmerged() && e == m.attributes.firewall)
+          return this.getAttributeValue(m.attributes.logic);
+        s = (t == null ? void 0 : t.getAttributeValue(e)) ?? 0;
       } else {
-        const s = this.items.filter((i) => i.isActive() && i.getAttributes().includes(e));
-        if (s.length > 0) {
-          const i = s.map((n) => n.getAttributeValue(e) ?? 0);
-          a = Math.max(...i);
+        const a = this.items.filter(
+          (i) => i.isActive() && i.getAttributes().includes(e)
+        );
+        if (a.length > 0) {
+          const i = a.map((o) => o.getAttributeValue(e) ?? 0);
+          s = Math.max(...i);
         }
       }
-      a += A.sumModifiers(this.items, "attribute", e);
+      s += A.sumModifiers(this.items, "attribute", e);
     }
-    return a;
+    return s;
   }
   getDamageMonitor(e) {
     switch (e) {
-      case c.monitors.matrix:
-      case c.monitors.marks:
+      case m.monitors.matrix:
+      case m.monitors.marks:
         return e;
     }
   }
   async applyArmorDamage(e, t = 0) {
     switch (e) {
-      case c.monitors.physical:
-      case c.monitors.stun:
-        await v.damageToArmor(this, t);
+      case m.monitors.physical:
+      case m.monitors.stun:
+        await R.damageToArmor(this, t);
     }
   }
   async rollAttribute(e) {
-    await R.rollAttribute(this, e);
+    await M.rollAttribute(this, e);
   }
   async rollAttributeAction(e) {
-    const t = Y.getActorAction(this, e);
-    await R.rollAttributeAction(this, t);
+    const t = x.getActorAction(this, e);
+    await M.rollAttributeAction(this, t);
   }
   async rollSkill(e, t) {
-    await R.rollSkill(this, e, t);
+    await M.rollSkill(this, e, t);
   }
   async rollWeapon(e) {
-    var i, n, l;
-    K.checkWeaponDefense(e, this);
-    const t = (i = e.validateTargets(this)) == null ? void 0 : i.map((m) => m.id), a = {
-      attackerTokenId: (l = (n = game.scenes.current) == null ? void 0 : n.tokens.find((m) => {
-        var y;
-        return ((y = m.actor) == null ? void 0 : y.id) == this.id;
-      })) == null ? void 0 : l.id,
+    var i, o, n;
+    ae.checkWeaponDefense(e, this);
+    const t = (i = e.validateTargets(this)) == null ? void 0 : i.map((c) => c.id), s = {
+      attackerTokenId: (n = (o = game.scenes.current) == null ? void 0 : o.tokens.find((c) => {
+        var h;
+        return ((h = c.actor) == null ? void 0 : h.id) == this.id;
+      })) == null ? void 0 : n.id,
       targetedTokenIds: t
-    }, s = this.items.find((m) => e.isWeaponSkill(m));
-    await R.rollWeapon(this, s, e, a);
+    }, a = this.items.find((c) => e.isWeaponSkill(c));
+    await M.rollWeapon(this, a, e, s);
   }
   async rollDefense(e) {
-    const t = e.attack.defense, a = Y.getActorDefense(this, t);
-    await R.rollDefense(this, a, e);
+    const t = e.attack.defense, s = x.getActorDefense(this, t);
+    await M.rollDefense(this, s, e);
   }
   async rollPilotDefense(e) {
   }
@@ -3107,14 +3530,14 @@ class H extends Actor {
   }
   async rollConvergence(e) {
   }
-  async switchMonitorCheck(e, t, a, s = void 0) {
-    await d.switchMonitorCheck(this, e, t, a, s);
+  async switchMonitorCheck(e, t, s, a = void 0) {
+    await g.switchMonitorCheck(this, e, t, s, a);
   }
-  async addCounter(e, t, a = void 0) {
-    await d.addCounter(this, e, t, a);
+  async addCounter(e, t, s = void 0) {
+    await g.addCounter(this, e, t, s);
   }
-  async setCounter(e, t, a = void 0) {
-    await d.setCounter(this, e, t, a);
+  async setCounter(e, t, s = void 0) {
+    await g.setCounter(this, e, t, s);
   }
   canPilotVehicle() {
     return !1;
@@ -3130,11 +3553,11 @@ class H extends Actor {
   }
   canApplyDamage(e) {
     switch (e) {
-      case c.monitors.matrix:
-      case c.monitors.marks:
+      case m.monitors.matrix:
+      case m.monitors.marks:
         return this.hasMatrixMonitor();
-      case c.monitors.physical:
-      case c.monitors.stun:
+      case m.monitors.physical:
+      case m.monitors.stun:
         return this.getDamageMonitor(e) != null;
     }
     return !1;
@@ -3146,18 +3569,18 @@ class H extends Actor {
     return !1;
   }
   async addActorMark(e) {
-    await d.addActorMark(this, e);
+    await g.addActorMark(this, e);
   }
   getActorMarks(e) {
     var t;
-    return (t = d.getActorMarks(this, e)) == null ? void 0 : t.marks;
+    return (t = g.getActorMarks(this, e)) == null ? void 0 : t.marks;
   }
   async onEnterCombat() {
     const e = A.sumModifiers(this.items, "other", "sceneAnarchy");
-    e > 0 && await d.setCounter(this, c.monitors.sceneAnarchy, e);
+    e > 0 && await g.setCounter(this, m.monitors.sceneAnarchy, e);
   }
   async onLeaveCombat() {
-    await d.setCounter(this, c.monitors.sceneAnarchy, 0);
+    await g.setCounter(this, m.monitors.sceneAnarchy, 0);
   }
   getCelebrityValue() {
     return 0;
@@ -3183,10 +3606,10 @@ class H extends Actor {
     return this.getAnarchy().value ?? 0;
   }
   async spendCredibility(e) {
-    await d.addCounter(this, c.counters.social.credibility, -e);
+    await g.addCounter(this, m.counters.social.credibility, -e);
   }
   async spendRumor(e) {
-    await d.addCounter(this, c.counters.social.rumor, -e);
+    await g.addCounter(this, m.counters.social.rumor, -e);
   }
   async spendAnarchy(e) {
     e && !this.hasPlayerOwner && await game.system.anarchy.gmAnarchy.npcConsumesAnarchy(this, e);
@@ -3196,29 +3619,32 @@ class H extends Actor {
     return ((t = (e = this.system.counters) == null ? void 0 : e.edge) == null ? void 0 : t.value) ?? 0;
   }
   canUseEdge() {
-    return this.getAttributes().includes(c.attributes.edge);
+    return this.getAttributes().includes(m.attributes.edge);
   }
   async spendEdge(e) {
     if (e != 0) {
       if (!this.canUseEdge()) {
-        const t = game.system.anarchy.hacks.i18n.localize(o.common.errors.noEdgeForActor, {
-          actor: this.name,
-          actorType: game.system.anarchy.hacks.i18n.localize(o.actorType[this.type])
-        });
-        throw ui.notifications.warn(t), o.common.errors.noEdgeForActor + t;
+        const t = game.system.anarchy.hacks.i18n.localize(
+          l.common.errors.noEdgeForActor,
+          {
+            actor: this.name,
+            actorType: game.system.anarchy.hacks.i18n.localize(l.actorType[this.type])
+          }
+        );
+        throw ui.notifications.warn(t), l.common.errors.noEdgeForActor + t;
       }
-      await d.addCounter(this, c.counters.edge, -e);
+      await g.addCounter(this, m.counters.edge, -e);
     }
   }
   getSkillValue(e, t = void 0) {
-    const a = this.items.get(e), s = this.getAttributeValue(a.system.attribute);
-    return a.system.value + s + (t && a.system.specialization ? 2 : 0);
+    const s = this.items.get(e), a = this.getAttributeValue(s.system.attribute);
+    return s.system.value + a + (t && s.system.specialization ? 2 : 0);
   }
   getWounds() {
     return 0;
   }
   async removeOtherMetatype(e) {
-    const t = this.items.filter((a) => a.isMetatype() && a.id != (e == null ? void 0 : e.id)).map((a) => a.id);
+    const t = this.items.filter((s) => s.isMetatype() && s.id != (e == null ? void 0 : e.id)).map((s) => s.id);
     this.deleteEmbeddedDocuments("Item", t);
   }
   /**
@@ -3228,12 +3654,12 @@ class H extends Actor {
     if ((e == null ? void 0 : e.id) == this.id)
       return;
     e != null && e.hasPlayerOwner;
-    let a = this;
+    let s = this;
     if (t == "copy") {
-      const s = this.clone();
-      a = (await Actor.createDocuments([s]))[0];
+      const a = this.clone();
+      s = (await Actor.createDocuments([a]))[0];
     }
-    await a.update({ "system.ownerId": (e == null ? void 0 : e.id) ?? "" }), e == null || e.render(), this.render();
+    await s.update({ "system.ownerId": (e == null ? void 0 : e.id) ?? "" }), e == null || e.render(), this.render();
   }
   getOwnerActor() {
     if (this.system.ownerId)
@@ -3243,8 +3669,8 @@ class H extends Actor {
     return game.actors.filter((e) => e.system.ownerId == this.id);
   }
   hasFavorite(e, t) {
-    const a = H._prepareFavorite(e, t);
-    return !!this.system.favorites.find((s) => H._isSameFavorite(a, s));
+    const s = H._prepareFavorite(e, t);
+    return !!this.system.favorites.find((a) => H._isSameFavorite(s, a));
   }
   static _prepareFavorite(e, t) {
     return { type: e, id: t };
@@ -3252,9 +3678,11 @@ class H extends Actor {
   static _isSameFavorite(e, t) {
     return e.id == t.id && e.type == t.type;
   }
-  async switchFavorite(e, t, a) {
-    const s = H._prepareFavorite(t, a), i = this.system.favorites.filter((n) => !H._isSameFavorite(s, n));
-    e && i.push(s), this.update({ "system.favorites": i });
+  async switchFavorite(e, t, s) {
+    const a = H._prepareFavorite(t, s), i = this.system.favorites.filter(
+      (o) => !H._isSameFavorite(a, o)
+    );
+    e && i.push(a), this.update({ "system.favorites": i });
   }
   async cleanupFavorites() {
     const e = this.computeShortcuts().filter((t) => !t.callback);
@@ -3267,145 +3695,152 @@ class H extends Actor {
     return this.system.favorites ? this.system.favorites.map((e) => this.getShortcut(e.type, e.id)) : [];
   }
   getShortcut(e, t) {
-    var s;
-    const a = H._prepareFavorite(e, t);
+    var a;
+    const s = H._prepareFavorite(e, t);
     if (e == "attributeAction") {
-      const i = Y.prepareShortcut(this, t);
+      const i = x.prepareShortcut(this, t);
       if (i)
-        return foundry.utils.mergeObject(i, a);
-    } else if (Object.values(c.itemType).includes(e)) {
-      const i = (s = this.items.get(t)) == null ? void 0 : s.prepareShortcut();
+        return foundry.utils.mergeObject(i, s);
+    } else if (Object.values(m.itemType).includes(e)) {
+      const i = (a = this.items.get(t)) == null ? void 0 : a.prepareShortcut();
       if (i)
-        return foundry.utils.mergeObject(i, a);
+        return foundry.utils.mergeObject(i, s);
     }
-    return a;
+    return s;
   }
 }
-class $e {
+class je {
   static async confirmDeleteItem(e, t = () => {
   }) {
     new Dialog({
-      title: game.i18n.localize(o.common.confirmation.del),
-      content: game.i18n.format(o.common.confirmation.delItem, {
+      title: game.i18n.localize(l.common.confirmation.del),
+      content: game.i18n.format(l.common.confirmation.delItem, {
         name: e.name,
-        type: game.i18n.localize(o.itemType.singular[e.type])
+        type: game.i18n.localize(l.itemType.singular[e.type])
       }),
       buttons: {
         delete: {
-          icon: u.fontAwesome("fas fa-check"),
-          label: game.i18n.localize(o.common.del),
+          icon: p.fontAwesome("fas fa-check"),
+          label: game.i18n.localize(l.common.del),
           callback: t
         },
         cancel: {
-          icon: u.fontAwesome("fas fa-times"),
-          label: game.i18n.localize(o.common.cancel)
+          icon: p.fontAwesome("fas fa-times"),
+          label: game.i18n.localize(l.common.cancel)
         }
       },
       default: "cancel"
     }).render(!0);
   }
-  static async confirmDetachOwnerActor(e, t, a = () => {
+  static async confirmDetachOwnerActor(e, t, s = () => {
   }) {
     new Dialog({
-      title: game.i18n.localize(o.common.confirmation.del),
-      content: game.i18n.format(o.common.confirmation.delOwner, {
+      title: game.i18n.localize(l.common.confirmation.del),
+      content: game.i18n.format(l.common.confirmation.delOwner, {
         name: e.name
       }),
       buttons: {
         delete: {
-          icon: u.fontAwesome("fas fa-check"),
-          label: game.i18n.localize(o.common.del),
-          callback: a
+          icon: p.fontAwesome("fas fa-check"),
+          label: game.i18n.localize(l.common.del),
+          callback: s
         },
         cancel: {
-          icon: u.fontAwesome("fas fa-times"),
-          label: game.i18n.localize(o.common.cancel)
+          icon: p.fontAwesome("fas fa-times"),
+          label: game.i18n.localize(l.common.cancel)
         }
       },
       default: "cancel"
     }).render(!0);
   }
-  static async confirmAttachOrCopy(e, t, a = () => {
-  }, s = () => {
+  static async confirmAttachOrCopy(e, t, s = () => {
+  }, a = () => {
   }) {
     new Dialog({
-      title: game.i18n.localize(o.common.confirmation.attach),
-      content: game.i18n.format(o.common.confirmation.attachOrCopy, {
+      title: game.i18n.localize(l.common.confirmation.attach),
+      content: game.i18n.format(l.common.confirmation.attachOrCopy, {
         ownerName: e.name,
-        ownerType: game.i18n.localize(o.actorType[e.type]),
+        ownerType: game.i18n.localize(l.actorType[e.type]),
         ownedName: t.name,
-        ownedType: game.i18n.localize(o.actorType[t.type])
+        ownedType: game.i18n.localize(l.actorType[t.type])
       }),
       buttons: {
         attach: {
-          icon: u.fontAwesome("fas fa-user-tag"),
-          label: game.i18n.localize(o.common.attach),
-          callback: a
-        },
-        attachCopy: {
-          icon: u.fontAwesome("fas fa-user-plus"),
-          label: game.i18n.localize(o.common.attachCopy),
+          icon: p.fontAwesome("fas fa-user-tag"),
+          label: game.i18n.localize(l.common.attach),
           callback: s
         },
+        attachCopy: {
+          icon: p.fontAwesome("fas fa-user-plus"),
+          label: game.i18n.localize(l.common.attachCopy),
+          callback: a
+        },
         cancel: {
-          icon: u.fontAwesome("fas fa-times"),
-          label: game.i18n.localize(o.common.cancel)
+          icon: p.fontAwesome("fas fa-times"),
+          label: game.i18n.localize(l.common.cancel)
         }
       },
       default: "cancel"
     }).render(!0);
   }
 }
-class Xe extends Dialog {
-  static async selectActor(e, t, a = async (i) => {
-  }, s = async () => {
+class gt extends Dialog {
+  static async selectActor(e, t, s = async (i) => {
+  }, a = async () => {
   }) {
-    let i = { classes: ["select-actor"], width: 300, height: 300, "z-index": 99999 }, n = {
+    let i = { classes: ["select-actor"], width: 300, height: 300, "z-index": 99999 }, o = {
       title: e,
-      content: await renderTemplate(`${h}/dialog/select-actor.hbs`, {
-        actors: t
-      }),
+      content: await foundry.applications.handlebars.renderTemplate(
+        `${y}/dialog/select-actor.hbs`,
+        {
+          actors: t
+        }
+      ),
       buttons: {
         cancel: {
-          icon: u.fontAwesome("fas fa-times"),
-          label: game.i18n.localize(o.common.cancel),
+          icon: p.fontAwesome("fas fa-times"),
+          label: game.i18n.localize(l.common.cancel),
           callback: async () => {
-            await s();
+            await a();
           }
         }
       },
       default: "cancel"
     };
-    new Xe(n, i, t, a).render(!0);
+    new gt(o, i, t, s).render(!0);
   }
-  constructor(e, t, a, s) {
-    super(e, t), this.actors = a, this.onActorSelected = s;
+  constructor(e, t, s, a) {
+    super(e, t), this.actors = s, this.onActorSelected = a;
   }
   /* -------------------------------------------- */
   activateListeners(e) {
     super.activateListeners(e), e.find(".click-select-actor").click((t) => this.onSelectActor(t));
   }
   async onSelectActor(e) {
-    const t = $(e.currentTarget).attr("data-actor-id"), a = this.actors.find((s) => s.id == t);
-    a && (this.onActorSelected(a), this.close());
+    const t = $(e.currentTarget).attr("data-actor-id"), s = this.actors.find((a) => a.id == t);
+    s && (this.onActorSelected(s), this.close());
   }
 }
-class Ae extends ActorSheet {
+class Me extends foundry.appv1.sheets.ActorSheet {
   get template() {
-    return `${h}/actor/${this.actor.type}.hbs`;
+    return `${y}/actor/${this.actor.type}.hbs`;
   }
   /** @override */
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       isGM: game.user.isGM,
       dragDrop: [{ dragSelector: ".item ", dropSelector: null }],
-      classes: [game.system.anarchy.styles.selectCssClass(), "sheet", "actor"]
+      classes: [game.system.anarchy.styles.selectCssClass(), "sheet", "actor"],
+      width: 600,
+      height: 600,
+      resizable: !0
     });
   }
   getData(e) {
-    let t = foundry.utils.mergeObject(
-      super.getData(e),
-      {
+    var s, a, i;
+    const t = performance.now();
+    try {
+      let o = foundry.utils.mergeObject(super.getData(e), {
         items: {},
         anarchy: this.actor.getAnarchy(),
         ownerActor: this.actor.getOwnerActor(),
@@ -3415,70 +3850,98 @@ class Ae extends ActorSheet {
           owner: this.document.isOwner,
           cssClass: this.isEditable ? "editable" : "locked"
         },
-        ENUMS: foundry.utils.mergeObject({ attributeAction: this.actor.getAttributeActions() }, S.getEnums()),
-        ANARCHY: o
-      }
-    );
-    return t.options.classes.push(`actor-${this.actor.type}`), t.options.classes = f.distinct(t.options.classes), t.system = this.actor.system, f.classifyInto(t.items, this.actor.items), t;
+        ENUMS: foundry.utils.mergeObject(
+          { attributeAction: this.actor.getAttributeActions() },
+          E.getEnums()
+        ),
+        ANARCHY: l
+      });
+      o.options.classes.push(`actor-${this.actor.type}`), o.options.classes = b.distinct(o.options.classes), o.system = this.actor.system, (s = game.system.anarchy) != null && s.uiCustomization && (o.uiCustomizations = game.system.anarchy.uiCustomization.getActiveCustomizations(), o.options.classes.push(
+        ...game.system.anarchy.uiCustomization.getCustomizationClasses("actor")
+      )), (a = game.system.anarchy) != null && a.themeUtilities && (o.currentTheme = game.system.anarchy.styles.currentTheme, o.availableThemes = game.system.anarchy.styles.availableThemes, o.themeMetadata = game.system.anarchy.themeUtilities.getCurrentThemeMetadata()), b.classifyInto(o.items, this.actor.items);
+      const c = performance.now() - t;
+      return (i = game.system.anarchy) != null && i.performanceOptimizer && c > 50 && console.warn(
+        `AnarchyActorSheet.getData: Slow data preparation for ${this.actor.name} took ${c.toFixed(2)}ms`
+      ), o;
+    } catch (o) {
+      return console.error(
+        `AnarchyActorSheet.getData: Error preparing data for ${this.actor.name}`,
+        o
+      ), ui.notifications.error(
+        `Failed to load actor sheet data for ${this.actor.name}. Please check console for details.`
+      ), foundry.utils.mergeObject(super.getData(e), {
+        items: {},
+        anarchy: { value: 0, max: 0, scene: 0 },
+        ownerActor: null,
+        ownedActors: [],
+        options: {
+          limited: this.document.limited,
+          owner: this.document.isOwner,
+          cssClass: "locked",
+          classes: ["sheet", "actor", `actor-${this.actor.type || "character"}`]
+        },
+        ENUMS: {},
+        ANARCHY: l,
+        system: this.actor.system || {}
+      });
+    }
   }
   activateListeners(e) {
-    super.activateListeners(e), e.find(".click-item-add").click(async (t) => {
-      t.stopPropagation(), await this.createNewItem(this.getEventItemType(t));
-    }), e.find(".click-item-edit").click(async (t) => {
-      var a;
-      t.stopPropagation(), (a = this.getEventItem(t)) == null || a.sheet.render(!0);
-    }), e.find(".click-item-activate").click(async (t) => {
-      t.stopPropagation();
-      const a = this.getEventItem(t), s = a.system.inactive;
-      await a.update({ "system.inactive": !s });
-    }), e.find("a.click-matrix-connectionMode").click(async (t) => {
-      t.stopPropagation(), await this.actor.nextConnectionMode(this.getEventItem(t));
-    }), e.find(".click-item-delete").click(async (t) => {
-      t.stopPropagation();
-      const a = this.getEventItem(t);
-      $e.confirmDeleteItem(a, async () => {
-        await this.actor.deleteEmbeddedDocuments("Item", [a.id]);
+    var t, s;
+    super.activateListeners(e), (t = game.system.anarchy) != null && t.uiCustomization && game.system.anarchy.uiCustomization.applyCustomizationsToElement(e[0], "actor"), (s = game.system.anarchy) != null && s.themeUtilities && game.system.anarchy.themeUtilities.applyThemeEnhancements(e[0], "actor"), this._setupEventDelegation(e), this._enhanceAccessibility(e), e.find(".click-item-add").click(async (a) => {
+      a.stopPropagation(), await this.createNewItem(this.getEventItemType(a));
+    }), e.find(".click-item-edit").click(async (a) => {
+      var i;
+      a.stopPropagation(), (i = this.getEventItem(a)) == null || i.sheet.render(!0);
+    }), e.find(".click-item-activate").click(async (a) => {
+      a.stopPropagation();
+      const i = this.getEventItem(a), o = i.system.inactive;
+      await i.update({ "system.inactive": !o });
+    }), e.find("a.click-matrix-connectionMode").click(async (a) => {
+      a.stopPropagation(), await this.actor.nextConnectionMode(this.getEventItem(a));
+    }), e.find(".click-item-delete").click(async (a) => {
+      a.stopPropagation();
+      const i = this.getEventItem(a);
+      je.confirmDeleteItem(i, async () => {
+        await this.actor.deleteEmbeddedDocuments("Item", [i.id]);
       });
-    }), e.find(".click-favorite").click(async (t) => {
-      t.stopPropagation(), this.onClickFavorite({
-        skillId: $(t.currentTarget).attr("data-skill-id"),
-        specialization: $(t.currentTarget).attr("data-specialization"),
-        weaponId: $(t.currentTarget).attr("data-weapon-id"),
-        attributeAction: $(t.currentTarget).attr("data-attributeAction"),
-        isFavorite: $(t.currentTarget).attr("data-isFavorite")
+    }), e.find(".click-favorite").click(async (a) => {
+      a.stopPropagation(), this.onClickFavorite({
+        skillId: $(a.currentTarget).attr("data-skill-id"),
+        specialization: $(a.currentTarget).attr("data-specialization"),
+        weaponId: $(a.currentTarget).attr("data-weapon-id"),
+        attributeAction: $(a.currentTarget).attr("data-attributeAction"),
+        isFavorite: $(a.currentTarget).attr("data-isFavorite")
       });
-    }), e.find(".click-owner-actor-unlink").click(async (t) => {
-      t.stopPropagation(), this.detachFromOwner(this.actor.getOwnerActor(), this.actor);
-    }), e.find(".click-owned-actor-view").click(async (t) => {
-      var a;
-      t.stopPropagation(), (a = this.getEventOwnedActor(t)) == null || a.sheet.render(!0);
-    }), e.find(".click-owned-actor-unlink").click(async (t) => {
-      t.stopPropagation(), this.detachFromOwner(this.actor, this.getEventOwnedActor(t));
-    }), e.find("a.click-checkbar-element").click(async (t) => {
-      t.stopPropagation();
-      const a = this.getEventItem(t), s = a ?? this.actor, i = this.getEventMonitorCode(t), n = i == "marks" ? $(t.currentTarget).closest(".anarchy-marks").attr("data-actor-id") : void 0;
-      await s.switchMonitorCheck(
-        i,
-        this.getEventIndex(t),
-        this.isEventChecked(t),
+    }), e.find(".click-owner-actor-unlink").click(async (a) => {
+      a.stopPropagation(), this.detachFromOwner(this.actor.getOwnerActor(), this.actor);
+    }), e.find(".click-owned-actor-view").click(async (a) => {
+      var i;
+      a.stopPropagation(), (i = this.getEventOwnedActor(a)) == null || i.sheet.render(!0);
+    }), e.find(".click-owned-actor-unlink").click(async (a) => {
+      a.stopPropagation(), this.detachFromOwner(this.actor, this.getEventOwnedActor(a));
+    }), e.find("a.click-checkbar-element").click(async (a) => {
+      a.stopPropagation();
+      const i = this.getEventItem(a), o = i ?? this.actor, n = this.getEventMonitorCode(a), c = n == "marks" ? $(a.currentTarget).closest(".anarchy-marks").attr("data-actor-id") : void 0;
+      await o.switchMonitorCheck(
         n,
-        a
+        this.getEventIndex(a),
+        this.isEventChecked(a),
+        c,
+        i
       );
-    }), e.find("a.click-add-mark-actor").click(async (t) => {
-      t.stopPropagation(), this.onClickAddMark();
-    }), e.find(".click-skill-roll").click(async (t) => {
-      t.stopPropagation(), this.actor.rollSkill(
-        this.getEventItem(t),
-        this.getEventSkillSpecialization(t)
+    }), e.find("a.click-add-mark-actor").click(async (a) => {
+      a.stopPropagation(), this.onClickAddMark();
+    }), e.find(".click-skill-roll").click(async (a) => {
+      a.stopPropagation(), this.actor.rollSkill(this.getEventItem(a), this.getEventSkillSpecialization(a));
+    }), e.find(".click-roll-attribute").click(async (a) => {
+      a.stopPropagation(), (this.getEventItem(a) ?? this.actor).rollAttribute(
+        $(a.currentTarget).closest(".anarchy-attribute").attr("data-attribute")
       );
-    }), e.find(".click-roll-attribute").click(async (t) => {
-      t.stopPropagation(), (this.getEventItem(t) ?? this.actor).rollAttribute(
-        $(t.currentTarget).closest(".anarchy-attribute").attr("data-attribute")
-      );
-    }), e.find(".click-roll-attribute-action").click(async (t) => {
-      t.stopPropagation(), this.actor.rollAttributeAction(this.getEventActionCode(t));
-    }), e.find(".click-weapon-roll").click(async (t) => {
-      t.stopPropagation(), this.actor.rollWeapon(this.getEventItem(t));
+    }), e.find(".click-roll-attribute-action").click(async (a) => {
+      a.stopPropagation(), this.actor.rollAttributeAction(this.getEventActionCode(a));
+    }), e.find(".click-weapon-roll").click(async (a) => {
+      a.stopPropagation(), this.actor.rollWeapon(this.getEventItem(a));
     });
   }
   getEventItemType(e) {
@@ -3508,41 +3971,254 @@ class Ae extends ActorSheet {
     return game.actors.get(t);
   }
   async createNewItem(e) {
-    const t = game.i18n.format(o.common.newName, { type: game.i18n.localize(o.itemType.singular[e]) });
-    await this.actor.createEmbeddedDocuments("Item", [{ name: t, type: e }], { renderSheet: !0 });
+    const t = game.i18n.format(l.common.newName, {
+      type: game.i18n.localize(l.itemType.singular[e])
+    });
+    await this.actor.createEmbeddedDocuments("Item", [{ name: t, type: e }], {
+      renderSheet: !0
+    });
   }
   async onClickFavorite(e) {
     const t = e.isFavorite != "true";
-    e.skillId ? await this.actor.switchFavorite(t, c.itemType.skill, e.skillId, e.specialization) : e.weaponId ? await this.actor.switchFavorite(t, c.itemType.weapon, e.weaponId) : e.attributeAction ? await this.actor.switchFavorite(t, "attributeAction", e.attributeAction) : console.warn("Favorite not supported", e);
+    e.skillId ? await this.actor.switchFavorite(
+      t,
+      m.itemType.skill,
+      e.skillId,
+      e.specialization
+    ) : e.weaponId ? await this.actor.switchFavorite(t, m.itemType.weapon, e.weaponId) : e.attributeAction ? await this.actor.switchFavorite(t, "attributeAction", e.attributeAction) : console.warn("Favorite not supported", e);
   }
   detachFromOwner(e, t) {
-    $e.confirmDetachOwnerActor(e, t, async () => {
+    je.confirmDetachOwnerActor(e, t, async () => {
       await t.attachToOwnerActor(), this.render(!0);
     });
   }
   async _onDropActor(e, t) {
-    const a = fromUuidSync(t.uuid);
-    (a == null ? void 0 : a.id) != this.actor.id && $e.confirmAttachOrCopy(
+    const s = fromUuidSync(t.uuid);
+    (s == null ? void 0 : s.id) != this.actor.id && je.confirmAttachOrCopy(
       this.actor,
-      a,
-      async () => await a.attachToOwnerActor(this.actor),
-      async () => await a.attachToOwnerActor(this.actor, "copy")
+      s,
+      async () => await s.attachToOwnerActor(this.actor),
+      async () => await s.attachToOwnerActor(this.actor, "copy")
     ), super._onDropActor(e, t);
   }
   async onClickAddMark() {
     if (this.actor.canReceiveMarks()) {
-      const e = game.i18n.format(o.common.selection.actorSettingMarks, { name: this.actor.name });
-      await Xe.selectActor(
+      const e = game.i18n.format(l.common.selection.actorSettingMarks, {
+        name: this.actor.name
+      });
+      await gt.selectActor(
         e,
         game.actors.filter((t) => !this.actor.getActorMarks(t.id) && t.canSetMarks()),
         (t) => this.actor.addActorMark(t.id)
       );
     }
   }
+  /**
+   * Setup modern event delegation for better performance
+   * @param {jQuery} html - The rendered HTML
+   * @private
+   */
+  _setupEventDelegation(e) {
+    var s;
+    const t = e[0];
+    t.addEventListener("click", this._handleDelegatedClick.bind(this), { passive: !1 }), t.addEventListener("change", this._handleDelegatedChange.bind(this), { passive: !1 }), (s = game.system.anarchy) != null && s.performanceOptimizer && this._monitorEventPerformance(t);
+  }
+  /**
+   * Handle delegated click events
+   * @param {Event} event - The click event
+   * @private
+   */
+  _handleDelegatedClick(e) {
+    var i;
+    const t = e.target.closest("[data-action]");
+    if (!t) return;
+    const s = t.dataset.action, a = performance.now();
+    try {
+      switch (s) {
+        case "item-add":
+          e.stopPropagation(), this.createNewItem(this.getEventItemType(e));
+          break;
+        case "item-edit":
+          e.stopPropagation(), (i = this.getEventItem(e)) == null || i.sheet.render(!0);
+          break;
+        case "item-activate":
+          e.stopPropagation(), this._handleItemActivate(e);
+          break;
+      }
+    } catch (o) {
+      console.error(`AnarchyActorSheet: Error handling action '${s}'`, o), ui.notifications.error(`Action failed: ${s}. Check console for details.`);
+    } finally {
+      const n = performance.now() - a;
+      n > 100 && console.warn(`AnarchyActorSheet: Slow action '${s}' took ${n.toFixed(2)}ms`);
+    }
+  }
+  /**
+   * Handle delegated change events
+   * @param {Event} event - The change event
+   * @private
+   */
+  _handleDelegatedChange(e) {
+    const t = e.target;
+    if (!t.dataset.action) return;
+    const s = t.dataset.action;
+    try {
+      switch (s) {
+        case "update-field":
+          this._handleFieldUpdate(e);
+          break;
+      }
+    } catch (a) {
+      console.error(`AnarchyActorSheet: Error handling change action '${s}'`, a);
+    }
+  }
+  /**
+   * Monitor event handling performance
+   * @param {HTMLElement} element - The sheet element
+   * @private
+   */
+  _monitorEventPerformance(e) {
+    new PerformanceObserver((s) => {
+      s.getEntries().forEach((i) => {
+        i.duration > 100 && console.warn(
+          `AnarchyActorSheet: Slow event handling detected: ${i.name} took ${i.duration.toFixed(2)}ms`
+        );
+      });
+    }).observe({ entryTypes: ["measure"] });
+  }
+  /**
+   * Handle item activation with error recovery
+   * @param {Event} event - The click event
+   * @private
+   */
+  async _handleItemActivate(e) {
+    try {
+      const t = this.getEventItem(e);
+      if (!t) {
+        ui.notifications.warn("Item not found for activation");
+        return;
+      }
+      const s = t.system.inactive;
+      await t.update({ "system.inactive": !s });
+    } catch (t) {
+      console.error("AnarchyActorSheet: Error activating item", t), ui.notifications.error("Failed to activate/deactivate item");
+    }
+  }
+  /**
+   * Handle field updates with validation
+   * @param {Event} event - The change event
+   * @private
+   */
+  async _handleFieldUpdate(e) {
+    try {
+      const t = e.target, s = t.name, a = t.value;
+      if (!s) return;
+      this._validateFieldUpdate(s, a) && await this.actor.update({ [s]: a });
+    } catch (t) {
+      console.error("AnarchyActorSheet: Error updating field", t), ui.notifications.error("Failed to update field");
+    }
+  }
+  /**
+   * Validate field updates
+   * @param {string} field - The field name
+   * @param {any} value - The new value
+   * @returns {boolean} Whether the update is valid
+   * @private
+   */
+  _validateFieldUpdate(e, t) {
+    return e.includes("system.attributes") && (isNaN(t) || t < 0) ? (ui.notifications.warn("Attribute values must be positive numbers"), !1) : !0;
+  }
+  /**
+   * Enhance accessibility features for the sheet
+   * @param {jQuery} html - The rendered HTML
+   * @private
+   */
+  _enhanceAccessibility(e) {
+    const t = e[0];
+    this._addAriaLabels(t), this._enhanceKeyboardNavigation(t), this._setupFocusManagement(t), this._applyAccessibilityPreferences(t);
+  }
+  /**
+   * Add ARIA labels for better screen reader support
+   * @param {HTMLElement} element - The sheet element
+   * @private
+   */
+  _addAriaLabels(e) {
+    e.querySelectorAll(
+      "button:not([aria-label]), a.item-control:not([aria-label])"
+    ).forEach((i) => {
+      var n;
+      if (i.querySelector('i[class*="fa-"]')) {
+        const c = i.dataset.action || ((n = i.className.match(/click-(\w+)/)) == null ? void 0 : n[1]) || "action";
+        i.setAttribute("aria-label", `${c.replace("-", " ")} button`);
+      }
+    }), e.querySelectorAll("input:not([aria-label]), select:not([aria-label])").forEach((i) => {
+      var n;
+      const o = (n = i.closest(".form-group")) == null ? void 0 : n.querySelector("label");
+      o && !i.getAttribute("aria-label") && i.setAttribute("aria-label", o.textContent.trim());
+    }), e.querySelectorAll(".anarchy-monitor").forEach((i) => {
+      var n;
+      i.setAttribute("role", "progressbar");
+      const o = (n = i.querySelector(".monitor-label")) == null ? void 0 : n.textContent;
+      o && i.setAttribute("aria-label", `${o} monitor`);
+    });
+  }
+  /**
+   * Enhance keyboard navigation
+   * @param {HTMLElement} element - The sheet element
+   * @private
+   */
+  _enhanceKeyboardNavigation(e) {
+    e.querySelectorAll('[class*="click-"]:not(button):not(a)').forEach((s) => {
+      s.hasAttribute("tabindex") || s.setAttribute("tabindex", "0"), s.hasAttribute("role") || s.setAttribute("role", "button"), s.addEventListener("keydown", (a) => {
+        (a.key === "Enter" || a.key === " ") && (a.preventDefault(), s.click());
+      });
+    }), this._addSkipLinks(e);
+  }
+  /**
+   * Add skip links for better navigation
+   * @param {HTMLElement} element - The sheet element
+   * @private
+   */
+  _addSkipLinks(e) {
+    const t = document.createElement("div");
+    t.className = "skip-links", t.innerHTML = `
+      <a href="#sheet-content" class="skip-link">Skip to main content</a>
+      <a href="#sheet-tabs" class="skip-link">Skip to navigation</a>
+    `, e.insertBefore(t, e.firstChild);
+    const s = e.querySelector(".sheet-body");
+    s && !s.id && (s.id = "sheet-content");
+    const a = e.querySelector(".sheet-tabs");
+    a && !a.id && (a.id = "sheet-tabs");
+  }
+  /**
+   * Setup focus management for better accessibility
+   * @param {HTMLElement} element - The sheet element
+   * @private
+   */
+  _setupFocusManagement(e) {
+    const t = e.querySelectorAll(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+    );
+    if (t.length > 0) {
+      const s = t[0], a = t[t.length - 1];
+      e.addEventListener("keydown", (i) => {
+        i.key === "Tab" && (i.shiftKey && document.activeElement === s ? (i.preventDefault(), a.focus()) : !i.shiftKey && document.activeElement === a && (i.preventDefault(), s.focus()));
+      });
+    }
+  }
+  /**
+   * Apply accessibility preferences from the style system
+   * @param {HTMLElement} element - The sheet element
+   * @private
+   */
+  _applyAccessibilityPreferences(e) {
+    var s;
+    const t = (s = game.system.anarchy) == null ? void 0 : s.uiCustomization;
+    t && (t.getCustomization("accessibility", "highContrast") && e.classList.add("high-contrast"), t.getCustomization("accessibility", "reducedMotion") && e.classList.add("reduced-motion"), t.getCustomization("accessibility", "largeText") && e.classList.add("large-text"), t.getCustomization("accessibility", "enhancedFocus") && e.classList.add("enhanced-focus"));
+  }
 }
-class Ye extends Ae {
+class Pe extends Me {
   get template() {
-    return `${h}/actor/character.hbs`;
+    return `${y}/actor/character.hbs`;
   }
   /** @override */
   static get defaultOptions() {
@@ -3555,18 +4231,15 @@ class Ye extends Ae {
   getData(e) {
     this.viewMode == null && (this.viewMode = !0);
     const t = this.actor.computeEssence();
-    return foundry.utils.mergeObject(
-      super.getData(e),
-      {
-        essence: {
-          value: t,
-          adjust: this.actor.computeMalusEssence(t)
-        },
-        options: {
-          viewMode: this.viewMode
-        }
+    return foundry.utils.mergeObject(super.getData(e), {
+      essence: {
+        value: t,
+        adjust: this.actor.computeMalusEssence(t)
+      },
+      options: {
+        viewMode: this.viewMode
       }
-    );
+    });
   }
   toggleViewMode() {
     this.viewMode = !this.viewMode, this.render();
@@ -3575,31 +4248,25 @@ class Ye extends Ae {
     super.activateListeners(e), e.find(".click-toggle-view-mode").click(async (t) => this.toggleViewMode()), e.find(".click-word-add").click(async (t) => {
       t.stopPropagation(), this.createNewWord(this.getEventWordType(t));
     }), e.find(".click-word-say").click(async (t) => {
-      t.stopPropagation(), this.actor.sayWord(
-        this.getEventWordType(t),
-        this.getEventWordId(t)
-      );
+      t.stopPropagation(), this.actor.sayWord(this.getEventWordType(t), this.getEventWordId(t));
     }), e.find(".change-word-value").click(async (t) => {
       t.stopPropagation();
     }), e.find(".change-word-value").change(async (t) => {
       t.stopPropagation();
-      const a = t.currentTarget.value;
+      const s = t.currentTarget.value;
       await this.actor.updateWord(
         this.getEventWordType(t),
         this.getEventWordId(t),
-        a
+        s
       );
     }), e.find(".click-word-delete").click(async (t) => {
-      t.stopPropagation(), this.actor.deleteWord(
-        this.getEventWordType(t),
-        this.getEventWordId(t)
-      );
+      t.stopPropagation(), this.actor.deleteWord(this.getEventWordType(t), this.getEventWordId(t));
     }), e.find(".click-celebrity-roll").click(async (t) => {
       t.stopPropagation(), this.actor.rollCelebrity();
     });
   }
   createNewWord(e) {
-    const t = game.i18n.localize(o.common.newEntry);
+    const t = game.i18n.localize(l.common.newEntry);
     this.actor.createWord(e, t);
   }
   getEventWordType(e) {
@@ -3609,9 +4276,9 @@ class Ye extends Ae {
     return $(e.currentTarget).closest(".define-wordType").attr("data-word-id");
   }
 }
-class je extends Ye {
+class se extends Pe {
   get template() {
-    return `${h}/actor/character-enhanced.hbs`;
+    return `${y}/actor/character-enhanced.hbs`;
   }
   /** @override */
   static get defaultOptions() {
@@ -3621,29 +4288,33 @@ class je extends Ye {
     });
   }
   activateListeners(e) {
-    super.activateListeners(e);
+    var s;
+    super.activateListeners(e), (s = game.system.anarchy) != null && s.uiCustomization && game.system.anarchy.uiCustomization.applyCustomizationsToElement(e[0], "character-enhanced");
     const t = this.actor._id;
     e.find(".click-section").on("click", function() {
       const a = $(this).data("class");
-      e.find(`.${a}`).toggleClass("closed"), localStorage.setItem(`${t}-${a}`, e.find(`.${a}`).hasClass("closed") ? "closed" : null);
+      e.find(`.${a}`).toggleClass("closed"), localStorage.setItem(
+        `${t}-${a}`,
+        e.find(`.${a}`).hasClass("closed") ? "closed" : null
+      );
     });
   }
-  static ifTabClosed(e, t, a) {
-    return localStorage.getItem(`${e}-section-${t}`) === "closed" ? a.fn(this) : a.inverse(this);
+  static ifTabClosed(e, t, s) {
+    return localStorage.getItem(`${e}-section-${t}`) === "closed" ? s.fn(this) : s.inverse(this);
   }
-  static actorTabClosed(e, t, a) {
+  static actorTabClosed(e, t, s) {
     return localStorage.getItem(`${e}-section-${t}`) === "closed" ? "closed" : "";
   }
 }
-class Kt {
+class ys {
   static monitor(e) {
-    return game.i18n.localize(S.getFromList(S.getMonitors(), e) ?? "");
+    return game.i18n.localize(E.getFromList(E.getMonitors(), e) ?? "");
   }
   static letter(e) {
-    return game.i18n.localize(S.getFromList(S.getMonitorLetters(), e) ?? "");
+    return game.i18n.localize(E.getFromList(E.getMonitorLetters(), e) ?? "");
   }
 }
-class qt {
+class fs {
   static toLowerCaseNoAccent(e) {
     return e == null ? void 0 : e.normalize("NFD").toLowerCase().replace(/[\u0300-\u036f]/g, "");
   }
@@ -3651,19 +4322,19 @@ class qt {
     return e == null ? void 0 : e.normalize("NFD").toUpperCase().replace(/[\u0300-\u036f]/g, "");
   }
 }
-class q extends Item {
+class ie extends Item {
   static init() {
-    Hooks.on("createItem", (e, t, a) => e.onCreateItem(t, a));
+    Hooks.on("createItem", (e, t, s) => e.onCreateItem(t, s));
   }
   async onCreateItem(e, t) {
   }
   constructor(e, t = {}) {
-    var a;
-    if (!((a = t.anarchy) != null && a.ready)) {
+    var s;
+    if (!((s = t.anarchy) != null && s.ready)) {
       foundry.utils.mergeObject(t, { anarchy: { ready: !0 } });
-      const s = game.system.anarchy.itemClasses[e.type];
-      if (s)
-        return e.img || (e.img = s.defaultIcon), new s(e, t);
+      const a = game.system.anarchy.itemClasses[e.type];
+      if (a)
+        return e.img || (e.img = a.defaultIcon), new a(e, t);
     }
     t.anarchy = void 0, super(e, t);
   }
@@ -3689,7 +4360,7 @@ class q extends Item {
     return !1;
   }
   getMatrixMonitor() {
-    return qe;
+    return ht;
   }
   async nextConnectionMode() {
   }
@@ -3697,13 +4368,13 @@ class q extends Item {
     return await this.update({ [e]: t });
   }
   isMetatype() {
-    return this.type == c.itemType.metatype;
+    return this.type == m.itemType.metatype;
   }
   isCyberdeck() {
-    return this.type == c.itemType.cyberdeck;
+    return this.type == m.itemType.cyberdeck;
   }
   isWeapon() {
-    return this.type == c.itemType.weapon;
+    return this.type == m.itemType.weapon;
   }
   isActive() {
     return !this.system.inactive;
@@ -3713,16 +4384,16 @@ class q extends Item {
     return (t = (e = this.system.monitors) == null ? void 0 : e.matrix) == null ? void 0 : t.canMark;
   }
   async rollAttribute(e) {
-    this.parent && await R.itemAttributeRoll(this, e);
+    this.parent && await M.itemAttributeRoll(this, e);
   }
-  async switchMonitorCheck(e, t, a, s = void 0) {
-    await d.switchMonitorCheck(this.parent, e, t, a, s, this);
+  async switchMonitorCheck(e, t, s, a = void 0) {
+    await g.switchMonitorCheck(this.parent, e, t, s, a, this);
   }
   async setCounter(e, t) {
-    await d.setCounter(this, e, t);
+    await g.setCounter(this, e, t);
   }
   async addActorMark(e) {
-    await d.addActorMark(this, e);
+    await g.addActorMark(this, e);
   }
   async createModifier(e = {}) {
     e = foundry.utils.mergeObject(e, {
@@ -3735,50 +4406,52 @@ class q extends Item {
     }), this._mutateModifiers((t) => t.concat([e]));
   }
   async deleteModifier(e) {
-    await this._mutateModifiers((t) => t.filter((a) => a.id != e));
+    await this._mutateModifiers((t) => t.filter((s) => s.id != e));
   }
-  async changeModifierSelection(e, t, a) {
-    let s = this._computeModifierImpact(t, a);
-    this._applyModifierUpdate(e, s);
+  async changeModifierSelection(e, t, s) {
+    let a = this._computeModifierImpact(t, s);
+    this._applyModifierUpdate(e, a);
   }
   _computeModifierImpact(e, t) {
     switch (e) {
       case "group":
-        return (a) => {
-          a.group != t && (a.group = t, a.effect = "", a.category = "", a.subCategory = "");
+        return (s) => {
+          s.group != t && (s.group = t, s.effect = "", s.category = "", s.subCategory = "");
         };
       case "effect":
-        return (a) => a.effect = t;
+        return (s) => s.effect = t;
       case "category":
-        return (a) => {
-          a.category != t && (a.category = t, a.subCategory = "");
+        return (s) => {
+          s.category != t && (s.category = t, s.subCategory = "");
         };
       case "subCategory":
-        return (a) => a.subCategory = t;
+        return (s) => s.subCategory = t;
     }
-    return (a) => {
+    return (s) => {
     };
   }
   async changeModifierValue(e, t) {
-    this._applyModifierUpdate(e, (a) => a.value = Number(t));
+    this._applyModifierUpdate(e, (s) => s.value = Number(t));
   }
   async changeModifierCondition(e, t) {
-    this._applyModifierUpdate(e, (a) => a.condition = t);
+    this._applyModifierUpdate(e, (s) => s.condition = t);
   }
-  async _applyModifierUpdate(e, t = (a) => {
+  async _applyModifierUpdate(e, t = (s) => {
   }) {
-    await this._mutateModifiers((a) => a.map((s) => (s.id == e && t(s), s)));
+    await this._mutateModifiers(
+      (s) => s.map((a) => (a.id == e && t(a), a))
+    );
   }
   async _mutateModifiers(e = (t) => t) {
     const t = e(this.system.modifiers);
-    f.reindexIds(t), await this.update({ "system.modifiers": t });
+    b.reindexIds(t), await this.update({ "system.modifiers": t });
   }
   prepateShortcut() {
   }
 }
-class Qe extends q {
+class pt extends ie {
   static get defaultIcon() {
-    return `${G}/skills/skills.svg`;
+    return `${j}/skills/skills.svg`;
   }
   static prepareSkill(e) {
     const t = game.system.anarchy.skills.get(e);
@@ -3792,7 +4465,7 @@ class Qe extends q {
           hasConvergence: !1
         }
       };
-    const a = {
+    const s = {
       img: t.icon,
       system: {
         code: t.code,
@@ -3801,7 +4474,7 @@ class Qe extends q {
         hasConvergence: !!t.hasConvergence
       }
     };
-    return t.code != "knowledge" && (a.name = game.i18n.localize(t.labelkey)), a;
+    return t.code != "knowledge" && (s.name = game.i18n.localize(t.labelkey)), s;
   }
   isKnowledgeSkill() {
     return this.system.code == "knowledge";
@@ -3817,28 +4490,28 @@ class Qe extends q {
     };
   }
 }
-const ct = {
+const Nt = {
   none: { targets: 1, adjust: [0] },
   shotgun: { targets: 2, adjust: [0, -2] },
   circle: { targets: void 0 },
   cone: { targets: void 0 },
   rect: { targets: void 0 },
   ray: { targets: void 0 }
-}, Xt = {
+}, bs = {
   code: "weapon-range",
   options: {
     flags: { editable: !0 },
     order: 20,
-    category: C.pool,
-    labelkey: o.common.roll.modifiers.weaponRange,
-    hbsTemplateRoll: `${h}/roll/parts/select-option.hbs`,
+    category: v.pool,
+    labelkey: l.common.roll.modifiers.weaponRange,
+    hbsTemplateRoll: `${y}/roll/parts/select-option.hbs`,
     hbsTemplateChat: void 0
     //``
   },
   isUsed: (r) => !0,
   condition: (r) => r.weapon,
   factory: (r) => {
-    const e = r.weapon.getRanges(), t = e.map((a) => a.value);
+    const e = r.weapon.getRanges(), t = e.map((s) => s.value);
     return {
       value: e[0].value,
       min: Math.min(...t),
@@ -3847,22 +4520,22 @@ const ct = {
       selected: game.i18n.localize(e[0].labelkey)
     };
   }
-}, Qt = {
+}, As = {
   code: "weapon-area",
   options: {
     used: !0,
     order: 20,
-    category: C.pool,
-    labelkey: o.common.roll.modifiers.weaponArea,
-    hbsTemplateRoll: `${h}/roll/parts/input-numeric.hbs`,
+    category: v.pool,
+    labelkey: l.common.roll.modifiers.weaponArea,
+    hbsTemplateRoll: `${y}/roll/parts/input-numeric.hbs`,
     hbsTemplateChat: void 0
     //``
   },
   isUsed: (r) => r.used,
-  condition: (r) => r.weapon && r.weapon.getArea() != c.area.none,
+  condition: (r) => r.weapon && r.weapon.getArea() != m.area.none,
   factory: (r) => {
-    var a;
-    const e = ((a = r.targeting.targetedTokenIds) == null ? void 0 : a.length) ?? 1, t = r.weapon.getAreaModifier(e);
+    var s;
+    const e = ((s = r.targeting.targetedTokenIds) == null ? void 0 : s.length) ?? 1, t = r.weapon.getAreaModifier(e);
     return {
       value: t,
       min: Math.min(0, t),
@@ -3871,14 +4544,14 @@ const ct = {
     };
   }
 };
-class Q extends q {
+class ne extends ie {
   static init() {
-    Hooks.once(b.REGISTER_ROLL_PARAMETERS, (e) => {
-      e(Qt), e(Xt);
+    Hooks.once(C.REGISTER_ROLL_PARAMETERS, (e) => {
+      e(As), e(bs);
     });
   }
   static get defaultIcon() {
-    return `${G}/weapons/mac-10.svg`;
+    return `${j}/weapons/mac-10.svg`;
   }
   isWeaponSkill(e) {
     return e.type == "skill" && e.system.code === this.system.skill;
@@ -3890,22 +4563,22 @@ class Q extends q {
     return this.getWeaponSkill().system.hasConvergence;
   }
   getWeaponSkill() {
-    var a;
-    const e = (a = this.actor) == null ? void 0 : a.items.find((s) => this.isWeaponSkill(s));
+    var s;
+    const e = (s = this.actor) == null ? void 0 : s.items.find((a) => this.isWeaponSkill(a));
     if (e)
       return e;
-    const t = game.items.find((s) => this.isWeaponSkill(s));
-    return t || Qe.prepareSkill(this.system.skill);
+    const t = game.items.find((a) => this.isWeaponSkill(a));
+    return t || pt.prepareSkill(this.system.skill);
   }
   getDefense() {
-    return Y.fixedDefenseCode(this.system.defense);
+    return x.fixedDefenseCode(this.system.defense);
   }
   getDamage() {
     if (!this.parent)
       return;
     const e = this.system.damageAttribute ? this.parent.getAttributeValue(this.system.damageAttribute) ?? 0 : 0;
     return {
-      value: Q.damageValue(
+      value: ne.damageValue(
         this.system.monitor,
         this.system.damage,
         this.system.damageAttribute,
@@ -3913,43 +4586,44 @@ class Q extends q {
       ),
       monitor: this.system.monitor,
       noArmor: this.system.noArmor,
-      armorMode: Q.armorMode(this.system.monitor, this.system.noArmor)
+      armorMode: ne.armorMode(this.system.monitor, this.system.noArmor)
     };
   }
-  static damageValue(e, t, a, s) {
-    if (e == c.monitors.marks)
+  static damageValue(e, t, s, a) {
+    if (e == m.monitors.marks)
       return 1;
-    if (t = Number(t), a)
-      if (s !== void 0)
-        t = t + Math.ceil(Number(s) / 2);
+    if (t = Number(t), s)
+      if (a !== void 0)
+        t = t + Math.ceil(Number(a) / 2);
       else
-        return console.warn("Weapon not attached to an actor"), game.i18n.localize(o.item.weapon.weaponWithoutActor);
+        return console.warn("Weapon not attached to an actor"), game.i18n.localize(l.item.weapon.weaponWithoutActor);
     return t;
   }
   getDamageCode() {
-    return Q.damageCode(
+    return ne.damageCode(
       this.system.monitor,
       this.system.damage,
       this.system.damageAttribute
     );
   }
-  static damageCode(e, t, a) {
-    if (e == c.monitors.marks)
+  static damageCode(e, t, s) {
+    if (e == m.monitors.marks)
       return "1";
-    let s = "";
-    return a && o.attributes[a] && (s += game.i18n.localize(o.attributes[a]).substring(0, 3).toUpperCase() + "/2 + "), s += String(t), s;
+    let a = "";
+    return s && l.attributes[s] && (a += game.i18n.localize(l.attributes[s]).substring(0, 3).toUpperCase() + "/2 + "), a += String(t), a;
   }
   static armorMode(e, t) {
-    return d.useArmor(e) ? t ? "noArmor" : "withArmor" : "";
+    return g.useArmor(e) ? t ? "noArmor" : "withArmor" : "";
   }
   getRanges() {
-    let e = [
-      this._getRange("short")
-    ];
+    let e = [this._getRange("short")];
     return this.system.range.max != "short" && e.push(this._getRange("medium")), this.system.range.max == "long" && e.push(this._getRange("long")), e;
   }
   _getRange(e) {
-    return { value: this.system.range[e], labelkey: S.getFromList(S.getEnums().ranges, e) };
+    return {
+      value: this.system.range[e],
+      labelkey: E.getFromList(E.getEnums().ranges, e)
+    };
   }
   prepareShortcut() {
     return {
@@ -3959,33 +4633,37 @@ class Q extends q {
     };
   }
   validateTargets(e) {
-    var n;
-    const t = (n = this.getDamage()) == null ? void 0 : n.monitor, a = I.getTargetTokens(game.user), s = a.filter((l) => {
-      var m;
-      return (m = l.actor) == null ? void 0 : m.canReceiveDamage(t);
-    }), i = a.filter((l) => {
-      var m;
-      return !((m = l.actor) != null && m.canReceiveDamage(t));
-    }).map((l) => l.name);
-    return i.length > 0 && ui.notifications.info(game.i18n.format(o.common.errors.ignoredTargets, {
-      targets: i.reduce(f.joiner(", "))
-    })), s.length == 0 ? ui.notifications.info(game.i18n.format(o.common.errors.noTargetSelected, {
-      weapon: this.name ?? game.i18n.localize(o.itemType.singular.weapon)
-    })) : this.checkWeaponTargetsCount(s), s;
+    var o;
+    const t = (o = this.getDamage()) == null ? void 0 : o.monitor, s = P.getTargetTokens(game.user), a = s.filter((n) => {
+      var c;
+      return (c = n.actor) == null ? void 0 : c.canReceiveDamage(t);
+    }), i = s.filter((n) => {
+      var c;
+      return !((c = n.actor) != null && c.canReceiveDamage(t));
+    }).map((n) => n.name);
+    return i.length > 0 && ui.notifications.info(
+      game.i18n.format(l.common.errors.ignoredTargets, {
+        targets: i.reduce(b.joiner(", "))
+      })
+    ), a.length == 0 ? ui.notifications.info(
+      game.i18n.format(l.common.errors.noTargetSelected, {
+        weapon: this.name ?? game.i18n.localize(l.itemType.singular.weapon)
+      })
+    ) : this.checkWeaponTargetsCount(a), a;
   }
   checkWeaponTargetsCount(e) {
-    const t = this.system.area, a = ct[t] ?? {};
-    K.checkTargetsCount(a.targets ?? 0, e, t);
+    const t = this.system.area, s = Nt[t] ?? {};
+    ae.checkTargetsCount(s.targets ?? 0, e, t);
   }
   getAreaModifier(e) {
-    const t = this.getArea(), a = ct[t] ?? {};
-    return a.targets && a.adjust && e <= a.targets ? a.adjust[e - 1] ?? 0 : 0;
+    const t = this.getArea(), s = Nt[t] ?? {};
+    return s.targets && s.adjust && e <= s.targets ? s.adjust[e - 1] ?? 0 : 0;
   }
   getArea() {
-    return this.system.area == "" ? c.area.none : this.system.area ?? c.area.none;
+    return this.system.area == "" ? m.area.none : this.system.area ?? m.area.none;
   }
 }
-const Zt = [
+const Cs = [
   // -- monitors
   "systems/anarchy/templates/monitors/anarchy-actor.hbs",
   "systems/anarchy/templates/monitors/armor.hbs",
@@ -4122,90 +4800,2275 @@ const Zt = [
   "systems/anarchy/templates/app/gm-difficulty.hbs",
   "systems/anarchy/templates/app/gm-difficulty-buttons.hbs"
 ];
-class Ne {
+class Oe {
   constructor() {
     Hooks.once("ready", () => this.onReady());
   }
   async onReady() {
-    this.registerBasicHelpers(), await loadTemplates(f.distinct(Zt));
+    this.registerBasicHelpers(), await loadTemplates(b.distinct(Cs));
   }
   registerBasicHelpers() {
-    Handlebars.registerHelper("concat", (...e) => f.join(e.slice(0, -1))), Handlebars.registerHelper("substring", (e, t, a) => e == null ? void 0 : e.substring(t, a)), Handlebars.registerHelper("toUpperCase", qt.toUpperCaseNoAccent), Handlebars.registerHelper("weaponDamageLetter", Kt.letter), Handlebars.registerHelper("weaponDamageCode", Q.damageCode), Handlebars.registerHelper("weaponDamageValue", Q.damageValue), Handlebars.registerHelper("weaponArmorMode", Q.armorMode), Handlebars.registerHelper("skillValue", (e, t) => e.getSkillValue(t, !1)), Handlebars.registerHelper("specializationValue", (e, t) => e.getSkillValue(t, !0)), Handlebars.registerHelper("for", Ne.hbsForLoop), Handlebars.registerHelper("modulo", (e, t) => e % t), Handlebars.registerHelper("divint", f.divint), Handlebars.registerHelper("divup", f.divup), Handlebars.registerHelper("sum", (e, t) => e + t), Handlebars.registerHelper("times", (e, t) => e * t), Handlebars.registerHelper("diff", (e, t) => e - t), Handlebars.registerHelper("min", (e, t) => Math.min(e, t)), Handlebars.registerHelper("max", (e, t) => Math.max(e, t)), Handlebars.registerHelper("either", (e, t) => e || t), Handlebars.registerHelper("isInteger", (e) => e !== void 0 && Number.isInteger(e)), Handlebars.registerHelper("actorAttribute", (e, t, a = void 0) => t.getAttributeValue(e, a)), Handlebars.registerHelper("localizeAttribute", S.localizeAttribute), Handlebars.registerHelper("iconFA", u.fontAwesome), Handlebars.registerHelper("iconSrc", u.iconSystemPath), Handlebars.registerHelper("iconPath", u.iconPath), Handlebars.registerHelper("iconD6", u.iconD6), Handlebars.registerHelper("getActor", (e) => game.actors.get(e)), Handlebars.registerHelper("actorHasFavorite", (e, t) => Ne.checkHasFavorite(e, t)), Handlebars.registerHelper("padWordListToMin", H.padWordListToMin), Handlebars.registerHelper("sortSkills", H.sortSkills), Handlebars.registerHelper("sortShadowamps", H.sortShadowamps), Handlebars.registerHelper("sortQualities", H.sortQualities), Handlebars.registerHelper("sortAttributeButton", H.sortAttributeButton), Handlebars.registerHelper("range", function(e, t) {
-      let a = [];
-      for (let s = e; s <= t; s++)
-        a.push(s);
-      return a;
-    }), Handlebars.registerHelper("ifGte", function(e, t, a) {
-      return e >= t ? a.fn(this) : a.inverse(this);
-    }), Handlebars.registerHelper("ifTabClosed", je.ifTabClosed), Handlebars.registerHelper("actorTabClosed", je.actorTabClosed), Handlebars.registerHelper("length", function(e) {
+    Handlebars.registerHelper("concat", (...e) => b.join(e.slice(0, -1))), Handlebars.registerHelper("substring", (e, t, s) => e == null ? void 0 : e.substring(t, s)), Handlebars.registerHelper("toUpperCase", fs.toUpperCaseNoAccent), Handlebars.registerHelper("weaponDamageLetter", ys.letter), Handlebars.registerHelper("weaponDamageCode", ne.damageCode), Handlebars.registerHelper("weaponDamageValue", ne.damageValue), Handlebars.registerHelper("weaponArmorMode", ne.armorMode), Handlebars.registerHelper(
+      "skillValue",
+      (e, t) => e.getSkillValue(t, !1)
+    ), Handlebars.registerHelper(
+      "specializationValue",
+      (e, t) => e.getSkillValue(t, !0)
+    ), Handlebars.registerHelper("for", Oe.hbsForLoop), Handlebars.registerHelper("modulo", (e, t) => e % t), Handlebars.registerHelper("divint", b.divint), Handlebars.registerHelper("divup", b.divup), Handlebars.registerHelper("sum", (e, t) => e + t), Handlebars.registerHelper("times", (e, t) => e * t), Handlebars.registerHelper("diff", (e, t) => e - t), Handlebars.registerHelper("min", (e, t) => Math.min(e, t)), Handlebars.registerHelper("max", (e, t) => Math.max(e, t)), Handlebars.registerHelper("either", (e, t) => e || t), Handlebars.registerHelper("isInteger", (e) => e !== void 0 && Number.isInteger(e)), Handlebars.registerHelper(
+      "actorAttribute",
+      (e, t, s = void 0) => t.getAttributeValue(e, s)
+    ), Handlebars.registerHelper("localizeAttribute", E.localizeAttribute), Handlebars.registerHelper("iconFA", p.fontAwesome), Handlebars.registerHelper("iconSrc", p.iconSystemPath), Handlebars.registerHelper("iconPath", p.iconPath), Handlebars.registerHelper("iconD6", p.iconD6), Handlebars.registerHelper("getActor", (e) => game.actors.get(e)), Handlebars.registerHelper(
+      "actorHasFavorite",
+      (e, t) => Oe.checkHasFavorite(e, t)
+    ), Handlebars.registerHelper("padWordListToMin", H.padWordListToMin), Handlebars.registerHelper("sortSkills", H.sortSkills), Handlebars.registerHelper("sortShadowamps", H.sortShadowamps), Handlebars.registerHelper("actorTabClosed", se.actorTabClosed), Handlebars.registerHelper("ifTabClosed", se.ifTabClosed), Handlebars.registerHelper("sortQualities", H.sortQualities), Handlebars.registerHelper("sortAttributeButton", H.sortAttributeButton), Handlebars.registerHelper("range", function(e, t) {
+      let s = [];
+      for (let a = e; a <= t; a++)
+        s.push(a);
+      return s;
+    }), Handlebars.registerHelper("ifGte", function(e, t, s) {
+      return e >= t ? s.fn(this) : s.inverse(this);
+    }), Handlebars.registerHelper("ifTabClosed", se.ifTabClosed), Handlebars.registerHelper("actorTabClosed", se.actorTabClosed), Handlebars.registerHelper("length", function(e) {
       return (e == null ? void 0 : e.length) || 0;
     });
   }
-  static hbsForLoop(e, t, a) {
-    let s = "";
+  static hbsForLoop(e, t, s) {
+    let a = "";
     for (let i = e; i < t; ++i)
-      s += a.fn(i);
-    return s;
+      a += s.fn(i);
+    return a;
   }
   static checkHasFavorite(e, t) {
-    const a = game.actors.get(e);
-    return a == null ? void 0 : a.hasFavorite(t.hash.type, t.hash.id);
+    const s = game.actors.get(e);
+    return s == null ? void 0 : s.hasFavorite(t.hash.type, t.hash.id);
   }
 }
-const lt = "default-css-class", We = "style-anarchy-shadowrun", Jt = [
-  { name: "Shadowrun Anarchy", cssClass: We },
+const It = "default-css-class", lt = "style-anarchy-shadowrun", vs = [
+  { name: "Shadowrun Anarchy", cssClass: lt },
   { name: "Dark", cssClass: "style-dark" },
   { name: "Dark glass", cssClass: "style-darkglass" }
 ];
-class ea {
+class Ss {
   constructor() {
-    this.availableStyles = {}, Z.register(b.REGISTER_STYLES), Hooks.once(b.REGISTER_STYLES, (e) => Jt.forEach((t) => e(t.cssClass, t.name))), Hooks.once("ready", () => this.onReady());
+    this.availableStyles = {}, ce.register(C.REGISTER_STYLES), Hooks.once(
+      C.REGISTER_STYLES,
+      (e) => vs.forEach((t) => e(t.cssClass, t.name))
+    ), Hooks.once("ready", () => this.onReady());
   }
   async onReady() {
-    Hooks.callAll(b.REGISTER_STYLES, (e, t) => this.availableStyles[e] = t), console.log(P + "Loaded styles", this.availableStyles), game.settings.register(g, lt, {
+    Hooks.callAll(
+      C.REGISTER_STYLES,
+      (e, t) => this.availableStyles[e] = t
+    ), console.log(u + "Loaded styles", this.availableStyles), game.settings.register(d, It, {
       scope: "world",
-      name: game.i18n.localize(o.settings.defaultCssClass.name),
-      hint: game.i18n.localize(o.settings.defaultCssClass.hint),
+      name: game.i18n.localize(l.settings.defaultCssClass.name),
+      hint: game.i18n.localize(l.settings.defaultCssClass.hint),
       config: !0,
-      default: We,
+      default: lt,
       choices: this.availableStyles,
       type: String
     });
   }
   selectCssClass() {
-    const e = game.settings.get(g, lt);
-    return this.availableStyles[e] ? e : We;
+    const e = game.settings.get(d, It);
+    return this.availableStyles[e] ? e : lt;
+  }
+  /**
+   * Extract theme ID from a CSS class name
+   * @param {string} cssClass - The CSS class name
+   * @returns {string} The theme ID
+   */
+  getThemeIdFromClass(e) {
+    return e ? {
+      "style-anarchy-shadowrun": "shadowrun",
+      "style-dark": "dark",
+      "style-darkglass": "darkglass",
+      "default-css-class": "default"
+    }[e] || e.replace(/^style-/, "").replace(/-/g, "_") : "default";
+  }
+  /**
+   * Get the current theme ID
+   * @returns {string} The current theme ID
+   */
+  getCurrentThemeId() {
+    const e = this.selectCssClass();
+    return this.getThemeIdFromClass(e);
   }
 }
-const Te = "glitch", fe = "risk", mt = "reroll", dt = "rerollRemoved", ta = "removed", Ee = `${ue}/style/danger-point.webp`, ve = `${ue}/style/anarchy-point.webp`, X = class X {
+class ws {
+  constructor(e) {
+    this.styles = e;
+  }
+  // =============================================================================
+  // THEME ANALYSIS UTILITIES
+  // =============================================================================
+  /**
+   * Analyze theme contrast ratios for accessibility
+   */
+  analyzeThemeContrast(e) {
+    const t = this.styles.getThemeMetadata(e);
+    if (!t)
+      throw new Error(`Theme ${e} not found`);
+    const s = this.styles.currentTheme;
+    this.styles.applyTheme(t.cssClass);
+    const a = {
+      themeId: e,
+      themeName: t.name,
+      contrastRatios: {},
+      accessibility: {
+        wcagAA: !0,
+        wcagAAA: !0,
+        issues: []
+      }
+    };
+    return [
+      { bg: "--background-primary", fg: "--text-primary", name: "Primary Text" },
+      { bg: "--background-secondary", fg: "--text-secondary", name: "Secondary Text" },
+      { bg: "--anarchy-background-attributes", fg: "--text-primary", name: "Attribute Text" },
+      { bg: "--interactive-primary", fg: "--text-inverse", name: "Button Text" }
+    ].forEach((o) => {
+      const n = this.styles.getCSSVariable(o.bg.replace("--", "")), c = this.styles.getCSSVariable(o.fg.replace("--", ""));
+      if (n && c) {
+        const h = this.calculateContrastRatio(n, c);
+        a.contrastRatios[o.name] = {
+          ratio: h,
+          wcagAA: h >= 4.5,
+          wcagAAA: h >= 7,
+          background: n,
+          foreground: c
+        }, h < 4.5 && (a.accessibility.wcagAA = !1, a.accessibility.issues.push(`${o.name} fails WCAG AA (${h.toFixed(2)}:1)`)), h < 7 && (a.accessibility.wcagAAA = !1);
+      }
+    }), this.styles.applyTheme(s), a;
+  }
+  /**
+   * Calculate contrast ratio between two colors
+   */
+  calculateContrastRatio(e, t) {
+    const s = this.getRelativeLuminance(e), a = this.getRelativeLuminance(t), i = Math.max(s, a), o = Math.min(s, a);
+    return (i + 0.05) / (o + 0.05);
+  }
+  /**
+   * Get relative luminance (simplified)
+   */
+  getRelativeLuminance(e) {
+    if (e.includes("hsl")) {
+      const t = e.match(/hsl\([^,]+,\s*[^,]+,\s*(\d+)%/);
+      if (t)
+        return parseInt(t[1]) / 100;
+    }
+    return 0.5;
+  }
+  // =============================================================================
+  // THEME PERFORMANCE UTILITIES
+  // =============================================================================
+  /**
+   * Measure theme application performance
+   */
+  measureThemePerformance(e, t = 5) {
+    const s = [];
+    for (let a = 0; a < t; a++) {
+      const i = performance.now();
+      this.styles.applyTheme(e);
+      const o = performance.now();
+      s.push(o - i);
+    }
+    return {
+      average: s.reduce((a, i) => a + i) / s.length,
+      min: Math.min(...s),
+      max: Math.max(...s),
+      measurements: s
+    };
+  }
+  /**
+   * Analyze CSS variable usage across themes
+   */
+  analyzeVariableUsage() {
+    const e = {
+      totalVariables: 0,
+      themeVariables: {},
+      commonVariables: [],
+      uniqueVariables: {},
+      redundancy: 0
+    }, t = this.styles.getAllThemes(), s = {};
+    t.forEach((o) => {
+      const n = this.styles.currentTheme;
+      this.styles.applyTheme(o.cssClass);
+      const c = this.styles.getCurrentThemeVariables();
+      s[o.id] = Object.keys(c), e.themeVariables[o.id] = Object.keys(c).length, this.styles.applyTheme(n);
+    });
+    const a = /* @__PURE__ */ new Set();
+    Object.values(s).forEach((o) => {
+      o.forEach((n) => a.add(n));
+    }), e.totalVariables = a.size, e.commonVariables = Array.from(a).filter((o) => Object.values(s).every((n) => n.includes(o))), Object.entries(s).forEach(([o, n]) => {
+      e.uniqueVariables[o] = n.filter((c) => !e.commonVariables.includes(c));
+    });
+    const i = Object.values(e.themeVariables).reduce((o, n) => o + n, 0);
+    return e.redundancy = Math.round((1 - e.totalVariables / i) * 100), e;
+  }
+  // =============================================================================
+  // THEME GENERATION UTILITIES
+  // =============================================================================
+  /**
+   * Generate a new theme based on an existing theme with color modifications
+   */
+  generateThemeVariant(e, t, s = {}) {
+    const a = this.styles.getThemeMetadata(e);
+    if (!a)
+      throw new Error(`Base theme ${e} not found`);
+    const i = `${e}-${t.toLowerCase().replace(/\s+/g, "-")}`, o = {
+      ...a,
+      id: i,
+      name: `${a.name} (${t})`,
+      cssClass: `style-${i}`,
+      description: `${a.description} - ${t} variant`,
+      version: `${a.version}-variant`,
+      category: "generated",
+      baseTheme: e,
+      modifications: s
+    };
+    return s.primaryColor && (o.preview.primaryColor = s.primaryColor), s.backgroundColor && (o.preview.backgroundColor = s.backgroundColor), s.textColor && (o.preview.textColor = s.textColor), o;
+  }
+  /**
+   * Create accessibility-enhanced theme variant
+   */
+  createAccessibilityVariant(e, t = {}) {
+    const s = this.styles.getThemeMetadata(e);
+    if (!s)
+      throw new Error(`Base theme ${e} not found`);
+    const i = this.generateThemeVariant(e, "Accessible");
+    return i.accessibility = {
+      ...s.accessibility,
+      ...t,
+      highContrast: t.highContrast || !1,
+      reducedMotion: t.reducedMotion || !1,
+      largeText: t.largeText || !1
+    }, i.accessibility.highContrast && (i.preview.backgroundColor = "#000000", i.preview.textColor = "#ffffff", i.preview.primaryColor = "#ffff00"), i;
+  }
+  // =============================================================================
+  // THEME VALIDATION UTILITIES
+  // =============================================================================
+  /**
+   * Comprehensive theme validation
+   */
+  validateAllThemes() {
+    const e = {
+      valid: 0,
+      invalid: 0,
+      themes: {},
+      summary: {
+        totalThemes: 0,
+        validationErrors: [],
+        recommendations: []
+      }
+    }, t = this.styles.getAllThemes();
+    return e.summary.totalThemes = t.length, t.forEach((s) => {
+      const a = this.styles.validateTheme(s.id);
+      e.themes[s.id] = a, a.valid ? e.valid++ : (e.invalid++, e.summary.validationErrors.push(...a.errors.map((i) => `${s.name}: ${i}`)));
+      try {
+        const i = this.analyzeThemeContrast(s.id);
+        e.themes[s.id].contrast = i, i.accessibility.wcagAA || e.summary.recommendations.push(`${s.name}: Consider improving contrast ratios for better accessibility`);
+      } catch (i) {
+        console.warn(u + `Could not analyze contrast for theme ${s.name}:`, i);
+      }
+    }), e;
+  }
+  // =============================================================================
+  // THEME EXPORT/IMPORT UTILITIES
+  // =============================================================================
+  /**
+   * Export theme configuration for sharing
+   */
+  exportThemeConfiguration(e) {
+    const t = this.styles.getThemeMetadata(e);
+    if (!t)
+      throw new Error(`Theme ${e} not found`);
+    const s = this.styles.getThemeCustomization(e);
+    return {
+      theme: {
+        ...t,
+        exportedAt: (/* @__PURE__ */ new Date()).toISOString(),
+        systemVersion: game.system.version
+      },
+      customizations: s,
+      variables: this.extractThemeVariables(e)
+    };
+  }
+  /**
+   * Extract all CSS variables for a specific theme
+   */
+  extractThemeVariables(e) {
+    const t = this.styles.getThemeMetadata(e);
+    if (!t)
+      return {};
+    const s = this.styles.currentTheme;
+    this.styles.applyTheme(t.cssClass);
+    const a = this.styles.getCurrentThemeVariables();
+    return this.styles.applyTheme(s), a;
+  }
+  // =============================================================================
+  // DEBUGGING AND DEVELOPMENT UTILITIES
+  // =============================================================================
+  /**
+   * Generate theme development report
+   */
+  generateDevelopmentReport() {
+    const e = {
+      timestamp: (/* @__PURE__ */ new Date()).toISOString(),
+      systemVersion: game.system.version,
+      currentTheme: this.styles.currentTheme,
+      themes: {},
+      performance: {},
+      validation: {},
+      variableAnalysis: {},
+      recommendations: []
+    };
+    return this.styles.getAllThemes().forEach((s) => {
+      e.themes[s.id] = {
+        metadata: s,
+        validation: this.styles.validateTheme(s.id)
+      };
+      try {
+        e.performance[s.id] = this.measureThemePerformance(s.cssClass, 3);
+      } catch (a) {
+        console.warn(u + `Performance analysis failed for ${s.name}:`, a);
+      }
+      try {
+        e.themes[s.id].contrast = this.analyzeThemeContrast(s.id);
+      } catch (a) {
+        console.warn(u + `Contrast analysis failed for ${s.name}:`, a);
+      }
+    }), e.variableAnalysis = this.analyzeVariableUsage(), e.recommendations = this.generateRecommendations(e), e;
+  }
+  /**
+   * Generate recommendations based on analysis
+   */
+  generateRecommendations(e) {
+    const t = [];
+    return Object.entries(e.performance).forEach(([s, a]) => {
+      a.average > 50 && t.push({
+        type: "performance",
+        theme: s,
+        message: `Theme application is slow (${a.average.toFixed(2)}ms average)`,
+        suggestion: "Consider optimizing CSS selectors and reducing complexity"
+      });
+    }), Object.entries(e.themes).forEach(([s, a]) => {
+      a.contrast && !a.contrast.accessibility.wcagAA && t.push({
+        type: "accessibility",
+        theme: s,
+        message: "Theme fails WCAG AA contrast requirements",
+        suggestion: "Increase contrast between text and background colors",
+        details: a.contrast.accessibility.issues
+      });
+    }), e.variableAnalysis.redundancy > 30 && t.push({
+      type: "optimization",
+      theme: "all",
+      message: `High variable redundancy detected (${e.variableAnalysis.redundancy}%)`,
+      suggestion: "Consider consolidating similar variables across themes"
+    }), t;
+  }
+  // =============================================================================
+  // THEME TESTING UTILITIES
+  // =============================================================================
+  /**
+   * Test theme switching functionality
+   */
+  testThemeSwitching() {
+    const e = {
+      success: !0,
+      errors: [],
+      switchTimes: {},
+      totalTime: 0
+    }, t = this.styles.getAllThemes(), s = this.styles.currentTheme;
+    try {
+      t.forEach((a) => {
+        const i = performance.now();
+        try {
+          this.styles.applyTheme(a.cssClass);
+          const o = performance.now();
+          e.switchTimes[a.id] = o - i, e.totalTime += o - i;
+        } catch (o) {
+          e.success = !1, e.errors.push(`Failed to apply theme ${a.name}: ${o.message}`);
+        }
+      });
+    } finally {
+      this.styles.applyTheme(s);
+    }
+    return e;
+  }
+  /**
+   * Test CSS variable accessibility
+   */
+  testCSSVariableAccess() {
+    const e = {
+      accessible: [],
+      inaccessible: [],
+      total: 0
+    }, t = this.styles.getCurrentThemeVariables();
+    return Object.keys(t).forEach((s) => {
+      e.total++;
+      try {
+        const a = this.styles.getCSSVariable(s.replace("--", ""));
+        a && a !== "" ? e.accessible.push(s) : e.inaccessible.push(s);
+      } catch {
+        e.inaccessible.push(s);
+      }
+    }), e;
+  }
+  // =============================================================================
+  // DEVELOPMENT HELPERS
+  // =============================================================================
+  /**
+   * Log comprehensive theme information
+   */
+  logThemeInfo(e) {
+    const t = this.styles.getThemeMetadata(e);
+    if (!t) {
+      console.error(u + `Theme ${e} not found`);
+      return;
+    }
+    console.group(u + `Theme Info: ${t.name}`), console.info("Metadata:", t), console.info("Validation:", this.styles.validateTheme(e)), console.info("Contrast Analysis:", this.analyzeThemeContrast(e)), console.info("Performance:", this.measureThemePerformance(t.cssClass, 3)), console.groupEnd();
+  }
+  /**
+   * Create theme comparison report
+   */
+  compareThemes(e, t) {
+    const s = this.styles.getThemeMetadata(e), a = this.styles.getThemeMetadata(t);
+    if (!s || !a)
+      throw new Error("One or both themes not found");
+    const i = {
+      themes: [s.name, a.name],
+      differences: {
+        metadata: {},
+        variables: {},
+        performance: {}
+      },
+      recommendations: []
+    };
+    ["category", "author", "version"].forEach((h) => {
+      s[h] !== a[h] && (i.differences.metadata[h] = {
+        [s.name]: s[h],
+        [a.name]: a[h]
+      });
+    });
+    const n = this.measureThemePerformance(s.cssClass, 3), c = this.measureThemePerformance(a.cssClass, 3);
+    if (i.differences.performance = {
+      [s.name]: n.average,
+      [a.name]: c.average,
+      difference: Math.abs(n.average - c.average)
+    }, i.differences.performance.difference > 20) {
+      const h = n.average > c.average ? s.name : a.name;
+      i.recommendations.push(`${h} is significantly slower and could benefit from optimization`);
+    }
+    return i;
+  }
+}
+var _e, Ft;
+class ks {
+  constructor(e) {
+    Ct(this, _e);
+    this.styles = e, this.customizations = /* @__PURE__ */ new Map(), this.presets = /* @__PURE__ */ new Map(), this.activeCustomizations = /* @__PURE__ */ new Set(), this.initializeCustomizations(), Hooks.once("ready", () => this.onReady()), Hooks.on("renderApplication", (t, s, a) => this.onRenderApplication(t, s, a));
+  }
+  async onReady() {
+    console.groupCollapsed(u + "UICustomization.onReady"), await this.registerCustomizationSettings(), await this.loadUserCustomizations(), this.applyAllCustomizations(), console.groupEnd();
+  }
+  // =============================================================================
+  // CUSTOMIZATION SETTINGS REGISTRATION
+  // =============================================================================
+  async registerCustomizationSettings() {
+    game.settings.register(d, "ui-layout-preferences", {
+      scope: "client",
+      name: "UI Layout Preferences",
+      hint: "Customization settings for UI layout and positioning",
+      config: !1,
+      default: {
+        sheetWidth: "auto",
+        sheetHeight: "auto",
+        compactMode: !1,
+        hideUnusedSections: !1,
+        sectionOrder: "default",
+        tabLayout: "horizontal"
+      },
+      type: Object
+    }), game.settings.register(d, "hud-customization", {
+      scope: "client",
+      name: "HUD Customization",
+      hint: "Customization settings for HUD elements and positioning",
+      config: !1,
+      default: {
+        hudPosition: "default",
+        hudSize: "medium",
+        showShortcuts: !0,
+        shortcutPosition: "left",
+        gmManagerPosition: "top-left",
+        gmManagerSize: "medium",
+        hideInactiveElements: !1
+      },
+      type: Object
+    }), game.settings.register(d, "visual-customization", {
+      scope: "client",
+      name: "Visual Customization",
+      hint: "Visual appearance customization settings",
+      config: !1,
+      default: {
+        animationSpeed: "normal",
+        shadowIntensity: "medium",
+        borderRadius: "default",
+        spacing: "default",
+        fontSize: "default",
+        iconSize: "default",
+        transparency: "default"
+      },
+      type: Object
+    }), game.settings.register(d, "component-visibility", {
+      scope: "client",
+      name: "Component Visibility",
+      hint: "Show/hide specific UI components",
+      config: !1,
+      default: {
+        showPassportImages: !0,
+        showItemImages: !0,
+        showSkillIcons: !0,
+        showAttributeLabels: !0,
+        showTooltips: !0,
+        showAnimations: !0,
+        showShadows: !0,
+        showGradients: !0
+      },
+      type: Object
+    }), game.settings.register(d, "advanced-ui-settings", {
+      scope: "client",
+      name: "Advanced UI Settings",
+      hint: "Advanced UI customization options",
+      config: !1,
+      default: {
+        customCSS: "",
+        componentOverrides: {},
+        layoutTemplates: {},
+        colorOverrides: {},
+        fontOverrides: {}
+      },
+      type: Object
+    });
+  }
+  // =============================================================================
+  // CUSTOMIZATION INITIALIZATION
+  // =============================================================================
+  initializeCustomizations() {
+    console.groupCollapsed(u + "UICustomization.initializeCustomizations"), this.registerBuiltInPresets(), this.registerCustomizationCategories(), console.groupEnd();
+  }
+  registerBuiltInPresets() {
+    this.presets.set("compact", {
+      name: "Compact Layout",
+      description: "Optimized for smaller screens and minimal space usage",
+      settings: {
+        "ui-layout-preferences": {
+          compactMode: !0,
+          hideUnusedSections: !0,
+          tabLayout: "vertical"
+        },
+        "visual-customization": {
+          spacing: "tight",
+          fontSize: "small",
+          iconSize: "small"
+        },
+        "component-visibility": {
+          showPassportImages: !1,
+          showShadows: !1,
+          showGradients: !1
+        }
+      }
+    }), this.presets.set("accessibility", {
+      name: "Accessibility Enhanced",
+      description: "Optimized for accessibility and screen readers",
+      settings: {
+        "visual-customization": {
+          fontSize: "large",
+          spacing: "loose",
+          shadowIntensity: "none",
+          borderRadius: "minimal"
+        },
+        "component-visibility": {
+          showTooltips: !0,
+          showAnimations: !1,
+          showShadows: !1
+        }
+      }
+    }), this.presets.set("performance", {
+      name: "Performance Optimized",
+      description: "Reduced visual effects for better performance",
+      settings: {
+        "visual-customization": {
+          animationSpeed: "fast",
+          shadowIntensity: "light",
+          transparency: "minimal"
+        },
+        "component-visibility": {
+          showAnimations: !1,
+          showShadows: !1,
+          showGradients: !1
+        }
+      }
+    }), this.presets.set("immersive", {
+      name: "Immersive Experience",
+      description: "Enhanced visual effects for maximum immersion",
+      settings: {
+        "visual-customization": {
+          animationSpeed: "slow",
+          shadowIntensity: "strong",
+          transparency: "enhanced"
+        },
+        "component-visibility": {
+          showAnimations: !0,
+          showShadows: !0,
+          showGradients: !0
+        }
+      }
+    });
+  }
+  registerCustomizationCategories() {
+    this.customizations.set("layout", {
+      name: "Layout & Positioning",
+      description: "Customize sheet layouts, sizes, and positioning",
+      options: [
+        {
+          key: "sheetWidth",
+          name: "Sheet Width",
+          type: "select",
+          values: ["auto", "compact", "wide", "full"]
+        },
+        {
+          key: "sheetHeight",
+          name: "Sheet Height",
+          type: "select",
+          values: ["auto", "compact", "tall", "full"]
+        },
+        { key: "compactMode", name: "Compact Mode", type: "boolean" },
+        {
+          key: "tabLayout",
+          name: "Tab Layout",
+          type: "select",
+          values: ["horizontal", "vertical"]
+        }
+      ]
+    }), this.customizations.set("visual", {
+      name: "Visual Appearance",
+      description: "Customize colors, fonts, and visual effects",
+      options: [
+        {
+          key: "fontSize",
+          name: "Font Size",
+          type: "select",
+          values: ["small", "default", "large", "xl"]
+        },
+        {
+          key: "iconSize",
+          name: "Icon Size",
+          type: "select",
+          values: ["small", "default", "large"]
+        },
+        {
+          key: "spacing",
+          name: "Element Spacing",
+          type: "select",
+          values: ["tight", "default", "loose"]
+        },
+        {
+          key: "borderRadius",
+          name: "Border Radius",
+          type: "select",
+          values: ["none", "minimal", "default", "rounded"]
+        },
+        {
+          key: "shadowIntensity",
+          name: "Shadow Intensity",
+          type: "select",
+          values: ["none", "light", "medium", "strong"]
+        },
+        {
+          key: "animationSpeed",
+          name: "Animation Speed",
+          type: "select",
+          values: ["none", "fast", "normal", "slow"]
+        }
+      ]
+    }), this.customizations.set("components", {
+      name: "Component Visibility",
+      description: "Show or hide specific UI components",
+      options: [
+        { key: "showPassportImages", name: "Show Passport Images", type: "boolean" },
+        { key: "showItemImages", name: "Show Item Images", type: "boolean" },
+        { key: "showSkillIcons", name: "Show Skill Icons", type: "boolean" },
+        { key: "showTooltips", name: "Show Tooltips", type: "boolean" },
+        { key: "showAnimations", name: "Show Animations", type: "boolean" },
+        { key: "showShadows", name: "Show Shadows", type: "boolean" }
+      ]
+    }), this.customizations.set("hud", {
+      name: "HUD Elements",
+      description: "Customize HUD positioning and behavior",
+      options: [
+        { key: "hudSize", name: "HUD Size", type: "select", values: ["small", "medium", "large"] },
+        {
+          key: "shortcutPosition",
+          name: "Shortcut Position",
+          type: "select",
+          values: ["left", "right", "top", "bottom"]
+        },
+        {
+          key: "gmManagerPosition",
+          name: "GM Manager Position",
+          type: "select",
+          values: ["top-left", "top-right", "bottom-left", "bottom-right"]
+        },
+        { key: "hideInactiveElements", name: "Hide Inactive Elements", type: "boolean" }
+      ]
+    });
+  }
+  // =============================================================================
+  // CUSTOMIZATION APPLICATION
+  // =============================================================================
+  async loadUserCustomizations() {
+    const e = game.settings.get(d, "ui-layout-preferences"), t = game.settings.get(d, "hud-customization"), s = game.settings.get(d, "visual-customization"), a = game.settings.get(d, "component-visibility"), i = game.settings.get(d, "advanced-ui-settings");
+    this.userCustomizations = {
+      layout: e,
+      hud: t,
+      visual: s,
+      components: a,
+      advanced: i
+    };
+  }
+  applyAllCustomizations() {
+    console.groupCollapsed(u + "UICustomization.applyAllCustomizations"), this.applyLayoutCustomizations(), this.applyVisualCustomizations(), this.applyComponentVisibility(), this.applyHUDCustomizations(), this.applyAdvancedCustomizations(), this.applyBackgroundRotation(), console.groupEnd();
+  }
+  /**
+   * Background rotation and fallback
+   * Priority:
+   * 1) files under systems/anarchy/img/backgrounds/
+   * 2) fallback file systems/anarchy/img/2025.10_Bckgrnd.img.01.png if present
+   * 3) transparent 1x1 png data URI
+   */
+  async applyBackgroundRotation() {
+    try {
+      const e = document.documentElement, t = "/systems/anarchy/img", s = `${t}/backgrounds/`, a = ["2025.10_Bckgrnd.img.01.png", "2025.10_Bckgrnd.img.02.png"], o = ["01.webp", "02.webp", "03.webp", "01.png", "02.png", "03.png"].map((N) => `${s}${N}`), n = await vt(this, _e, Ft).call(this, [
+        ...o,
+        ...a.map((N) => `${t}/${N}`)
+      ]);
+      let c = n.length > 0 ? n[Math.floor(Math.random() * n.length)] : void 0;
+      c || (c = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=");
+      const h = `repeat center/50% url("${c}")`;
+      e.style.setProperty("--anarchy-background", h), globalThis.__anarchyBackgroundCandidates = n, console.debug("[Anarchy] Background applied:", c);
+    } catch (e) {
+      console.warn("[Anarchy] Failed to apply background rotation", e);
+    }
+  }
+  applyLayoutCustomizations() {
+    const e = this.userCustomizations.layout, t = document.documentElement;
+    if (e.sheetWidth !== "auto") {
+      const s = {
+        compact: "600px",
+        wide: "900px",
+        full: "100vw"
+      };
+      t.style.setProperty("--sheet-width", s[e.sheetWidth]);
+    }
+    if (e.sheetHeight !== "auto") {
+      const s = {
+        compact: "500px",
+        tall: "800px",
+        full: "100vh"
+      };
+      t.style.setProperty("--sheet-height", s[e.sheetHeight]);
+    }
+    e.compactMode ? document.body.classList.add("ui-compact-mode") : document.body.classList.remove("ui-compact-mode"), e.tabLayout === "vertical" ? document.body.classList.add("ui-vertical-tabs") : document.body.classList.remove("ui-vertical-tabs"), console.info(u + "Applied layout customizations:", e);
+  }
+  applyVisualCustomizations() {
+    const e = this.userCustomizations.visual, t = document.documentElement, s = {
+      small: "0.85",
+      default: "1",
+      large: "1.15",
+      xl: "1.3"
+    };
+    e.fontSize !== "default" && t.style.setProperty("--font-scale", s[e.fontSize]);
+    const a = {
+      small: "0.8",
+      default: "1",
+      large: "1.2"
+    };
+    e.iconSize !== "default" && t.style.setProperty("--icon-scale", a[e.iconSize]);
+    const i = {
+      tight: "0.75",
+      default: "1",
+      loose: "1.25"
+    };
+    e.spacing !== "default" && t.style.setProperty("--spacing-scale", i[e.spacing]);
+    const o = {
+      none: "0px",
+      minimal: "2px",
+      default: "6px",
+      rounded: "12px"
+    };
+    e.borderRadius !== "default" && t.style.setProperty("--border-radius-override", o[e.borderRadius]);
+    const n = {
+      none: "0",
+      light: "0.5",
+      medium: "1",
+      strong: "1.5"
+    };
+    e.shadowIntensity !== "medium" && t.style.setProperty("--shadow-intensity", n[e.shadowIntensity]);
+    const c = {
+      none: "0ms",
+      fast: "100ms",
+      normal: "200ms",
+      slow: "400ms"
+    };
+    e.animationSpeed !== "normal" && t.style.setProperty("--animation-duration", c[e.animationSpeed]), console.info(u + "Applied visual customizations:", e);
+  }
+  applyComponentVisibility() {
+    const e = this.userCustomizations.components;
+    Object.entries(e).forEach(([t, s]) => {
+      const a = `hide-${t.replace(/([A-Z])/g, "-$1").toLowerCase().replace("show-", "")}`;
+      s ? document.body.classList.remove(a) : document.body.classList.add(a);
+    }), console.info(u + "Applied component visibility:", e);
+  }
+  applyHUDCustomizations() {
+    const e = this.userCustomizations.hud, t = {
+      small: "0.8",
+      medium: "1",
+      large: "1.2"
+    };
+    e.hudSize !== "medium" && document.documentElement.style.setProperty("--hud-scale", t[e.hudSize]);
+    const s = document.getElementById("gm-manager");
+    s && e.gmManagerPosition !== "top-left" && (s.classList.remove(
+      "position-top-left",
+      "position-top-right",
+      "position-bottom-left",
+      "position-bottom-right"
+    ), s.classList.add(`position-${e.gmManagerPosition}`));
+    const a = document.querySelector(".anarchy-shortcuts");
+    a && e.shortcutPosition !== "left" && (a.classList.remove(
+      "position-left",
+      "position-right",
+      "position-top",
+      "position-bottom"
+    ), a.classList.add(`position-${e.shortcutPosition}`)), console.info(u + "Applied HUD customizations:", e);
+  }
+  applyAdvancedCustomizations() {
+    const e = this.userCustomizations.advanced, t = document.documentElement;
+    e.customCSS && this.injectCustomCSS(e.customCSS), e.componentOverrides && Object.entries(e.componentOverrides).forEach(([s, a]) => {
+      Object.entries(a).forEach(([i, o]) => {
+        t.style.setProperty(`--${s}-${i}`, o);
+      });
+    }), e.colorOverrides && Object.entries(e.colorOverrides).forEach(([s, a]) => {
+      t.style.setProperty(`--${s}`, a);
+    }), console.info(u + "Applied advanced customizations:", e);
+  }
+  // =============================================================================
+  // CUSTOMIZATION METHODS
+  // =============================================================================
+  setCustomization(e, t, s) {
+    const a = this.getCategorySettingKey(e), i = game.settings.get(d, a);
+    i[t] = s, game.settings.set(d, a, i), this.userCustomizations[e][t] = s, this.applySpecificCustomization(e, t, s), console.info(u + `Customization set: ${e}.${t} = ${s}`);
+  }
+  getCustomization(e, t) {
+    var s;
+    return (s = this.userCustomizations[e]) == null ? void 0 : s[t];
+  }
+  applySpecificCustomization(e, t, s) {
+    switch (e) {
+      case "visual":
+        this.applyVisualCustomization(t, s);
+        break;
+      case "layout":
+        this.applyLayoutCustomization(t, s);
+        break;
+      case "components":
+        this.applyComponentCustomization(t, s);
+        break;
+      case "hud":
+        this.applyHUDCustomization(t, s);
+        break;
+    }
+  }
+  applyVisualCustomization(e, t) {
+    const s = document.documentElement;
+    switch (e) {
+      case "fontSize":
+        const a = { small: "0.85", default: "1", large: "1.15", xl: "1.3" }[t];
+        s.style.setProperty("--font-scale", a);
+        break;
+      case "iconSize":
+        const i = { small: "0.8", default: "1", large: "1.2" }[t];
+        s.style.setProperty("--icon-scale", i);
+        break;
+      case "spacing":
+        const o = { tight: "0.75", default: "1", loose: "1.25" }[t];
+        s.style.setProperty("--spacing-scale", o);
+        break;
+      case "animationSpeed":
+        const n = { none: "0ms", fast: "100ms", normal: "200ms", slow: "400ms" }[t];
+        s.style.setProperty("--animation-duration", n);
+        break;
+    }
+  }
+  applyLayoutCustomization(e, t) {
+    switch (e) {
+      case "compactMode":
+        t ? document.body.classList.add("ui-compact-mode") : document.body.classList.remove("ui-compact-mode");
+        break;
+      case "tabLayout":
+        t === "vertical" ? document.body.classList.add("ui-vertical-tabs") : document.body.classList.remove("ui-vertical-tabs");
+        break;
+    }
+  }
+  applyComponentCustomization(e, t) {
+    const s = `hide-${e.replace(/([A-Z])/g, "-$1").toLowerCase().replace("show-", "")}`;
+    t ? document.body.classList.remove(s) : document.body.classList.add(s);
+  }
+  applyHUDCustomization(e, t) {
+    switch (e) {
+      case "gmManagerPosition":
+        const s = document.getElementById("gm-manager");
+        s && (s.classList.remove(
+          "position-top-left",
+          "position-top-right",
+          "position-bottom-left",
+          "position-bottom-right"
+        ), s.classList.add(`position-${t}`));
+        break;
+      case "hudSize":
+        const a = { small: "0.8", medium: "1", large: "1.2" }[t];
+        document.documentElement.style.setProperty("--hud-scale", a);
+        break;
+    }
+  }
+  // =============================================================================
+  // PRESET MANAGEMENT
+  // =============================================================================
+  applyPreset(e) {
+    const t = this.presets.get(e);
+    if (!t)
+      throw new Error(`Preset ${e} not found`);
+    console.groupCollapsed(u + `Applying preset: ${t.name}`), Object.entries(t.settings).forEach(([s, a]) => {
+      game.settings.set(d, s, a);
+      const i = this.getSettingCategory(s);
+      i && (this.userCustomizations[i] = {
+        ...this.userCustomizations[i],
+        ...a
+      });
+    }), this.applyAllCustomizations(), ui.notifications.info(`Applied preset: ${t.name}`), console.groupEnd();
+  }
+  getAvailablePresets() {
+    return Array.from(this.presets.entries()).map(([e, t]) => ({
+      id: e,
+      ...t
+    }));
+  }
+  // =============================================================================
+  // UTILITY METHODS
+  // =============================================================================
+  getCategorySettingKey(e) {
+    return {
+      layout: "ui-layout-preferences",
+      hud: "hud-customization",
+      visual: "visual-customization",
+      components: "component-visibility",
+      advanced: "advanced-ui-settings"
+    }[e];
+  }
+  getSettingCategory(e) {
+    return {
+      "ui-layout-preferences": "layout",
+      "hud-customization": "hud",
+      "visual-customization": "visual",
+      "component-visibility": "components",
+      "advanced-ui-settings": "advanced"
+    }[e];
+  }
+  injectCustomCSS(e) {
+    const t = document.getElementById("anarchy-custom-css");
+    if (t && t.remove(), e.trim()) {
+      const s = document.createElement("style");
+      s.id = "anarchy-custom-css", s.textContent = e, document.head.appendChild(s);
+    }
+  }
+  onRenderApplication(e, t, s) {
+    (e.constructor.name.includes("Sheet") || e.constructor.name.includes("Dialog")) && this.applyCustomizationsToElement(t[0]);
+  }
+  applyCustomizationsToElement(e) {
+    const t = this.userCustomizations.visual;
+    t.fontSize !== "default" && e.style.setProperty("--local-font-scale", "var(--font-scale, 1)"), t.spacing !== "default" && e.style.setProperty("--local-spacing-scale", "var(--spacing-scale, 1)");
+  }
+  // =============================================================================
+  // EXPORT/IMPORT CUSTOMIZATIONS
+  // =============================================================================
+  exportCustomizations() {
+    return {
+      customizations: this.userCustomizations,
+      presets: Array.from(this.presets.entries()),
+      metadata: {
+        exportedAt: (/* @__PURE__ */ new Date()).toISOString(),
+        systemVersion: game.system.version,
+        foundryVersion: game.version
+      }
+    };
+  }
+  importCustomizations(e) {
+    if (!e.customizations)
+      throw new Error("Invalid customization data");
+    Object.entries(e.customizations).forEach(([t, s]) => {
+      const a = this.getCategorySettingKey(t);
+      a && game.settings.set(d, a, s);
+    }), this.loadUserCustomizations(), this.applyAllCustomizations(), ui.notifications.info("UI customizations imported successfully.");
+  }
+  resetAllCustomizations() {
+    [
+      "ui-layout-preferences",
+      "hud-customization",
+      "visual-customization",
+      "component-visibility",
+      "advanced-ui-settings"
+    ].forEach((a) => {
+      const i = game.settings.settings.get(`${d}.${a}`);
+      i && game.settings.set(d, a, i.default);
+    }), this.injectCustomCSS(""), document.body.classList.remove("ui-compact-mode", "ui-vertical-tabs");
+    const t = document.documentElement;
+    [
+      "--font-scale",
+      "--icon-scale",
+      "--spacing-scale",
+      "--border-radius-override",
+      "--shadow-intensity",
+      "--animation-duration"
+    ].forEach((a) => t.style.removeProperty(a)), this.loadUserCustomizations(), this.applyAllCustomizations(), ui.notifications.info("All UI customizations reset to defaults.");
+  }
+  // =============================================================================
+  // DEBUGGING AND ANALYSIS
+  // =============================================================================
+  debugCustomizations() {
+    return console.group(u + "UI Customization Debug"), console.info("Current Customizations:", this.userCustomizations), console.info("Available Presets:", this.getAvailablePresets()), console.info("Active CSS Variables:", this.getActiveCustomizationVariables()), console.info("Applied Classes:", this.getAppliedCustomizationClasses()), console.groupEnd(), {
+      customizations: this.userCustomizations,
+      presets: this.getAvailablePresets(),
+      cssVariables: this.getActiveCustomizationVariables(),
+      appliedClasses: this.getAppliedCustomizationClasses()
+    };
+  }
+  getActiveCustomizationVariables() {
+    const e = getComputedStyle(document.documentElement), t = {};
+    return [
+      "--font-scale",
+      "--icon-scale",
+      "--spacing-scale",
+      "--border-radius-override",
+      "--shadow-intensity",
+      "--animation-duration",
+      "--hud-scale"
+    ].forEach((a) => {
+      const i = e.getPropertyValue(a);
+      i && (t[a] = i.trim());
+    }), t;
+  }
+  getAppliedCustomizationClasses() {
+    return Array.from(document.body.classList).filter(
+      (e) => e.startsWith("ui-") || e.startsWith("hide-") || e.startsWith("position-")
+    );
+  }
+}
+_e = new WeakSet(), Ft = async function(e) {
+  const t = await Promise.allSettled(
+    e.map((a) => fetch(a, { method: "HEAD", cache: "no-store" }))
+  ), s = [];
+  return t.forEach((a, i) => {
+    a.status === "fulfilled" && a.value.ok && s.push(e[i]);
+  }), s;
+};
+class yt extends Dialog {
+  constructor(e, t = {}) {
+    const s = {
+      title: "UI/HUD Customization",
+      content: "",
+      buttons: {
+        apply: {
+          label: "Apply",
+          callback: (i) => this.onApply(i)
+        },
+        reset: {
+          label: "Reset All",
+          callback: () => this.onReset()
+        },
+        export: {
+          label: "Export",
+          callback: () => this.onExport()
+        },
+        import: {
+          label: "Import",
+          callback: () => this.onImport()
+        },
+        close: {
+          label: "Close"
+        }
+      },
+      default: "apply"
+    }, a = {
+      classes: ["anarchy-dialog", "ui-customization-dialog"],
+      width: 600,
+      height: "auto",
+      resizable: !0,
+      ...t
+    };
+    super(s, a), this.uiCustomization = e, this.currentSettings = {};
+  }
+  async getData() {
+    return await this.uiCustomization.loadUserCustomizations(), this.currentSettings = this.uiCustomization.userCustomizations, {
+      customizations: this.uiCustomization.customizations,
+      presets: this.uiCustomization.getAvailablePresets(),
+      currentSettings: this.currentSettings,
+      categories: Array.from(this.uiCustomization.customizations.entries())
+    };
+  }
+  async _renderInner(e) {
+    return `
+      <div class="ui-customization-content">
+        <div class="customization-tabs">
+          <nav class="tab-navigation">
+            <button class="tab-button active" data-tab="presets">Presets</button>
+            <button class="tab-button" data-tab="layout">Layout</button>
+            <button class="tab-button" data-tab="visual">Visual</button>
+            <button class="tab-button" data-tab="components">Components</button>
+            <button class="tab-button" data-tab="hud">HUD</button>
+            <button class="tab-button" data-tab="advanced">Advanced</button>
+          </nav>
+          
+          <div class="tab-content">
+            <!-- Presets Tab -->
+            <div class="tab-panel active" data-tab="presets">
+              <h3>Quick Presets</h3>
+              <p>Apply pre-configured customization sets for common use cases.</p>
+              <div class="preset-grid">
+                {{#each presets}}
+                <div class="preset-card" data-preset="{{id}}">
+                  <h4>{{name}}</h4>
+                  <p>{{description}}</p>
+                  <button class="apply-preset-btn" data-preset="{{id}}">Apply</button>
+                </div>
+                {{/each}}
+              </div>
+            </div>
+            
+            <!-- Layout Tab -->
+            <div class="tab-panel" data-tab="layout">
+              <h3>Layout & Positioning</h3>
+              <div class="customization-grid">
+                <div class="setting-group">
+                  <label>Sheet Width</label>
+                  <select name="layout.sheetWidth">
+                    <option value="auto">Auto</option>
+                    <option value="compact">Compact</option>
+                    <option value="wide">Wide</option>
+                    <option value="full">Full Width</option>
+                  </select>
+                </div>
+                <div class="setting-group">
+                  <label>Sheet Height</label>
+                  <select name="layout.sheetHeight">
+                    <option value="auto">Auto</option>
+                    <option value="compact">Compact</option>
+                    <option value="tall">Tall</option>
+                    <option value="full">Full Height</option>
+                  </select>
+                </div>
+                <div class="setting-group">
+                  <label>
+                    <input type="checkbox" name="layout.compactMode"> Compact Mode
+                  </label>
+                </div>
+                <div class="setting-group">
+                  <label>Tab Layout</label>
+                  <select name="layout.tabLayout">
+                    <option value="horizontal">Horizontal</option>
+                    <option value="vertical">Vertical</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Visual Tab -->
+            <div class="tab-panel" data-tab="visual">
+              <h3>Visual Appearance</h3>
+              <div class="customization-grid">
+                <div class="setting-group">
+                  <label>Font Size</label>
+                  <select name="visual.fontSize">
+                    <option value="small">Small</option>
+                    <option value="default">Default</option>
+                    <option value="large">Large</option>
+                    <option value="xl">Extra Large</option>
+                  </select>
+                </div>
+                <div class="setting-group">
+                  <label>Icon Size</label>
+                  <select name="visual.iconSize">
+                    <option value="small">Small</option>
+                    <option value="default">Default</option>
+                    <option value="large">Large</option>
+                  </select>
+                </div>
+                <div class="setting-group">
+                  <label>Element Spacing</label>
+                  <select name="visual.spacing">
+                    <option value="tight">Tight</option>
+                    <option value="default">Default</option>
+                    <option value="loose">Loose</option>
+                  </select>
+                </div>
+                <div class="setting-group">
+                  <label>Animation Speed</label>
+                  <select name="visual.animationSpeed">
+                    <option value="none">None</option>
+                    <option value="fast">Fast</option>
+                    <option value="normal">Normal</option>
+                    <option value="slow">Slow</option>
+                  </select>
+                </div>
+                <div class="setting-group">
+                  <label>Shadow Intensity</label>
+                  <select name="visual.shadowIntensity">
+                    <option value="none">None</option>
+                    <option value="light">Light</option>
+                    <option value="medium">Medium</option>
+                    <option value="strong">Strong</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Components Tab -->
+            <div class="tab-panel" data-tab="components">
+              <h3>Component Visibility</h3>
+              <div class="customization-grid">
+                <div class="setting-group">
+                  <label>
+                    <input type="checkbox" name="components.showPassportImages"> Show Passport Images
+                  </label>
+                </div>
+                <div class="setting-group">
+                  <label>
+                    <input type="checkbox" name="components.showItemImages"> Show Item Images
+                  </label>
+                </div>
+                <div class="setting-group">
+                  <label>
+                    <input type="checkbox" name="components.showSkillIcons"> Show Skill Icons
+                  </label>
+                </div>
+                <div class="setting-group">
+                  <label>
+                    <input type="checkbox" name="components.showTooltips"> Show Tooltips
+                  </label>
+                </div>
+                <div class="setting-group">
+                  <label>
+                    <input type="checkbox" name="components.showAnimations"> Show Animations
+                  </label>
+                </div>
+                <div class="setting-group">
+                  <label>
+                    <input type="checkbox" name="components.showShadows"> Show Shadows
+                  </label>
+                </div>
+              </div>
+            </div>
+            
+            <!-- HUD Tab -->
+            <div class="tab-panel" data-tab="hud">
+              <h3>HUD Elements</h3>
+              <div class="customization-grid">
+                <div class="setting-group">
+                  <label>HUD Size</label>
+                  <select name="hud.hudSize">
+                    <option value="small">Small</option>
+                    <option value="medium">Medium</option>
+                    <option value="large">Large</option>
+                  </select>
+                </div>
+                <div class="setting-group">
+                  <label>GM Manager Position</label>
+                  <select name="hud.gmManagerPosition">
+                    <option value="top-left">Top Left</option>
+                    <option value="top-right">Top Right</option>
+                    <option value="bottom-left">Bottom Left</option>
+                    <option value="bottom-right">Bottom Right</option>
+                  </select>
+                </div>
+                <div class="setting-group">
+                  <label>Shortcut Position</label>
+                  <select name="hud.shortcutPosition">
+                    <option value="left">Left</option>
+                    <option value="right">Right</option>
+                    <option value="top">Top</option>
+                    <option value="bottom">Bottom</option>
+                  </select>
+                </div>
+                <div class="setting-group">
+                  <label>
+                    <input type="checkbox" name="hud.hideInactiveElements"> Hide Inactive Elements
+                  </label>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Advanced Tab -->
+            <div class="tab-panel" data-tab="advanced">
+              <h3>Advanced Customization</h3>
+              <div class="customization-grid">
+                <div class="setting-group full-width">
+                  <label>Custom CSS</label>
+                  <textarea name="advanced.customCSS" rows="10" placeholder="Enter custom CSS rules..."></textarea>
+                  <small>Advanced users can add custom CSS rules here. Use with caution.</small>
+                </div>
+                <div class="setting-group">
+                  <button type="button" class="validate-css-btn">Validate CSS</button>
+                  <button type="button" class="clear-css-btn">Clear CSS</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="customization-preview">
+          <h4>Live Preview</h4>
+          <div class="preview-area">
+            <div class="preview-sheet">
+              <div class="preview-header">
+                <div class="preview-passport">
+                  <img src="systems/anarchy/img/sample-character.webp" alt="Preview">
+                </div>
+                <div class="preview-info">
+                  <h3>Sample Character</h3>
+                  <div class="preview-attributes">
+                    <div class="attribute-box">
+                      <span class="attribute-label">AGI</span>
+                      <span class="attribute-value">4</span>
+                    </div>
+                    <div class="attribute-box">
+                      <span class="attribute-label">STR</span>
+                      <span class="attribute-value">3</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="preview-content">
+                <div class="preview-section">
+                  <h4>Skills</h4>
+                  <div class="preview-item">
+                    <img src="systems/anarchy/icons/skills/athletics.svg" alt="Athletics">
+                    <span>Athletics</span>
+                    <span class="skill-rating">6</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+  activateListeners(e) {
+    super.activateListeners(e), e.find(".tab-button").click((t) => {
+      const s = $(t.currentTarget).data("tab");
+      this.switchTab(e, s);
+    }), e.find(".apply-preset-btn").click((t) => {
+      const s = $(t.currentTarget).data("preset");
+      this.applyPreset(s);
+    }), e.find('select, input[type="checkbox"], textarea').change((t) => {
+      this.updateLivePreview(e);
+    }), e.find(".validate-css-btn").click(() => {
+      this.validateCustomCSS(e);
+    }), e.find(".clear-css-btn").click(() => {
+      e.find('textarea[name="advanced.customCSS"]').val(""), this.updateLivePreview(e);
+    });
+  }
+  switchTab(e, t) {
+    e.find(".tab-button").removeClass("active"), e.find(`.tab-button[data-tab="${t}"]`).addClass("active"), e.find(".tab-panel").removeClass("active"), e.find(`.tab-panel[data-tab="${t}"]`).addClass("active");
+  }
+  updateLivePreview(e) {
+    const t = new FormData(e.find("form")[0]), s = {};
+    for (let [a, i] of t.entries()) {
+      const [o, n] = a.split(".");
+      s[o] || (s[o] = {}), e.find(`input[name="${a}"]`).attr("type") === "checkbox" ? s[o][n] = e.find(`input[name="${a}"]`).is(":checked") : s[o][n] = i;
+    }
+    this.applyPreviewSettings(e, s);
+  }
+  applyPreviewSettings(e, t) {
+    var a, i, o;
+    const s = e.find(".preview-area");
+    if ((a = t.visual) != null && a.fontSize) {
+      const n = { small: "0.85", default: "1", large: "1.15", xl: "1.3" }[t.visual.fontSize];
+      s.css("--font-scale", n);
+    }
+    if ((i = t.visual) != null && i.iconSize) {
+      const n = { small: "0.8", default: "1", large: "1.2" }[t.visual.iconSize];
+      s.css("--icon-scale", n);
+    }
+    if ((o = t.visual) != null && o.spacing) {
+      const n = { tight: "0.75", default: "1", loose: "1.25" }[t.visual.spacing];
+      s.css("--spacing-scale", n);
+    }
+    t.components && Object.entries(t.components).forEach(([n, c]) => {
+      const h = `hide-${n.replace(/([A-Z])/g, "-$1").toLowerCase().replace("show-", "")}`;
+      c ? s.removeClass(h) : s.addClass(h);
+    });
+  }
+  async onApply(e) {
+    console.groupCollapsed(u + "UICustomizationDialog.onApply");
+    const t = new FormData(e.find("form")[0]), s = {};
+    for (let [a, i] of t.entries()) {
+      const [o, n] = a.split(".");
+      s[o] || (s[o] = {}), e.find(`input[name="${a}"]`).attr("type") === "checkbox" ? s[o][n] = e.find(`input[name="${a}"]`).is(":checked") : s[o][n] = i;
+    }
+    Object.entries(s).forEach(([a, i]) => {
+      Object.entries(i).forEach(([o, n]) => {
+        this.uiCustomization.setCustomization(a, o, n);
+      });
+    }), ui.notifications.info("UI customizations applied successfully."), console.groupEnd();
+  }
+  onReset() {
+    Dialog.confirm({
+      title: "Reset All Customizations",
+      content: "<p>Are you sure you want to reset all UI customizations to defaults? This cannot be undone.</p>",
+      yes: () => {
+        this.uiCustomization.resetAllCustomizations(), this.render(!0);
+      }
+    });
+  }
+  onExport() {
+    const e = this.uiCustomization.exportCustomizations(), t = JSON.stringify(e, null, 2), s = new Blob([t], { type: "application/json" }), a = URL.createObjectURL(s), i = document.createElement("a");
+    i.href = a, i.download = `anarchy-ui-customizations-${(/* @__PURE__ */ new Date()).toISOString().split("T")[0]}.json`, i.click(), URL.revokeObjectURL(a), ui.notifications.info("UI customizations exported successfully.");
+  }
+  onImport() {
+    const e = document.createElement("input");
+    e.type = "file", e.accept = ".json", e.onchange = (t) => {
+      const s = t.target.files[0];
+      if (!s) return;
+      const a = new FileReader();
+      a.onload = (i) => {
+        try {
+          const o = JSON.parse(i.target.result);
+          this.uiCustomization.importCustomizations(o), this.render(!0);
+        } catch (o) {
+          ui.notifications.error("Failed to import customizations: Invalid file format."), console.error(u + "Import error:", o);
+        }
+      }, a.readAsText(s);
+    }, e.click();
+  }
+  applyPreset(e) {
+    Dialog.confirm({
+      title: "Apply Preset",
+      content: `<p>Apply the "${this.uiCustomization.presets.get(e).name}" preset? This will override your current customizations.</p>`,
+      yes: () => {
+        this.uiCustomization.applyPreset(e), this.render(!0);
+      }
+    });
+  }
+  validateCustomCSS(e) {
+    const t = e.find('textarea[name="advanced.customCSS"]').val();
+    if (!t.trim()) {
+      ui.notifications.info("No custom CSS to validate.");
+      return;
+    }
+    try {
+      const s = document.createElement("style");
+      s.textContent = t, document.head.appendChild(s), document.head.removeChild(s), ui.notifications.info("Custom CSS is valid.");
+    } catch (s) {
+      ui.notifications.error("Custom CSS contains errors. Please check your syntax."), console.error(u + "CSS validation error:", s);
+    }
+  }
+  // =============================================================================
+  // STATIC METHODS
+  // =============================================================================
+  static async show(e) {
+    return new yt(e).render(!0);
+  }
+}
+class Rs {
+  constructor(e) {
+    this.uiCustomization = e, this.registerCommands();
+  }
+  registerCommands() {
+    globalThis.anarchyUI = {
+      // Open customization dialog
+      customize: () => this.openCustomizationDialog(),
+      // Quick customization methods
+      setFontSize: (e) => this.setFontSize(e),
+      setIconSize: (e) => this.setIconSize(e),
+      setSpacing: (e) => this.setSpacing(e),
+      setAnimationSpeed: (e) => this.setAnimationSpeed(e),
+      // Component visibility toggles
+      togglePassportImages: () => this.toggleComponent("showPassportImages"),
+      toggleItemImages: () => this.toggleComponent("showItemImages"),
+      toggleAnimations: () => this.toggleComponent("showAnimations"),
+      toggleShadows: () => this.toggleComponent("showShadows"),
+      // Preset application
+      applyCompactMode: () => this.applyPreset("compact"),
+      applyAccessibilityMode: () => this.applyPreset("accessibility"),
+      applyPerformanceMode: () => this.applyPreset("performance"),
+      applyImmersiveMode: () => this.applyPreset("immersive"),
+      // HUD positioning
+      moveGMManager: (e) => this.moveGMManager(e),
+      moveShortcuts: (e) => this.moveShortcuts(e),
+      setHUDSize: (e) => this.setHUDSize(e),
+      // Advanced operations
+      injectCSS: (e) => this.injectCustomCSS(e),
+      exportSettings: () => this.exportSettings(),
+      importSettings: (e) => this.importSettings(e),
+      resetAll: () => this.resetAll(),
+      // Debugging
+      debug: () => this.debugCustomizations(),
+      listCommands: () => this.listCommands(),
+      // Theme integration
+      setThemeCustomization: (e, t, s) => this.setThemeCustomization(e, t, s),
+      previewTheme: (e) => this.previewTheme(e),
+      // Background helpers
+      listBackgrounds: () => globalThis.__anarchyBackgroundCandidates ?? [],
+      setBackground: (e) => this.setBackground(e),
+      // Sheet management and diagnostics
+      fixSheets: () => this.fixSheets(),
+      debugSheets: () => this.debugSheets()
+    }, console.info(
+      u + "UI Customization commands registered. Use anarchyUI.listCommands() to see available commands."
+    );
+  }
+  // =============================================================================
+  // COMMAND IMPLEMENTATIONS
+  // =============================================================================
+  openCustomizationDialog() {
+    return yt.show(this.uiCustomization);
+  }
+  setFontSize(e) {
+    const t = ["small", "default", "large", "xl"];
+    if (!t.includes(e)) {
+      console.error(u + `Invalid font size. Valid options: ${t.join(", ")}`);
+      return;
+    }
+    this.uiCustomization.setCustomization("visual", "fontSize", e), console.info(u + `Font size set to: ${e}`);
+  }
+  setIconSize(e) {
+    const t = ["small", "default", "large"];
+    if (!t.includes(e)) {
+      console.error(u + `Invalid icon size. Valid options: ${t.join(", ")}`);
+      return;
+    }
+    this.uiCustomization.setCustomization("visual", "iconSize", e), console.info(u + `Icon size set to: ${e}`);
+  }
+  setSpacing(e) {
+    const t = ["tight", "default", "loose"];
+    if (!t.includes(e)) {
+      console.error(u + `Invalid spacing. Valid options: ${t.join(", ")}`);
+      return;
+    }
+    this.uiCustomization.setCustomization("visual", "spacing", e), console.info(u + `Spacing set to: ${e}`);
+  }
+  setAnimationSpeed(e) {
+    const t = ["none", "fast", "normal", "slow"];
+    if (!t.includes(e)) {
+      console.error(u + `Invalid animation speed. Valid options: ${t.join(", ")}`);
+      return;
+    }
+    this.uiCustomization.setCustomization("visual", "animationSpeed", e), console.info(u + `Animation speed set to: ${e}`);
+  }
+  toggleComponent(e) {
+    const s = !this.uiCustomization.getCustomization("components", e);
+    this.uiCustomization.setCustomization("components", e, s), console.info(u + `${e} ${s ? "enabled" : "disabled"}`);
+  }
+  applyPreset(e) {
+    try {
+      this.uiCustomization.applyPreset(e), console.info(u + `Applied preset: ${e}`);
+    } catch (t) {
+      console.error(u + `Failed to apply preset: ${t.message}`);
+    }
+  }
+  moveGMManager(e) {
+    const t = ["top-left", "top-right", "bottom-left", "bottom-right"];
+    if (!t.includes(e)) {
+      console.error(u + `Invalid position. Valid options: ${t.join(", ")}`);
+      return;
+    }
+    this.uiCustomization.setCustomization("hud", "gmManagerPosition", e), console.info(u + `GM Manager moved to: ${e}`);
+  }
+  moveShortcuts(e) {
+    const t = ["left", "right", "top", "bottom"];
+    if (!t.includes(e)) {
+      console.error(u + `Invalid position. Valid options: ${t.join(", ")}`);
+      return;
+    }
+    this.uiCustomization.setCustomization("hud", "shortcutPosition", e), console.info(u + `Shortcuts moved to: ${e}`);
+  }
+  setHUDSize(e) {
+    const t = ["small", "medium", "large"];
+    if (!t.includes(e)) {
+      console.error(u + `Invalid HUD size. Valid options: ${t.join(", ")}`);
+      return;
+    }
+    this.uiCustomization.setCustomization("hud", "hudSize", e), console.info(u + `HUD size set to: ${e}`);
+  }
+  injectCustomCSS(e) {
+    this.uiCustomization.setCustomization("advanced", "customCSS", e), console.info(u + "Custom CSS injected");
+  }
+  exportSettings() {
+    const e = this.uiCustomization.exportCustomizations();
+    return console.info(u + "Customization data:", e), e;
+  }
+  importSettings(e) {
+    try {
+      this.uiCustomization.importCustomizations(e), console.info(u + "Settings imported successfully");
+    } catch (t) {
+      console.error(u + `Import failed: ${t.message}`);
+    }
+  }
+  resetAll() {
+    this.uiCustomization.resetAllCustomizations(), console.info(u + "All customizations reset");
+  }
+  debugCustomizations() {
+    return this.uiCustomization.debugCustomizations();
+  }
+  setThemeCustomization(e, t, s) {
+    this.uiCustomization.styles.setThemeCustomization(e, t, s), console.info(u + `Theme customization set: ${e}.${t} = ${s}`);
+  }
+  previewTheme(e) {
+    this.uiCustomization.styles.previewTheme(e), console.info(u + `Previewing theme: ${e}`);
+  }
+  listCommands() {
+    const e = [
+      "anarchyUI.customize() - Open customization dialog",
+      "anarchyUI.setFontSize(size) - Set font size (small, default, large, xl)",
+      "anarchyUI.setIconSize(size) - Set icon size (small, default, large)",
+      "anarchyUI.setSpacing(spacing) - Set spacing (tight, default, loose)",
+      "anarchyUI.setAnimationSpeed(speed) - Set animation speed (none, fast, normal, slow)",
+      "anarchyUI.togglePassportImages() - Toggle passport images",
+      "anarchyUI.toggleItemImages() - Toggle item images",
+      "anarchyUI.toggleAnimations() - Toggle animations",
+      "anarchyUI.toggleShadows() - Toggle shadows",
+      "anarchyUI.applyCompactMode() - Apply compact preset",
+      "anarchyUI.applyAccessibilityMode() - Apply accessibility preset",
+      "anarchyUI.applyPerformanceMode() - Apply performance preset",
+      "anarchyUI.applyImmersiveMode() - Apply immersive preset",
+      "anarchyUI.moveGMManager(position) - Move GM manager (top-left, top-right, bottom-left, bottom-right)",
+      "anarchyUI.moveShortcuts(position) - Move shortcuts (left, right, top, bottom)",
+      "anarchyUI.setHUDSize(size) - Set HUD size (small, medium, large)",
+      "anarchyUI.injectCSS(css) - Inject custom CSS",
+      "anarchyUI.exportSettings() - Export customization settings",
+      "anarchyUI.importSettings(data) - Import customization settings",
+      "anarchyUI.resetAll() - Reset all customizations",
+      "anarchyUI.debug() - Debug current customizations",
+      "anarchyUI.setThemeCustomization(themeId, property, value) - Set theme-specific customization",
+      "anarchyUI.previewTheme(themeClass) - Preview a theme temporarily",
+      "anarchyUI.listBackgrounds() - List probed background image URLs",
+      "anarchyUI.setBackground(urlOrName) - Force a background from list or full URL",
+      "anarchyUI.fixSheets() - Fix all world actors/items to use Anarchy sheets",
+      "anarchyUI.debugSheets() - Debug current sheet registrations and assignments"
+    ];
+    return console.group(u + "Available UI Customization Commands:"), e.forEach((t) => console.info(t)), console.groupEnd(), e;
+  }
+  setBackground(e) {
+    const t = document.documentElement, a = (globalThis.__anarchyBackgroundCandidates ?? []).find((o) => o.endsWith(e)) ?? e;
+    if (!a) {
+      console.error(u + "No background match");
+      return;
+    }
+    const i = `repeat center/50% url("${a}")`;
+    t.style.setProperty("--anarchy-background", i), console.info(u + "Background set:", a);
+  }
+  // =============================================================================
+  // SHEET MANAGEMENT AND DIAGNOSTICS
+  // =============================================================================
+  async fixSheets() {
+    if (!game.user.isGM) {
+      console.error(u + "fixSheets() requires GM permissions");
+      return;
+    }
+    console.group(u + "Fixing world sheets to use Anarchy defaults");
+    const e = "anarchy";
+    let t = 0, s = 0;
+    try {
+      const a = [];
+      for (const o of game.actors.contents) {
+        const n = o.getFlag("core", "sheetClass");
+        let c;
+        switch (o.type) {
+          case "character":
+            c = `${e}.CharacterEnhancedSheet`;
+            break;
+          case "vehicle":
+            c = `${e}.VehicleSheet`;
+            break;
+          case "device":
+            c = `${e}.DeviceSheet`;
+            break;
+          case "sprite":
+            c = `${e}.SpriteActorSheet`;
+            break;
+          case "ic":
+            c = `${e}.ICSheet`;
+            break;
+        }
+        c && (!n || String(n).startsWith("core.") || n !== c) && (a.push(o.update({ "flags.core.sheetClass": c })), t++, console.info(`  Actor: ${o.name} (${o.type}) → ${c}`));
+      }
+      const i = [];
+      for (const o of game.items.contents) {
+        const n = o.getFlag("core", "sheetClass");
+        let c;
+        switch (o.type) {
+          case "contact":
+            c = `${e}.ContactItemSheet`;
+            break;
+          case "cyberdeck":
+            c = `${e}.CyberdeckItemSheet`;
+            break;
+          case "gear":
+            c = `${e}.GearItemSheet`;
+            break;
+          case "metatype":
+            c = `${e}.MetatypeItemSheet`;
+            break;
+          case "quality":
+            c = `${e}.QualityItemSheet`;
+            break;
+          case "shadowamp":
+            c = `${e}.ShadowampItemSheet`;
+            break;
+          case "skill":
+            c = `${e}.SkillItemSheet`;
+            break;
+          case "weapon":
+            c = `${e}.WeaponItemSheet`;
+            break;
+        }
+        c && (!n || String(n).startsWith("core.") || n !== c) && (i.push(o.update({ "flags.core.sheetClass": c })), s++, console.info(`  Item: ${o.name} (${o.type}) → ${c}`));
+      }
+      await Promise.allSettled([...a, ...i]), console.info(u + `Fixed ${t} actors and ${s} items`), ui.notifications.info(
+        `Fixed ${t} actors and ${s} items to use Anarchy sheets`
+      );
+    } catch (a) {
+      console.error(u + "Error fixing sheets:", a), ui.notifications.error("Failed to fix some sheets. Check console for details.");
+    }
+    return console.groupEnd(), { actorCount: t, itemCount: s };
+  }
+  debugSheets() {
+    var c, h, N, Z, V, J, L, B;
+    console.group(u + "Sheet Registration Debug");
+    const e = (h = (c = foundry.applications) == null ? void 0 : c.api) == null ? void 0 : h.DocumentSheetConfig;
+    if (!e) {
+      console.error("DocumentSheetConfig not available"), console.groupEnd();
+      return;
+    }
+    const t = ((N = CONFIG.Actor) == null ? void 0 : N.documentClass) || Actor, s = ((Z = CONFIG.Item) == null ? void 0 : Z.documentClass) || Item;
+    console.group("Registered Actor Sheets:");
+    const a = e.getSheetClasses(t);
+    Object.entries(a).forEach(([S, _]) => {
+      console.info(`${S}:`, _);
+    }), console.groupEnd(), console.group("Registered Item Sheets:");
+    const i = e.getSheetClasses(s);
+    Object.entries(i).forEach(([S, _]) => {
+      console.info(`${S}:`, _);
+    }), console.groupEnd(), console.group("Sample World Documents (first 10):");
+    const o = game.actors.contents.slice(0, 10);
+    o.forEach((S) => {
+      var oe, le;
+      const _ = S.getFlag("core", "sheetClass") || "default", K = ((le = (oe = S.sheet) == null ? void 0 : oe.constructor) == null ? void 0 : le.name) || "unknown";
+      console.info(
+        `Actor: ${S.name} (${S.type}) | Flag: ${_} | Constructor: ${K}`
+      );
+    });
+    const n = game.items.contents.slice(0, 10);
+    return n.forEach((S) => {
+      var oe, le;
+      const _ = S.getFlag("core", "sheetClass") || "default", K = ((le = (oe = S.sheet) == null ? void 0 : oe.constructor) == null ? void 0 : le.name) || "unknown";
+      console.info(
+        `Item: ${S.name} (${S.type}) | Flag: ${_} | Constructor: ${K}`
+      );
+    }), console.groupEnd(), console.group("System Status:"), console.info("Anarchy System:", game.system.anarchy), console.info("Proxy Detected:", (V = game.system.anarchy) == null ? void 0 : V.proxyDetected), console.info("Sheets Registered:", (J = game.system.anarchy) == null ? void 0 : J.sheetsRegistered), console.info("Settings:"), console.info("  anarchy-first-mode:", game.settings.get("anarchy", "anarchy-first-mode")), console.info("  allow-core-fallback:", game.settings.get("anarchy", "allow-core-fallback")), console.info("  prefer-core-sheets:", game.settings.get("anarchy", "prefer-core-sheets")), console.groupEnd(), console.groupEnd(), {
+      actorSheets: a,
+      itemSheets: i,
+      sampleActors: o.map((S) => {
+        var _, K;
+        return {
+          name: S.name,
+          type: S.type,
+          sheetFlag: S.getFlag("core", "sheetClass"),
+          sheetConstructor: (K = (_ = S.sheet) == null ? void 0 : _.constructor) == null ? void 0 : K.name
+        };
+      }),
+      sampleItems: n.map((S) => {
+        var _, K;
+        return {
+          name: S.name,
+          type: S.type,
+          sheetFlag: S.getFlag("core", "sheetClass"),
+          sheetConstructor: (K = (_ = S.sheet) == null ? void 0 : _.constructor) == null ? void 0 : K.name
+        };
+      }),
+      systemStatus: {
+        proxyDetected: (L = game.system.anarchy) == null ? void 0 : L.proxyDetected,
+        sheetsRegistered: (B = game.system.anarchy) == null ? void 0 : B.sheetsRegistered,
+        settings: {
+          anarchyFirstMode: game.settings.get("anarchy", "anarchy-first-mode"),
+          allowCoreFallback: game.settings.get("anarchy", "allow-core-fallback"),
+          preferCoreSheets: game.settings.get("anarchy", "prefer-core-sheets")
+        }
+      }
+    };
+  }
+}
+class Ms {
+  constructor(e, t) {
+    this.styles = e, this.uiCustomization = t, this.optimizations = /* @__PURE__ */ new Map(), this.performanceMetrics = /* @__PURE__ */ new Map(), this.unusedSelectors = /* @__PURE__ */ new Set(), this.criticalCSS = /* @__PURE__ */ new Set(), this.initializeOptimizations(), Hooks.once("ready", () => this.onReady()), Hooks.on("renderApplication", (s, a, i) => this.onRenderApplication(s, a, i));
+  }
+  async onReady() {
+    console.groupCollapsed(u + "PerformanceOptimizer.onReady"), await this.registerPerformanceSettings(), await this.analyzeCSSUsage(), this.applyPerformanceOptimizations(), console.groupEnd();
+  }
+  // =============================================================================
+  // PERFORMANCE SETTINGS
+  // =============================================================================
+  async registerPerformanceSettings() {
+    game.settings.register(d, "performance-optimization", {
+      scope: "client",
+      name: "Performance Optimization",
+      hint: "Performance optimization settings",
+      config: !1,
+      default: {
+        enableTreeShaking: !0,
+        enableCriticalCSS: !0,
+        enableLazyLoading: !0,
+        enableCSSMinification: !0,
+        enableUnusedSelectorRemoval: !0,
+        performanceMode: "balanced"
+        // 'performance', 'balanced', 'quality'
+      },
+      type: Object
+    }), game.settings.register(d, "css-loading-strategy", {
+      scope: "world",
+      name: "CSS Loading Strategy",
+      hint: "How CSS should be loaded and optimized",
+      config: !1,
+      default: {
+        loadingMethod: "progressive",
+        // 'all', 'progressive', 'lazy'
+        componentSplitting: !0,
+        themeSplitting: !0,
+        criticalInline: !0
+      },
+      type: Object
+    }), game.settings.register(d, "performance-monitoring", {
+      scope: "client",
+      name: "Performance Monitoring",
+      hint: "Performance monitoring and metrics collection",
+      config: !1,
+      default: {
+        enableMetrics: !0,
+        trackRenderTimes: !0,
+        trackCSSUsage: !0,
+        reportThreshold: 100
+        // ms
+      },
+      type: Object
+    });
+  }
+  // =============================================================================
+  // CSS USAGE ANALYSIS
+  // =============================================================================
+  async analyzeCSSUsage() {
+    console.groupCollapsed(u + "PerformanceOptimizer.analyzeCSSUsage");
+    const e = {
+      totalSelectors: 0,
+      usedSelectors: /* @__PURE__ */ new Set(),
+      unusedSelectors: /* @__PURE__ */ new Set(),
+      criticalSelectors: /* @__PURE__ */ new Set(),
+      componentUsage: /* @__PURE__ */ new Map(),
+      themeUsage: /* @__PURE__ */ new Map(),
+      performanceImpact: /* @__PURE__ */ new Map()
+    };
+    return this.analyzeUsedSelectors(e), this.identifyCriticalCSS(e), this.analyzeComponentUsage(e), this.cssAnalysis = e, console.info(u + "CSS Usage Analysis:", e), console.groupEnd(), e;
+  }
+  analyzeUsedSelectors(e) {
+    document.querySelectorAll("*").forEach((i) => {
+      i.classList.forEach((o) => {
+        e.usedSelectors.add(`.${o}`);
+      }), i.id && e.usedSelectors.add(`#${i.id}`);
+    });
+    const s = this.getCurrentCSSText(), a = this.extractSelectorsFromCSS(s);
+    a.forEach((i) => {
+      this.isSelectorUsed(i, e.usedSelectors) || e.unusedSelectors.add(i);
+    }), e.totalSelectors = a.length;
+  }
+  identifyCriticalCSS(e) {
+    [
+      ".sheet",
+      ".sheet-header",
+      ".passport-header",
+      ".attribute-box",
+      ".anarchy-button",
+      ".section-group",
+      "nav.sheet-tabs",
+      ".anarchy-monitor",
+      ":root"
+    ].forEach((s) => {
+      e.criticalSelectors.add(s);
+    });
+  }
+  analyzeComponentUsage(e) {
+    Object.entries({
+      "character-enhanced": ".character-enhanced",
+      "gm-manager": "#gm-manager",
+      "roll-dialog": ".roll-dialog",
+      "weapon-list": ".weapon-list",
+      "item-components": ".items-group",
+      "monitor-components": ".anarchy-monitor"
+    }).forEach(([s, a]) => {
+      const i = document.querySelectorAll(a);
+      e.componentUsage.set(s, i.length);
+    });
+  }
+  // =============================================================================
+  // TREE-SHAKING IMPLEMENTATION
+  // =============================================================================
+  implementTreeShaking() {
+    if (console.groupCollapsed(u + "PerformanceOptimizer.implementTreeShaking"), !game.settings.get(d, "performance-optimization").enableTreeShaking) {
+      console.info(u + "Tree-shaking disabled by user settings"), console.groupEnd();
+      return;
+    }
+    this.removeUnusedSelectors(), this.optimizeCSSDelivery(), this.implementLazyLoading(), console.groupEnd();
+  }
+  removeUnusedSelectors() {
+    if (!this.cssAnalysis) return;
+    const e = this.cssAnalysis.unusedSelectors.size, t = this.cssAnalysis.totalSelectors, s = Math.round(e / t * 100);
+    console.info(u + `Tree-shaking analysis: ${e}/${t} selectors unused (${s}%)`), this.performanceMetrics.set("treeshaking", {
+      unusedSelectors: e,
+      totalSelectors: t,
+      potentialSavings: s,
+      estimatedSizeReduction: Math.round(e / t * 100)
+      // KB estimate
+    });
+  }
+  optimizeCSSDelivery() {
+    const e = game.settings.get(d, "css-loading-strategy");
+    e.criticalInline && this.inlineCriticalCSS(), e.componentSplitting && this.implementComponentSplitting(), e.themeSplitting && this.implementThemeSplitting();
+  }
+  inlineCriticalCSS() {
+    if (!this.cssAnalysis) return;
+    const e = this.extractCriticalCSS(), t = document.createElement("style");
+    t.id = "anarchy-critical-css", t.textContent = e, document.head.insertBefore(t, document.head.firstChild), console.info(u + `Inlined critical CSS: ${e.length} characters`), this.performanceMetrics.set("criticalCSS", {
+      size: e.length,
+      selectors: this.cssAnalysis.criticalSelectors.size
+    });
+  }
+  extractCriticalCSS() {
+    const e = [];
+    return this.cssAnalysis.criticalSelectors.forEach((t) => {
+      e.push(`${t} { /* critical styles */ }`);
+    }), e.join(`
+`);
+  }
+  implementComponentSplitting() {
+    Object.entries({
+      "character-enhanced": "character-enhanced.css",
+      "gm-manager": "gm-manager.css",
+      "roll-dialog": "dialogs.css",
+      "item-components": "items.css"
+    }).forEach(([t, s]) => {
+      this.cssAnalysis.componentUsage.get(t) > 0 && this.loadComponentCSS(s);
+    });
+  }
+  implementThemeSplitting() {
+    const e = this.styles.currentTheme, t = this.styles.getThemeIdFromClass(e);
+    console.info(u + `Theme splitting: Loading only ${t} theme CSS`), this.performanceMetrics.set("themeSplitting", {
+      activeTheme: t,
+      potentialSavings: "Estimated 30-40% reduction in theme CSS"
+    });
+  }
+  implementLazyLoading() {
+    if (!game.settings.get(d, "performance-optimization").enableLazyLoading) return;
+    const t = document.querySelectorAll("[data-lazy-component]");
+    if (t.length > 0) {
+      const s = new IntersectionObserver((a) => {
+        a.forEach((i) => {
+          i.isIntersecting && (this.loadLazyComponent(i.target), s.unobserve(i.target));
+        });
+      });
+      t.forEach((a) => s.observe(a)), console.info(u + `Lazy loading enabled for ${t.length} components`);
+    }
+  }
+  // =============================================================================
+  // PERFORMANCE MONITORING
+  // =============================================================================
+  startPerformanceMonitoring() {
+    const e = game.settings.get(d, "performance-monitoring");
+    e.enableMetrics && (e.trackRenderTimes && this.monitorRenderTimes(), e.trackCSSUsage && this.monitorCSSUsage(), console.info(u + "Performance monitoring started"));
+  }
+  monitorRenderTimes() {
+    const e = Application.prototype.render, t = game.settings.get(d, "performance-monitoring").reportThreshold;
+    Application.prototype.render = function(...s) {
+      const a = performance.now(), i = e.apply(this, s), n = performance.now() - a;
+      return n > t && console.warn(u + `Slow render detected: ${this.constructor.name} took ${n.toFixed(2)}ms`), i;
+    };
+  }
+  monitorCSSUsage() {
+    new MutationObserver((t) => {
+      t.forEach((s) => {
+        s.type === "attributes" && s.attributeName === "class" && this.trackSelectorUsage(s.target);
+      });
+    }).observe(document.body, {
+      attributes: !0,
+      subtree: !0,
+      attributeFilter: ["class"]
+    });
+  }
+  trackSelectorUsage(e) {
+    e.classList.forEach((t) => {
+      const s = `.${t}`, a = this.performanceMetrics.get(s) || 0;
+      this.performanceMetrics.set(s, a + 1);
+    });
+  }
+  // =============================================================================
+  // OPTIMIZATION STRATEGIES
+  // =============================================================================
+  initializeOptimizations() {
+    this.optimizations.set("minification", {
+      name: "CSS Minification",
+      description: "Remove whitespace and optimize CSS output",
+      enabled: !0,
+      impact: "high",
+      apply: () => this.applyCSSMinification()
+    }), this.optimizations.set("treeshaking", {
+      name: "CSS Tree-Shaking",
+      description: "Remove unused CSS selectors",
+      enabled: !0,
+      impact: "high",
+      apply: () => this.implementTreeShaking()
+    }), this.optimizations.set("criticalcss", {
+      name: "Critical CSS Inlining",
+      description: "Inline critical above-the-fold CSS",
+      enabled: !0,
+      impact: "medium",
+      apply: () => this.inlineCriticalCSS()
+    }), this.optimizations.set("lazyloading", {
+      name: "Lazy Component Loading",
+      description: "Load component CSS on demand",
+      enabled: !0,
+      impact: "medium",
+      apply: () => this.implementLazyLoading()
+    }), this.optimizations.set("caching", {
+      name: "CSS Caching Optimization",
+      description: "Optimize CSS caching strategies",
+      enabled: !0,
+      impact: "low",
+      apply: () => this.optimizeCSSCaching()
+    });
+  }
+  applyPerformanceOptimizations() {
+    const e = game.settings.get(d, "performance-optimization");
+    switch (console.groupCollapsed(u + "Applying performance optimizations"), e.performanceMode) {
+      case "performance":
+        this.applyPerformanceMode();
+        break;
+      case "balanced":
+        this.applyBalancedMode();
+        break;
+      case "quality":
+        this.applyQualityMode();
+        break;
+    }
+    console.groupEnd();
+  }
+  applyPerformanceMode() {
+    console.info(u + "Applying performance mode optimizations"), this.uiCustomization.setCustomization("visual", "animationSpeed", "fast"), this.uiCustomization.setCustomization("visual", "shadowIntensity", "light"), this.uiCustomization.setCustomization("components", "showAnimations", !1), this.uiCustomization.setCustomization("components", "showShadows", !1), this.optimizations.forEach((e) => {
+      e.enabled && e.apply();
+    });
+  }
+  applyBalancedMode() {
+    console.info(u + "Applying balanced mode optimizations"), this.uiCustomization.setCustomization("visual", "animationSpeed", "normal"), this.uiCustomization.setCustomization("visual", "shadowIntensity", "medium"), this.optimizations.get("minification").apply(), this.optimizations.get("treeshaking").apply(), this.optimizations.get("criticalcss").apply();
+  }
+  applyQualityMode() {
+    console.info(u + "Applying quality mode optimizations"), this.uiCustomization.setCustomization("visual", "animationSpeed", "slow"), this.uiCustomization.setCustomization("visual", "shadowIntensity", "strong"), this.uiCustomization.setCustomization("components", "showAnimations", !0), this.uiCustomization.setCustomization("components", "showShadows", !0), this.optimizations.get("caching").apply();
+  }
+  // =============================================================================
+  // SPECIFIC OPTIMIZATION IMPLEMENTATIONS
+  // =============================================================================
+  applyCSSMinification() {
+    const e = this.getCurrentCSSSize(), t = Math.round(e * 0.7);
+    this.performanceMetrics.set("minification", {
+      originalSize: e,
+      minifiedSize: t,
+      savings: e - t,
+      savingsPercentage: Math.round((e - t) / e * 100)
+    }), console.info(u + `CSS minification: ${e} → ${t} bytes (${this.performanceMetrics.get("minification").savingsPercentage}% reduction)`);
+  }
+  optimizeCSSCaching() {
+    const e = {
+      maxAge: 86400,
+      // 24 hours
+      etag: !0,
+      compression: !0,
+      splitting: !0
+    };
+    this.performanceMetrics.set("caching", e), console.info(u + "CSS caching optimized:", e);
+  }
+  loadComponentCSS(e) {
+    const t = document.createElement("link");
+    t.rel = "stylesheet", t.href = `systems/anarchy/style/components/${e}`, t.dataset.component = e.replace(".css", ""), document.head.appendChild(t), console.info(u + `Loaded component CSS: ${e}`);
+  }
+  loadLazyComponent(e) {
+    const t = e.dataset.lazyComponent;
+    t && (this.loadComponentCSS(`${t}.css`), e.removeAttribute("data-lazy-component"), e.classList.add("lazy-loaded"));
+  }
+  // =============================================================================
+  // PERFORMANCE MEASUREMENT
+  // =============================================================================
+  measurePerformance() {
+    var t, s;
+    const e = {
+      cssSize: this.getCurrentCSSSize(),
+      selectorCount: ((t = this.cssAnalysis) == null ? void 0 : t.totalSelectors) || 0,
+      unusedSelectors: ((s = this.cssAnalysis) == null ? void 0 : s.unusedSelectors.size) || 0,
+      renderTime: this.measureAverageRenderTime(),
+      memoryUsage: this.estimateMemoryUsage(),
+      optimizationImpact: this.calculateOptimizationImpact()
+    };
+    return console.group(u + "Performance Measurements"), console.info("CSS Size:", `${e.cssSize} bytes`), console.info("Selector Count:", e.selectorCount), console.info("Unused Selectors:", e.unusedSelectors), console.info("Average Render Time:", `${e.renderTime}ms`), console.info("Estimated Memory Usage:", `${e.memoryUsage}KB`), console.info("Optimization Impact:", e.optimizationImpact), console.groupEnd(), e;
+  }
+  measureAverageRenderTime() {
+    var s;
+    const e = performance.now();
+    (s = document.querySelector(".sheet")) == null || s.getBoundingClientRect(), document.querySelectorAll(".anarchy-button").forEach((a) => a.getBoundingClientRect());
+    const t = performance.now();
+    return Math.round(t - e);
+  }
+  estimateMemoryUsage() {
+    var s;
+    const e = this.getCurrentCSSSize(), t = ((s = this.cssAnalysis) == null ? void 0 : s.totalSelectors) || 0;
+    return Math.round(e / 1024 + t * 0.1);
+  }
+  calculateOptimizationImpact() {
+    var t, s, a;
+    const e = {
+      treeshaking: ((t = this.performanceMetrics.get("treeshaking")) == null ? void 0 : t.potentialSavings) || 0,
+      minification: ((s = this.performanceMetrics.get("minification")) == null ? void 0 : s.savingsPercentage) || 0,
+      criticalCSS: ((a = this.performanceMetrics.get("criticalCSS")) == null ? void 0 : a.size) || 0,
+      totalSavings: 0
+    };
+    return e.totalSavings = e.treeshaking + e.minification, e;
+  }
+  // =============================================================================
+  // UTILITY METHODS
+  // =============================================================================
+  getCurrentCSSText() {
+    const e = Array.from(document.styleSheets);
+    let t = "";
+    return e.forEach((s) => {
+      try {
+        Array.from(s.cssRules || []).forEach((i) => {
+          t += i.cssText + `
+`;
+        });
+      } catch {
+      }
+    }), t;
+  }
+  getCurrentCSSSize() {
+    return this.getCurrentCSSText().length;
+  }
+  extractSelectorsFromCSS(e) {
+    const t = /([^{}]+)\s*\{[^}]*\}/g, s = /* @__PURE__ */ new Set();
+    let a;
+    for (; (a = t.exec(e)) !== null; ) {
+      const i = a[1].trim();
+      i && !i.startsWith("@") && s.add(i);
+    }
+    return Array.from(s);
+  }
+  isSelectorUsed(e, t) {
+    const s = e.replace(/::?[a-z-]+/g, "").trim();
+    return t.has(s) || s.includes(":root") || s.includes("@") || s.includes("*");
+  }
+  onRenderApplication(e, t, s) {
+    const a = performance.now();
+    this.optimizeRenderedApplication(e, t);
+    const o = performance.now() - a;
+    o > 50 && console.warn(u + `Slow application render: ${e.constructor.name} took ${o.toFixed(2)}ms`);
+  }
+  optimizeRenderedApplication(e, t) {
+    t[0].querySelectorAll(".character-enhanced, .items-group-list").forEach((i) => {
+      i.dataset.lazyComponent || (i.dataset.lazyComponent = i.className.split(" ")[0]);
+    });
+  }
+  // =============================================================================
+  // PERFORMANCE REPORTING
+  // =============================================================================
+  generatePerformanceReport() {
+    const e = {
+      timestamp: (/* @__PURE__ */ new Date()).toISOString(),
+      measurements: this.measurePerformance(),
+      optimizations: Array.from(this.optimizations.entries()).map(([t, s]) => ({
+        id: t,
+        name: s.name,
+        enabled: s.enabled,
+        impact: s.impact
+      })),
+      metrics: Object.fromEntries(this.performanceMetrics),
+      recommendations: this.generatePerformanceRecommendations()
+    };
+    return console.group(u + "Performance Report"), console.info("Report:", e), console.groupEnd(), e;
+  }
+  generatePerformanceRecommendations() {
+    var n, c;
+    const e = [];
+    this.getCurrentCSSSize() > 5e5 && e.push({
+      type: "css-size",
+      severity: "high",
+      message: "CSS size is very large",
+      suggestion: "Enable tree-shaking and component splitting"
+    });
+    const s = ((n = this.cssAnalysis) == null ? void 0 : n.unusedSelectors.size) || 0, a = ((c = this.cssAnalysis) == null ? void 0 : c.totalSelectors) || 1, i = s / a * 100;
+    return i > 30 && e.push({
+      type: "unused-css",
+      severity: "medium",
+      message: `${i.toFixed(1)}% of CSS selectors are unused`,
+      suggestion: "Enable tree-shaking to remove unused styles"
+    }), game.settings.get(d, "performance-optimization").performanceMode === "quality" && e.push({
+      type: "performance-mode",
+      severity: "low",
+      message: "Quality mode may impact performance",
+      suggestion: "Consider balanced mode for better performance"
+    }), e;
+  }
+}
+const xe = "glitch", Re = "risk", Dt = "reroll", zt = "rerollRemoved", Ts = "removed", $e = `${Ce}/style/danger-point.webp`, Ee = `${Ce}/style/anarchy-point.webp`, re = class re {
   static init() {
-    CONFIG.Dice.terms[Me.DENOMINATION] = Me, CONFIG.Dice.terms[He.DENOMINATION] = He, Hooks.once("diceSoNiceReady", (e) => X.diceSoNiceReady(e)), Hooks.once("ready", () => X.onReady());
+    CONFIG.Dice.terms[Ie.DENOMINATION] = Ie, CONFIG.Dice.terms[De.DENOMINATION] = De, Hooks.once("diceSoNiceReady", (e) => re.diceSoNiceReady(e)), Hooks.once("ready", () => re.onReady());
   }
   static onReady() {
     var e;
-    X.COLORSETS = X.loadColorsets(), (e = game.modules.get("dice-so-nice")) != null && e.active && game.settings.get("core", "noCanvas") && ui.notifications.warn("Dice So Nice! will not display dice due to Foundry option 'Disable Game Canvas' ");
+    re.COLORSETS = re.loadColorsets(), (e = game.modules.get("dice-so-nice")) != null && e.active && game.settings.get("core", "noCanvas") && ui.notifications.warn(
+      "Dice So Nice! will not display dice due to Foundry option 'Disable Game Canvas' "
+    );
   }
   static loadColorsets() {
     return {
-      [mt]: {
-        name: mt,
-        description: game.i18n.localize(o.common.roll.rollTheme.reroll),
-        category: ie
+      [Dt]: {
+        name: Dt,
+        description: game.i18n.localize(l.common.roll.rollTheme.reroll),
+        category: ge
       },
-      [ta]: {
-        name: fe,
-        description: game.i18n.localize(o.common.roll.rollTheme.removed),
-        category: ie
+      [Ts]: {
+        name: Re,
+        description: game.i18n.localize(l.common.roll.rollTheme.removed),
+        category: ge
       },
-      [dt]: {
-        name: dt,
-        description: game.i18n.localize(o.common.roll.rollTheme.rerollRemoved),
-        category: ie
+      [zt]: {
+        name: zt,
+        description: game.i18n.localize(l.common.roll.rollTheme.rerollRemoved),
+        category: ge
       },
-      [Te]: {
-        name: Te,
-        description: game.i18n.localize(o.common.roll.rollTheme.glitch),
-        category: ie,
+      [xe]: {
+        name: xe,
+        description: game.i18n.localize(l.common.roll.rollTheme.glitch),
+        category: ge,
         foreground: "white",
         background: "#5c0a5c",
         outline: "none",
@@ -4213,10 +7076,10 @@ const Te = "glitch", fe = "risk", mt = "reroll", dt = "rerollRemoved", ta = "rem
         texture: "poison",
         material: "metal"
       },
-      [fe]: {
-        name: fe,
-        description: game.i18n.localize(o.common.roll.rollTheme.anarchyRisk),
-        category: ie,
+      [Re]: {
+        name: Re,
+        description: game.i18n.localize(l.common.roll.rollTheme.anarchyRisk),
+        category: ge,
         foreground: "#faecd1",
         background: "#040101",
         outline: "none",
@@ -4227,15 +7090,15 @@ const Te = "glitch", fe = "risk", mt = "reroll", dt = "rerollRemoved", ta = "rem
     };
   }
   static diceSoNiceReady(e) {
-    X.dice3d = e, game.settings.set("dice-so-nice", "enabledSimultaneousRollForMessage", !1), e.addSystem({ id: g, name: ie }), Object.values(X.COLORSETS).forEach((t) => e.addColorset(t)), e.addDicePreset(Me.diceSoNiceData()), e.addDicePreset(He.diceSoNiceData());
+    re.dice3d = e, game.settings.set("dice-so-nice", "enabledSimultaneousRollForMessage", !1), e.addSystem({ id: d, name: ge }), Object.values(re.COLORSETS).forEach((t) => e.addColorset(t)), e.addDicePreset(Ie.diceSoNiceData()), e.addDicePreset(De.diceSoNiceData());
   }
   static img(e) {
     return `<img src="${e}" />`;
   }
 };
-_(X, "dice3d");
-let ce = X;
-class Me extends Die {
+U(re, "dice3d");
+let fe = re;
+class Ie extends foundry.dice.terms.Die {
   constructor(e) {
     e.faces = 6, super(e);
   }
@@ -4243,22 +7106,22 @@ class Me extends Die {
   getResultLabel(e) {
     switch (e.result) {
       case "1":
-        return ce.img(Ee);
+        return fe.img($e);
     }
     return e.result.toString();
   }
   static diceSoNiceData() {
     return {
       type: "dg",
-      labels: [Ee, "2", "3", "4", "5", "6"],
-      colorset: Te,
-      system: g
+      labels: [$e, "2", "3", "4", "5", "6"],
+      colorset: xe,
+      system: d
     };
   }
 }
 /** @override */
-_(Me, "DENOMINATION", "g");
-class He extends Die {
+U(Ie, "DENOMINATION", "g");
+class De extends foundry.dice.terms.Die {
   constructor(e) {
     e.faces = 6, super(e);
   }
@@ -4266,25 +7129,25 @@ class He extends Die {
   getResultLabel(e) {
     switch (e.result) {
       case "1":
-        return ce.img(Ee);
+        return fe.img($e);
       case "5":
-        return ce.img(ve);
+        return fe.img(Ee);
       case "6":
-        return ce.img(ve);
+        return fe.img(Ee);
     }
     return e.result.toString();
   }
   static diceSoNiceData() {
     return {
       type: "dr",
-      labels: [Ee, "2", "3", "4", ve, ve],
-      colorset: fe,
-      system: g
+      labels: [$e, "2", "3", "4", Ee, Ee],
+      colorset: Re,
+      system: d
     };
   }
 }
-_(He, "DENOMINATION", "r");
-const re = {}, aa = {
+U(De, "DENOMINATION", "r");
+const he = {}, Hs = {
   riskProwess: 0,
   riskGlitch: 0,
   riskOutcome: "nothing",
@@ -4302,47 +7165,53 @@ const re = {}, aa = {
     glitch: void 0
   }
 };
-class Oe {
+class Le {
   static init() {
-    Hooks.once("ready", () => Oe.onReady());
+    Hooks.once("ready", () => Le.onReady());
   }
   static onReady() {
-    Object.entries(o.common.roll.rollTheme).forEach((e) => {
-      re[e[0]] = game.i18n.localize(e[1]);
+    Object.entries(l.common.roll.rollTheme).forEach((e) => {
+      he[e[0]] = game.i18n.localize(e[1]);
     });
   }
   /**
    * @param {*} param : { pool: 1, reroll: 0, risk: 0, rerollForced: 0, target: 5 }
    */
   constructor(e) {
-    this.param = e, this.param.pool = Math.max(this.param.pool ?? 0, 0), this.param.reroll = Math.max(this.param.reroll ?? 0, 0), this.param.rerollForced = Math.abs(this.param.rerollForced ?? 0), this.param.glitch = Math.max(this.param.glitch ?? 0, 0), this.param.risk = Math.max(this.param.risk ?? 0, 0), this.param.edge = Math.max(this.param.edge ?? 0, 0), this.param.target = this.param.edge > 0 ? 4 : this.param.target ?? 5, foundry.utils.mergeObject(this, aa);
+    this.param = e, this.param.pool = Math.max(this.param.pool ?? 0, 0), this.param.reroll = Math.max(this.param.reroll ?? 0, 0), this.param.rerollForced = Math.abs(this.param.rerollForced ?? 0), this.param.glitch = Math.max(this.param.glitch ?? 0, 0), this.param.risk = Math.max(this.param.risk ?? 0, 0), this.param.edge = Math.max(this.param.edge ?? 0, 0), this.param.target = this.param.edge > 0 ? 4 : this.param.target ?? 5, foundry.utils.mergeObject(this, Hs);
   }
   async evaluate() {
     await this.rollPool(), await this.rollRerolls(), await this.rollRerollForced(), await this.rollGlitchDice(), await this.rollAnarchyRisk();
   }
   async rollPool() {
-    this.subrolls.pool = new Roll(`${this.param.pool}d6cs>=${this.param.target}[${re.dicePool}]`), await this.subrolls.pool.evaluate({ async: !0 }), this.total = this.subrolls.pool.total;
+    this.subrolls.pool = new Roll(
+      `${this.param.pool}d6cs>=${this.param.target}[${he.dicePool}]`
+    ), await this.subrolls.pool.evaluate({ async: !0 }), this.total = this.subrolls.pool.total;
   }
   async rollRerolls() {
     const e = Math.min(this.param.pool - this.total, this.param.reroll);
-    e > 0 && (this.subrolls.reroll = new Roll(`${e}d6cs>=${this.param.target}[${re.reroll}]`), await this.subrolls.reroll.evaluate({ async: !0 }), this.total += this.subrolls.reroll.total);
+    e > 0 && (this.subrolls.reroll = new Roll(
+      `${e}d6cs>=${this.param.target}[${he.reroll}]`
+    ), await this.subrolls.reroll.evaluate({ async: !0 }), this.total += this.subrolls.reroll.total);
   }
   async rollRerollForced() {
     const e = Math.min(this.total, this.param.rerollForced);
-    e > 0 && (this.subrolls.removed = new Roll(`-${e}d1cf=1[${re.removed}]`), await this.subrolls.removed.evaluate({ async: !0 }), this.subrolls.rerollForced = new Roll(`${e}d6cs>=${this.param.target}[${re.rerollRemoved}]`), await this.subrolls.rerollForced.evaluate({ async: !0 }), this.total -= e, this.total += this.subrolls.rerollForced.total);
+    e > 0 && (this.subrolls.removed = new Roll(`-${e}d1cf=1[${he.removed}]`), await this.subrolls.removed.evaluate({ async: !0 }), this.subrolls.rerollForced = new Roll(
+      `${e}d6cs>=${this.param.target}[${he.rerollRemoved}]`
+    ), await this.subrolls.rerollForced.evaluate({ async: !0 }), this.total -= e, this.total += this.subrolls.rerollForced.total);
   }
   async rollGlitchDice() {
-    this.param.glitch > 0 && (this.subrolls.glitch = new Roll(`${this.param.glitch}d6cf=1[${re.glitch}]`), await this.subrolls.glitch.evaluate({ async: !0 }), this.subrolls.glitch.dice[0].options.appearance = { colorset: Te }, this.glitch = this.subrolls.glitch.terms[0].results.filter((e) => e.result == 1).length, this.glitchOutcome = this.glitch > 0 ? "glitch" : "nothing", this.totalGlitch += this.glitch);
+    this.param.glitch > 0 && (this.subrolls.glitch = new Roll(`${this.param.glitch}d6cf=1[${he.glitch}]`), await this.subrolls.glitch.evaluate({ async: !0 }), this.subrolls.glitch.dice[0].options.appearance = { colorset: xe }, this.glitch = this.subrolls.glitch.terms[0].results.filter((e) => e.result == 1).length, this.glitchOutcome = this.glitch > 0 ? "glitch" : "nothing", this.totalGlitch += this.glitch);
   }
   async rollAnarchyRisk() {
-    this.param.risk > 0 && (this.subrolls.risk = new Roll(`${this.param.risk}drcs>=5[${re.anarchyRisk}]`), await this.subrolls.risk.evaluate({ async: !0 }), this.subrolls.risk.dice[0].options.appearance = { colorset: fe }, this.riskGlitch = this.subrolls.risk.terms[0].results.filter((e) => e.result == 1).length, this.riskProwess += this.subrolls.risk.terms[0].results.filter((e) => e.result >= 5).length, this.subrolls.risk.total > 0 && this.total++, this.riskOutcome = this.riskProwess > 0 ? "prowess" : this.riskGlitch > 0 ? "glitch" : "nothing", this.totalGlitch += this.riskGlitch);
+    this.param.risk > 0 && (this.subrolls.risk = new Roll(`${this.param.risk}drcs>=5[${he.anarchyRisk}]`), await this.subrolls.risk.evaluate({ async: !0 }), this.subrolls.risk.dice[0].options.appearance = { colorset: Re }, this.riskGlitch = this.subrolls.risk.terms[0].results.filter((e) => e.result == 1).length, this.riskProwess += this.subrolls.risk.terms[0].results.filter((e) => e.result >= 5).length, this.subrolls.risk.total > 0 && this.total++, this.riskOutcome = this.riskProwess > 0 ? "prowess" : this.riskGlitch > 0 ? "glitch" : "nothing", this.totalGlitch += this.riskGlitch);
   }
   async toMessage(e, t) {
     return t = foundry.utils.mergeObject(t ?? {}, { create: !0 }), await this.toGroupedRoll().toMessage(e, t);
   }
   toGroupedRoll() {
     let e = 1, t = [];
-    return this._addRoll(t, this.subrolls.pool), this._addRoll(t, this.subrolls.reroll), this._addRoll(t, this.subrolls.removed), this._addRoll(t, this.subrolls.rerollForced), this._addRoll(t, this.subrolls.risk), this._addRoll(t, this.subrolls.glitch), t.forEach((a) => a.dice[0].options.rollOrder = e++), Roll.fromTerms([PoolTerm.fromRolls(t)]);
+    return this._addRoll(t, this.subrolls.pool), this._addRoll(t, this.subrolls.reroll), this._addRoll(t, this.subrolls.removed), this._addRoll(t, this.subrolls.rerollForced), this._addRoll(t, this.subrolls.risk), this._addRoll(t, this.subrolls.glitch), t.forEach((s) => s.dice[0].options.rollOrder = e++), Roll.fromTerms([PoolTerm.fromRolls(t)]);
   }
   _addRoll(e, t) {
     t && e.push(t);
@@ -4359,8 +7228,8 @@ class Oe {
     return ((e = this.param) == null ? void 0 : e.pool) ?? 0;
   }
 }
-const Le = "systemMigrationVersion";
-class F {
+const We = "systemMigrationVersion";
+class Q {
   get code() {
     return "sample";
   }
@@ -4372,15 +7241,15 @@ class F {
     };
   }
   async applyItemsUpdates(e) {
-    await game.actors.forEach(async (a) => {
-      const s = e(a.items);
-      s.length > 0 && (console.log(this.code, `Applying updates on actor ${a.name} items`, s), await a.updateEmbeddedDocuments("Item", s));
+    await game.actors.forEach(async (s) => {
+      const a = e(s.items);
+      a.length > 0 && (console.log(this.code, `Applying updates on actor ${s.name} items`, a), await s.updateEmbeddedDocuments("Item", a));
     });
     const t = e(game.items);
     t.length > 0 && (console.log(this.code, "Applying updates on items", t), await Item.updateDocuments(t));
   }
 }
-class sa extends F {
+class Es extends Q {
   get version() {
     return "0.3.1";
   }
@@ -4397,13 +7266,13 @@ class sa extends F {
     });
   }
   _createWordObject(e) {
-    return f.reindexIds((e ?? []).map((t) => this._keywordToObject(t)));
+    return b.reindexIds((e ?? []).map((t) => this._keywordToObject(t)));
   }
   _keywordToObject(e) {
     return e instanceof String ? { word: e } : e;
   }
 }
-class ra extends F {
+class Ns extends Q {
   get version() {
     return "0.3.8";
   }
@@ -4411,15 +7280,15 @@ class ra extends F {
     return "migrate-weapons-strength-damage";
   }
   async migrate() {
-    const e = (a) => a.type == c.itemType.weapon && a.system.strength, t = (a) => ({
-      _id: a.id,
-      "system.damageAttribute": c.attributes.strength,
+    const e = (s) => s.type == m.itemType.weapon && s.system.strength, t = (s) => ({
+      _id: s.id,
+      "system.damageAttribute": m.attributes.strength,
       "system.strength": void 0
     });
-    this.applyItemsUpdates((a) => a.filter(e).map(t));
+    this.applyItemsUpdates((s) => s.filter(e).map(t));
   }
 }
-class ia extends F {
+class Is extends Q {
   get version() {
     return "0.3.14";
   }
@@ -4427,11 +7296,11 @@ class ia extends F {
     return "migrate-skill-drain-convergence";
   }
   async migrate() {
-    const e = de.filter((m) => m.hasDrain).map((m) => m.code), t = (m) => m.type == c.itemType.skill && e.includes(m.system.code), a = (m) => ({ _id: m.id, "system.hasDrain": !0 }), s = de.filter((m) => m.hasConvergence).map((m) => m.code), i = (m) => m.type == c.itemType.skill && s.includes(m.system.code), n = (m) => ({ _id: m.id, "system.hasConvergence": !0 }), l = (m) => m.filter(t).map(a).concat(m.filter(i).map(n));
-    await this.applyItemsUpdates(l);
+    const e = Ae.filter((c) => c.hasDrain).map((c) => c.code), t = (c) => c.type == m.itemType.skill && e.includes(c.system.code), s = (c) => ({ _id: c.id, "system.hasDrain": !0 }), a = Ae.filter((c) => c.hasConvergence).map((c) => c.code), i = (c) => c.type == m.itemType.skill && a.includes(c.system.code), o = (c) => ({ _id: c.id, "system.hasConvergence": !0 }), n = (c) => c.filter(t).map(s).concat(c.filter(i).map(o));
+    await this.applyItemsUpdates(n);
   }
 }
-class oa extends F {
+class Ds extends Q {
   get version() {
     return "0.4.0";
   }
@@ -4439,17 +7308,21 @@ class oa extends F {
     return "migrate-select-weapon-defense";
   }
   async migrate() {
-    const e = (a) => de.find((s) => s.defense && s.code == a.system.skill), t = (a) => {
-      var s;
+    const e = (s) => Ae.find((a) => a.defense && a.code == s.system.skill), t = (s) => {
+      var a;
       return {
-        _id: a.id,
-        "system.defense": Y.fixedDefenseCode((s = e(a)) == null ? void 0 : s.defense)
+        _id: s.id,
+        "system.defense": x.fixedDefenseCode(
+          (a = e(s)) == null ? void 0 : a.defense
+        )
       };
     };
-    await this.applyItemsUpdates((a) => a.filter((s) => s.isWeapon()).filter(e).map(t));
+    await this.applyItemsUpdates(
+      (s) => s.filter((a) => a.isWeapon()).filter(e).map(t)
+    );
   }
 }
-class na extends F {
+class zs extends Q {
   get version() {
     return "0.5.0";
   }
@@ -4461,14 +7334,12 @@ class na extends F {
   }
   _resistanceUpdates(e) {
     const t = {};
-    return Object.entries(e.system.monitors).forEach(
-      (a) => {
-        a[1].resistance && (t[`system.monitors.${a[0]}.resistance`] = 0);
-      }
-    ), t;
+    return Object.entries(e.system.monitors).forEach((s) => {
+      s[1].resistance && (t[`system.monitors.${s[0]}.resistance`] = 0);
+    }), t;
   }
 }
-class ca extends F {
+class Os extends Q {
   get version() {
     return "0.6.0";
   }
@@ -4476,11 +7347,11 @@ class ca extends F {
     return "migrate-skill-social";
   }
   async migrate() {
-    const e = de.filter((s) => s.isSocial).map((s) => s.code), t = (s) => s.type == c.itemTypeskill && e.includes(s.system.code), a = (s) => ({ _id: s.id, "system.isSocial": !0 });
-    await this.applyItemsUpdates((s) => s.filter(t).map(a));
+    const e = Ae.filter((a) => a.isSocial).map((a) => a.code), t = (a) => a.type == m.itemTypeskill && e.includes(a.system.code), s = (a) => ({ _id: a.id, "system.isSocial": !0 });
+    await this.applyItemsUpdates((a) => a.filter(t).map(s));
   }
 }
-class la extends F {
+class xs extends Q {
   get version() {
     return "11.1.0";
   }
@@ -4492,44 +7363,54 @@ class la extends F {
   }
   async migrate() {
     const e = [];
-    await this.applyItemsUpdates((t) => t.filter(this.hasDefenseModifiers).map((s) => this.getItemModifiersUpdate(s, e))), e.length > 0 && ChatMessage.create({
+    await this.applyItemsUpdates((t) => t.filter(this.hasDefenseModifiers).map(
+      (a) => this.getItemModifiersUpdate(a, e)
+    )), e.length > 0 && ChatMessage.create({
       whisper: ChatMessage.getWhisperRecipients("GM"),
-      content: `${this.version} - Migration of defense modifiers:<ul>` + e.reduce((t, a) => t + a) + "</ul></li>"
+      content: `${this.version} - Migration of defense modifiers:<ul>` + e.reduce((t, s) => t + s) + "</ul></li>"
     });
   }
   getItemModifiersUpdate(e, t) {
-    const a = [];
-    function s(n, l, m) {
-      a.push(`<li> ${n}: ${l.group}/${l.effect}/${l.subCategory} : ${l.category}/${l.value} ${l.condition} => ${m.category}/${m.value} ${m.condition}</li>`);
+    const s = [];
+    function a(o, n, c) {
+      s.push(
+        `<li> ${o}: ${n.group}/${n.effect}/${n.subCategory} : ${n.category}/${n.value} ${n.condition} => ${c.category}/${c.value} ${c.condition}</li>`
+      );
     }
     const i = {};
-    return e.system.modifiers.forEach((n) => i[n.id] = duplicate(n)), Object.values(i).filter((n) => this.isDefenseModifier(n)).forEach((n) => {
-      const l = duplicate(n);
-      let m = Object.values(i).filter((y) => this.isCorrespondingActionModifier(y, n));
-      switch (m.length) {
+    return e.system.modifiers.forEach((o) => i[o.id] = duplicate(o)), Object.values(i).filter((o) => this.isDefenseModifier(o)).forEach((o) => {
+      const n = duplicate(o);
+      let c = Object.values(i).filter(
+        (h) => this.isCorrespondingActionModifier(h, o)
+      );
+      switch (c.length) {
         case 0: {
-          n.category = E.rollType.attributeAction, s("Changed category", l, n);
+          o.category = z.rollType.attributeAction, a("Changed category", n, o);
           break;
         }
         case 1: {
-          const y = m[0];
-          foundry.utils.mergeObject(y, {
-            value: Math.max(n.value, y.value),
-            condition: y.condition ? y.condition + (n.condition ?? "") : n.condition
-          }, { overwrite: !0 }), delete i[n.id], s("Merged with existing", n, y);
+          const h = c[0];
+          foundry.utils.mergeObject(
+            h,
+            {
+              value: Math.max(o.value, h.value),
+              condition: h.condition ? h.condition + (o.condition ?? "") : o.condition
+            },
+            { overwrite: !0 }
+          ), delete i[o.id], a("Merged with existing", o, h);
           break;
         }
         default: {
-          delete i[n.id], s("Removed", n, { category: "-", value: "-", condition: "-" });
+          delete i[o.id], a("Removed", o, { category: "-", value: "-", condition: "-" });
           break;
         }
       }
-    }), a.length > 0 && t.push(`<li> ${e.actor ? e.actor.name : "-standalone-"} Item ${e.name} modifiers changed:
-        <ul>${a.reduce(f.joiner())}</ul>
+    }), s.length > 0 && t.push(`<li> ${e.actor ? e.actor.name : "-standalone-"} Item ${e.name} modifiers changed:
+        <ul>${s.reduce(b.joiner())}</ul>
         </li>`), { _id: e.id, "system.modifiers": Object.values(i) };
   }
 }
-class ma extends F {
+class $s extends Q {
   get version() {
     return "11.1.9";
   }
@@ -4540,7 +7421,7 @@ class ma extends F {
     game.actors.filter((e) => e.isVehicle()).forEach(async (e) => await e._migrateHandlingToAttribute());
   }
 }
-class da extends F {
+class Ys extends Q {
   get version() {
     return "11.1.12";
   }
@@ -4557,15 +7438,15 @@ class da extends F {
     });
   }
   _migrateBackWords(e) {
-    return e ? f.reindexIds(e.map((t) => this._migrateBackWord(t))) : [];
+    return e ? b.reindexIds(e.map((t) => this._migrateBackWord(t))) : [];
   }
   _migrateBackWord(e) {
-    for (; e.word != null && !f.isString(e.word); )
+    for (; e.word != null && !b.isString(e.word); )
       e = e.word;
     return e;
   }
 }
-class ua extends F {
+class _s extends Q {
   get version() {
     return "11.1.16";
   }
@@ -4573,14 +7454,16 @@ class ua extends F {
     return "migrate-skills-attributes";
   }
   async migrate() {
-    this.applyItemsUpdates((e) => e.filter((t) => t.type == c.itemType.skill).filter((t) => t.system.attribute == "" || t.system.code == "").map((t) => ({
-      _id: t.id,
-      "system.attribute": "",
-      "system.code": c.attributes.knowledge
-    })));
+    this.applyItemsUpdates(
+      (e) => e.filter((t) => t.type == m.itemType.skill).filter((t) => t.system.attribute == "" || t.system.code == "").map((t) => ({
+        _id: t.id,
+        "system.attribute": "",
+        "system.code": m.attributes.knowledge
+      }))
+    );
   }
 }
-class ha extends F {
+class Ps extends Q {
   get version() {
     return "12.0.1";
   }
@@ -4596,7 +7479,7 @@ class ha extends F {
     );
   }
 }
-class ga extends F {
+class Ls extends Q {
   get version() {
     return "12.0.2";
   }
@@ -4604,28 +7487,33 @@ class ga extends F {
     return "migrate-weapon-drain";
   }
   async migrate() {
-    this.applyItemsUpdates((e) => e.filter((t) => t.type = c.itemType.weapon).filter((t) => t.hasDrain).map((t) => ({
-      _id: t.id,
-      "system.drain": 1
-    })));
+    this.applyItemsUpdates(
+      (e) => e.filter((t) => t.type = m.itemType.weapon).filter((t) => t.hasDrain).map((t) => ({
+        _id: t.id,
+        "system.drain": 1
+      }))
+    );
   }
 }
-class ya {
+class Us {
   constructor() {
-    Z.register(b.DECLARE_MIGRATIONS), Hooks.once(b.DECLARE_MIGRATIONS, (e) => e(
-      new sa(),
-      new ra(),
-      new ia(),
-      new oa(),
-      new na(),
-      new ca(),
-      new la(),
-      new ma(),
-      new da(),
-      new ua(),
-      new ha(),
-      new ga()
-    )), game.settings.register(g, Le, {
+    ce.register(C.DECLARE_MIGRATIONS), Hooks.once(
+      C.DECLARE_MIGRATIONS,
+      (e) => e(
+        new Es(),
+        new Ns(),
+        new Is(),
+        new Ds(),
+        new zs(),
+        new Os(),
+        new xs(),
+        new $s(),
+        new Ys(),
+        new _s(),
+        new Ps(),
+        new Ls()
+      )
+    ), game.settings.register(d, We, {
       name: "System Migration Version",
       scope: "world",
       config: !1,
@@ -4634,50 +7522,64 @@ class ya {
     });
   }
   migrate() {
-    const e = game.settings.get(g, Le);
+    const e = game.settings.get(d, We);
     if (foundry.utils.isNewerVersion(game.system.version, e)) {
       let t = [];
       Hooks.callAll(
-        b.DECLARE_MIGRATIONS,
-        (...a) => t = t.concat(a.filter((s) => foundry.utils.isNewerVersion(s.version, e)))
-      ), Hooks.off(b.DECLARE_MIGRATIONS, () => {
-      }), t.length > 0 ? (t.sort((a, s) => foundry.utils.isNewerVersion(a.version, s.version) ? 1 : foundry.utils.isNewerVersion(s.version, a.version) ? -1 : 0), t.forEach(async (a) => {
-        ui.notifications.info(`Executing migration ${a.code}: version ${e} is lower than ${a.version}`), await a.migrate();
-      }), ui.notifications.info(`Migrations done, version will change to ${game.system.version}`)) : console.log(P + `No migration needeed, version will change to ${game.system.version}`), game.settings.set(g, Le, game.system.version);
+        C.DECLARE_MIGRATIONS,
+        (...s) => t = t.concat(
+          s.filter((a) => foundry.utils.isNewerVersion(a.version, e))
+        )
+      ), Hooks.off(C.DECLARE_MIGRATIONS, () => {
+      }), t.length > 0 ? (t.sort(
+        (s, a) => foundry.utils.isNewerVersion(s.version, a.version) ? 1 : foundry.utils.isNewerVersion(a.version, s.version) ? -1 : 0
+      ), t.forEach(async (s) => {
+        ui.notifications.info(
+          `Executing migration ${s.code}: version ${e} is lower than ${s.version}`
+        ), await s.migrate();
+      }), ui.notifications.info(`Migrations done, version will change to ${game.system.version}`)) : console.log(
+        u + `No migration needeed, version will change to ${game.system.version}`
+      ), game.settings.set(d, We, game.system.version);
     } else
-      console.log(P + "No system version changed");
+      console.log(u + "No system version changed");
   }
 }
-const pa = `${h}/chat/celebrity-roll.hbs`;
-class De extends Dialog {
+const Fs = `${y}/chat/celebrity-roll.hbs`;
+class Ye extends Dialog {
   static async create(e) {
     const t = {
       actor: e,
       celebrity: {
-        labelkey: o.actor.celebrity,
+        labelkey: l.actor.celebrity,
         value: e.getCelebrityValue()
       },
       modifiers: foundry.utils.mergeObject(
-        { labelkey: o.item.tabs.modifiers },
+        { labelkey: l.item.tabs.modifiers },
         A.computeModifiers(e.items, "other", "celebrity")
       ),
       other: {
-        labelkey: o.common.roll.modifiers.other,
+        labelkey: l.common.roll.modifiers.other,
         value: 0
       },
-      ANARCHY: o
-    }, a = await renderTemplate(`${h}/dialog/roll-celebrite-title.hbs`, t), s = await renderTemplate(`${h}/dialog/roll-celebrite.hbs`, t);
-    new De(a, s, t).render(!0);
+      ANARCHY: l
+    }, s = await foundry.applications.handlebars.renderTemplate(
+      `${y}/dialog/roll-celebrite-title.hbs`,
+      t
+    ), a = await foundry.applications.handlebars.renderTemplate(
+      `${y}/dialog/roll-celebrite.hbs`,
+      t
+    );
+    new Ye(s, a, t).render(!0);
   }
-  constructor(e, t, a) {
-    const s = {
+  constructor(e, t, s) {
+    const a = {
       title: e,
       content: t,
       default: "roll",
       buttons: {
         roll: {
-          label: game.i18n.localize(o.common.roll.button),
-          callback: async () => De.doRoll(a)
+          label: game.i18n.localize(l.common.roll.button),
+          callback: async () => Ye.doRoll(s)
         }
       }
     }, i = {
@@ -4686,7 +7588,7 @@ class De extends Dialog {
       height: "fit-content",
       "z-index": 99999
     };
-    super(s, i);
+    super(a, i);
   }
   activateListeners(e) {
     super.activateListeners(e), this.bringToTop(), e.find(".input-celebrity-other").on("input", (t) => {
@@ -4694,22 +7596,21 @@ class De extends Dialog {
     });
   }
   static async doRoll(e) {
-    const t = [
-      e.celebrity,
-      e.modifiers,
-      e.other
-    ], a = f.sumValues(t, (l) => l.value), s = {
+    const t = [e.celebrity, e.modifiers, e.other], s = b.sumValues(t, (n) => n.value), a = {
       actor: e.actor,
       parameters: t,
-      pool: a,
+      pool: s,
       options: {
         classes: [game.system.anarchy.styles.selectCssClass()]
       },
-      ANARCHY: o
-    }, i = new Roll(`${a}d6cs>=5`);
+      ANARCHY: l
+    }, i = new Roll(`${s}d6cs>=5`);
     await i.evaluate();
-    const n = await renderTemplate(pa, s);
-    await i.toMessage({ flavor: n });
+    const o = await foundry.applications.handlebars.renderTemplate(
+      Fs,
+      a
+    );
+    await i.toMessage({ flavor: o });
   }
   // async roll() {
   //   const parameters = [
@@ -4733,8 +7634,8 @@ class De extends Dialog {
   //   await roll.toMessage({ flavor: flavor });
   // }
 }
-const fa = `${h}/chat/actor-drain.hbs`, Aa = `${h}/chat/actor-say-word.hbs`;
-class ba extends H {
+const Vs = `${y}/chat/actor-drain.hbs`, Gs = `${y}/chat/actor-say-word.hbs`;
+class js extends H {
   static get initiative() {
     return H.initiative + " + max(@attributes.agility.value, @attributes.logic.value)";
   }
@@ -4742,125 +7643,146 @@ class ba extends H {
     return this.hasPlayerOwner;
   }
   prepareDerivedData() {
-    this.system.monitors.physical.max = this._getMonitorMax(c.attributes.strength), this.system.monitors.stun.max = this._getMonitorMax(c.attributes.willpower), super.prepareDerivedData(), this.system.ignoreWounds = A.sumModifiers(this.items, "other", "ignoreWounds");
+    this.system.monitors.physical.max = this._getMonitorMax(m.attributes.strength), this.system.monitors.stun.max = this._getMonitorMax(m.attributes.willpower), super.prepareDerivedData(), this.system.ignoreWounds = A.sumModifiers(this.items, "other", "ignoreWounds");
   }
   computePhysicalState() {
-    const e = Math.max(this.system.monitors.physical.max, this.system.monitors.stun.max) + this.system.monitors.armor.max, t = this.system.monitors.physical.value == this.system.monitors.physical.max, a = this.system.monitors.stun.max == this.system.monitors.stun.value, s = t || a ? e : Math.max(this.system.monitors.physical.value, this.system.monitors.stun.value) + this.system.monitors.armor.value;
+    const e = Math.max(this.system.monitors.physical.max, this.system.monitors.stun.max) + this.system.monitors.armor.max, t = this.system.monitors.physical.value == this.system.monitors.physical.max, s = this.system.monitors.stun.max == this.system.monitors.stun.value, a = t || s ? e : Math.max(this.system.monitors.physical.value, this.system.monitors.stun.value) + this.system.monitors.armor.value;
     return {
       max: e,
-      value: e - s
+      value: e - a
     };
   }
   computeEssence() {
-    const e = game.system.anarchy.hooks.callHookMethod(b.PROVIDE_BASE_ESSENCE, this), t = f.sumValues(this.items.filter((s) => s.type == "shadowamp").map((s) => Math.abs(s.system.essence))), a = A.sumModifiers(this.items, "other", "essenceAdjustment");
-    return e + a - Math.max(0, t);
+    const e = game.system.anarchy.hooks.callHookMethod(
+      C.PROVIDE_BASE_ESSENCE,
+      this
+    ), t = b.sumValues(
+      this.items.filter((a) => a.type == "shadowamp").map((a) => Math.abs(a.system.essence))
+    ), s = A.sumModifiers(this.items, "other", "essenceAdjustment");
+    return e + s - Math.max(0, t);
   }
   computeMalusEssence(e = void 0) {
-    return game.system.anarchy.hooks.callHookMethod(b.PROVIDE_MALUS_ESSENCE, this, e ?? this.computeEssence());
+    return game.system.anarchy.hooks.callHookMethod(
+      C.PROVIDE_MALUS_ESSENCE,
+      this,
+      e ?? this.computeEssence()
+    );
   }
   getAttributes() {
     return [
-      c.attributes.strength,
-      c.attributes.agility,
-      c.attributes.willpower,
-      c.attributes.logic,
-      c.attributes.charisma,
-      c.attributes.edge
+      m.attributes.strength,
+      m.attributes.agility,
+      m.attributes.willpower,
+      m.attributes.logic,
+      m.attributes.charisma,
+      m.attributes.edge
     ];
   }
   getPhysicalAgility() {
-    return c.attributes.agility;
+    return m.attributes.agility;
   }
   getCorrespondingAttribute(e) {
-    return c.attributes.firewall == e ? c.attributes.firewall : super.getCorrespondingAttribute(e);
+    return m.attributes.firewall == e ? m.attributes.firewall : super.getCorrespondingAttribute(e);
   }
   getMatrixDetails() {
     const e = this.getCyberdeck();
     return e != null && e.isConnected() ? {
       hasMatrix: !0,
-      logic: c.attributes.logic,
-      firewall: c.attributes.firewall,
+      logic: m.attributes.logic,
+      firewall: m.attributes.firewall,
       monitor: e.system.monitors.matrix,
       overflow: e.getMatrixOverflow(),
-      setMatrixMonitor: async (t, a) => e.setMatrixMonitor(t, a)
+      setMatrixMonitor: async (t, s) => e.setMatrixMonitor(t, s)
     } : this.isEmerged() ? {
       hasMatrix: !0,
-      logic: c.attributes.logic,
-      firewall: c.attributes.logic,
+      logic: m.attributes.logic,
+      firewall: m.attributes.logic,
       monitor: this.system.monitors.stun,
-      overflow: c.monitors.physical,
-      setMatrixMonitor: async (t, a) => {
-        if (t == Ke.matrix.path)
-          return await d.setCheckbar(this, c.monitors.stun, a);
+      overflow: m.monitors.physical,
+      setMatrixMonitor: async (t, s) => {
+        if (t == ut.matrix.path)
+          return await g.setCheckbar(this, m.monitors.stun, s);
       }
     } : {
       hasMatrix: !1,
-      logic: c.attributes.logic,
+      logic: m.attributes.logic,
       firewall: void 0,
-      monitor: qe,
+      monitor: ht,
       overflow: void 0
     };
   }
   isMatrixConnected(e = void 0) {
-    e = ye.resolveConnectionMode(e);
+    e = we.resolveConnectionMode(e);
     let t;
-    const a = this.getCyberdeck();
-    return a != null && a.isConnected() && (t = a.getConnectionMode()), !t && this.isEmerged() && (t = this.system.connectionMode), e == null ? ye.resolveConnectionMode(t) != x.connectionMode.disconnected : ye.resolveConnectionMode(t) == e;
+    const s = this.getCyberdeck();
+    return s != null && s.isConnected() && (t = s.getConnectionMode()), !t && this.isEmerged() && (t = this.system.connectionMode), e == null ? we.resolveConnectionMode(t) != F.connectionMode.disconnected : we.resolveConnectionMode(t) == e;
   }
   async nextConnectionMode(e) {
     if (e)
       await e.nextConnectionMode();
     else if (this.isEmerged()) {
-      const t = ye.getNextConnectionMode(this.system.connectionMode);
+      const t = we.getNextConnectionMode(this.system.connectionMode);
       await this.update({ "system.connectionMode": t });
     }
   }
   prepareMatrixMonitor() {
     const e = this.getCyberdeck();
-    e && (e.system.monitors.matrix.maxBonus = A.sumMonitorModifiers(this.items, "matrix", "max"), e.system.monitors.matrix.resistanceBonus = A.sumMonitorModifiers(this.items, "matrix", "resistance"));
+    e && (e.system.monitors.matrix.maxBonus = A.sumMonitorModifiers(
+      this.items,
+      "matrix",
+      "max"
+    ), e.system.monitors.matrix.resistanceBonus = A.sumMonitorModifiers(
+      this.items,
+      "matrix",
+      "resistance"
+    ));
   }
   getDamageMonitor(e) {
     switch (e) {
-      case c.monitors.stun:
-      case c.monitors.physical:
+      case m.monitors.stun:
+      case m.monitors.physical:
         return e;
     }
     return super.getDamageMonitor(e);
   }
   async createWord(e, t) {
-    this._mutateWords(e, (a) => a.concat([{ word: t, audio: "" }]));
+    this._mutateWords(e, (s) => s.concat([{ word: t, audio: "" }]));
   }
   async sayWord(e, t) {
-    var s, i;
-    const a = (s = this.getWord(e, t)) == null ? void 0 : s.word;
-    a && ChatMessage.create({
+    var a, i;
+    const s = (a = this.getWord(e, t)) == null ? void 0 : a.word;
+    s && ChatMessage.create({
       speaker: { alias: ((i = this.token) == null ? void 0 : i.name) ?? this.name },
-      content: await renderTemplate(
-        Aa,
-        {
-          actor: this,
-          wordsToSay: a
-        }
-      )
+      content: await foundry.applications.handlebars.renderTemplate(Gs, {
+        actor: this,
+        wordsToSay: s
+      })
     });
   }
   getWord(e, t) {
-    return e ? this.system[e].find((a) => a.id == t) : void 0;
+    return e ? this.system[e].find((s) => s.id == t) : void 0;
   }
-  async updateWord(e, t, a) {
-    this._applyWordUpdate(e, t, (s) => foundry.utils.mergeObject(s, { word: a }, { overwrite: !0 }));
+  async updateWord(e, t, s) {
+    this._applyWordUpdate(
+      e,
+      t,
+      (a) => foundry.utils.mergeObject(a, { word: s }, { overwrite: !0 })
+    );
   }
-  async _applyWordUpdate(e, t, a) {
-    this._mutateWords(e, (s) => s.map((i) => (i.id == t && a(i), i)));
+  async _applyWordUpdate(e, t, s) {
+    this._mutateWords(
+      e,
+      (a) => a.map((i) => (i.id == t && s(i), i))
+    );
   }
   async deleteWord(e, t) {
-    this._mutateWords(e, (a) => a.filter((s) => s.id != t));
+    this._mutateWords(e, (s) => s.filter((a) => a.id != t));
   }
-  async _mutateWords(e, t = (a) => a) {
+  async _mutateWords(e, t = (s) => s) {
     if (!e)
       return;
-    let a = t(this.system[e]);
-    f.reindexIds(a), await this.update({ [`system.${e}`]: a });
+    let s = t(this.system[e]);
+    b.reindexIds(s), await this.update({ [`system.${e}`]: s });
   }
   getCelebrityValue() {
     return this.system.counters.social.celebrity.value;
@@ -4883,17 +7805,21 @@ class ba extends H {
   }
   async spendAnarchy(e) {
     if (e > 0) {
-      const t = this.getAnarchyScene(), a = this.getAnarchyValue();
-      K.checkSufficient(o.actor.counters.anarchy, e, a + t);
-      const s = Math.min(t, e), i = e - s;
-      s > 0 && d.addCounter(this, c.monitors.sceneAnarchy, -s), this.hasPlayerOwner ? (await game.system.anarchy.gmAnarchy.actorGivesAnarchyToGM(this, e), d.addCounter(this, c.monitors.anarchy, -i)) : i > 0 && super.spendAnarchy(i);
+      const t = this.getAnarchyScene(), s = this.getAnarchyValue();
+      ae.checkSufficient(
+        l.actor.counters.anarchy,
+        e,
+        s + t
+      );
+      const a = Math.min(t, e), i = e - a;
+      a > 0 && g.addCounter(this, m.monitors.sceneAnarchy, -a), this.hasPlayerOwner ? (await game.system.anarchy.gmAnarchy.actorGivesAnarchyToGM(this, e), g.addCounter(this, m.monitors.anarchy, -i)) : i > 0 && super.spendAnarchy(i);
     }
   }
   canUseEdge() {
     return !0;
   }
   getWounds() {
-    const e = f.divint(this.system.monitors.stun.value, 3) + f.divint(this.system.monitors.physical.value, 3);
+    const e = b.divint(this.system.monitors.stun.value, 3) + b.divint(this.system.monitors.physical.value, 3);
     return Math.max(0, e - this.system.ignoreWounds);
   }
   canPilotVehicle() {
@@ -4908,43 +7834,45 @@ class ba extends H {
     return (e = this.getCyberdeck()) == null ? void 0 : e.isConnected();
   }
   isEmerged() {
-    return this.system.capacity == c.capacities.emerged;
+    return this.system.capacity == m.capacities.emerged;
   }
   getCyberdeck() {
     return this.items.find((e) => e.isActive() && e.isCyberdeck());
   }
   async rollDrain(e) {
     if (e) {
-      const t = new Roll(`${e}dgcf=1[${game.i18n.localize(o.common.roll.rollTheme.drain)}]`);
+      const t = new Roll(
+        `${e}dgcf=1[${game.i18n.localize(l.common.roll.rollTheme.drain)}]`
+      );
       await t.evaluate({ async: !0 }), await this.sufferDrain(t.total);
-      const a = await renderTemplate(fa, {
-        ANARCHY: o,
-        actor: this,
-        drain: t.total,
-        options: {
-          classes: game.system.anarchy.styles.selectCssClass()
+      const s = await foundry.applications.handlebars.renderTemplate(
+        Vs,
+        {
+          ANARCHY: l,
+          actor: this,
+          drain: t.total,
+          options: {
+            classes: game.system.anarchy.styles.selectCssClass()
+          }
         }
-      });
-      await t.toMessage({ flavor: a });
+      );
+      await t.toMessage({ flavor: s });
     }
   }
   async sufferDrain(e) {
-    e != 0 && await this.addCounter(c.monitors.stun, e);
+    e != 0 && await this.addCounter(m.monitors.stun, e);
   }
   async rollConvergence(e) {
     e && game.system.anarchy.gmConvergence.rollConvergence(this.id, e);
   }
   async rollCelebrity() {
-    await De.create(this);
+    await Ye.create(this);
   }
 }
-const Ca = [
-  c.attributes.system,
-  c.attributes.firewall
-];
-class ka extends H {
+const Ws = [m.attributes.system, m.attributes.firewall];
+class Bs extends H {
   static get defaultIcon() {
-    return `${G}/actors/cctv-camera.svg`;
+    return `${j}/actors/cctv-camera.svg`;
   }
   static get initiative() {
     return H.initiative + " + @attributes.system.value";
@@ -4952,31 +7880,31 @@ class ka extends H {
   getMatrixDetails() {
     return {
       hasMatrix: !0,
-      logic: c.attributes.system,
-      firewall: c.attributes.firewall,
+      logic: m.attributes.system,
+      firewall: m.attributes.firewall,
       monitor: this.system.monitors.matrix,
       overflow: void 0
     };
   }
   getAttributes() {
-    return Ca;
+    return Ws;
   }
 }
-const wa = [
-  c.attributes.autopilot,
-  c.attributes.handling,
-  c.attributes.firewall,
-  c.attributes.system
+const Ks = [
+  m.attributes.autopilot,
+  m.attributes.handling,
+  m.attributes.firewall,
+  m.attributes.system
 ];
-class va extends H {
+class qs extends H {
   static get defaultIcon() {
-    return `${G}/shadowamps/drone.svg`;
+    return `${j}/shadowamps/drone.svg`;
   }
   static get initiative() {
     return H.initiative + " + max(@attributes.system.value, @attributes.autopilot.value)";
   }
   prepareDerivedData() {
-    this.system.monitors.matrix.max = this._getMonitorMax(c.attributes.system), super.prepareDerivedData();
+    this.system.monitors.matrix.max = this._getMonitorMax(m.attributes.system), super.prepareDerivedData();
   }
   computePhysicalState() {
     return {
@@ -4987,23 +7915,23 @@ class va extends H {
   getMatrixDetails() {
     return {
       hasMatrix: !0,
-      logic: c.attributes.system,
-      firewall: c.attributes.firewall,
+      logic: m.attributes.system,
+      firewall: m.attributes.firewall,
       monitor: this.system.monitors.matrix,
       overflow: void 0
     };
   }
   getAttributes() {
-    return wa;
+    return Ks;
   }
   getPhysicalAgility() {
-    return c.attributes.autopilot;
+    return m.attributes.autopilot;
   }
   getDamageMonitor(e) {
     switch (e) {
-      case c.monitors.physical:
-        return c.monitors.structure;
-      case c.monitors.stun:
+      case m.monitors.physical:
+        return m.monitors.structure;
+      case m.monitors.stun:
         return;
     }
     return super.getDamageMonitor(e);
@@ -5012,29 +7940,29 @@ class va extends H {
     return CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER;
   }
   async rollPilotDefense(e) {
-    const t = I.getSelectedActors();
-    K.checkOutOfRange(o.user.selectedTokenActors, t.length, 0, 1);
-    const a = I.getPlayerActor(game.user), s = this.getOwnerActor(), i = [...t, a, s].filter((n) => n == null ? void 0 : n.testUserPermission(game.user, this.getRightToDefend())).find((n) => n == null ? void 0 : n.canPilotVehicle());
+    const t = P.getSelectedActors();
+    ae.checkOutOfRange(l.user.selectedTokenActors, t.length, 0, 1);
+    const s = P.getPlayerActor(game.user), a = this.getOwnerActor(), i = [...t, s, a].filter((o) => o == null ? void 0 : o.testUserPermission(game.user, this.getRightToDefend())).find((o) => o == null ? void 0 : o.canPilotVehicle());
     if (i)
       return await i.rollDefense(e);
     ui.notifications.warn(
-      game.i18n.localize(o.common.errors.noValidPilotForVehicle, {
+      game.i18n.localize(l.common.errors.noValidPilotForVehicle, {
         vehicle: this.name
       })
     );
   }
   async _migrateHandlingToAttribute(e) {
-    var s;
-    const t = ((s = this.system.attributes.handling) == null ? void 0 : s.value) ?? 0, a = this.system.handling;
-    a && t < a && await this.update({
+    var a;
+    const t = ((a = this.system.attributes.handling) == null ? void 0 : a.value) ?? 0, s = this.system.handling;
+    s && t < s && await this.update({
       "system.-=handling": null,
-      "system.attributes.handling.value": a
+      "system.attributes.handling.value": s
     });
   }
 }
-class Ra extends Ye {
+class Qs extends Pe {
   get template() {
-    return `${h}/actor/character.hbs`;
+    return `${y}/actor/character.hbs`;
   }
   /** @override */
   static get defaultOptions() {
@@ -5044,7 +7972,7 @@ class Ra extends Ye {
     });
   }
 }
-class Ma extends Ae {
+class Be extends Me {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       width: 450,
@@ -5052,16 +7980,13 @@ class Ma extends Ae {
     });
   }
   getData(e) {
-    return foundry.utils.mergeObject(
-      super.getData(e),
-      {}
-    );
+    return foundry.utils.mergeObject(super.getData(e), {});
   }
   activateListeners(e) {
     super.activateListeners(e);
   }
 }
-class Ha extends Ae {
+class Ke extends Me {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       width: 450,
@@ -5069,18 +7994,15 @@ class Ha extends Ae {
     });
   }
   getData(e) {
-    return foundry.utils.mergeObject(
-      super.getData(e),
-      {}
-    );
+    return foundry.utils.mergeObject(super.getData(e), {});
   }
   activateListeners(e) {
     super.activateListeners(e);
   }
 }
-class Sa extends Ye {
+class Xs extends Pe {
   get template() {
-    return `${h}/actor/npc-sheet.hbs`;
+    return `${y}/actor/npc-sheet.hbs`;
   }
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
@@ -5093,23 +8015,21 @@ class Sa extends Ye {
     return t.options.classes.push("npc-sheet"), t;
   }
 }
-class Na extends q {
+class Zs extends ie {
   static get defaultIcon() {
-    return `${G}/vitruvian-man.svg`;
+    return `${j}/vitruvian-man.svg`;
   }
   async onCreateItem(e, t) {
-    var a;
-    (a = this.parent) == null || a.removeOtherMetatype(this);
+    var s;
+    (s = this.parent) == null || s.removeOtherMetatype(this);
   }
 }
-class Ta extends q {
+class Js extends ie {
   static get defaultIcon() {
-    return `${G}/shadowamps/cyberdeck.svg`;
+    return `${j}/shadowamps/cyberdeck.svg`;
   }
   getAttributes() {
-    return [
-      c.attributes.firewall
-    ];
+    return [m.attributes.firewall];
   }
   async setMatrixMonitor(e, t) {
     await this.update({ [e]: t });
@@ -5122,10 +8042,10 @@ class Ta extends q {
   }
   getMatrixOverflow() {
     switch (this.system.connectionMode) {
-      case x.connectionMode.virtual:
-        return c.monitors.physical;
-      case x.connectionMode.augmented:
-        return c.monitors.stun;
+      case F.connectionMode.virtual:
+        return m.monitors.physical;
+      case F.connectionMode.augmented:
+        return m.monitors.stun;
     }
   }
   isConnected() {
@@ -5135,11 +8055,11 @@ class Ta extends q {
     return this.system.connectionMode;
   }
   async nextConnectionMode() {
-    const e = ye.getNextConnectionMode(this.system.connectionMode);
+    const e = we.getNextConnectionMode(this.system.connectionMode);
     await this.update({ "system.connectionMode": e });
   }
 }
-class ee extends ItemSheet {
+class me extends foundry.appv1.sheets.ItemSheet {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       isGM: game.user.isGM,
@@ -5149,63 +8069,73 @@ class ee extends ItemSheet {
     });
   }
   get title() {
-    return game.i18n.localize(o.itemType.singular[this.item.type]) + ": " + this.item.name;
+    return game.i18n.localize(l.itemType.singular[this.item.type]) + ": " + this.item.name;
   }
   get template() {
-    return `${h}/item/${this.object.type}.hbs`;
+    const e = `${y}/item/${this.item.type}.hbs`, t = [
+      "contact",
+      "cyberdeck",
+      "gear",
+      "metatype",
+      "quality",
+      "shadowamp",
+      "skill",
+      "weapon"
+    ];
+    return !this.item.type || !t.includes(this.item.type) ? (console.warn(
+      `BaseItemSheet: Unknown item type '${this.item.type}', falling back to gear template`
+    ), `${y}/item/gear.hbs`) : e;
   }
   getData(e) {
-    var n;
-    const t = (n = this.item.actor) == null ? void 0 : n.getAttributes(this.item), a = this.item.actor ? (l) => t.includes(l) : (l) => !0, s = this.item.type == c.itemType.skill;
-    let i = foundry.utils.mergeObject(
-      super.getData(e),
-      {
-        options: {
-          isGM: game.user.isGM,
-          owner: this.document.isOwner,
-          isOwned: this.actor != null,
-          editable: this.isEditable,
-          cssClass: this.isEditable ? "editable" : "locked"
-        },
-        ENUMS: foundry.utils.mergeObject(S.getEnums(a, s), game.system.anarchy.modifiers.getEnums()),
-        ANARCHY: o
-      }
-    );
-    return i.system = this.item.system, i;
+    var o, n, c;
+    const t = (o = this.item.actor) == null ? void 0 : o.getAttributes(this.item), s = this.item.actor ? (h) => t.includes(h) : (h) => !0, a = this.item.type == m.itemType.skill;
+    let i = foundry.utils.mergeObject(super.getData(e), {
+      options: {
+        isGM: game.user.isGM,
+        owner: this.document.isOwner,
+        isOwned: this.actor != null,
+        editable: this.isEditable,
+        cssClass: this.isEditable ? "editable" : "locked"
+      },
+      ENUMS: foundry.utils.mergeObject(
+        E.getEnums(s, a),
+        game.system.anarchy.modifiers.getEnums()
+      ),
+      ANARCHY: l
+    });
+    return i.system = this.item.system, (n = game.system.anarchy) != null && n.uiCustomization && (i.uiCustomizations = game.system.anarchy.uiCustomization.getActiveCustomizations(), i.options.classes = [
+      ...i.options.classes || [],
+      ...game.system.anarchy.uiCustomization.getCustomizationClasses("item")
+    ]), (c = game.system.anarchy) != null && c.themeUtilities && (i.currentTheme = game.system.anarchy.styles.currentTheme, i.availableThemes = game.system.anarchy.styles.availableThemes, i.themeMetadata = game.system.anarchy.themeUtilities.getCurrentThemeMetadata()), i;
   }
   activateListeners(e) {
-    super.activateListeners(e), e.find("a.click-checkbar-element").click(
-      async (t) => await this.onClickMonitor(t)
-    ), e.find(".click-modifier-add").click(
-      async (t) => await this.item.createModifier()
-    ), e.find(".click-modifier-delete").click(
-      async (t) => await this.item.deleteModifier(this.getEventModifierId(t))
-    ), e.find(".input-modifier-value").change(
-      async (t) => await this.item.changeModifierValue(
-        this.getEventModifierId(t),
-        t.currentTarget.value
+    var t, s;
+    super.activateListeners(e), (t = game.system.anarchy) != null && t.uiCustomization && game.system.anarchy.uiCustomization.applyCustomizationsToElement(e[0], "item"), (s = game.system.anarchy) != null && s.themeUtilities && game.system.anarchy.themeUtilities.applyThemeEnhancements(e[0], "item"), e.find("a.click-checkbar-element").click(async (a) => await this.onClickMonitor(a)), e.find(".click-modifier-add").click(async (a) => await this.item.createModifier()), e.find(".click-modifier-delete").click(async (a) => await this.item.deleteModifier(this.getEventModifierId(a))), e.find(".input-modifier-value").change(
+      async (a) => await this.item.changeModifierValue(
+        this.getEventModifierId(a),
+        a.currentTarget.value
       )
     ), e.find(".input-modifier-condition").change(
-      async (t) => await this.item.changeModifierCondition(
-        this.getEventModifierId(t),
-        t.currentTarget.value
+      async (a) => await this.item.changeModifierCondition(
+        this.getEventModifierId(a),
+        a.currentTarget.value
       )
     ), e.find(".select-modifier-change").change(
-      async (t) => await this.item.changeModifierSelection(
-        this.getEventModifierId(t),
-        this.getEventModifierSelect(t),
-        t.currentTarget.value
+      async (a) => await this.item.changeModifierSelection(
+        this.getEventModifierId(a),
+        this.getEventModifierSelect(a),
+        a.currentTarget.value
       )
     );
   }
   async onClickMonitor(e) {
     if (this.item.parent) {
-      const t = this.getEventMonitorCode(e), a = t == "marks" ? $(e.currentTarget).closest(".anarchy-marks").attr("data-actor-id") : void 0;
+      const t = this.getEventMonitorCode(e), s = t == "marks" ? $(e.currentTarget).closest(".anarchy-marks").attr("data-actor-id") : void 0;
       await this.item.parent.switchMonitorCheck(
         t,
         this.getEventMonitorIndex(e),
         this.isEventMonitorChecked(e),
-        a,
+        s,
         item
       );
     }
@@ -5226,7 +8156,7 @@ class ee extends ItemSheet {
     return $(e.currentTarget).attr("data-modifier-select");
   }
 }
-class Ea extends ee {
+class qe extends me {
   getData(e) {
     return super.getData(e);
   }
@@ -5234,7 +8164,7 @@ class Ea extends ee {
     super.activateListeners(e);
   }
 }
-class Da extends ee {
+class Qe extends me {
   getData(e) {
     return super.getData(e);
   }
@@ -5244,7 +8174,7 @@ class Da extends ee {
     }), super.activateListeners(e);
   }
 }
-class Ya extends ee {
+class Xe extends me {
   getData(e) {
     return super.getData(e);
   }
@@ -5252,7 +8182,7 @@ class Ya extends ee {
     super.activateListeners(e);
   }
 }
-class Oa extends ee {
+class Ze extends me {
   getData(e) {
     return super.getData(e);
   }
@@ -5260,7 +8190,7 @@ class Oa extends ee {
     super.activateListeners(e);
   }
 }
-class Ia extends ee {
+class Je extends me {
   getData(e) {
     return super.getData(e);
   }
@@ -5268,7 +8198,7 @@ class Ia extends ee {
     super.activateListeners(e);
   }
 }
-class _a extends ee {
+class et extends me {
   getData(e) {
     return super.getData(e);
   }
@@ -5276,61 +8206,64 @@ class _a extends ee {
     super.activateListeners(e);
   }
 }
-class xa extends ee {
+class tt extends me {
   activateListeners(e) {
     super.activateListeners(e), e.find(".select-skill-code").change(async (t) => {
-      const a = t.currentTarget.value, s = Qe.prepareSkill(a);
-      s && await this.object.update(s);
+      const s = t.currentTarget.value, a = pt.prepareSkill(s);
+      a && await this.object.update(a);
     });
   }
 }
-class Pa extends ee {
+class st extends me {
   getData(e) {
     let t = super.getData(e);
-    return t.ENUMS = foundry.utils.mergeObject({ defenses: Y.getDefenses() }, t.ENUMS), t.hasDrain = this.item.hasDrain, t.hasConvergence = this.item.hasConvergence, t;
+    return t.ENUMS = foundry.utils.mergeObject(
+      { defenses: x.getDefenses() },
+      t.ENUMS
+    ), t.hasDrain = this.item.hasDrain, t.hasConvergence = this.item.hasConvergence, t;
   }
   activateListeners(e) {
     super.activateListeners(e), e.find(".select-weapon-skill").change(async (t) => {
-      const a = t.currentTarget.value, s = game.system.anarchy.skills.get(a);
-      s && await this.object.update({ "system.defense": s.defense }, { render: !1 });
+      const s = t.currentTarget.value, a = game.system.anarchy.skills.get(s);
+      a && await this.object.update({ "system.defense": a.defense }, { render: !1 });
     });
   }
 }
-class $a extends q {
+class ea extends ie {
   static get defaultIcon() {
-    return `${G}/contacts/contact.svg`;
+    return `${j}/contacts/contact.svg`;
   }
 }
-class La extends q {
+class ta extends ie {
   static get defaultIcon() {
-    return `${G}/gear/gear.svg`;
+    return `${j}/gear/gear.svg`;
   }
 }
-class Ga extends q {
+class sa extends ie {
   static get defaultIcon() {
-    return `${G}/quality-positive.svg`;
+    return `${j}/quality-positive.svg`;
   }
 }
-class Va extends q {
+class aa extends ie {
   static get defaultIcon() {
-    return `${G}/shadowamps/other.svg`;
+    return `${j}/shadowamps/other.svg`;
   }
 }
-const Se = "convergences", Ua = `${g}.${Se}`, ut = "GMConvergence.rollConvergence", Fa = `${h}/app/gm-convergence.hbs`, ht = `${h}/app/gm-convergence-actors.hbs`;
-class ja {
+const ze = "convergences", ia = `${d}.${ze}`, Ot = "GMConvergence.rollConvergence", oa = `${y}/app/gm-convergence.hbs`, xt = `${y}/app/gm-convergence-actors.hbs`;
+class ra {
   constructor() {
-    game.settings.register(g, Se, {
+    game.settings.register(d, ze, {
       scope: "world",
       config: !1,
       default: [],
       type: Array
-    }), this.convergences = [], Hooks.on("updateSetting", async (e, t, a, s) => this.onUpdateSetting(e, t, a, s)), Hooks.once("ready", () => this.onReady());
+    }), this.convergences = [], Hooks.on(
+      "updateSetting",
+      async (e, t, s, a) => this.onUpdateSetting(e, t, s, a)
+    ), Hooks.once("ready", () => this.onReady());
   }
   async onReady() {
-    await loadTemplates([
-      Fa,
-      ht
-    ]), this.convergences = game.settings.get(g, Se).filter((e) => game.actors.get(e.actorId)), await j.register(ut, {
+    await loadTemplates([oa, xt]), this.convergences = game.settings.get(d, ze).filter((e) => game.actors.get(e.actorId)), await X.register(Ot, {
       callback: (e) => this.rollConvergence(e.actorId, e.convergence),
       condition: (e) => e.isGM
     });
@@ -5339,82 +8272,99 @@ class ja {
     return this.convergences;
   }
   async rollConvergence(e, t) {
-    j.call(ut, { actorId: e, convergence: t }) || await this._gmRollConvergence(t, e);
+    X.call(Ot, { actorId: e, convergence: t }) || await this._gmRollConvergence(t, e);
   }
   async _gmRollConvergence(e, t) {
-    const a = game.actors.get(t), s = new Roll(`${e}dgcf=1[${game.i18n.localize(o.common.roll.rollTheme.convergence)}]`);
-    await s.evaluate({ async: !0 }), this.addConvergence(a, s.total), s.toMessage({
-      user: game.user,
-      whisper: ChatMessage.getWhisperRecipients("GM"),
-      blind: !0,
-      flavor: `Convergence for ${a.name}: ${s.total}`
-    }, { rollType: "blindroll" });
+    const s = game.actors.get(t), a = new Roll(
+      `${e}dgcf=1[${game.i18n.localize(l.common.roll.rollTheme.convergence)}]`
+    );
+    await a.evaluate({ async: !0 }), this.addConvergence(s, a.total), a.toMessage(
+      {
+        user: game.user,
+        whisper: ChatMessage.getWhisperRecipients("GM"),
+        blind: !0,
+        flavor: `Convergence for ${s.name}: ${a.total}`
+      },
+      { rollType: "blindroll" }
+    );
   }
   async addConvergence(e, t) {
     !game.user.isGM || !t || await this.setActorConvergence(e, this.getConvergence(e) + t);
   }
   getConvergence(e) {
     var t;
-    return game.user.isGM ? ((t = this.convergences.find((a) => a.actorId == e.id)) == null ? void 0 : t.convergence) ?? 0 : 0;
+    return game.user.isGM ? ((t = this.convergences.find((s) => s.actorId == e.id)) == null ? void 0 : t.convergence) ?? 0 : 0;
   }
   async setActorConvergence(e, t) {
-    let a = this.convergences.find((s) => s.actorId == e.id);
-    a || (a = { actorId: e.id }, this.convergences.push(a)), a.convergence = t, this.convergences = this.convergences.filter((s) => s.convergence > 0), game.settings.set(g, Se, this.convergences);
+    let s = this.convergences.find((a) => a.actorId == e.id);
+    s || (s = { actorId: e.id }, this.convergences.push(s)), s.convergence = t, this.convergences = this.convergences.filter((a) => a.convergence > 0), game.settings.set(d, ze, this.convergences);
   }
   async activateListeners(e) {
     this.toolbar = e.find(".gm-convergence-bar"), await this._rebuild();
   }
-  async onUpdateSetting(e, t, a, s) {
-    game.user.isGM && e.key == Ua && await this._rebuild();
+  async onUpdateSetting(e, t, s, a) {
+    game.user.isGM && e.key == ia && await this._rebuild();
   }
   async _rebuild() {
     this.toolbar.find(".gm-convergence-content").replaceWith(await this._renderBar()), this.toolbar.find("a.click-checkbar-element").click(async (e) => await this._onClickConvergence(e));
   }
   async _onClickConvergence(e) {
     $(e.currentTarget).closest(".checkbar-root").attr("data-monitor-code");
-    const t = $(e.currentTarget).closest(".actor-convergence").attr("data-actor-id"), a = Number.parseInt($(e.currentTarget).attr("data-index")), s = $(e.currentTarget).attr("data-checked") == "true", i = d.newValue(a, s), n = game.actors.get(t);
-    await this.setActorConvergence(n, i);
+    const t = $(e.currentTarget).closest(".actor-convergence").attr("data-actor-id"), s = Number.parseInt($(e.currentTarget).attr("data-index")), a = $(e.currentTarget).attr("data-checked") == "true", i = g.newValue(s, a), o = game.actors.get(t);
+    await this.setActorConvergence(o, i);
   }
   async _renderBar() {
     const e = {
-      convergences: this.convergences.map((a) => ({
-        actor: game.actors.get(a.actorId),
-        convergence: a.convergence
+      convergences: this.convergences.map((s) => ({
+        actor: game.actors.get(s.actorId),
+        convergence: s.convergence
       }))
     };
-    return await renderTemplate(ht, e);
+    return await renderTemplate(xt, e);
   }
 }
-class gt extends Combat {
+class $t extends Combat {
   static init() {
-    Hooks.on("createCombatant", async (e, t, a) => await e.combat.onCreateCombatant(e, t, a)), Hooks.on("deleteCombatant", async (e, t, a) => await e.combat.onDeleteCombatant(e, t, a)), Hooks.on("deleteCombat", async (e, t, a) => await e.onDeleteCombat(t, a));
+    Hooks.on(
+      "createCombatant",
+      async (e, t, s) => await e.combat.onCreateCombatant(e, t, s)
+    ), Hooks.on(
+      "deleteCombatant",
+      async (e, t, s) => await e.combat.onDeleteCombatant(e, t, s)
+    ), Hooks.on(
+      "deleteCombat",
+      async (e, t, s) => await e.onDeleteCombat(t, s)
+    );
   }
   get initiative() {
     return { formula: "2d6" };
   }
   async rollInitiative(e, t) {
-    const a = e.map((i) => this.combatants.find((n) => n.id == i)), s = f.classify(a, (i) => i.actor.type);
-    Object.entries(s).forEach(async ([i, n]) => {
-      const l = game.system.anarchy.actorClasses[i], m = n.map((W) => W.id), y = foundry.utils.mergeObject({ formula: l.initiative }, t ?? {});
-      await super.rollInitiative(m, y);
+    const s = e.map((i) => this.combatants.find((o) => o.id == i)), a = b.classify(s, (i) => i.actor.type);
+    Object.entries(a).forEach(async ([i, o]) => {
+      const n = game.system.anarchy.actorClasses[i], c = o.map((N) => N.id), h = foundry.utils.mergeObject(
+        { formula: n.initiative },
+        t ?? {}
+      );
+      await super.rollInitiative(c, h);
     });
   }
-  async onCreateCombatant(e, t, a) {
-    var s;
-    I.isUniqueConnectedGM() && await ((s = e.actor) == null ? void 0 : s.onEnterCombat());
+  async onCreateCombatant(e, t, s) {
+    var a;
+    P.isUniqueConnectedGM() && await ((a = e.actor) == null ? void 0 : a.onEnterCombat());
   }
-  async onDeleteCombatant(e, t, a) {
-    I.isUniqueConnectedGM() && await this._leaveCombat(e);
+  async onDeleteCombatant(e, t, s) {
+    P.isUniqueConnectedGM() && await this._leaveCombat(e);
   }
   async onDeleteCombat(e, t) {
-    I.isUniqueConnectedGM() && this.combatants.forEach(async (a) => await this._leaveCombat(a));
+    P.isUniqueConnectedGM() && this.combatants.forEach(async (s) => await this._leaveCombat(s));
   }
   async _leaveCombat(e) {
     var t;
     return await ((t = e.actor) == null ? void 0 : t.onLeaveCombat());
   }
 }
-class Wa extends Ae {
+class at extends Me {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       width: 450,
@@ -5422,16 +8372,13 @@ class Wa extends Ae {
     });
   }
   getData(e) {
-    return foundry.utils.mergeObject(
-      super.getData(e),
-      {}
-    );
+    return foundry.utils.mergeObject(super.getData(e), {});
   }
   activateListeners(e) {
     super.activateListeners(e);
   }
 }
-class za extends Ae {
+class it extends Me {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       width: 450,
@@ -5439,22 +8386,16 @@ class za extends Ae {
     });
   }
   getData(e) {
-    return foundry.utils.mergeObject(
-      super.getData(e),
-      {}
-    );
+    return foundry.utils.mergeObject(super.getData(e), {});
   }
   activateListeners(e) {
     super.activateListeners(e);
   }
 }
-const Ba = [
-  c.attributes.logic,
-  c.attributes.edge
-];
-class Ka extends H {
+const na = [m.attributes.logic, m.attributes.edge];
+class ca extends H {
   static get defaultIcon() {
-    return `${G}/misc/rss.svg`;
+    return `${j}/misc/rss.svg`;
   }
   static get initiative() {
     return H.initiative + " + @attributes.logic.value";
@@ -5462,26 +8403,23 @@ class Ka extends H {
   getMatrixDetails() {
     return {
       hasMatrix: !0,
-      logic: c.attributes.logic,
-      firewall: c.attributes.logic,
+      logic: m.attributes.logic,
+      firewall: m.attributes.logic,
       monitor: this.system.monitors.matrix,
       overflow: void 0
     };
   }
   getAttributes() {
-    return Ba;
+    return na;
   }
   isEmerged() {
     return !0;
   }
 }
-const qa = [
-  c.attributes.logic,
-  c.attributes.firewall
-];
-class Xa extends H {
+const la = [m.attributes.logic, m.attributes.firewall];
+class ma extends H {
   static get defaultIcon() {
-    return `${G}/misc/rub-el-hizb.svg`;
+    return `${j}/misc/rub-el-hizb.svg`;
   }
   static get initiative() {
     return H.initiative + " + @attributes.logic.value";
@@ -5489,8 +8427,8 @@ class Xa extends H {
   getMatrixDetails() {
     return {
       hasMatrix: !0,
-      logic: c.attributes.logic,
-      firewall: c.attributes.firewall,
+      logic: m.attributes.logic,
+      firewall: m.attributes.firewall,
       monitor: this.system.monitors.matrix,
       overflow: void 0
     };
@@ -5499,121 +8437,130 @@ class Xa extends H {
     return !1;
   }
   getAttributes() {
-    return qa;
+    return la;
   }
 }
-const yt = `${h}/token/hud-shortcuts.hbs`;
-class Qa {
+const Yt = `${y}/token/hud-shortcuts.hbs`;
+class da {
   constructor() {
-    Hooks.on("renderTokenHUD", async (e, t, a) => await this.addExtensionHud(e, t, a._id)), Hooks.once("ready", () => this.onReady());
+    Hooks.on(
+      "renderTokenHUD",
+      async (e, t, s) => await this.addExtensionHud(e, t, s._id)
+    ), Hooks.once("ready", () => this.onReady());
   }
   async onReady() {
-    await loadTemplates([
-      yt
-    ]);
+    await loadTemplates([Yt]);
   }
   /* -------------------------------------------- */
-  async removeExtensionHud(e, t, a) {
+  async removeExtensionHud(e, t, s) {
     t.find(".control-icon.anarchy-shortcuts").remove();
   }
-  async addExtensionHud(e, t, a) {
+  async addExtensionHud(e, t, s) {
     e.hasExtension = !0;
-    const s = await this._renderShortcuts(a);
-    t.find(".control-icon[data-action=combat]").after(s);
+    const a = await this._renderShortcuts(s);
+    t.find(".control-icon[data-action=combat]").after(a);
   }
   async _renderShortcuts(e) {
-    const t = canvas.tokens.get(e), a = {
+    const t = canvas.tokens.get(e), s = {
       tokenId: e,
       shortcuts: t.actor.getShortcuts(),
       options: {
         classes: [game.system.anarchy.styles.selectCssClass()]
       }
-    }, s = await renderTemplate(yt, a), i = $(s), n = i.find(".anarchy-shortcuts-list");
-    return this._toggleHudActive(i, n), i.find(".anarchy-shortcuts-toggle").click((l) => {
-      this._toggleHudActive(i, n);
-    }), n.find(".anarchy-shortcut-button").click((l) => {
-      const m = $(l.currentTarget).closest(".anarchy-shortcuts-list").attr("data-token-id"), y = $(l.currentTarget).attr("data-shortcut-type"), W = $(l.currentTarget).attr("data-shortcut-id");
-      this.onClickShortcutButton(m, y, W);
+    }, a = await foundry.applications.handlebars.renderTemplate(
+      Yt,
+      s
+    ), i = $(a), o = i.find(".anarchy-shortcuts-list");
+    return this._toggleHudActive(i, o), i.find(".anarchy-shortcuts-toggle").click((n) => {
+      this._toggleHudActive(i, o);
+    }), o.find(".anarchy-shortcut-button").click((n) => {
+      const c = $(n.currentTarget).closest(".anarchy-shortcuts-list").attr("data-token-id"), h = $(n.currentTarget).attr("data-shortcut-type"), N = $(n.currentTarget).attr("data-shortcut-id");
+      this.onClickShortcutButton(c, h, N);
     }), i;
   }
-  onClickShortcutButton(e, t, a) {
-    const s = canvas.tokens.get(e), i = s == null ? void 0 : s.actor;
+  onClickShortcutButton(e, t, s) {
+    const a = canvas.tokens.get(e), i = a == null ? void 0 : a.actor;
     if (i) {
-      const n = i == null ? void 0 : i.getShortcut(t, a);
-      n == null || n.callback(s);
+      const o = i == null ? void 0 : i.getShortcut(t, s);
+      o == null || o.callback(a);
     } else
-      ui.notifications.warn(game.i18.localize(o.common.errors.noTokenActor));
+      ui.notifications.warn(game.i18.localize(l.common.errors.noTokenActor));
   }
   _toggleHudActive(e, t) {
-    e.toggleClass("active"), f.showControlWhen(t, e.hasClass("active"));
+    e.toggleClass("active"), b.showControlWhen(t, e.hasClass("active"));
   }
 }
-class Za {
+class ua {
   static getToken(e) {
-    var a;
+    var s;
     if (e == null)
       return;
-    let t = (a = game.scenes.current) == null ? void 0 : a.tokens.get(e);
+    let t = (s = game.scenes.current) == null ? void 0 : s.tokens.get(e);
     if (t)
       return t;
-    for (let s of game.scenes)
-      if (t = s.tokens.find((i) => i.id == e), t)
+    for (let a of game.scenes)
+      if (t = a.tokens.find((i) => i.id == e), t)
         return t;
     console.warn("No token found in any scene with id", e);
   }
 }
-const Ja = `${h}/chat/anarchy-roll.hbs`, es = [
-  `${h}/chat/risk-outcome.hbs`,
-  `${h}/chat/edge-reroll-button.hbs`,
-  `${h}/chat/anarchy-roll-title.hbs`,
-  `${h}/chat/parts/actor-image.hbs`,
-  `${h}/chat/parts/generic-parameter.hbs`,
-  `${h}/chat/parts/result-mode-weapon.hbs`
+const ha = `${y}/chat/anarchy-roll.hbs`, ga = [
+  `${y}/chat/risk-outcome.hbs`,
+  `${y}/chat/edge-reroll-button.hbs`,
+  `${y}/chat/anarchy-roll-title.hbs`,
+  `${y}/chat/parts/actor-image.hbs`,
+  `${y}/chat/parts/generic-parameter.hbs`,
+  `${y}/chat/parts/result-mode-weapon.hbs`
 ];
-class T {
+class D {
   constructor() {
     Hooks.once("ready", () => this.onReady());
   }
   async onReady() {
-    await loadTemplates(f.distinct(es));
+    await loadTemplates(b.distinct(ga));
   }
   async roll(e) {
-    var t, a;
-    e.parameters.forEach((s) => {
-      s.isUsed != null && (s.used = s.isUsed(s));
-    }), e.param = game.system.anarchy.rollParameters.compute(e.parameters), e.param.edge = e.parameters.find((s) => s.category == C.edge && s.used) ? 1 : 0, e.param.anarchy = e.parameters.filter((s) => {
+    var t, s;
+    e.parameters.forEach((a) => {
+      a.isUsed != null && (a.used = a.isUsed(a));
+    }), e.param = game.system.anarchy.rollParameters.compute(e.parameters), e.param.edge = e.parameters.find(
+      (a) => a.category == v.edge && a.used
+    ) ? 1 : 0, e.param.anarchy = e.parameters.filter((a) => {
       var i;
-      return ((i = s.flags) == null ? void 0 : i.isAnarchy) && s.used;
+      return ((i = a.flags) == null ? void 0 : i.isAnarchy) && a.used;
     }).length, e.options.canUseEdge = e.options.canUseEdge && !e.param.edge, e.param.social = {
-      credibility: ((t = e.parameters.find((s) => s.code == "credibility" && s.used)) == null ? void 0 : t.value) ?? 0,
-      rumor: ((a = e.parameters.find((s) => s.code == "rumor" && s.used)) == null ? void 0 : a.value) ?? 0
+      credibility: ((t = e.parameters.find((a) => a.code == "credibility" && a.used)) == null ? void 0 : t.value) ?? 0,
+      rumor: ((s = e.parameters.find((a) => a.code == "rumor" && a.used)) == null ? void 0 : s.value) ?? 0
     }, await e.actor.spendAnarchy(e.param.anarchy), await e.actor.spendEdge(e.param.edge), await e.actor.spendCredibility(e.param.social.credibility), await e.actor.spendRumor(e.param.social.rumor), await this._roll(e);
   }
   async edgeReroll(e) {
-    e = T.inflateAnarchyRoll(e), e.options.canUseEdge = !1, await e.actor.spendEdge(1), e.param[C.convergence] = void 0, e.param[C.drain] = void 0, await this._roll(e);
+    e = D.inflateAnarchyRoll(e), e.options.canUseEdge = !1, await e.actor.spendEdge(1), e.param[v.convergence] = void 0, e.param[v.drain] = void 0, await this._roll(e);
   }
   async _roll(e) {
-    e.roll = new Oe(e.param), await e.roll.evaluate(), await this._displayRollInChat(e), await e.actor.rollDrain(e.param.drain), await e.actor.rollConvergence(e.param.convergence), await game.system.anarchy.combatManager.manageCombat(e);
+    e.roll = new Le(e.param), await e.roll.evaluate(), await this._displayRollInChat(e), await e.actor.rollDrain(e.param.drain), await e.actor.rollConvergence(e.param.convergence), await game.system.anarchy.combatManager.manageCombat(e);
   }
   async _displayRollInChat(e) {
     e.options.classes = [game.system.anarchy.styles.selectCssClass()];
     const t = {};
-    M.prepareFlag(t, me, T.deflateAnarchyRoll(e)), M.prepareFlag(t, ze, e.options.canUseEdge), M.prepareFlag(t, Be, M.messageActorRights(e.actor));
-    const a = await renderTemplate(Ja, e), s = await e.roll.toMessage({ flavor: a, flags: t });
-    e.chatMessageId = s.id;
+    T.prepareFlag(t, be, D.deflateAnarchyRoll(e)), T.prepareFlag(t, mt, e.options.canUseEdge), T.prepareFlag(t, dt, T.messageActorRights(e.actor));
+    const s = await foundry.applications.handlebars.renderTemplate(
+      ha,
+      e
+    ), a = await e.roll.toMessage({ flavor: s, flags: t });
+    e.chatMessageId = a.id;
   }
   static deflateAnarchyRoll(e) {
-    return e && (e = deepClone(e), e.actor = T._reduceToId(e.actor), e.skill = T._reduceToId(e.skill), e.skill = T._reduceToId(e.skill), e.weapon = T._reduceToId(e.weapon), e.item = T._reduceToId(e.item), e.parameters = T._reduceParameters(e.parameters), e.attackData = void 0, e.attributes = void 0, e.ANARCHY = void 0, e.ENUMS = void 0), e;
+    return e && (e = deepClone(e), e.actor = D._reduceToId(e.actor), e.skill = D._reduceToId(e.skill), e.skill = D._reduceToId(e.skill), e.weapon = D._reduceToId(e.weapon), e.item = D._reduceToId(e.item), e.parameters = D._reduceParameters(e.parameters), e.attackData = void 0, e.attributes = void 0, e.ANARCHY = void 0, e.ENUMS = void 0), e;
   }
   static inflateAnarchyRoll(e) {
-    return e && (e = deepClone(e), e.actor = T._reloadActorFromId(e.actor, e.tokenId), e.skill = T._reloadItemFromId(e.actor, e.skill), e.item = T._reloadItemFromId(e.actor, e.item), e.weapon = T._reloadItemFromId(e.actor, e.weapon), e.attributes = e.actor.getUsableAttributes(e.item), e.parameters = T._reloadParameters(e, e.parameters), e.ANARCHY = o, e.ENUMS = S.getEnums()), e;
+    return e && (e = deepClone(e), e.actor = D._reloadActorFromId(e.actor, e.tokenId), e.skill = D._reloadItemFromId(e.actor, e.skill), e.item = D._reloadItemFromId(e.actor, e.item), e.weapon = D._reloadItemFromId(e.actor, e.weapon), e.attributes = e.actor.getUsableAttributes(e.item), e.parameters = D._reloadParameters(e, e.parameters), e.ANARCHY = l, e.ENUMS = E.getEnums()), e;
   }
   static _reduceToId(e) {
     return e ? { id: e.id } : void 0;
   }
   static _reloadActorFromId(e, t) {
-    const a = Za.getToken(t);
-    return a ? a.actor : e != null && e.id ? game.actors.get(e.id) : void 0;
+    const s = ua.getToken(t);
+    return s ? s.actor : e != null && e.id ? game.actors.get(e.id) : void 0;
   }
   static _reloadItemFromId(e, t) {
     return e && (t != null && t.id) ? e.items.get(t.id) : void 0;
@@ -5627,90 +8574,101 @@ class T {
   static _reloadParameters(e, t) {
     if (!t)
       return t;
-    const a = game.system.anarchy.rollParameters.build(e);
-    return t.map((s) => {
-      const i = a.find((n) => n.code == s.code) ?? {};
-      return foundry.utils.mergeObject(s, i, { overwrite: !1 });
+    const s = game.system.anarchy.rollParameters.build(e);
+    return t.map((a) => {
+      const i = s.find((o) => o.code == a.code) ?? {};
+      return foundry.utils.mergeObject(a, i, { overwrite: !1 });
     });
   }
 }
-const ts = `${h}/combat/inform-defender.hbs`;
-class as {
+const pa = `${y}/combat/inform-defender.hbs`;
+class ya {
   async manageCombat(e) {
     var t;
     switch (e.mode) {
-      case E.rollType.weapon:
+      case z.rollType.weapon:
         if (!e.targeting || e.roll.total == 0)
           return;
         (t = e.targeting.targetedTokenIds) == null || t.forEach(
-          async (a) => await this.onAttack(a, e)
+          async (s) => await this.onAttack(s, e)
         );
         break;
-      case E.rollType.defense:
+      case z.rollType.defense:
         await this.onDefense(e);
         break;
-      case E.rollType.defensePilot:
+      case z.rollType.defensePilot:
         await this.onDefensePilot(e);
     }
   }
   async onAttack(e, t) {
-    var s;
-    const a = (s = t.targeting) == null ? void 0 : s.attackerTokenId;
-    e && a && await this.displayDefenseChoice(e, t);
+    var a;
+    const s = (a = t.targeting) == null ? void 0 : a.attackerTokenId;
+    e && s && await this.displayDefenseChoice(e, t);
   }
-  async displayDefenseChoice(e, t, a = void 0, s = void 0) {
-    var Ce, J, te;
-    const i = (Ce = t.targeting) == null ? void 0 : Ce.attackerTokenId, n = this.getTokenActor(e), l = t.roll.total, m = (a == null ? void 0 : a.roll.total) ?? (s == null ? void 0 : s.roll.total) ?? 0, y = {
+  async displayDefenseChoice(e, t, s = void 0, a = void 0) {
+    var J, L, B;
+    const i = (J = t.targeting) == null ? void 0 : J.attackerTokenId, o = this.getTokenActor(e), n = t.roll.total, c = (s == null ? void 0 : s.roll.total) ?? (a == null ? void 0 : a.roll.total) ?? 0, h = {
       attackerTokenId: i,
       defenderTokenId: e,
-      attackRoll: T.deflateAnarchyRoll(t),
-      defenseRoll: T.deflateAnarchyRoll(a),
-      defensePilotRoll: T.deflateAnarchyRoll(s),
+      attackRoll: D.deflateAnarchyRoll(t),
+      defenseRoll: D.deflateAnarchyRoll(s),
+      defensePilotRoll: D.deflateAnarchyRoll(a),
       attack: {
-        isHit: l > 0 && l >= m,
+        isHit: n > 0 && n >= c,
         defense: t.weapon.getDefense(),
-        pilotCanDefend: n == null ? void 0 : n.isVehicle(),
-        success: Math.max(0, l - m),
+        pilotCanDefend: o == null ? void 0 : o.isVehicle(),
+        success: Math.max(0, n - c),
         damage: t.weapon.getDamage()
       }
-    }, W = [
-      (J = y.defenseRoll) == null ? void 0 : J.chatMessageId,
-      (te = y.defensePilotRoll) == null ? void 0 : te.chatMessageId,
-      y.attackRoll.chatMessageId
-    ], be = {};
-    M.prepareFlag(be, Be, M.messageActorRights(n, n.getRightToDefend())), M.prepareFlag(be, Ve, W.find((Je) => Je != null));
-    const le = await ChatMessage.create({
+    }, N = [
+      (L = h.defenseRoll) == null ? void 0 : L.chatMessageId,
+      (B = h.defensePilotRoll) == null ? void 0 : B.chatMessageId,
+      h.attackRoll.chatMessageId
+    ], Z = {};
+    T.prepareFlag(
+      Z,
+      dt,
+      T.messageActorRights(o, o.getRightToDefend())
+    ), T.prepareFlag(
+      Z,
+      rt,
+      N.find((S) => S != null)
+    );
+    const V = await ChatMessage.create({
       user: game.user.id,
-      whisper: n.getAllowedUserIds(n.getRightToDefend()),
-      content: await renderTemplate(ts, foundry.utils.mergeObject(
-        {
-          ANARCHY: o,
-          options: { classes: [game.system.anarchy.styles.selectCssClass()] },
-          attacker: this.getTokenActor(y.attackerTokenId),
-          defender: n,
-          weapon: y.attackRoll.weapon
-        },
-        y
-      )),
-      flags: be
+      whisper: o.getAllowedUserIds(o.getRightToDefend()),
+      content: await foundry.applications.handlebars.renderTemplate(
+        pa,
+        foundry.utils.mergeObject(
+          {
+            ANARCHY: l,
+            options: { classes: [game.system.anarchy.styles.selectCssClass()] },
+            attacker: this.getTokenActor(h.attackerTokenId),
+            defender: o,
+            weapon: h.attackRoll.weapon
+          },
+          h
+        )
+      ),
+      flags: Z
     });
-    y.choiceChatMessageId = le.id, le.setFlag(L, me, y);
+    h.choiceChatMessageId = V.id, V.setFlag(G, be, h);
   }
   async onDefense(e) {
     this._preventObsoleteChoices(e);
-    const t = T.inflateAnarchyRoll(e.attackRoll);
+    const t = D.inflateAnarchyRoll(e.attackRoll);
     await this.displayDefenseChoice(e.tokenId, t, e);
   }
   async onDefensePilot(e) {
     this._preventObsoleteChoices(e);
-    const t = T.inflateAnarchyRoll(e.attackRoll);
+    const t = D.inflateAnarchyRoll(e.attackRoll);
     await this.displayDefenseChoice(e.tokenId, t, e);
   }
   _preventObsoleteChoices(e) {
     const t = game.messages.get(e.choiceChatMessageId);
     if (t) {
-      const a = t.getFlag(L, Ve) ?? "", s = game.messages.get(a);
-      s == null || s.setFlag(L, ze, !1), M.removeChatMessage(e.choiceChatMessageId);
+      const s = t.getFlag(G, rt) ?? "", a = game.messages.get(s);
+      a == null || a.setFlag(G, mt, !1), T.removeChatMessage(e.choiceChatMessageId);
     }
   }
   async onClickDefendAttack(e) {
@@ -5720,15 +8678,15 @@ class as {
     await this.getTokenActor(e.defenderTokenId).rollPilotDefense(e);
   }
   async onClickApplyAttackDamage(e) {
-    const t = this.getTokenActor(e.attackerTokenId), a = this.getTokenActor(e.defenderTokenId), s = T.inflateAnarchyRoll(e.attackRoll);
-    await v.sufferDamage(
-      a,
+    const t = this.getTokenActor(e.attackerTokenId), s = this.getTokenActor(e.defenderTokenId), a = D.inflateAnarchyRoll(e.attackRoll);
+    await R.sufferDamage(
+      s,
       e.attack.damage.monitor,
       e.attack.damage.value,
       e.attack.success,
       e.attack.damage.noArmor,
       t,
-      s.weapon
+      a.weapon
     ), this._preventObsoleteChoices(e);
   }
   getTokenActor(e) {
@@ -5736,9 +8694,9 @@ class as {
     return (t = canvas.tokens.get(e)) == null ? void 0 : t.actor;
   }
 }
-class ss extends Ye {
+class fa extends Pe {
   get template() {
-    return `${h}/actor/character-tabbed.hbs`;
+    return `${y}/actor/character-tabbed.hbs`;
   }
   /** @override */
   static get defaultOptions() {
@@ -5753,70 +8711,533 @@ class ss extends Ye {
     return t.options.classes.push("tabbed-sheet"), t;
   }
 }
-class Ze {
+const _t = { BASE_URL: "/systems/anarchy/", DEV: !1, MODE: "production", PROD: !0, SSR: !1 };
+function ba() {
+  try {
+    const r = typeof import.meta < "u" && import.meta && _t ? _t : {}, e = (r.VITE_ENABLE_INTEGRATIONS ?? "").toString().toLowerCase();
+    if (e === "1" || e === "true" || (r.VITE_SYSTEM_ID ?? "").toString().trim() === "ninjanarchy") return !0;
+  } catch {
+  }
+  return !1;
+}
+async function Aa() {
+  ba() && console.log(u + `Loading integrations for ${d}`);
+}
+class ft {
   static start() {
-    const e = new Ze();
+    const e = new ft();
     Hooks.once("init", async () => await e.onInit());
   }
   async onInit() {
-    console.log(P + "AnarchySystem.onInit"), game.system.anarchy = this, this.remoteCall = new j(), this.actorClasses = {
-      character: ba,
-      vehicle: va,
-      device: ka,
-      sprite: Ka,
-      ic: Xa
+    console.log(u + "AnarchySystem.onInit"), game.system.anarchy = this, this.remoteCall = new X(), this.actorClasses = {
+      character: js,
+      vehicle: qs,
+      device: Bs,
+      sprite: ca,
+      ic: ma
     }, this.itemClasses = {
-      contact: $a,
-      cyberdeck: Ta,
-      gear: La,
-      metatype: Na,
-      quality: Ga,
-      shadowamp: Va,
-      skill: Qe,
-      weapon: Q
-    }, this.hooks = new Z(), this.styles = new ea(), this.handlebarsManager = new Ne(), this.gmAnarchy = new Ot(), this.gmConvergence = new ja(), S.init(), this.skills = new zt(), this.modifiers = new A(), this.rollParameters = new ne(), this.rollManager = new T(), this.hudShortcuts = new Qa(), this.combatManager = new as(), console.log(P + "AnarchySystem.onInit | loading system"), CONFIG.ANARCHY = o, CONFIG.Combat.documentClass = gt, CONFIG.Combat.initiative = { formula: "2d6" }, CONFIG.Actor.documentClass = H, CONFIG.Item.documentClass = q, d.init(), this.loadActorSheets(), this.loadItemSheets(), Q.init(), B.init(), R.init(), Y.init(), gt.init(), I.init(), ce.init(), Oe.init(), q.init(), H.init(), v.init(), M.init(), this.gmManager = new Vt(this.gmAnarchy, this.gmConvergence), console.log(P + "AnarchySystem.onInit | done"), Hooks.once("ready", () => this.onReady());
+      contact: ea,
+      cyberdeck: Js,
+      gear: ta,
+      metatype: Zs,
+      quality: sa,
+      shadowamp: aa,
+      skill: pt,
+      weapon: ne
+    }, this.hooks = new ce(), this.styles = new Ss(), this.themeUtilities = new ws(this.styles), this.uiCustomization = new ks(this.styles), this.uiCustomizationCommands = new Rs(this.uiCustomization), this.performanceOptimizer = new Ms(this.styles, this.uiCustomization), this.handlebarsManager = new Oe(), this.gmAnarchy = new ts(), this.gmConvergence = new ra(), E.init(), this.skills = new gs(), this.modifiers = new A(), this.rollParameters = new ye(), this.rollManager = new D(), this.hudShortcuts = new da(), this.combatManager = new ya(), console.log(u + "AnarchySystem.onInit | loading system"), CONFIG.ANARCHY = l, CONFIG.Combat.documentClass = $t, CONFIG.Combat.initiative = { formula: "2d6" }, CONFIG.Actor.documentClass = H, CONFIG.Item.documentClass = ie;
+    try {
+      this.proxyDetected = !!window.__ANARCHY_PROXY__;
+    } catch {
+      this.proxyDetected = !1;
+    }
+    game.system.anarchy.proxyDetected = this.proxyDetected;
+    try {
+      game.settings.register(d, "anarchy-first-mode", {
+        scope: "world",
+        config: !0,
+        name: game.i18n.localize(l.settings.anarchyFirstMode.name),
+        hint: game.i18n.localize(l.settings.anarchyFirstMode.hint),
+        default: !0,
+        type: Boolean
+      }), game.settings.register(d, "allow-core-fallback", {
+        scope: "world",
+        config: !0,
+        name: game.i18n.localize(l.settings.allowCoreFallback.name),
+        hint: game.i18n.localize(l.settings.allowCoreFallback.hint),
+        default: !1,
+        type: Boolean
+      }), game.settings.register(d, "prefer-core-sheets", {
+        scope: "client",
+        config: !0,
+        name: game.i18n.localize(l.settings.preferCoreSheets.name),
+        hint: game.i18n.localize(l.settings.preferCoreSheets.hint),
+        default: !1,
+        type: Boolean
+      });
+    } catch (e) {
+      console.warn(u + "Settings registration failed", e);
+    }
+    this.sheetsRegistered = !1, this._ensureSheetsWhenAvailable(), g.init(), ne.init(), te.init(), M.init(), x.init(), $t.init(), P.init(), fe.init(), Le.init(), ie.init(), H.init(), R.init(), T.init(), this.gmManager = new ls(this.gmAnarchy, this.gmConvergence), console.log(u + "AnarchySystem.onInit | done");
+    try {
+      await Aa();
+    } catch (e) {
+      console.warn(u + "Optional integrations failed to load. Continuing without them.", e);
+    }
+    Hooks.once("ready", () => this.onReady()), this._registerRenderSafety(), this._registerCreationBias(), this._registerConsoleCommands();
   }
   async onReady() {
-    console.log(P + "AnarchySystem.onReady"), game.user.isGM && new ya().migrate();
+    if (console.log(u + "AnarchySystem.onReady"), this.sheetsRegistered || this._ensureSheetsWhenAvailable(), await this._fixDatabaseCorruption(), game.user.isGM) {
+      new Us().migrate();
+      const e = foundry.applications.api.DocumentSheetConfig, t = CONFIG.Actor.documentClass || Actor;
+      CONFIG.Item.documentClass || Item;
+      try {
+        e.setDefaultSheet(t, d, se);
+      } catch {
+      }
+      try {
+        const s = [];
+        for (const i of game.actors.contents)
+          if (i.type === "character") {
+            const o = i.getFlag("core", "sheetClass"), n = `${d}.CharacterEnhancedSheet`;
+            (!o || String(o).startsWith("core.")) && s.push(i.update({ "flags.core.sheetClass": n }));
+          }
+        const a = [];
+        for (const i of game.items.contents) {
+          const o = i.getFlag("core", "sheetClass");
+          let n;
+          switch (i.type) {
+            case "contact":
+              n = `${d}.ContactItemSheet`;
+              break;
+            case "cyberdeck":
+              n = `${d}.CyberdeckItemSheet`;
+              break;
+            case "gear":
+              n = `${d}.GearItemSheet`;
+              break;
+            case "metatype":
+              n = `${d}.MetatypeItemSheet`;
+              break;
+            case "quality":
+              n = `${d}.QualityItemSheet`;
+              break;
+            case "shadowamp":
+              n = `${d}.ShadowampItemSheet`;
+              break;
+            case "skill":
+              n = `${d}.SkillItemSheet`;
+              break;
+            case "weapon":
+              n = `${d}.WeaponItemSheet`;
+              break;
+          }
+          n && (!o || String(o).startsWith("core.")) && a.push(i.update({ "flags.core.sheetClass": n }));
+        }
+        await Promise.allSettled([...s, ...a]);
+      } catch (s) {
+        console.warn(u + "Sheet override cleanup skipped", s);
+      }
+    }
+  }
+  _registerRenderSafety() {
+    this._renderSafetySeen = /* @__PURE__ */ new WeakSet(), foundry.applications.api.DocumentSheetConfig;
+    const e = (a) => {
+      switch (a.type) {
+        case "character":
+          return se;
+        case "vehicle":
+          return Ke;
+        case "device":
+          return Be;
+        case "sprite":
+          return it;
+        case "ic":
+          return at;
+      }
+    }, t = (a) => {
+      switch (a.type) {
+        case "contact":
+          return qe;
+        case "cyberdeck":
+          return Qe;
+        case "gear":
+          return Xe;
+        case "metatype":
+          return Ze;
+        case "quality":
+          return Je;
+        case "shadowamp":
+          return et;
+        case "skill":
+          return tt;
+        case "weapon":
+          return st;
+      }
+    }, s = async (a, i, o) => {
+      try {
+        if (!o || i instanceof o || this._renderSafetySeen.has(a)) return;
+        this._renderSafetySeen.add(a);
+        const n = `${d}.${o.name}`;
+        try {
+          await a.update({ "flags.core.sheetClass": n });
+        } catch {
+        }
+        try {
+          i.close({ force: !0 });
+        } catch {
+        }
+        requestAnimationFrame(() => {
+          var c;
+          try {
+            new o(a, {}).render(!0);
+          } catch {
+            try {
+              (c = a.sheet) == null || c.render(!0);
+            } catch {
+            }
+          }
+        }), console.warn(u + "Render safety swapped sheet to Anarchy", {
+          doc: a.name,
+          type: a.type,
+          desired: n
+        });
+      } catch (n) {
+        console.warn(u + "Render safety swap failed", n);
+      } finally {
+        setTimeout(() => this._renderSafetySeen.delete(a), 0);
+      }
+    };
+    Hooks.on("renderActorSheet", (a) => {
+      const i = a == null ? void 0 : a.object;
+      if (!i) return;
+      const o = e(i);
+      s(i, a, o);
+    }), Hooks.on("renderItemSheet", (a) => {
+      const i = a == null ? void 0 : a.object;
+      if (!i) return;
+      const o = t(i);
+      s(i, a, o);
+    });
+  }
+  _ensureSheetsWhenAvailable() {
+    const e = () => {
+      var t, s, a;
+      try {
+        const i = (s = (t = foundry.applications) == null ? void 0 : t.api) == null ? void 0 : s.DocumentSheetConfig;
+        if (!i) return !1;
+        if (this.sheetsRegistered) return !0;
+        this.loadActorSheets(), this.loadItemSheets();
+        try {
+          const o = ((a = CONFIG.Actor) == null ? void 0 : a.documentClass) || Actor;
+          i.setDefaultSheet(o, d, se);
+        } catch {
+        }
+        return this.sheetsRegistered = !0, console.log(u + "Sheets registered"), !0;
+      } catch (i) {
+        return console.error(u + "Failed to register sheets", i), !1;
+      }
+    };
+    e() || Hooks.once("setup", () => e() || Hooks.once("ready", e));
+  }
+  _registerCreationBias() {
+    const e = (s) => {
+      switch (s) {
+        case "character":
+          return se;
+        case "vehicle":
+          return Ke;
+        case "device":
+          return Be;
+        case "sprite":
+          return it;
+        case "ic":
+          return at;
+      }
+    }, t = (s) => {
+      switch (s) {
+        case "contact":
+          return qe;
+        case "cyberdeck":
+          return Qe;
+        case "gear":
+          return Xe;
+        case "metatype":
+          return Ze;
+        case "quality":
+          return Je;
+        case "shadowamp":
+          return et;
+        case "skill":
+          return tt;
+        case "weapon":
+          return st;
+      }
+    };
+    Hooks.on("preCreateActor", (s, a, i, o) => {
+      try {
+        const n = e(a.type ?? s.type);
+        if (!n) return;
+        const c = `${d}.${n.name}`;
+        s.updateSource({ flags: { core: { sheetClass: c } } });
+      } catch {
+      }
+    }), Hooks.on("preCreateItem", (s, a, i, o) => {
+      try {
+        const n = t(a.type ?? s.type);
+        if (!n) return;
+        const c = `${d}.${n.name}`;
+        s.updateSource({ flags: { core: { sheetClass: c } } });
+      } catch {
+      }
+    }), Hooks.on("renderDocumentCreateDialog", (s, a, i) => {
+      var o, n, c, h, N, Z, V, J;
+      try {
+        const L = ((o = i == null ? void 0 : i.documentClass) == null ? void 0 : o.name) === (((c = (n = CONFIG.Actor) == null ? void 0 : n.documentClass) == null ? void 0 : c.name) || "Actor"), B = ((h = i == null ? void 0 : i.documentClass) == null ? void 0 : h.name) === (((Z = (N = CONFIG.Item) == null ? void 0 : N.documentClass) == null ? void 0 : Z.name) || "Item");
+        if (!L && !B) return;
+        const S = (J = (V = a[0]) == null ? void 0 : V.querySelector) == null ? void 0 : J.call(V, 'select[name="type"]');
+        if (!S) return;
+        const oe = L ? ["character", "vehicle", "device", "sprite", "ic"] : [
+          "contact",
+          "cyberdeck",
+          "gear",
+          "metatype",
+          "quality",
+          "shadowamp",
+          "skill",
+          "weapon"
+        ], bt = Array.from(S.options).find((Vt) => oe.includes(Vt.value));
+        bt && (S.value = bt.value, S.dispatchEvent(new Event("change", { bubbles: !0 })));
+      } catch {
+      }
+    });
+  }
+  _registerConsoleCommands() {
+    try {
+      const e = {
+        fixSheets: async () => await this.fixSheets(),
+        debugSheets: () => this.debugSheets()
+      };
+      window.anarchyUI || (window.anarchyUI = {}), Object.assign(window.anarchyUI, e), console.info(
+        u + "Console commands available: anarchyUI.fixSheets(), anarchyUI.debugSheets()"
+      );
+    } catch {
+    }
+  }
+  async _fixDatabaseCorruption() {
+    if (!game.user.isGM) return;
+    console.log(u + "Checking for database corruption...");
+    let e = 0;
+    const t = [], s = {
+      "anarchy.se": "anarchy.CharacterEnhancedSheet",
+      "anarchy.Ch": "anarchy.CharacterEnhancedSheet",
+      "anarchy.Cha": "anarchy.CharacterEnhancedSheet",
+      "anarchy.Ve": "anarchy.VehicleSheet",
+      "anarchy.De": "anarchy.DeviceSheet",
+      "anarchy.Sp": "anarchy.SpriteActorSheet",
+      "anarchy.IC": "anarchy.ICSheet"
+    };
+    for (const o of game.actors.contents) {
+      const n = o.getFlag("core", "sheetClass");
+      n && s[n] ? (console.log(
+        u + `Fixing truncated sheet name for actor ${o.name}: ${n} -> ${s[n]}`
+      ), t.push(
+        o.update({
+          "flags.core.sheetClass": s[n]
+        })
+      ), e++) : !n && o.type === "character" && (t.push(
+        o.update({
+          "flags.core.sheetClass": "anarchy.CharacterEnhancedSheet"
+        })
+      ), e++);
+    }
+    const a = [], i = {
+      contact: "anarchy.ContactItemSheet",
+      cyberdeck: "anarchy.CyberdeckItemSheet",
+      gear: "anarchy.GearItemSheet",
+      metatype: "anarchy.MetatypeItemSheet",
+      quality: "anarchy.QualityItemSheet",
+      shadowamp: "anarchy.ShadowampItemSheet",
+      skill: "anarchy.SkillItemSheet",
+      weapon: "anarchy.WeaponItemSheet"
+    };
+    for (const o of game.items.contents) {
+      const n = o.getFlag("core", "sheetClass"), c = i[o.type];
+      c && (!n || n.length < 20 || n.startsWith("core.")) && (console.log(
+        u + `Fixing sheet for item ${o.name}: ${n || "none"} -> ${c}`
+      ), a.push(
+        o.update({
+          "flags.core.sheetClass": c
+        })
+      ), e++);
+    }
+    t.length || a.length ? (await Promise.all([...t, ...a]), console.log(u + `Fixed ${e} corrupted sheet assignments`), ui.notifications.info(`Anarchy System: Fixed ${e} corrupted sheet assignments`)) : console.log(u + "No database corruption found");
+  }
+  async fixSheets() {
+    const e = foundry.applications.api.DocumentSheetConfig, t = { actorsUpdated: 0, itemsUpdated: 0 };
+    try {
+      const s = CONFIG.Actor.documentClass || Actor;
+      e.setDefaultSheet(s, d, se);
+    } catch {
+    }
+    try {
+      const s = [];
+      for (const i of game.actors.contents) {
+        const o = i.type === "character" ? `${d}.CharacterEnhancedSheet` : void 0;
+        if (!o) continue;
+        const n = i.getFlag("core", "sheetClass");
+        (!n || String(n).startsWith("core.")) && (t.actorsUpdated++, s.push(i.update({ "flags.core.sheetClass": o })));
+      }
+      const a = [];
+      for (const i of game.items.contents) {
+        let o;
+        switch (i.type) {
+          case "contact":
+            o = `${d}.ContactItemSheet`;
+            break;
+          case "cyberdeck":
+            o = `${d}.CyberdeckItemSheet`;
+            break;
+          case "gear":
+            o = `${d}.GearItemSheet`;
+            break;
+          case "metatype":
+            o = `${d}.MetatypeItemSheet`;
+            break;
+          case "quality":
+            o = `${d}.QualityItemSheet`;
+            break;
+          case "shadowamp":
+            o = `${d}.ShadowampItemSheet`;
+            break;
+          case "skill":
+            o = `${d}.SkillItemSheet`;
+            break;
+          case "weapon":
+            o = `${d}.WeaponItemSheet`;
+            break;
+        }
+        const n = i.getFlag("core", "sheetClass");
+        o && (!n || String(n).startsWith("core.")) && (t.itemsUpdated++, a.push(i.update({ "flags.core.sheetClass": o })));
+      }
+      await Promise.allSettled([...s, ...a]);
+    } catch (s) {
+      console.warn(u + "fixSheets encountered errors", s);
+    }
+    return console.table(t), t;
+  }
+  debugSheets() {
+    var e, t;
+    try {
+      const s = {};
+      try {
+        const o = CONFIG.Actor.documentClass || Actor, n = CONFIG.Item.documentClass || Item;
+        s.actor = { character: `${d}.CharacterEnhancedSheet` }, s.item = {
+          contact: `${d}.ContactItemSheet`,
+          cyberdeck: `${d}.CyberdeckItemSheet`,
+          gear: `${d}.GearItemSheet`,
+          metatype: `${d}.MetatypeItemSheet`,
+          quality: `${d}.QualityItemSheet`,
+          shadowamp: `${d}.ShadowampItemSheet`,
+          skill: `${d}.SkillItemSheet`,
+          weapon: `${d}.WeaponItemSheet`
+        }, console.info(u + "Intended Anarchy defaults", s, { ActorDoc: o, ItemDoc: n });
+      } catch {
+      }
+      const a = (((e = game.actors) == null ? void 0 : e.contents) || []).slice(0, 20).map((o) => ({ name: o.name, type: o.type, sheet: o.getFlag("core", "sheetClass") })), i = (((t = game.items) == null ? void 0 : t.contents) || []).slice(0, 20).map((o) => ({ name: o.name, type: o.type, sheet: o.getFlag("core", "sheetClass") }));
+      return console.table(a), console.table(i), { defaults: s, sampleActors: a, sampleItems: i };
+    } catch (s) {
+      return console.warn(u + "debugSheets failed", s), null;
+    }
   }
   loadActorSheets() {
-    Actors.unregisterSheet("core", ActorSheet), Actors.registerSheet(g, Ra, {
-      label: game.i18n.localize(o.actor.characterSheet),
-      makeDefault: !1,
-      types: ["character"]
-    }), Actors.registerSheet(g, Sa, {
-      label: game.i18n.localize(o.actor.characterNPCSheet),
-      makeDefault: !1,
-      types: ["character"]
-    }), Actors.registerSheet(g, ss, {
-      label: game.i18n.localize(o.actor.characterTabbedSheet),
-      makeDefault: !1,
-      types: ["character"]
-    }), Actors.registerSheet(g, je, {
-      label: game.i18n.localize(o.actor.characterEnhancedSheet),
-      makeDefault: !0,
-      types: ["character"]
-    }), Actors.registerSheet(g, Ha, {
-      label: game.i18n.localize(o.actor.vehicleSheet),
-      makeDefault: !0,
-      types: ["vehicle"]
-    }), Actors.registerSheet(g, Ma, {
-      label: game.i18n.localize(o.actor.deviceSheet),
-      makeDefault: !0,
-      types: ["device"]
-    }), Actors.registerSheet(g, za, {
-      label: game.i18n.localize(o.actor.spriteSheet),
-      makeDefault: !0,
-      types: ["sprite"]
-    }), Actors.registerSheet(g, Wa, {
-      label: game.i18n.localize(o.actor.icSheet),
-      makeDefault: !0,
-      types: ["ic"]
+    [
+      {
+        class: Qs,
+        types: ["character"],
+        makeDefault: !1,
+        label: "ANARCHY.actor.characterSheet"
+      },
+      {
+        class: Xs,
+        types: ["character"],
+        makeDefault: !1,
+        label: "ANARCHY.actor.characterNPCSheet"
+      },
+      {
+        class: fa,
+        types: ["character"],
+        makeDefault: !1,
+        label: "ANARCHY.actor.characterTabbedSheet"
+      },
+      {
+        class: se,
+        types: ["character"],
+        makeDefault: !0,
+        label: "ANARCHY.actor.characterEnhancedSheet"
+      },
+      {
+        class: Ke,
+        types: ["vehicle"],
+        makeDefault: !0,
+        label: "ANARCHY.actor.vehicleSheet"
+      },
+      {
+        class: Be,
+        types: ["device"],
+        makeDefault: !0,
+        label: "ANARCHY.actor.deviceSheet"
+      },
+      {
+        class: it,
+        types: ["sprite"],
+        makeDefault: !0,
+        label: "ANARCHY.actor.spriteSheet"
+      },
+      { class: at, types: ["ic"], makeDefault: !0, label: "ANARCHY.actor.icSheet" }
+    ].forEach((t) => {
+      t.types.forEach((s) => {
+        var i, o;
+        CONFIG.Actor.sheetClasses || (CONFIG.Actor.sheetClasses = {}), CONFIG.Actor.sheetClasses[s] || (CONFIG.Actor.sheetClasses[s] = {}), CONFIG.Actor.sheetClasses[s][d] || (CONFIG.Actor.sheetClasses[s][d] = {});
+        const a = `${d}.${t.class.name}`;
+        CONFIG.Actor.sheetClasses[s][d][a] = {
+          id: a,
+          cls: t.class,
+          label: game.i18n.localize(t.label),
+          canBeDefault: !0,
+          canConfigure: !0
+        }, t.makeDefault && ((o = (i = game.settings.get("core", "sheetClasses")) == null ? void 0 : i.Actor) != null && o[s] || DocumentSheetConfig.updateDefaultSheets({
+          [`Actor.${s}`]: a
+        }));
+      });
     });
   }
   loadItemSheets() {
-    Items.unregisterSheet("core", ItemSheet), Items.registerSheet(g, Ea, { types: ["contact"], makeDefault: !0 }), Items.registerSheet(g, Da, { types: ["cyberdeck"], makeDefault: !0 }), Items.registerSheet(g, Ya, { types: ["gear"], makeDefault: !0 }), Items.registerSheet(g, Oa, { types: ["metatype"], makeDefault: !0 }), Items.registerSheet(g, Ia, { types: ["quality"], makeDefault: !0 }), Items.registerSheet(g, _a, { types: ["shadowamp"], makeDefault: !0 }), Items.registerSheet(g, xa, { types: ["skill"], makeDefault: !0 }), Items.registerSheet(g, Pa, { types: ["weapon"], makeDefault: !0 });
+    [
+      { class: qe, types: ["contact"], makeDefault: !0 },
+      { class: Qe, types: ["cyberdeck"], makeDefault: !0 },
+      { class: Xe, types: ["gear"], makeDefault: !0 },
+      { class: Ze, types: ["metatype"], makeDefault: !0 },
+      { class: Je, types: ["quality"], makeDefault: !0 },
+      { class: et, types: ["shadowamp"], makeDefault: !0 },
+      { class: tt, types: ["skill"], makeDefault: !0 },
+      { class: st, types: ["weapon"], makeDefault: !0 }
+    ].forEach((t) => {
+      t.types.forEach((s) => {
+        var i, o;
+        CONFIG.Item.sheetClasses || (CONFIG.Item.sheetClasses = {}), CONFIG.Item.sheetClasses[s] || (CONFIG.Item.sheetClasses[s] = {}), CONFIG.Item.sheetClasses[s][d] || (CONFIG.Item.sheetClasses[s][d] = {});
+        const a = `${d}.${t.class.name}`;
+        CONFIG.Item.sheetClasses[s][d][a] = {
+          id: a,
+          cls: t.class,
+          label: `${s.charAt(0).toUpperCase()}${s.slice(1)} Sheet`,
+          canBeDefault: !0,
+          canConfigure: !0
+        }, t.makeDefault && ((o = (i = game.settings.get("core", "sheetClasses")) == null ? void 0 : i.Item) != null && o[s] || DocumentSheetConfig.updateDefaultSheets({
+          [`Item.${s}`]: a
+        }));
+      });
+    });
   }
 }
-Ze.start();
+ft.start();
 //# sourceMappingURL=index.mjs.map

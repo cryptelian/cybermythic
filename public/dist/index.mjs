@@ -9038,11 +9038,17 @@ class ft {
     };
     for (const o of game.actors.contents) {
       const n = o.getFlag("core", "sheetClass");
-      n && s[n] ? (console.log(u + `Fixing truncated sheet name for actor ${o.name}: ${n} -> ${s[n]}`), t.push(o.update({
-        "flags.core.sheetClass": s[n]
-      })), e++) : !n && o.type === "character" && (t.push(o.update({
-        "flags.core.sheetClass": "anarchy.CharacterEnhancedSheet"
-      })), e++);
+      n && s[n] ? (console.log(
+        u + `Fixing truncated sheet name for actor ${o.name}: ${n} -> ${s[n]}`
+      ), t.push(
+        o.update({
+          "flags.core.sheetClass": s[n]
+        })
+      ), e++) : !n && o.type === "character" && (t.push(
+        o.update({
+          "flags.core.sheetClass": "anarchy.CharacterEnhancedSheet"
+        })
+      ), e++);
     }
     const a = [], i = {
       contact: "anarchy.ContactItemSheet",
@@ -9056,9 +9062,13 @@ class ft {
     };
     for (const o of game.items.contents) {
       const n = o.getFlag("core", "sheetClass"), c = i[o.type];
-      c && (!n || n.length < 20 || n.startsWith("core.")) && (console.log(u + `Fixing sheet for item ${o.name}: ${n || "none"} -> ${c}`), a.push(o.update({
-        "flags.core.sheetClass": c
-      })), e++);
+      c && (!n || n.length < 20 || n.startsWith("core.")) && (console.log(
+        u + `Fixing sheet for item ${o.name}: ${n || "none"} -> ${c}`
+      ), a.push(
+        o.update({
+          "flags.core.sheetClass": c
+        })
+      ), e++);
     }
     t.length || a.length ? (await Promise.all([...t, ...a]), console.log(u + `Fixed ${e} corrupted sheet assignments`), ui.notifications.info(`Anarchy System: Fixed ${e} corrupted sheet assignments`)) : console.log(u + "No database corruption found");
   }
@@ -9141,13 +9151,48 @@ class ft {
   }
   loadActorSheets() {
     [
-      { class: Qs, types: ["character"], makeDefault: !1, label: "ANARCHY.actor.characterSheet" },
-      { class: Xs, types: ["character"], makeDefault: !1, label: "ANARCHY.actor.characterNPCSheet" },
-      { class: fa, types: ["character"], makeDefault: !1, label: "ANARCHY.actor.characterTabbedSheet" },
-      { class: se, types: ["character"], makeDefault: !0, label: "ANARCHY.actor.characterEnhancedSheet" },
-      { class: Ke, types: ["vehicle"], makeDefault: !0, label: "ANARCHY.actor.vehicleSheet" },
-      { class: Be, types: ["device"], makeDefault: !0, label: "ANARCHY.actor.deviceSheet" },
-      { class: it, types: ["sprite"], makeDefault: !0, label: "ANARCHY.actor.spriteSheet" },
+      {
+        class: Qs,
+        types: ["character"],
+        makeDefault: !1,
+        label: "ANARCHY.actor.characterSheet"
+      },
+      {
+        class: Xs,
+        types: ["character"],
+        makeDefault: !1,
+        label: "ANARCHY.actor.characterNPCSheet"
+      },
+      {
+        class: fa,
+        types: ["character"],
+        makeDefault: !1,
+        label: "ANARCHY.actor.characterTabbedSheet"
+      },
+      {
+        class: se,
+        types: ["character"],
+        makeDefault: !0,
+        label: "ANARCHY.actor.characterEnhancedSheet"
+      },
+      {
+        class: Ke,
+        types: ["vehicle"],
+        makeDefault: !0,
+        label: "ANARCHY.actor.vehicleSheet"
+      },
+      {
+        class: Be,
+        types: ["device"],
+        makeDefault: !0,
+        label: "ANARCHY.actor.deviceSheet"
+      },
+      {
+        class: it,
+        types: ["sprite"],
+        makeDefault: !0,
+        label: "ANARCHY.actor.spriteSheet"
+      },
       { class: at, types: ["ic"], makeDefault: !0, label: "ANARCHY.actor.icSheet" }
     ].forEach((t) => {
       t.types.forEach((s) => {

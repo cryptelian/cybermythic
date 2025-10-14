@@ -1,6 +1,43 @@
-# Foundry Vite Project
+# CyberMythic Foundry VTT System
 
-This README outlines the steps needed to set up and run the Foundry Vite project locally. Ensure you follow the installation instructions closely to get everything up and running without issues.
+A comprehensive Foundry Virtual Tabletop system for Shadowrun: Anarchy roleplaying game, featuring organized development workflow, automated builds, and extensive customization options.
+
+This README outlines the steps needed to set up and run the CyberMythic Foundry VTT system locally. The project uses an organized directory structure for optimal development workflow and maintainability.
+
+## Project Structure
+
+The repository is organized for optimal development workflow and maintainability:
+
+```
+📁 build/                    # All build outputs and artifacts
+│  📁 output/               # Production builds
+│  📁 compendiums/          # Compendium builds
+│  📁 development/          # Development builds
+│  📄 README.md             # Build documentation
+
+📁 config/                   # All configuration files
+│  📁 environments/         # Environment configs (.env, .nvmrc)
+│  📁 build/               # Build tool configs (vite, postcss, etc.)
+│  📁 code/               # Code quality configs (.editorconfig, prettier, etc.)
+│  📁 ci/                 # CI/CD configurations
+
+📁 scripts/                 # Build and utility scripts
+│  📁 build/              # Core build scripts
+│  📁 compendium/         # Compendium management
+│  📁 validation/         # Validation and testing scripts
+│  📁 utilities/          # Development utilities
+
+📁 docs/                    # Documentation
+│  📁 development/        # Developer guides and API docs
+│  📁 user/               # User manuals and tutorials
+│  📁 assets/             # Documentation assets
+
+📁 src/                     # Source code
+📁 tests/                   # Test files
+📁 public/                  # Foundry VTT assets
+```
+
+For detailed information about each directory, see the README files in each folder.
 
 ## Prerequisites
 
@@ -77,36 +114,41 @@ When Foundry starts in the backend (Node.js), it will detect the necessary files
 
 When you connect to Foundry from a browser (frontend), Vite will intercept all requests and redirect them to Foundry, except for requests to `systems/anarchy`. These files will be served by the Vite project.
 
-### Developer style guide
+### Developer Documentation
 
-See `docs/style-guide.md` for tokens, naming, file layout, and lint/format rules.
+- **Style Guide**: See `docs/development/style-guide.md` for tokens, naming, file layout, and lint/format rules
+- **Accessibility**: See `docs/development/a11y.md` for focus, contrast, and reduced motion guidance and tests
+- **Theming & Debugging**: See `docs/development/theming.md` for token conventions and debugging tips
+- **Project Structure**: See directory README files for detailed organization information
 
-### Accessibility
+### Development Workflow
 
-See `docs/a11y.md` for focus, contrast, and reduced motion guidance and tests.
-
-### Theming & debugging
-
-See `docs/theming.md` for token conventions and debugging tips. Visual tests capture screenshots for key themes.
+For comprehensive development documentation including build processes, validation, and contribution guidelines, see `docs/development/`.
 
 ## Note on Vite Server and Foundry Interaction
 
 The Vite server is configured to handle specific API calls (e.g., to **systems/anarchy**) directly, enhancing development efficiency. All other requests are forwarded to the local Foundry server, ensuring that the environment replicates the production setup as closely as possible.
 
-## Compendiums management
+## Compendiums Management
 
-Compendium sources are located in `src/packs`. Content are written in a yaml format.
+Compendium sources are located in `src/packs`. Content is written in YAML format.
 
-Commands are available to manage them:
+Commands are available to manage compendiums:
 
-Compile compendiums to the dist folder:
-
-```bash
-node ./tools/packCompendiumsToDist.mjs
-```
-
-Extract compendiums from the dist folder (for example, after changing the content on the running server, to update the source files):
+Compile compendiums to the build output folder:
 
 ```bash
-node ./tools/unpackCompendiumsFromDist.mjs
+npm run packCompendiumsToDist
+# or directly:
+node ./scripts/build/packCompendiumsToDist.mjs
 ```
+
+Extract compendiums from the build folder (for example, after changing content on the running server):
+
+```bash
+npm run unpackCompendiumsFromPublic
+# or directly:
+node ./scripts/build/unpackCompendiumsFromDist.mjs
+```
+
+For more information about compendium management, see `scripts/compendium/README.md`.

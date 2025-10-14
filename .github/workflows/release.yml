@@ -31,7 +31,7 @@ jobs:
         run: npm run build
 
       - name: Prepare release artifacts
-        run: node ./tools/prepareRelease.mjs --repo ${{ github.repository }} --version ${{ github.ref_name }}
+        run: node ./scripts/build/prepareRelease.mjs --repo ${{ github.repository }} --version ${{ github.ref_name }}
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2

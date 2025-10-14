@@ -1,10 +1,10 @@
 {
   "id": "anarchy",
-  "version": "13.0.1",
-  "manifest": "https://raw.githubusercontent.com/VincentVk9373/anarchy/v13.0.1/public/system.json",
-  "download": "https://github.com/VincentVk9373/anarchy/releases/download/v13.0.1/foundry-anarchy-v13.0.1.zip",
-  "url": "https://github.com/VincentVk9373/anarchy",
-  "bugs": "https://github.com/VincentVk9373/anarchy/issues",
+  "version": "13.0.0",
+  "manifest": "https://raw.githubusercontent.com/cryptelian/cybermythic/v13.0.0/public/system.json",
+  "download": "https://github.com/cryptelian/cybermythic/releases/download/v13.0.0/cybermythic-13.0.0.zip",
+  "url": "https://github.com/cryptelian/cybermythic",
+  "bugs": "https://github.com/cryptelian/cybermythic/issues",
   "title": "Anarchy",
   "description": "Shadowrun Anarchy RPG, and hacks, for FoundryVTT",
   "compatibility": {
@@ -34,19 +34,23 @@
   "flags": {
     "allowBugReporter": true,
     "hotReload": {
-      "extensions": ["css", "hbs", "html"],
-      "paths": ["style/", "templates/"]
+      "extensions": [
+        "css",
+        "hbs",
+        "html"
+      ],
+      "paths": [
+        "style/",
+        "templates/"
+      ]
     }
   },
   "license": "LICENSE.md",
   "scripts": [],
-  "esmodules": ["dist/index.mjs"],
+  "esmodules": [
+    "dist/index.mjs"
+  ],
   "styles": [
-    "style/anarchy.css",
-    "style/anarchy-shadowrun.css",
-    "style/anarchy-dark.css",
-    "style/anarchy-darkglass.css",
-    "style.css",
     "dist/style.css"
   ],
   "languages": [

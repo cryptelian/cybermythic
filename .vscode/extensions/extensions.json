@@ -1,0 +1,76 @@
+{
+  "recommendations": [
+    // JavaScript/TypeScript development
+    "ms-vscode.vscode-typescript-next",
+    "ms-vscode.js-debug",
+
+    // Foundry VTT specific
+    "league-of-foundry-developers.foundry-vtt-types",
+    "foundryvtt.foundry-vtt-development",
+
+    // Build tools
+    "vite.vite",
+    "sass.sassy",
+
+    // Testing
+    "ms-playwright.playwright",
+    "vitest.explorer",
+
+    // Linting and formatting
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "stylelint.vscode-stylelint",
+
+    // Git integration
+    "ms-vscode.vscode-git-graph",
+    "eamodio.gitlens",
+
+    // Development utilities
+    "ms-vscode.vscode-json",
+    "redhat.vscode-yaml",
+    "ms-vscode.powershell",
+    "ms-vscode-remote.remote-wsl",
+
+    // Handlebars template support
+    "ms-vscode.vscode-handlebars"
+  ],
+  "unwantedRecommendations": [
+    // Browser development (not needed for Foundry system development)
+    "ms-vscode.vscode-edge-devtools",
+    "ms-vscode.js-debug-companion",
+    "ms-vscode.vscode-chrome-debug-core",
+
+    // Mobile development
+    "ms-vscode.vscode-react-native",
+    "ms-vscode.vscode-cordova",
+
+    // Database tools
+    "ms-vscode.vscode-mongodb",
+    "ms-mssql.mssql",
+    "ms-vscode.vscode-postgresql",
+
+    // Cloud platforms
+    "ms-vscode.vscode-docker",
+    "amazonwebservices.aws-toolkit-vscode",
+    "ms-azuretools.vscode-azurefunctions",
+    "ms-vscode.vscode-azure-container-apps",
+
+    // Other frameworks/languages not used in this project
+    "ms-python.python",
+    "ms-vscode.vscode-pylint",
+    "ms-vscode.vscode-ruby",
+    "ms-vscode.vscode-php",
+    "ms-vscode.vscode-java",
+    "ms-vscode.vscode-csharp",
+    "ms-vscode.vscode-go",
+
+    // Game engines not relevant to Foundry VTT
+    "ms-vscode.vscode-unity",
+    "ms-vscode.vscode-unreal-engine",
+
+    // Other web frameworks
+    "ms-vscode.vscode-angular",
+    "ms-vscode.vscode-vue",
+    "ms-vscode.vscode-svelte"
+  ]
+}
