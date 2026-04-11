@@ -1,18 +1,17 @@
 # Dependencies
 /node_modules
 
-# Build outputs (organized in build/ directory)
+# Build outputs
 build/
-# Legacy build outputs (to be moved)
 dist/
 dist-compendiums/
 dist-ninja/
 /public/packs
+
+# Build stats
 /stats.html
 
-# Configuration (organized in config/ directory)
-config/build/*
-config/environments/*
+# Configuration
 # Keep these essential config files at root
 !.vscode/
 !.github/
@@ -28,7 +27,10 @@ Caddyfile.txt
 
 # Cursor
 .cursorignore
+
+# Garbage / External / Staging
 CyberMythic/
+workspace/
 
 # Caddy proxy logs
 caddy-access.log
@@ -59,14 +61,20 @@ ehthumbs.db
 Thumbs.db
 
 # Environment variables
+.env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
+.env.test
+config/environments/.env.ninja
 
 # Logs
 logs/
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 # Runtime data
 pids/
@@ -106,7 +114,7 @@ jspm_packages/
 
 # Gatsby files
 .cache/
-public
+public/dist
 
 # Storybook build outputs
 .out
@@ -123,9 +131,6 @@ public
 
 # Output of 'npm pack'
 *.tgz
-
-# dotenv environment variables file
-.env.test
 
 # Foundry VTT specific
 Data/

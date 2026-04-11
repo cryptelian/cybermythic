@@ -1,4 +1,6 @@
 {
   "*.{js,jsx,ts,tsx,json,md}": ["prettier --write"],
-  "src/**/*.scss": ["stylelint --fix"]
+  "src/**/*.scss": [
+    "stylelint --config config/code/.stylelintrc.json --ignore-path config/code/.stylelintignore --fix"
+  ]
 }

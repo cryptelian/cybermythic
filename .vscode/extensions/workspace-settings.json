@@ -54,7 +54,7 @@
     { "pattern": "tests/**/*" }
   ],
 
-  "stylelint.configFile": "./postcss.config.cjs",
+  "stylelint.configFile": "./config/code/.stylelintrc.json",
   "stylelint.validate": ["css", "scss"],
 
   "prettier.requireConfig": true,

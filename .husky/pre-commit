@@ -1,4 +1,6 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
+command -v node >/dev/null 2>&1 || {
+  echo "husky - node is required on PATH to run lint-staged"
+  exit 127
+}
 
-npx --no-install lint-staged
+node "./node_modules/lint-staged/bin/lint-staged.js" --config "config/ci/.lintstagedrc.json"
