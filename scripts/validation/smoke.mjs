@@ -5,7 +5,7 @@ const projectRoot = resolve(process.cwd());
 
 const targets = {
   loader: resolve(projectRoot, 'public', 'index.mjs'),
-  bundle: resolve(projectRoot, 'public', 'dist', 'index.mjs'),
+  bundle: resolve(projectRoot, 'dist', 'dist', 'index.mjs'), // Updated path
 };
 
 const checks = [
@@ -34,9 +34,13 @@ const checks = [
 async function runChecks() {
   for (const { file, needle, message } of checks) {
     const absolute = targets[file];
-    const contents = await readFile(absolute, 'utf8');
-    if (!contents.includes(needle)) {
-      throw new Error(message);
+    try {
+        const contents = await readFile(absolute, 'utf8');
+        if (!contents.includes(needle)) {
+        throw new Error(`${message} (Checked ${absolute})`);
+        }
+    } catch (e) {
+        throw new Error(`Failed to check ${file} at ${absolute}: ${e.message}`);
     }
   }
 }
@@ -50,5 +54,3 @@ main().catch((error) => {
   console.error('[smoke] FAIL:', error.message ?? error);
   process.exit(1);
 });
-
-

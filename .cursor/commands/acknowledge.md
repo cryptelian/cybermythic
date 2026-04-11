@@ -1,0 +1,1 @@
+_acknowledge_! Please implement next optimally sequenced step (if it's safe to include optionals go ahead); verbose chat logging; generate end-state report on completion; propose validation methods/tests; explain next optimally sequenced step.

@@ -1,4 +1,6 @@
 ---
 alwaysApply: true
 ---
-sdf
+refer to the following website for reference on all changes so we don't break functionality with FoundryVTT:
+
+https://foundryvtt.com/api/

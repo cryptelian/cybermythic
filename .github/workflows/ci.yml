@@ -26,8 +26,14 @@ jobs:
           npm run format:check
           npm run lint:css
 
-      - name: Validate schema and i18n
+      - name: Validate source metadata
         run: npm run validate
+
+      - name: Build
+        run: npm run build
+
+      - name: Validate packaged dist
+        run: npm run validate:dist
 
       - name: Run tests
         run: npm test
@@ -38,23 +44,20 @@ jobs:
       - name: Visual regression tests
         run: npm run test:visual
 
-      - name: Build
-        run: npm run build
-
       - name: Collect metrics (no rebuild)
         run: npm run metrics:ci
 
       - name: Report bundle sizes
         run: |
           echo "build output sizes:" > sizes.txt
-          du -h build/output/* >> sizes.txt || true
+          du -h dist/* >> sizes.txt || true
           cat sizes.txt
 
       - name: Upload build output artifact
         uses: actions/upload-artifact@v4
         with:
           name: build-output
-          path: build/output
+          path: dist
 
       - name: Upload metrics artifact
         uses: actions/upload-artifact@v4

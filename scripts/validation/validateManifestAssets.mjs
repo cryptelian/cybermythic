@@ -2,11 +2,11 @@ import { readFile, stat } from 'node:fs/promises';
 import { resolve } from 'node:path';
 
 const projectRoot = resolve(process.cwd());
-const manifestPath = resolve(projectRoot, 'public', 'system.json');
+const manifestPath = resolve(projectRoot, 'dist', 'system.json');
 
 const criticalFiles = [
-  resolve(projectRoot, 'public', 'dist', 'index.mjs'),
-  resolve(projectRoot, 'public', 'dist', 'style.css'),
+  resolve(projectRoot, 'dist', 'dist', 'index.mjs'),
+  resolve(projectRoot, 'dist', 'dist', 'style.css'),
 ];
 
 async function ensureFile(path) {
@@ -38,7 +38,7 @@ async function validateManifestTargets() {
   const missing = [];
 
   for (const relPath of [...esmodules, ...styles]) {
-    const absolute = resolve(projectRoot, 'public', relPath);
+    const absolute = resolve(projectRoot, 'dist', relPath);
     try {
       await stat(absolute);
     } catch (error) {
@@ -52,7 +52,7 @@ async function validateManifestTargets() {
 
   if (missing.length) {
     throw new Error(
-      `system.json references build assets that are missing from public/: ${missing.join(', ')}`,
+      `system.json references build assets that are missing from dist/: ${missing.join(', ')}`,
     );
   }
 }

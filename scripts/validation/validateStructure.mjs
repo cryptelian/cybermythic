@@ -4,15 +4,14 @@ import { resolve, relative, sep } from 'node:path';
 const projectRoot = resolve(process.cwd());
 
 const requiredFiles = [
-  'public/system.json',
-  'public/dist/index.mjs',
-  'public/dist/style.css',
-  'public/templates',
-  'public/lang/en.json',
+  'dist/system.json',
+  'dist/dist/index.mjs',
+  'dist/templates',
+  'dist/lang/en.json',
 ];
 
-const forbiddenRoots = new Set(['dist', 'dist-compendiums', 'dist-ninja']);
-const skipRoots = new Set(['node_modules', '.git', '.release', 'build', 'public', 'dist']);
+const forbiddenRoots = new Set(['dist-compendiums', 'dist-ninja']);
+const skipRoots = new Set(['node_modules', '.git', '.release', 'build', 'public']);
 
 async function ensureRequired() {
   for (const entry of requiredFiles) {

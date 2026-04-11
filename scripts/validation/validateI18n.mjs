@@ -20,27 +20,46 @@ function flatten(obj, prefix = '') {
 }
 
 async function main() {
-  const enPath = resolve('public/lang/en.json');
-  const frPath = resolve('public/lang/fr.json');
-  const [en, fr] = await Promise.all([loadJson(enPath), loadJson(frPath)]);
-
-  const enFlat = flatten(en);
-  const frFlat = flatten(fr);
-
-  const missingInFr = Object.keys(enFlat).filter((k) => !(k in frFlat));
-  const extraInFr = Object.keys(frFlat).filter((k) => !(k in enFlat));
-
-  let hasErrors = false;
-  if (missingInFr.length) {
-    hasErrors = true;
-    console.error(`Missing ${missingInFr.length} fr keys vs en:`);
-    for (const k of missingInFr) console.error(`- ${k}`);
+  const systemPath = resolve('public/system.json');
+  const system = await loadJson(systemPath);
+  
+  const langs = system.languages || [];
+  const enLang = langs.find(l => l.lang === 'en');
+  
+  if (!enLang) {
+    console.warn('No English language defined in system.json. Skipping validation.');
+    return;
   }
 
-  // Treat extras as warnings, not errors
-  if (extraInFr.length) {
-    console.warn(`Extra ${extraInFr.length} fr keys not in en (warning):`);
-    for (const k of extraInFr) console.warn(`- ${k}`);
+  const enPath = resolve('public', enLang.path);
+  const en = await loadJson(enPath);
+  const enFlat = flatten(en);
+  
+  // Validate other languages against English
+  const others = langs.filter(l => l.lang !== 'en');
+  
+  let hasErrors = false;
+
+  for (const lang of others) {
+    console.log(`Validating ${lang.name} (${lang.lang})...`);
+    const langPath = resolve('public', lang.path);
+    try {
+        const other = await loadJson(langPath);
+        const otherFlat = flatten(other);
+        
+        const missing = Object.keys(enFlat).filter((k) => !(k in otherFlat));
+        // Optional: Check for extras
+        // const extras = Object.keys(otherFlat).filter((k) => !(k in enFlat));
+
+        if (missing.length) {
+            hasErrors = true;
+            console.error(`Missing ${missing.length} keys in ${lang.lang} vs en:`);
+            for (const k of missing) console.error(`- ${k}`);
+        }
+    } catch (e) {
+        console.error(`Failed to load or parse ${langPath}:`, e.message);
+        hasErrors = true;
+    }
   }
 
   if (hasErrors) process.exit(1);

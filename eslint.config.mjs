@@ -1,0 +1,107 @@
+import js from '@eslint/js';
+import importPlugin from 'eslint-plugin-import';
+
+const foundryGlobals = {
+  foundry: 'readonly',
+  game: 'readonly',
+  Hooks: 'readonly',
+  CONFIG: 'readonly',
+  ui: 'readonly',
+  canvas: 'readonly',
+  ChatMessage: 'readonly',
+  Roll: 'readonly',
+  Actor: 'readonly',
+  Item: 'readonly',
+  Application: 'readonly',
+  FormApplication: 'readonly',
+  Dialog: 'readonly',
+  mergeObject: 'readonly',
+  duplicate: 'readonly',
+  getDocumentClass: 'readonly',
+  CONST: 'readonly',
+  TextEditor: 'readonly',
+  TokenDocument: 'readonly',
+  Token: 'readonly',
+  TokenLayer: 'readonly',
+  AudioHelper: 'readonly',
+  fromUuidSync: 'readonly',
+  renderTemplate: 'readonly',
+  renderTemplateSafe: 'readonly',
+  $: 'readonly',
+  jQuery: 'readonly',
+};
+
+export default [
+  {
+    ignores: ['public/dist/**', 'build/**', 'workspace/**'],
+  },
+  js.configs.recommended,
+  {
+    files: ['**/*.js', '**/*.mjs'],
+    languageOptions: {
+      ecmaVersion: 2022,
+      sourceType: 'module',
+      globals: {
+        ...foundryGlobals,
+        console: 'readonly',
+        window: 'readonly',
+        document: 'readonly',
+        setTimeout: 'readonly',
+        clearTimeout: 'readonly',
+        setInterval: 'readonly',
+        clearInterval: 'readonly',
+        Event: 'readonly',
+        FormData: 'readonly',
+        Blob: 'readonly',
+        URL: 'readonly',
+        FileReader: 'readonly',
+        requestAnimationFrame: 'readonly',
+        cancelAnimationFrame: 'readonly',
+        performance: 'readonly',
+        MutationObserver: 'readonly',
+        IntersectionObserver: 'readonly',
+        fetch: 'readonly',
+        Handlebars: 'readonly',
+        loadTemplates: 'readonly',
+        loadTemplatesSafe: 'readonly',
+        renderTemplateSafe: 'readonly',
+        Combat: 'readonly',
+        AbortController: 'readonly',
+        CharacterSheetV2: 'readonly',
+        ItemSheetV2: 'readonly',
+        ApplicationV2: 'readonly',
+        PoolTerm: 'readonly',
+      },
+    },
+    plugins: {
+      import: importPlugin,
+    },
+    settings: {
+      'import/resolver': {
+        node: {},
+      },
+    },
+    rules: {
+      'no-console': 'off',
+      'no-empty': 'off',
+      'no-unused-vars': 'off',
+      'import/no-unresolved': ['off'],
+      'import/extensions': ['off'],
+      'no-case-declarations': 'off',
+      'no-unreachable': 'off',
+    },
+  },
+  {
+    files: ['scripts/**/*.js'],
+    languageOptions: {
+      globals: {
+        console: 'readonly',
+        process: 'readonly',
+        __dirname: 'readonly',
+        module: 'readonly',
+        require: 'readonly',
+      },
+    },
+  },
+];
+
