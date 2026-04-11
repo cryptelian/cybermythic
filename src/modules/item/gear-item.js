@@ -1,5 +1,5 @@
-import { ICONS_PATH } from '../constants.js';
-import { AnarchyBaseItem } from './anarchy-base-item.js';
+import { ICONS_PATH } from "../core/constants.js";
+import { AnarchyBaseItem } from "./document.js";
 
 export class GearItem extends AnarchyBaseItem {
   static get defaultIcon() {

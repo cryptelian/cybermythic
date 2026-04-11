@@ -1,0 +1,482 @@
+// =============================================================================
+// DESIGN TOKENS - Anarchy CyberMythic Design System
+// =============================================================================
+// This file centralizes ALL design decisions for consistent theming.
+// Import this file first in main.scss to establish the token foundation.
+// =============================================================================
+
+// =============================================================================
+// TYPOGRAPHY SCALE
+// =============================================================================
+// Based on a modular scale (1.125 ratio) for harmonious sizing
+// Base: 16px (1rem)
+
+:root {
+  // --- Font Families ---
+  --font-family-display: 'BebasNeue', 'Impact', sans-serif;
+  --font-family-body: system-ui, -apple-system, 'Segoe UI', roboto, sans-serif;
+  --font-family-mono: 'Fira Code', 'Consolas', monospace;
+
+  // --- Font Sizes (Modular Scale 1.125) ---
+  // Text sizes (for body content) - Adjusted for Foundry VTT Density
+  --text-xs: 0.625rem;       // 10px
+  --text-sm: 0.6875rem;      // 11px
+  --text-base: 0.6875rem;    // 11px - As requested
+  --text-lg: 0.8125rem;      // 13px
+  --text-xl: 0.9375rem;      // 15px
+
+  // Heading sizes
+  --heading-xs: 0.75rem;     // 12px
+  --heading-sm: 0.8125rem;   // 13px
+  --heading-base: 0.9375rem; // 15px
+  --heading-md: 1.0625rem;   // 17px
+  --heading-lg: 1.25rem;     // 20px
+  --heading-xl: 1.5rem;      // 24px
+  --heading-2xl: 1.75rem;    // 28px
+  --heading-3xl: 2rem;       // 32px
+
+  // Display sizes
+  --display-sm: 1.25rem;     // 20px
+  --display-md: 1.5rem;      // 24px
+  --display-lg: 2rem;        // 32px
+  --display-xl: 2.5rem;      // 40px
+
+  // --- Font Weights ---
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  // --- Line Heights ---
+  --line-height-none: 1;
+  --line-height-tight: 1.25;
+  --line-height-snug: 1.375;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+  --line-height-loose: 2;
+
+  // --- Letter Spacing ---
+  --tracking-tighter: -0.05em;
+  --tracking-tight: -0.025em;
+  --tracking-normal: 0;
+  --tracking-wide: 0.025em;
+  --tracking-wider: 0.05em;
+  --tracking-widest: 0.1em;
+
+  // =============================================================================
+  // SPACING SCALE
+  // =============================================================================
+  // Based on 4px base unit for consistent rhythm
+
+  --space-0: 0;
+  --space-px: 1px;
+  --space-0_5: 0.125rem;   // 2px
+  --space-1: 0.25rem;      // 4px
+  --space-1_5: 0.375rem;   // 6px
+  --space-2: 0.5rem;       // 8px
+  --space-2_5: 0.625rem;   // 10px
+  --space-3: 0.75rem;      // 12px
+  --space-4: 1rem;         // 16px
+  --space-5: 1.25rem;      // 20px
+  --space-6: 1.5rem;       // 24px
+  --space-8: 2rem;         // 32px
+  --space-10: 2.5rem;      // 40px
+  --space-12: 3rem;        // 48px
+  --space-16: 4rem;        // 64px
+  --space-20: 5rem;        // 80px
+
+  // Semantic spacing aliases
+  --space-xs: var(--space-0_5);   // 2px  - tight gaps
+  --space-sm: var(--space-1);     // 4px  - small gaps
+  --space-md: var(--space-2);     // 8px  - standard gaps
+  --space-lg: var(--space-4);     // 16px - large gaps
+  --space-xl: var(--space-6);     // 24px - section gaps
+  --space-2xl: var(--space-8);    // 32px - major divisions
+
+  // =============================================================================
+  // ICON & SYMBOL SIZING
+  // =============================================================================
+  // Consistent icon sizes for various contexts
+
+  --icon-xs: 0.75rem;      // 12px - inline icons, small indicators
+  --icon-sm: 1rem;         // 16px - standard inline icons
+  --icon-md: 1.25rem;      // 20px - emphasized icons
+  --icon-lg: 1.5rem;       // 24px - section header icons
+  --icon-xl: 2rem;         // 32px - feature icons
+  --icon-2xl: 2.5rem;      // 40px - large feature icons
+  --icon-3xl: 3rem;        // 48px - hero icons
+
+  // Checkbar/monitor icons
+  --checkbar-icon-sm: 1rem;     // 16px - compact monitors
+  --checkbar-icon-md: 1.5rem;   // 24px - standard monitors
+  --checkbar-icon-lg: 2rem;     // 32px - emphasized monitors
+  --checkbar-icon-xl: 3.125rem; // 50px - GM manager tokens
+
+  // Item/skill images
+  --item-img-xs: 1.5rem;   // 24px - compact item lists
+  --item-img-sm: 2rem;     // 32px - standard items
+  --item-img-md: 2.875rem; // 46px - enhanced sheet items
+  --item-img-lg: 2.625rem; // 42px - weapon images
+  --item-img-xl: 4rem;     // 64px - featured items
+
+  // =============================================================================
+  // LOGO & AVATAR SIZING
+  // =============================================================================
+
+  --logo-sm: 64px;         // Small logo
+  --logo-md: 100px;        // Standard sidebar logo
+  --logo-lg: 128px;        // Large logo
+  --logo-aspect: calc(57 / 100); // Anarchy logo aspect ratio
+
+  --avatar-xs: 32px;       // Compact avatar
+  --avatar-sm: 64px;       // Device sheet avatar
+  --avatar-md: 92px;       // NPC/Vehicle avatar
+  --avatar-lg: 128px;      // Character sheet avatar
+  --avatar-xl: 150px;      // Enhanced header avatar
+
+  // =============================================================================
+  // COMPONENT DIMENSIONS
+  // =============================================================================
+
+  // --- Input Heights ---
+  --input-height-xs: 1.25rem;    // 20px - compact inputs
+  --input-height-sm: 1.5rem;     // 24px - small inputs
+  --input-height-md: 2rem;       // 32px - standard inputs
+  --input-height-lg: 2.5rem;     // 40px - large inputs
+
+  // --- Button Heights ---
+  --button-height-xs: 1.5rem;    // 24px - icon buttons
+  --button-height-sm: 2rem;      // 32px - small buttons
+  --button-height-md: 2.5rem;    // 40px - standard buttons
+  --button-height-lg: 3rem;      // 48px - large buttons
+
+  // --- Tab Heights ---
+  --tab-height-sm: 1.5rem;       // 24px - compact tabs
+  --tab-height-md: 2rem;         // 32px - standard tabs
+  --tab-height-lg: 2.5rem;       // 40px - prominent tabs
+
+  // --- Section Headers ---
+  --section-header-height: 2.5rem;  // 40px - section title bars
+  --section-header-offset: 19px;    // Hexabox offset for section headers
+
+  // --- Attribute Boxes ---
+  --attribute-min-width: 3rem;      // Minimum attribute width
+  --attribute-max-width: 8rem;      // Maximum attribute width
+  --attribute-compact-min: 2rem;    // NPC/device minimum
+
+  // --- Monitors ---
+  --monitor-min-width: 4rem;        // Minimum monitor width
+  --monitor-max-width: 8rem;        // Maximum monitor width
+  --monitor-health-width: 120px;    // Health/stun monitor width
+
+  // =============================================================================
+  // SHEET DIMENSIONS
+  // =============================================================================
+
+  --sheet-character-min-width: 680px;
+  --sheet-actor-min-width: 600px;
+  --sheet-npc-min-width: 500px;
+  --sheet-item-min-width: 400px;
+  --sheet-dialog-min-width: 300px;
+  --sheet-dialog-max-width: 600px;
+
+  // =============================================================================
+  // BORDER RADIUS SCALE
+  // =============================================================================
+
+  --radius-none: 0;
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+  --radius-xl: 8px;
+  --radius-2xl: 12px;
+  --radius-full: 9999px;
+
+  // =============================================================================
+  // SHADOWS
+  // =============================================================================
+
+  --shadow-none: none;
+  --shadow-xs: 0 1px 2px rgb(0 0 0 / 5%);
+  --shadow-sm: 0 1px 3px rgb(0 0 0 / 10%), 0 1px 2px rgb(0 0 0 / 6%);
+  --shadow-md: 0 4px 6px rgb(0 0 0 / 10%), 0 2px 4px rgb(0 0 0 / 6%);
+  --shadow-lg: 0 10px 15px rgb(0 0 0 / 10%), 0 4px 6px rgb(0 0 0 / 5%);
+  --shadow-xl: 0 20px 25px rgb(0 0 0 / 10%), 0 10px 10px rgb(0 0 0 / 4%);
+
+  // Anarchy section shadow
+  --anarchy-shadow-section: 0 4px 8px rgb(0 0 0 / 20%);
+
+  // =============================================================================
+  // Z-INDEX SCALE
+  // =============================================================================
+
+  --z-base: 0;
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+
+  // =============================================================================
+  // TRANSITIONS
+  // =============================================================================
+
+  --duration-instant: 0ms;
+  --duration-fast: 100ms;
+  --duration-normal: 200ms;
+  --duration-slow: 300ms;
+  --duration-slower: 400ms;
+
+  --ease-linear: linear;
+  --ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  // Section animation easing (enhanced sheet)
+  --ease-section-expand: cubic-bezier(0.14, 0.87, 0.5, 0.97);
+  --ease-section-collapse: cubic-bezier(0.78, 0.32, 0.88, 0.38);
+
+  // =============================================================================
+  // COLORS (Core Palette)
+  // =============================================================================
+  // These are base colors - themes override via semantic tokens
+
+  // --- Anarchy Brand Colors ---
+  --color-anarchy-gold: #f4c000;
+  --color-anarchy-gold-light: #fec81c;
+  --color-anarchy-gold-dark: #c4a000;
+  --color-anarchy-gray: #dcdddf;
+  --color-anarchy-gray-light: #e3e4e6;
+  --color-anarchy-gray-dark: #989999;
+
+  // --- Semantic Text Colors ---
+  --text-primary: hsl(0deg 0% 10%);
+  --text-secondary: hsl(0deg 0% 40%);
+  --text-tertiary: hsl(0deg 0% 60%);
+  --text-muted: hsl(0deg 0% 70%);
+  --text-inverse: hsl(0deg 0% 100%);
+  --text-on-gold: hsl(0deg 0% 0%);
+
+  // --- Semantic Background Colors ---
+  --bg-primary: hsl(0deg 0% 100%);
+  --bg-secondary: hsl(0deg 0% 95%);
+  --bg-tertiary: hsl(0deg 0% 90%);
+  --bg-elevated: hsl(0deg 0% 100%);
+  --bg-sunken: hsl(0deg 0% 85%);
+  --bg-overlay: rgb(0 0 0 / 50%);
+
+  // --- Semantic Border Colors ---
+  --border-default: hsl(0deg 0% 80%);
+  --border-subtle: hsl(0deg 0% 90%);
+  --border-strong: hsl(0deg 0% 60%);
+
+  // --- Interactive Colors ---
+  --interactive-primary: hsl(210deg 80% 50%);
+  --interactive-primary-hover: hsl(210deg 80% 40%);
+  --interactive-primary-active: hsl(210deg 80% 35%);
+  --interactive-secondary: hsl(0deg 0% 60%);
+  --interactive-secondary-hover: hsl(0deg 0% 50%);
+
+  // --- State Colors ---
+  --state-success: hsl(160deg 50% 40%);
+  --state-success-bg: hsl(160deg 50% 95%);
+  --state-warning: hsl(40deg 90% 50%);
+  --state-warning-bg: hsl(40deg 90% 95%);
+  --state-error: hsl(0deg 80% 50%);
+  --state-error-bg: hsl(0deg 80% 95%);
+  --state-info: hsl(210deg 80% 60%);
+  --state-info-bg: hsl(210deg 80% 95%);
+
+  // --- Anarchy Specific Colors ---
+  --anarchy-bg-attributes: hsl(47deg 90% 50% / 50%);
+  --anarchy-bg-attributes-secondary: hsl(47deg 75% 75% / 50%);
+  --anarchy-bg-item: hsl(44deg 0% 100% / 50%);
+  --anarchy-bg-item-img: hsl(207deg 40% 60% / 70%);
+  --anarchy-bg-positive: hsl(180deg 80% 20% / 20%);
+  --anarchy-bg-negative: hsl(300deg 80% 20% / 20%);
+  --anarchy-bg-tooltip: hsl(207deg 40% 70%);
+  --anarchy-bg-weapon: hsl(0deg 0% 80% / 30%);
+
+  // --- Monitor Colors ---
+  --color-monitor-checked: hsl(9deg 70% 30% / 90%);
+  --color-resource-checked: hsl(207deg 100% 80%);
+  --color-unchecked: hsl(207deg 10% 50%);
+
+  // --- Dice Colors ---
+  --color-dice-glitch: hsl(300deg 80% 20%);
+  --color-dice-mixed: hsl(230deg 80% 30%);
+  --color-dice-prowess: hsl(160deg 80% 40%);
+
+  // --- Matrix Connection Colors ---
+  --color-matrix-augmented: hsl(47deg 80% 50% / 90%);
+  --color-matrix-virtual: hsl(47deg 100% 70% / 90%);
+  --color-matrix-disconnected: hsl(47deg 30% 30% / 50%);
+
+  // =============================================================================
+  // RESPONSIVE BREAKPOINTS
+  // =============================================================================
+
+  // These are for reference - use @container queries where possible
+  --breakpoint-xs: 375px;
+  --breakpoint-sm: 500px;
+  --breakpoint-md: 650px;
+  --breakpoint-lg: 700px;
+  --breakpoint-xl: 768px;
+}
+
+// =============================================================================
+// TYPOGRAPHY MIXINS
+// =============================================================================
+
+@mixin text-xs {
+  font-size: var(--text-xs);
+  line-height: var(--line-height-normal);
+}
+
+@mixin text-sm {
+  font-size: var(--text-sm);
+  line-height: var(--line-height-normal);
+}
+
+@mixin text-base {
+  font-size: var(--text-base);
+  line-height: var(--line-height-normal);
+}
+
+@mixin text-lg {
+  font-size: var(--text-lg);
+  line-height: var(--line-height-normal);
+}
+
+@mixin heading-section {
+  font-family: var(--font-family-display);
+  font-size: var(--heading-lg);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  line-height: var(--line-height-tight);
+}
+
+@mixin heading-subsection {
+  font-family: var(--font-family-display);
+  font-size: var(--heading-base);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--tracking-wide);
+  line-height: var(--line-height-tight);
+}
+
+@mixin heading-item-title {
+  font-family: var(--font-family-display);
+  font-size: var(--heading-base);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--tracking-wide);
+  line-height: var(--line-height-snug);
+}
+
+@mixin display-attribute {
+  font-family: var(--font-family-display);
+  font-size: var(--display-md);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-none);
+}
+
+@mixin label-attribute {
+  font-family: var(--font-family-display);
+  font-size: var(--heading-base);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--tracking-wider);
+  text-transform: uppercase;
+  line-height: var(--line-height-tight);
+}
+
+// =============================================================================
+// TEXT SHADOW UTILITIES
+// =============================================================================
+
+@mixin text-shadow-outline($color: #000) {
+  text-shadow:
+    -1px -1px 0 $color,
+    1px -1px 0 $color,
+    -1px 1px 0 $color,
+    1px 1px 0 $color;
+}
+
+@mixin text-shadow-none {
+  text-shadow:
+    -1px 0 transparent,
+    1px -1px 0 transparent,
+    -1px 1px 0 transparent,
+    1px 1px 0 transparent;
+}
+
+// =============================================================================
+// SPACING UTILITIES
+// =============================================================================
+
+@mixin section-padding {
+  padding: 0 var(--space-lg) var(--space-2xl) var(--space-lg);
+}
+
+@mixin compact-padding {
+  padding: var(--space-sm);
+}
+
+@mixin item-padding {
+  padding: var(--space-sm) var(--space-md);
+}
+
+// =============================================================================
+// ICON SIZE UTILITIES
+// =============================================================================
+
+@mixin icon-size($size: md) {
+  @if $size == xs {
+    font-size: var(--icon-xs);
+    width: var(--icon-xs);
+    height: var(--icon-xs);
+  } @else if $size == sm {
+    font-size: var(--icon-sm);
+    width: var(--icon-sm);
+    height: var(--icon-sm);
+  } @else if $size == md {
+    font-size: var(--icon-md);
+    width: var(--icon-md);
+    height: var(--icon-md);
+  } @else if $size == lg {
+    font-size: var(--icon-lg);
+    width: var(--icon-lg);
+    height: var(--icon-lg);
+  } @else if $size == xl {
+    font-size: var(--icon-xl);
+    width: var(--icon-xl);
+    height: var(--icon-xl);
+  }
+}
+
+// =============================================================================
+// RESPONSIVE CONTAINER MIXINS
+// =============================================================================
+
+@mixin container-sm {
+  @container (max-width: 500px) {
+    @content;
+  }
+}
+
+@mixin container-md {
+  @container (max-width: 650px) {
+    @content;
+  }
+}
+
+@mixin container-lg {
+  @container (max-width: 700px) {
+    @content;
+  }
+}
+

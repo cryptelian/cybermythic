@@ -1,0 +1,21 @@
+<div class="framework-body">
+  
+  {{!-- Monitors Section --}}
+  <details class="af-collapsible" open>
+    <summary>Condition Monitors</summary>
+    <div class="af-content">
+      {{> "systems/anarchy/templates/framework/components/monitor.hbs" monitors.physical}}
+      {{> "systems/anarchy/templates/framework/components/monitor.hbs" monitors.stun}}
+      {{> "systems/anarchy/templates/framework/components/monitor.hbs" monitors.edge}}
+    </div>
+  </details>
+
+  {{!-- Placeholder for Attributes --}}
+  <details class="af-collapsible" open>
+    <summary>Attributes</summary>
+    <div class="af-content">
+      <p>Attribute grid coming in Phase 4.</p>
+    </div>
+  </details>
+
+</div>

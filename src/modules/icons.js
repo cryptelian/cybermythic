@@ -1,13 +1,13 @@
-import { STYLE_PATH } from './constants.js';
+import { STYLE_PATH } from "./core/constants.js";
 
 const faClassD6 = [
-  'fas fa-dice',
-  'fas fa-dice-one',
-  'fas fa-dice-two',
-  'fas fa-dice-three',
-  'fas fa-dice-four',
-  'fas fa-dice-five',
-  'fas fa-dice-six',
+  "fas fa-dice",
+  "fas fa-dice-one",
+  "fas fa-dice-two",
+  "fas fa-dice-three",
+  "fas fa-dice-four",
+  "fas fa-dice-five",
+  "fas fa-dice-six",
 ];
 
 export class Icons {

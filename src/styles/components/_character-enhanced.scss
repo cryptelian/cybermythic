@@ -1,7 +1,9 @@
 // Character Enhanced Components - Advanced character sheet layout
 // This file integrates the character-enhanced system into the modular architecture
+// Now uses design tokens for consistent sizing and spacing
 
 @use 'core-components' as *;
+@use '../design-tokens' as tokens;
 
 // =============================================================================
 // CHARACTER ENHANCED FOUNDATION
@@ -10,16 +12,18 @@
 .character-enhanced {
   @include component-base;
   
-  // Enhanced theme variables
-  --darkglass-color-font: black !important;
-  --darkglass-background-attributes: white !important;
+  // Enhanced theme variables (local overrides)
+  --darkglass-color-font: var(--text-primary) !important;
+  --darkglass-background-attributes: var(--bg-primary) !important;
   
+  // Use design tokens for consistent typography
+  font-family: var(--font-family-body);
   color: var(--darkglass-color-font);
   container-type: inline-size;
   
   // Enhanced link styling
   a {
-    @include component-transition(all);
+    transition: all var(--duration-normal) var(--ease-out);
     cursor: pointer !important;
     
     &:hover {
@@ -30,18 +34,24 @@
   
   // Enhanced heading styling
   h2 {
+    font-family: var(--font-family-display);
     border-bottom: 0 solid transparent;
+    font-size: var(--heading-xl);
+    margin: 0;
   }
   
   // Enhanced input styling
   input {
-    background-color: #f1f4ff;
+    background-color: var(--input-background, #fff);
+    border: 1px solid var(--border-primary);
+    font-size: var(--text-base);
+    color: var(--text-primary);
   }
   
   // Enhanced item opacity
   .item {
     opacity: 1;
-    @include component-transition(opacity, 200ms, ease-out);
+    transition: opacity var(--duration-normal) var(--ease-out);
     
     &.inactive {
       background: transparent !important;
@@ -55,34 +65,39 @@
 // =============================================================================
 
 .character-enhanced header {
-  height: 150px;
+  height: var(--avatar-xl);
   display: grid;
-  grid-template-columns: 150px 1fr;
+  grid-template-columns: var(--avatar-xl) 1fr;
   position: relative;
   
   // Responsive header layout
   @container (max-width: 700px) {
-    height: 220px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
     
     .name-attributes {
-      grid-template-rows: 50px 170px !important;
+      display: flex;
+      flex-direction: column;
       
       .name {
-        width: calc(100% + 145px);
-        margin-left: -136px;
+        width: 100%;
+        margin: 0;
+        transform: none;
       }
     }
     
     .attributes {
-      grid-template-columns: 1fr 1fr 1fr !important;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr) !important;
+      padding-bottom: var(--space-md);
     }
     
-    .avatar img {
-      margin-top: 47px;
-    }
-    
-    .roleplay {
-      grid-template-columns: 1fr !important;
+    .avatar {
+      margin: 0 auto;
+      img {
+        margin-top: 0;
+      }
     }
   }
   
@@ -90,8 +105,6 @@
   .avatar {
     @include component-base;
     position: relative;
-    margin-top: -6px;
-    margin-left: -6px;
     
     > .angle.tr {
       display: none;
@@ -102,14 +115,23 @@
       bottom: 0;
       right: 0;
       width: 100px;
-      font-size: 10px;
+      font-size: var(--text-xs);
       
       .anarchy-metatype {
         @include flex-container(row, center, center);
-        @include component-spacing(0 6px 0 0);
+        @include component-spacing(0 var(--space-sm) 0 0);
         
-        gap: 8px;
+        gap: var(--space-sm);
         background-color: white;
+        
+        // Glass theme: Metatype tag
+        .style-darkglass &,
+        .style-darkglass & {
+          background-color: var(--bg-tertiary);
+          color: var(--text-primary);
+          border: 1px solid var(--border-subtle);
+          border-radius: var(--radius-sm);
+        }
         
         &.info-value {
           padding-right: 0;
@@ -149,13 +171,21 @@
         height: 40px;
         margin-top: 3px;
         margin-left: 2px;
-        font-size: 24px;
+        font-size: var(--heading-xl);
         
         input {
-          font-family: "BebasNeue", sans-serif;
-          @include component-spacing(11px 0 4px 4px);
+          font-family: var(--font-family-display);
+          @include component-spacing(var(--space-md) 0 var(--space-sm) var(--space-sm));
           background-color: transparent;
           font-weight: bold;
+          border: none;
+          
+          // Glass theme: Name input
+          .style-darkglass &,
+          .style-darkglass & {
+            color: var(--text-primary);
+            text-shadow: 0 0 10px var(--interactive-primary);
+          }
         }
       }
       
@@ -164,21 +194,29 @@
         position: absolute;
         right: 5px;
         top: 5px;
-        gap: 8px;
+        gap: var(--space-md);
         
         select {
           border: 0;
           background-color: white;
+          
+          // Glass theme: Awareness select
+          .style-darkglass &,
+          .style-darkglass & {
+            background-color: rgb(0 0 0 / 30%);
+            color: var(--text-primary);
+            border: 1px solid var(--border-subtle);
+          }
         }
         
         .connection-mode,
         .view-mode {
           @include flex-container(column, center, center);
           transform: translateY(3px);
-          font-size: 12px;
+          font-size: var(--text-xs);
           
           i {
-            font-size: 16px;
+            font-size: var(--icon-sm);
           }
         }
       }
@@ -187,22 +225,50 @@
     .attributes {
       display: grid;
       grid-template-columns: repeat(6, 1fr);
-      background-image: linear-gradient(to bottom, #ffffff 0%, #dcdddf 50%, #989999 100%);
-      padding-bottom: 32px;
+      background-image: var(--gradient-silver);
+      padding-bottom: var(--space-xl);
       margin-right: -4px;
+      
+      // Glass theme: Attributes bar
+      .style-darkglass &,
+      .style-darkglass & {
+        background-image: none;
+        background-color: transparent;
+      }
       
       .attribute {
         display: grid;
         grid-template-rows: 1fr 2fr;
-        @include component-spacing(2px 8px 0 8px);
-        font-family: "BebasNeue", sans-serif;
+        @include component-spacing(var(--space-xs) var(--space-md) 0 var(--space-md));
+        font-family: var(--font-family-display);
+        
+        // Glass theme: Attribute item
+        .style-darkglass &,
+        .style-darkglass & {
+          background: rgb(20 25 40 / 60%);
+          border: 1px solid var(--border-subtle);
+          margin: 2px;
+          border-radius: var(--radius-md);
+          
+          .label {
+            color: var(--interactive-primary);
+            text-shadow: 0 0 5px var(--interactive-primary);
+          }
+          
+          .attribute-infos {
+            a { color: var(--text-primary); }
+            .value { color: var(--text-secondary); }
+          }
+        }
         
         .label {
-          @include text-style(18px, bold, #f4c000);
+          font-family: var(--font-family-display);
+          font-size: var(--heading-base);
+          font-weight: var(--font-weight-bold);
+          color: var(--color-anarchy-gold);
           text-transform: uppercase;
           text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-          font-family: "BebasNeue", sans-serif;
-          letter-spacing: 2px;
+          letter-spacing: var(--tracking-wider);
         }
         
         .attribute-infos {
@@ -212,14 +278,14 @@
             @include flex-container(row, center, center);
             width: 100%;
             height: 100%;
-            font-size: 28px;
+            font-size: var(--display-sm);
           }
           
           .value {
             position: absolute;
             bottom: -4px;
             right: -4px;
-            font-size: 14px;
+            font-size: var(--text-sm);
             width: 18px;
             height: 22px;
           }
@@ -236,7 +302,7 @@
 .character-enhanced .roleplay {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  font-size: 20px;
+  font-size: var(--heading-lg);
   gap: 0;
   font-weight: bold;
   margin-right: -5px;
@@ -246,16 +312,15 @@
   }
   
   h3 {
-    @include heading(3);
+    font-size: var(--heading-md);
     @include flex-container(row, center, center);
-    @include component-spacing(8px 0 0 0);
+    @include component-spacing(var(--space-md) 0 0 0);
     
     border-bottom: none;
     text-transform: uppercase;
-    font-size: 1.1em;
-    font-family: "BebasNeue", sans-serif;
+    font-family: var(--font-family-display);
     letter-spacing: 1px;
-    gap: 8px;
+    gap: var(--space-md);
     
     a {
       @include flex-container(row, center, center);
@@ -309,7 +374,7 @@
   
   input {
     height: 20px;
-    font-size: 14px;
+    font-size: var(--text-sm);
     border-top: 0;
     border-left: 0;
     border-right: 0;
@@ -336,10 +401,10 @@
   .section-owned,
   .section-shadowamps {
     max-height: 1000px;
-    @include component-transition(max-height, 400ms, cubic-bezier(0.14, 0.87, 0.5, 0.97));
+    transition: max-height 400ms var(--ease-section-expand);
     
     &:not(.wrapper) {
-      @include component-transition(max-height, 400ms, cubic-bezier(0.78, 0.32, 0.88, 0.38));
+      transition: max-height 400ms var(--ease-section-collapse);
       overflow: hidden;
     }
     
@@ -354,10 +419,10 @@
   
   .section-roleplay {
     max-height: 300px;
-    @include component-transition(max-height, 300ms, ease-out);
+    transition: max-height 300ms ease-out;
     
     &:not(.wrapper) {
-      @include component-transition(max-height, 300ms, ease-out);
+      transition: max-height 300ms ease-out;
       overflow: hidden;
     }
   }
@@ -378,8 +443,29 @@
   position: relative;
   margin-left: -4px;
   margin-right: -4px;
-  @include component-spacing(0 0 2rem 0);
+  @include component-spacing(0 0 var(--space-8) 0);
   box-shadow: var(--anarchy-shadow-section);
+  
+  // Glass theme override
+  .style-darkglass &,
+  .style-darkglass & {
+    background-color: transparent;
+    border-top: 1px solid var(--interactive-primary);
+    box-shadow: none;
+    
+    // Create a glass panel background
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgb(20 20 30 / 40%);
+      backdrop-filter: blur(var(--glass-blur));
+      backdrop-filter: blur(var(--glass-blur));
+      z-index: -1;
+      border-radius: var(--radius-md);
+      border: 1px solid rgb(255 255 255 / 5%);
+    }
+  }
   
   h2 {
     --wrapper-padding: 19px;
@@ -388,6 +474,17 @@
     margin-top: -19px;
     padding-bottom: 0;
     margin-bottom: 0;
+    
+    // Glass theme: Hex header override
+    .style-darkglass &,
+    .style-darkglass & {
+      --wrapper-background-color: transparent;
+      
+      .side.up {
+        box-shadow: none;
+        border-bottom: 1px solid var(--interactive-primary);
+      }
+    }
     
     .side.up {
       box-shadow: var(--anarchy-shadow-section);
@@ -402,21 +499,40 @@
     }
     
     .content {
-      @include text-style(1.2em, bold, $text-color);
+      font-size: var(--heading-lg);
+      font-weight: bold;
+      color: $text-color;
       @include flex-container(row, center, center);
       
       border-bottom: none;
       text-transform: uppercase;
       text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-      font-family: "BebasNeue", sans-serif;
+      font-family: var(--font-family-display);
       letter-spacing: 2px;
       background-color: $bg-color;
       transform: translateY(-14px);
-      gap: 8px;
+      gap: var(--space-md);
+      
+      // Glass theme: Header content override
+      .style-darkglass &,
+      .style-darkglass & {
+        background-color: var(--bg-secondary);
+        color: var(--interactive-primary);
+        text-shadow: 0 0 5px var(--interactive-primary);
+        border: 1px solid var(--interactive-primary);
+        border-radius: var(--radius-sm);
+        padding: 4px 12px;
+        box-shadow: 0 0 10px var(--interactive-primary);
+        transform: translateY(-24px); // Adjust position slightly
+        
+        a {
+          color: var(--interactive-primary);
+        }
+      }
       
       a {
         @include flex-container(row, center, center);
-        text-shadow: -1px 0 transparent, 1px -1px 0 transparent, -1px 1px 0 transparent, 1px 1px 0 transparent;
+        text-shadow: none;
       }
     }
   }
@@ -430,35 +546,38 @@
   @include enhanced-section(#e3e4e6, black);
   
   .action-list {
-    @include grid-container(1fr 1fr, 8px);
-    @include component-spacing(0 16px);
+    @include grid-container(1fr 1fr, var(--space-md));
+    @include component-spacing(0 var(--space-lg));
     
     @container (max-width: 500px) {
       grid-template-columns: 1fr;
     }
     
     .item-list > .content {
-      @include grid-container(1fr 1fr, 12px);
-      @include component-spacing(8px);
+      @include grid-container(1fr 1fr, var(--space-3));
+      @include component-spacing(var(--space-md));
       background-color: white;
       
       a {
         @include component-base;
-        @include component-transition(transform, 200ms);
-        @include hover-effect(1.05, false);
+        transition: transform 200ms;
         
         background-color: transparent;
         --wrapper-background-color: #f4c000;
         --wrapper-padding: 8px;
         color: white;
-        font-size: 18px;
+        font-size: var(--heading-md);
         text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
+        
+        &:hover {
+          transform: scale(1.05);
+        }
         
         > .content {
           @include flex-container(column, center, center);
-          @include component-spacing(0 8px 0 24px);
+          @include component-spacing(0 var(--space-md) 0 var(--space-xl));
           
-          font-size: 16px;
+          font-size: var(--heading-base);
           position: relative;
           
           .attribute-button-icon {
@@ -470,7 +589,9 @@
           }
           
           label {
-            @include text-style(14px, normal, black);
+            font-size: var(--text-sm);
+            font-weight: normal;
+            color: black;
             display: block;
             text-align: center;
             text-shadow: none;
@@ -482,11 +603,13 @@
     
     .weapons .content {
       .title {
-        @include text-style(18px, bold, white);
-        @include component-spacing(4px);
+        font-size: var(--heading-md);
+        font-weight: bold;
+        color: white;
+        @include component-spacing(var(--space-sm));
         
         margin-top: 0;
-        font-family: "BebasNeue", sans-serif;
+        font-family: var(--font-family-display);
         letter-spacing: 1px;
         text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
       }
@@ -494,16 +617,19 @@
       .weapon-list {
         @include flex-container(column, flex-start, flex-start);
         @include component-spacing(0 2px);
-        gap: 8px;
+        gap: var(--space-md);
         
         .weapon {
           @include component-base;
           @include component-spacing(6px);
-          @include component-transition(transform, 200ms);
-          @include hover-effect(1.01, false);
+          transition: transform 200ms;
           
           background-color: transparent;
           --wrapper-border-color: black;
+          
+          &:hover {
+            transform: scale(1.01);
+          }
           
           .content {
             @include grid-container(50px 1fr);
@@ -518,13 +644,13 @@
             }
             
             .weapon-name {
-              @include text-style(16px, normal);
-              font-family: "BebasNeue", sans-serif;
+              font-size: var(--text-base);
+              font-family: var(--font-family-display);
               letter-spacing: 0;
             }
             
             .weapon-desc {
-              @include text-style(12px);
+              font-size: var(--text-xs);
               @include component-spacing(2px 0);
               
               span p {
@@ -549,7 +675,7 @@
                 
                 .weapon-range,
                 .weapon-dmg {
-                  font-family: "BebasNeue", sans-serif;
+                  font-family: var(--font-family-display);
                 }
                 
                 .weapon-range {
@@ -576,7 +702,7 @@
     @include component-spacing(1rem 1rem 0 1rem);
     
     overflow: auto;
-    margin-bottom: 16px;
+    margin-bottom: var(--space-lg);
     margin-top: 0;
     
     .anarchy-skill {
@@ -603,11 +729,12 @@
         }
         
         .skill-txt {
-          @include component-spacing(0 16px);
+          @include component-spacing(0 var(--space-lg));
           
           .title {
-            @include text-style(18px, bold);
-            font-family: "BebasNeue", sans-serif;
+            font-size: var(--heading-md);
+            font-weight: bold;
+            font-family: var(--font-family-display);
             letter-spacing: 1px;
           }
         }
@@ -625,7 +752,7 @@
         
         .content {
           @include flex-container(row, center, center);
-          font-size: 20px;
+          font-size: var(--display-sm);
         }
       }
     }
@@ -650,7 +777,7 @@
     @include component-spacing(1rem 1rem 0 1rem);
     
     overflow: auto;
-    margin-bottom: 16px;
+    margin-bottom: var(--space-lg);
     margin-top: 0;
     
     .anarchy-shadowamp {
@@ -671,12 +798,13 @@
         
         .shadowamp-content {
           max-width: none;
-          padding-left: 12px;
+          padding-left: var(--space-3);
           text-align: left;
           
           .title {
-            @include text-style(18px, bold);
-            font-family: "BebasNeue", sans-serif;
+            font-size: var(--heading-md);
+            font-weight: bold;
+            font-family: var(--font-family-display);
             letter-spacing: 1px;
           }
         }
@@ -694,7 +822,7 @@
         
         .content {
           @include flex-container(row, center, center);
-          font-size: 20px;
+          font-size: var(--display-sm);
         }
       }
     }
@@ -707,14 +835,14 @@
 
 .character-enhanced .monitors {
   @include enhanced-section(#dcdddf, white);
-  margin-top: 24px;
+  margin-top: var(--space-xl);
   
   @container (max-width: 700px) {
     margin-top: 0;
   }
   
   .monitor-list {
-    @include grid-container(1fr 376px, 8px);
+    @include grid-container(1fr 376px, var(--space-md));
     
     .checkbar-img {
       width: 24px;
@@ -723,11 +851,11 @@
     
     .tokens {
       @include flex-container(column, flex-start, flex-start);
-      gap: 8px;
+      gap: var(--space-md);
     }
     
     .health {
-      @include grid-container(120px 120px 120px, 8px);
+      @include grid-container(120px 120px 120px, var(--space-md));
     }
     
     .armor,
@@ -735,25 +863,45 @@
     .stun,
     .tokens {
       .content {
-        @include component-spacing(8px 0 0 0);
+        @include component-spacing(var(--space-md) 0 0 0);
         @include component-base;
         background-color: white;
         
+        // Glass theme: Monitor content
+        .style-darkglass &,
+        .style-darkglass & {
+          background-color: rgb(0 0 0 / 30%);
+          border: 1px solid var(--border-subtle);
+          border-radius: var(--radius-md);
+          
+          .title {
+            color: var(--interactive-primary);
+            text-shadow: 0 0 5px var(--interactive-primary);
+          }
+          
+          .resistance-label {
+            color: var(--text-secondary);
+            .value { color: var(--text-primary); }
+          }
+        }
+        
         .title {
-          @include text-style(18px, bold, white);
+          font-size: var(--heading-md);
+          font-weight: bold;
+          color: white;
           @include flex-container(row, center, center);
-          @include component-spacing(0 0 4px 0);
+          @include component-spacing(0 0 var(--space-sm) 0);
           
           height: 20px;
           text-transform: uppercase;
           text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-          font-family: "BebasNeue", sans-serif;
+          font-family: var(--font-family-display);
           letter-spacing: 2px;
-          gap: 4px;
+          gap: var(--space-sm);
           
           input.info-value {
             text-align: center;
-            font-size: 16px;
+            font-size: var(--text-lg);
             width: 28px;
             height: 20px;
           }
@@ -761,8 +909,8 @@
         
         .anarchy-monitor {
           @include flex-container(row, center, center);
-          @include component-spacing(8px 0 0 0);
-          font-family: "BebasNeue", sans-serif;
+          @include component-spacing(var(--space-md) 0 0 0);
+          font-family: var(--font-family-display);
           
           .checkbar-root {
             @include flex-container(row, center, center);
@@ -781,6 +929,12 @@
                   width: 6px;
                   right: -5px;
                   top: 6px;
+                }
+                
+                // Glass theme: Checkbar connectors
+                .style-darkglass &,
+                .style-darkglass & {
+                  &::after { border-color: var(--border-subtle); }
                 }
                 
                 &:nth-child(3n)::after {
@@ -815,14 +969,14 @@
       }
       
       .resistance-label {
-        @include text-style(14px, normal);
+        font-size: var(--text-sm);
         @include flex-container(row, center, center);
         
-        font-family: "BebasNeue", sans-serif;
+        font-family: var(--font-family-display);
         gap: 6px;
         
         .value {
-          font-size: 16px;
+          font-size: var(--text-lg);
           font-weight: bold;
         }
       }
@@ -841,7 +995,7 @@
     }
     
     .anarchy-essence {
-      @include grid-container(2fr 1fr, 8px);
+      @include grid-container(2fr 1fr, var(--space-md));
       height: 100%;
       
       div {
@@ -850,7 +1004,7 @@
     }
     
     .edge-credibility {
-      @include grid-container(1fr 1fr 1fr, 8px);
+      @include grid-container(1fr 1fr 1fr, var(--space-md));
       height: 100%;
       
       div {
@@ -909,8 +1063,9 @@
         }
         
         label {
-          @include text-style(18px, bold);
-          font-family: "BebasNeue", sans-serif;
+          font-size: var(--heading-md);
+          font-weight: bold;
+          font-family: var(--font-family-display);
           letter-spacing: 1px;
         }
       }
@@ -926,11 +1081,13 @@
   
   .contacts {
     .title {
-      @include text-style(18px, bold, white);
-      @include component-spacing(4px);
+      font-size: var(--heading-md);
+      font-weight: bold;
+      color: white;
+      @include component-spacing(var(--space-sm));
       
       margin-top: 1rem;
-      font-family: "BebasNeue", sans-serif;
+      font-family: var(--font-family-display);
       letter-spacing: 1px;
       text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     }
@@ -941,15 +1098,16 @@
       
       .contact {
         .content {
-          @include component-spacing(4px);
+          @include component-spacing(var(--space-sm));
           
           p {
             text-align: justify;
           }
           
           label {
-            @include text-style(20px, bold);
-            font-family: "BebasNeue", sans-serif;
+            font-size: var(--heading-lg);
+            font-weight: bold;
+            font-family: var(--font-family-display);
             letter-spacing: 1px;
           }
         }
@@ -966,11 +1124,13 @@
   
   .cyberdecks {
     .title {
-      @include text-style(18px, bold, white);
-      @include component-spacing(4px);
+      font-size: var(--heading-md);
+      font-weight: bold;
+      color: white;
+      @include component-spacing(var(--space-sm));
       
       margin-top: 1rem;
-      font-family: "BebasNeue", sans-serif;
+      font-family: var(--font-family-display);
       letter-spacing: 1px;
       text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     }
@@ -989,8 +1149,9 @@
             @include flex-container(column, flex-start, flex-start);
             
             .name {
-              @include text-style(18px, bold);
-              font-family: "BebasNeue", sans-serif;
+              font-size: var(--heading-md);
+              font-weight: bold;
+              font-family: var(--font-family-display);
               letter-spacing: 1px;
               transform: translateY(-12px);
             }
@@ -1043,7 +1204,7 @@
     @include component-spacing(0);
     
     overflow: auto;
-    margin-bottom: 16px;
+    margin-bottom: var(--space-lg);
     
     .anarchy-quality {
       --wrapper-padding: 12px;
@@ -1085,12 +1246,13 @@
         
         .quality-content {
           max-width: none;
-          padding-left: 12px;
+          padding-left: var(--space-3);
           text-align: left;
           
           .title {
-            @include text-style(18px, bold);
-            font-family: "BebasNeue", sans-serif;
+            font-size: var(--heading-md);
+            font-weight: bold;
+            font-family: var(--font-family-display);
             letter-spacing: 1px;
           }
           
@@ -1124,11 +1286,13 @@
     }
     
     .title {
-      @include text-style(18px, bold, white);
-      @include component-spacing(4px);
+      font-size: var(--heading-md);
+      font-weight: bold;
+      color: white;
+      @include component-spacing(var(--space-sm));
       
       margin-top: 0;
-      font-family: "BebasNeue", sans-serif;
+      font-family: var(--font-family-display);
       letter-spacing: 1px;
       text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     }
@@ -1138,7 +1302,7 @@
       
       > div {
         @include flex-container(row, center, center);
-        gap: 8px;
+        gap: var(--space-md);
         
         .input input {
           text-align: center;
@@ -1173,11 +1337,13 @@
   .description,
   .gmnotes {
     .title {
-      @include text-style(18px, bold, white);
-      @include component-spacing(4px);
+      font-size: var(--heading-md);
+      font-weight: bold;
+      color: white;
+      @include component-spacing(var(--space-sm));
       
       margin-top: 1rem;
-      font-family: "BebasNeue", sans-serif;
+      font-family: var(--font-family-display);
       letter-spacing: 1px;
       text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     }

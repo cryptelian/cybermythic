@@ -1,40 +1,25 @@
 <tr class="modifier-row define-modifier" data-modifier-id="{{id}}">
-  <td class="modifier-column">
-    <select class="select-modifier-change" data-modifier-select='group'>
-    {{selectOptions (modifierSelectOption 'group')
-      selected=group 
-      nameAttr="key" labelAttr="label"
-      localize=true blank=''}}
-    </select>
-  </td>
-  <td class="modifier-column">
-    <select class="select-modifier-change" data-modifier-select='effect'>
-    {{selectOptions (modifierSelectOption 'effect' group=group)
-      selected=effect
-      nameAttr="key" labelAttr="label"
-      localize=true blank=''}}
-    </select>
-  </td>
-  <td class="modifier-column">
-    {{#if (modifierSelectOption 'category' group=group effect=effect)}}
-      <select class="select-modifier-change" data-modifier-select='category'>
-        {{selectOptions (modifierSelectOption 'category' group=group effect=effect)
-          selected=category
-          nameAttr="key" labelAttr="label"
-          localize=true blank=''}}
-      </select>
-    {{/if}}
-  </td>
-  <td class="modifier-column">
-    {{#if (modifierHasSubCategory group effect category)}}
-      <select class="select-modifier-change" data-modifier-select='subCategory'>
-        {{selectOptions (modifierSelectOption 'subCategory' group=group effect=effect category=category)
-          selected=subCategory
-          nameAttr="key" labelAttr="label"
-          localize=true blank=''}}
-      </select>
-    {{/if}}
-  </td>
+  <div class="modifier-group">
+    <label>{{localize 'ANARCHY.modifier.group'}}</label>
+    {{selectOptions (modifierSelectOption 'group') selected=modifier.group localize=true name=(concat "system.modifiers."
+    modifier.id ".group") class="modifier-select-group"}}
+  </div>
+  <div class="modifier-effect">
+    <label>{{localize 'ANARCHY.modifier.effect'}}</label>
+    {{selectOptions (modifierSelectOption 'effect' group=group) selected=modifier.effect localize=true name=(concat
+    "system.modifiers." modifier.id ".effect") class="modifier-select-effect"}}
+  </div>
+  <div class="modifier-category">
+    <label>{{localize 'ANARCHY.modifier.category'}}</label>
+    {{selectOptions (modifierSelectOption 'category' group=group effect=effect) selected=modifier.category localize=true
+    name=(concat "system.modifiers." modifier.id ".category") class="modifier-select-category"}}
+  </div>
+  <div class="modifier-subcategory">
+    <label>{{localize 'ANARCHY.modifier.subCategory'}}</label>
+    {{selectOptions (modifierSelectOption 'subCategory' group=group effect=effect category=category)
+    selected=modifier.subCategory localize=true name=(concat "system.modifiers." modifier.id ".subCategory")
+    class="modifier-select-subcategory"}}
+  </div>
   <td class="modifier-column">
     {{numberInput value min=-2 max=4 class='input-modifier-value' step=1}}
   </td>

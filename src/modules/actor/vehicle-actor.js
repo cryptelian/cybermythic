@@ -1,8 +1,8 @@
-import { ANARCHY } from '../config.js';
-import { ICONS_PATH, TEMPLATE } from '../constants.js';
-import { ErrorManager } from '../error-manager.js';
-import { AnarchyUsers } from '../users.js';
-import { AnarchyBaseActor } from './base-actor.js';
+import { ANARCHY } from "../core/config.js";
+import { ICONS_PATH, TEMPLATE } from "../core/constants.js";
+import { ErrorManager } from "../core/errors.js";
+import { AnarchyUsers } from "../users.js";
+import { AnarchyBaseActor } from "./document.js";
 
 const VEHICLE_ATTRIBUTES = [
   TEMPLATE.attributes.autopilot,
@@ -18,19 +18,24 @@ export class VehicleActor extends AnarchyBaseActor {
 
   static get initiative() {
     return (
-      AnarchyBaseActor.initiative + ' + max(@attributes.system.value, @attributes.autopilot.value)'
+      AnarchyBaseActor.initiative +
+      " + max(@attributes.system.value, @attributes.autopilot.value)"
     );
   }
 
   prepareDerivedData() {
-    this.system.monitors.matrix.max = this._getMonitorMax(TEMPLATE.attributes.system);
+    this.system.monitors.matrix.max = this._getMonitorMax(
+      TEMPLATE.attributes.system,
+    );
     super.prepareDerivedData();
   }
 
   computePhysicalState() {
     return {
       max: this.system.monitors.structure.max,
-      value: this.system.monitors.structure.max - this.system.monitors.structure.value,
+      value:
+        this.system.monitors.structure.max -
+        this.system.monitors.structure.value,
     };
   }
 
@@ -68,12 +73,19 @@ export class VehicleActor extends AnarchyBaseActor {
 
   async rollPilotDefense(attack) {
     const selectedActors = AnarchyUsers.getSelectedActors();
-    ErrorManager.checkOutOfRange(ANARCHY.user.selectedTokenActors, selectedActors.length, 0, 1);
+    ErrorManager.checkOutOfRange(
+      ANARCHY.user.selectedTokenActors,
+      selectedActors.length,
+      0,
+      1,
+    );
 
     const character = AnarchyUsers.getPlayerActor(game.user);
     const vehicleOwner = this.getOwnerActor();
     const pilot = [...selectedActors, character, vehicleOwner]
-      .filter((actor) => actor?.testUserPermission(game.user, this.getRightToDefend()))
+      .filter((actor) =>
+        actor?.testUserPermission(game.user, this.getRightToDefend()),
+      )
       .find((actor) => actor?.canPilotVehicle());
     if (pilot) {
       return await pilot.rollDefense(attack);
@@ -90,8 +102,8 @@ export class VehicleActor extends AnarchyBaseActor {
     const fromOldField = this.system.handling;
     if (fromOldField && fromAttribute < fromOldField) {
       await this.update({
-        'system.-=handling': null,
-        'system.attributes.handling.value': fromOldField,
+        "system.-=handling": null,
+        "system.attributes.handling.value": fromOldField,
       });
     }
   }

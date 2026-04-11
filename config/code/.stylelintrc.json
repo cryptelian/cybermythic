@@ -11,13 +11,18 @@
     "length-zero-no-unit": null,
     "shorthand-property-no-redundant-values": null,
     "declaration-block-no-redundant-longhand-properties": null,
+    "declaration-block-single-line-max-declarations": null,
     "rule-empty-line-before": null,
     "declaration-empty-line-before": null,
     "at-rule-empty-line-before": null,
     "scss/double-slash-comment-empty-line-before": null,
+    "scss/at-extend-no-missing-placeholder": null,
     "no-duplicate-selectors": null,
     "declaration-block-no-duplicate-properties": null,
     "color-hex-length": null,
-    "custom-property-empty-line-before": null
+    "custom-property-empty-line-before": null,
+    "custom-property-pattern": null,
+    "number-max-precision": null,
+    "selector-class-pattern": null
   }
 }

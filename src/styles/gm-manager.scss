@@ -1,19 +1,256 @@
-#gm-manager {
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+// GM Manager - V2 Application Styling
+// Uses CSS variables from main.scss for consistency
 
-    button.gm-manager-hide-button {
-      width: 32px;
+// =============================================================================
+// V2 APPLICATION BASE STYLES
+// =============================================================================
+
+.anarchy-gm-manager,
+#gm-manager {
+  .window-content {
+    background: var(--app-background, var(--background-primary));
+    color: var(--app-text, var(--text-primary));
+    padding: 0;
+    overflow: visible;
+    width: fit-content;
+    min-width: 300px;
+  }
+
+  // =============================================================================
+  // GM MANAGER SECTIONS
+  // =============================================================================
+
+  .gm-manager-bar {
+    padding: var(--space-md);
+    border-bottom: 1px solid var(--border-primary);
+    width: 100%;
+    box-sizing: border-box;
+    
+    &:last-child {
+      border-bottom: none;
+    }
+
+    // Section labels
+    .gm-manager-label {
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-bold);
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      margin-bottom: var(--space-sm);
+    }
+
+    // =============================================================================
+    // ANARCHY TOKENS (CHECKBAR)
+    // =============================================================================
+
+    .checkbar-root {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      justify-content: center;
+      
+      > div {
+        display: flex !important;
+        flex-wrap: wrap;
+        gap: var(--space-sm);
+        grid-column: auto !important;
+        grid-template-columns: none !important;
+        justify-content: center;
+      }
+
+      .checkbar-img {
+        width: 50px;
+        height: 50px;
+        object-fit: contain;
+        border: none;
+        transition: transform 200ms ease, filter 200ms ease;
+        
+        &:hover {
+          transform: scale(1.1);
+          filter: brightness(1.2);
+        }
+      }
+    }
+
+    // =============================================================================
+    // DIFFICULTY BUTTONS
+    // =============================================================================
+
+    .gm-difficulty-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+
+      a.anarchy-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--button-background, rgb(0 0 0 / 40%));
+        border: 1px solid var(--border-primary);
+        border-radius: var(--border-radius-md);
+        padding: var(--space-sm) var(--space-md);
+        color: var(--text-primary);
+        text-decoration: none;
+        transition: all 200ms ease;
+        box-shadow: 0 1px 3px rgb(0 0 0 / 20%);
+
+        &:hover {
+          background: var(--interactive-primary);
+          border-color: var(--interactive-primary);
+          color: var(--text-inverse);
+          box-shadow: 0 0 8px var(--interactive-primary);
+        }
+
+        &:active {
+          transform: translateY(1px);
+          box-shadow: inset 0 1px 3px rgb(0 0 0 / 30%);
+        }
+
+        label {
+          cursor: pointer;
+          pointer-events: none;
+          font-size: var(--font-size-sm);
+          font-weight: var(--font-weight-medium);
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+        }
+      }
+    }
+
+    // =============================================================================
+    // GOD CONVERGENCE SECTION
+    // =============================================================================
+
+    .gm-convergence-bar {
+      .convergence-list {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-xs);
+      }
+
+      .convergence-actor {
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+        padding: var(--space-xs) var(--space-sm);
+        background: var(--background-secondary);
+        border-radius: var(--border-radius-sm);
+        
+        &:hover {
+          background: var(--background-tertiary);
+        }
+
+        .actor-name {
+          flex: 1;
+          font-size: var(--font-size-sm);
+        }
+
+        .convergence-value {
+          font-weight: var(--font-weight-bold);
+          color: var(--state-warning);
+        }
+      }
     }
   }
 }
 
+// =============================================================================
+// CHAT TOOLS (Bottom of chat panel)
+// =============================================================================
+
 .chat-tools {
   display: flex;
+  gap: var(--space-sm);
   z-index: 1000;
   flex: 0 0 28px;
-  margin: 0 0px 4px 8px;
-  width: calc(100% - 16px);
+  margin: 0 var(--space-sm) var(--space-sm) var(--space-md);
+  width: calc(100% - var(--space-lg));
+
+  .chat-tool-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-xs) var(--space-sm);
+    background: var(--button-background, var(--background-secondary));
+    border: 1px solid var(--border-primary);
+    border-radius: var(--border-radius-md);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 200ms ease;
+    font-size: var(--font-size-sm);
+
+    &:hover {
+      background: var(--interactive-primary);
+      color: var(--text-inverse);
+      border-color: var(--interactive-primary);
+    }
+
+    i {
+      margin-right: var(--space-xs);
+    }
+  }
+}
+
+// =============================================================================
+// DARK THEME OVERRIDES FOR GM MANAGER
+// =============================================================================
+
+.style-dark,
+.style-darkglass {
+  .anarchy-gm-manager,
+  #gm-manager {
+    --app-background: rgb(10 10 15 / 95%);
+    --app-text: var(--text-primary);
+    --button-background: rgb(30 30 40 / 80%);
+    
+    // Glass theme specifics
+    .style-darkglass &,
+    .style-darkglass & {
+      --app-background: transparent;
+      --button-background: rgb(40 50 80 / 40%);
+    }
+    
+    .window-content {
+      backdrop-filter: blur(10px);
+      
+      .style-darkglass &,
+      .style-darkglass & {
+        backdrop-filter: blur(var(--glass-blur));
+        box-shadow: var(--glass-shadow);
+        border: var(--glass-border);
+        background: var(--bg-primary);
+      }
+    }
+
+    .gm-manager-bar {
+      border-color: var(--border-primary);
+      
+      .style-darkglass &,
+      .style-darkglass & {
+        border-bottom: 1px solid rgb(255 255 255 / 10%);
+      }
+    }
+
+    .gm-difficulty-bar a.anarchy-button {
+      background: rgb(20 20 30 / 80%);
+      
+      .style-darkglass &,
+      .style-darkglass & {
+        background: rgb(30 40 60 / 50%);
+        border: 1px solid rgb(255 255 255 / 10%);
+        box-shadow: 0 4px 6px rgb(0 0 0 / 20%);
+      }
+      
+      &:hover {
+        box-shadow: 0 0 12px var(--interactive-primary);
+        text-shadow: 0 0 4px var(--interactive-primary);
+        
+        .style-darkglass &,
+        .style-darkglass & {
+          background: rgb(50 100 200 / 40%);
+          border-color: var(--interactive-primary);
+        }
+      }
+    }
+  }
 }

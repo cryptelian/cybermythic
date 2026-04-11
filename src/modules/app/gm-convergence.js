@@ -1,31 +1,38 @@
-import { Checkbars } from '../common/checkbars.js';
-import { ANARCHY } from '../config.js';
-import { SYSTEM_NAME, TEMPLATES_PATH } from '../constants.js';
-import { RemoteCall } from '../remotecall.js';
+import { Checkbars } from "../common/checkbars.js";
+import { ANARCHY } from "../core/config.js";
+import { SYSTEM_NAME, templatePath } from "../core/constants.js";
+import { RemoteCall } from "../remotecall.js";
+import { loadTemplatesSafe, renderTemplateSafe } from "../handlebars-utils.js";
 
-const CONVERGENCES = 'convergences';
+const CONVERGENCES = "convergences";
 const SETTING_KEY_CONVERGENCES = `${SYSTEM_NAME}.${CONVERGENCES}`;
-const ROLL_CONVERGENCE = 'GMConvergence.rollConvergence';
+const ROLL_CONVERGENCE = "GMConvergence.rollConvergence";
 
-const HBS_TEMPLATE_CONVERGENCE = `${TEMPLATES_PATH}/app/gm-convergence.hbs`;
-const HBS_TEMPLATE_CONVERGENCE_ACTORS = `${TEMPLATES_PATH}/app/gm-convergence-actors.hbs`;
+const HBS_TEMPLATE_CONVERGENCE = templatePath("app", "gm-convergence.hbs");
+const HBS_TEMPLATE_CONVERGENCE_ACTORS = templatePath(
+  "app",
+  "gm-convergence-actors.hbs",
+);
 export class GMConvergence {
   constructor() {
     game.settings.register(SYSTEM_NAME, CONVERGENCES, {
-      scope: 'world',
+      scope: "world",
       config: false,
       default: [],
       type: Array,
     });
     this.convergences = [];
-    Hooks.on('updateSetting', async (setting, update, options, id) =>
+    Hooks.on("updateSetting", async (setting, update, options, id) =>
       this.onUpdateSetting(setting, update, options, id),
     );
-    Hooks.once('ready', () => this.onReady());
+    Hooks.once("ready", () => this.onReady());
   }
 
   async onReady() {
-    await loadTemplates([HBS_TEMPLATE_CONVERGENCE, HBS_TEMPLATE_CONVERGENCE_ACTORS]);
+    await loadTemplatesSafe([
+      HBS_TEMPLATE_CONVERGENCE,
+      HBS_TEMPLATE_CONVERGENCE_ACTORS,
+    ]);
     this.convergences = game.settings
       .get(SYSTEM_NAME, CONVERGENCES)
       .filter((it) => game.actors.get(it.actorId));
@@ -40,7 +47,12 @@ export class GMConvergence {
   }
 
   async rollConvergence(actorId, convergence) {
-    if (!RemoteCall.call(ROLL_CONVERGENCE, { actorId: actorId, convergence: convergence })) {
+    if (
+      !RemoteCall.call(ROLL_CONVERGENCE, {
+        actorId: actorId,
+        convergence: convergence,
+      })
+    ) {
       await this._gmRollConvergence(convergence, actorId);
     }
   }
@@ -50,16 +62,16 @@ export class GMConvergence {
     const rollConvergence = new Roll(
       `${convergence}dgcf=1[${game.i18n.localize(ANARCHY.common.roll.rollTheme.convergence)}]`,
     );
-    await rollConvergence.evaluate({ async: true });
+    await rollConvergence.evaluate();
     this.addConvergence(actor, rollConvergence.total);
     rollConvergence.toMessage(
       {
         user: game.user,
-        whisper: ChatMessage.getWhisperRecipients('GM'),
+        whisper: ChatMessage.getWhisperRecipients("GM"),
         blind: true,
         flavor: `Convergence for ${actor.name}: ${rollConvergence.total}`,
       },
-      { rollType: 'blindroll' },
+      { rollType: "blindroll" },
     );
   }
 
@@ -74,7 +86,9 @@ export class GMConvergence {
     if (!game.user.isGM) {
       return 0; // undisclosed
     }
-    return this.convergences.find((it) => it.actorId == actor.id)?.convergence ?? 0;
+    return (
+      this.convergences.find((it) => it.actorId == actor.id)?.convergence ?? 0
+    );
   }
 
   async setActorConvergence(actor, newConvergence) {
@@ -89,7 +103,7 @@ export class GMConvergence {
   }
 
   async activateListeners(html) {
-    this.toolbar = html.find('.gm-convergence-bar');
+    this.toolbar = html.find(".gm-convergence-bar");
     await this._rebuild();
   }
 
@@ -100,17 +114,25 @@ export class GMConvergence {
   }
 
   async _rebuild() {
-    this.toolbar.find('.gm-convergence-content').replaceWith(await this._renderBar());
     this.toolbar
-      .find('a.click-checkbar-element')
-      .click(async (event) => await this._onClickConvergence(event));
+      .find(".gm-convergence-content")
+      .replaceWith(await this._renderBar());
+    this.toolbar.off("click", "a.click-checkbar-element");
+    this.toolbar.on("click", "a.click-checkbar-element", async (event) => {
+      event.preventDefault();
+      await this._onClickConvergence(event);
+    });
   }
 
   async _onClickConvergence(event) {
-    const monitor = $(event.currentTarget).closest('.checkbar-root').attr('data-monitor-code');
-    const actorId = $(event.currentTarget).closest('.actor-convergence').attr('data-actor-id');
-    const index = Number.parseInt($(event.currentTarget).attr('data-index'));
-    const isChecked = $(event.currentTarget).attr('data-checked') == 'true';
+    const monitor = $(event.currentTarget)
+      .closest(".checkbar-root")
+      .attr("data-monitor-code");
+    const actorId = $(event.currentTarget)
+      .closest(".actor-convergence")
+      .attr("data-actor-id");
+    const index = Number.parseInt($(event.currentTarget).attr("data-index"));
+    const isChecked = $(event.currentTarget).attr("data-checked") == "true";
     const newConvergence = Checkbars.newValue(index, isChecked);
     const actor = game.actors.get(actorId);
     await this.setActorConvergence(actor, newConvergence);
@@ -125,7 +147,10 @@ export class GMConvergence {
         };
       }),
     };
-    const html = await renderTemplate(HBS_TEMPLATE_CONVERGENCE_ACTORS, actorsConvergence);
+    const html = await renderTemplateSafe(
+      HBS_TEMPLATE_CONVERGENCE_ACTORS,
+      actorsConvergence,
+    );
     return html;
   }
 }

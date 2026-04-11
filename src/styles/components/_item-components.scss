@@ -46,6 +46,19 @@
       height: 100%;
       position: relative;
       
+      // Glass theme transparency
+      .style-darkglass &,
+      .style-darkglass & {
+        background: rgb(20 25 40 / 40%);
+        border: 1px solid var(--border-subtle);
+        
+        &:hover {
+          background: rgb(40 50 80 / 60%);
+          border-color: var(--interactive-primary);
+          box-shadow: 0 0 10px rgb(0 150 255 / 20%);
+        }
+      }
+      
       &.anarchy-skill {
         min-height: 52px;
       }
@@ -304,6 +317,27 @@
     box-shadow: inset 0 0 1px var(--border-primary);
     display: flex !important;
     align-items: baseline !important;
+    
+    // Glass theme alternate rows
+    .style-darkglass &,
+    .style-darkglass & {
+      box-shadow: none;
+      border: none;
+      background: transparent;
+      border-bottom: 1px solid rgb(255 255 255 / 5%);
+      
+      &:hover {
+        background: rgb(255 255 255 / 5%);
+      }
+      
+      &:nth-child(even) {
+        background: rgb(0 0 0 / 20%);
+      }
+      
+      &:nth-child(odd) {
+        background: transparent;
+      }
+    }
     
     &:hover {
       background: var(--border-secondary);

@@ -1,0 +1,433 @@
+// App Components - V2 Application base styles
+// Shared styling for all Anarchy V2 applications (sheets, dialogs, managers)
+
+@use 'core-components' as *;
+
+// =============================================================================
+// V2 APPLICATION BASE
+// =============================================================================
+
+// All V2 Anarchy applications share these base styles
+.anarchy-app,
+.application.anarchy {
+  // Window chrome
+  .window-header {
+    background: var(--header-background, var(--background-secondary));
+    border-bottom: 1px solid var(--border-primary);
+    
+    .window-title {
+      font-size: var(--font-size-md);
+      font-weight: var(--font-weight-bold);
+      color: var(--text-primary);
+    }
+    
+    .header-button {
+      @include button-base;
+      padding: var(--space-xs);
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      
+      &:hover {
+        color: var(--text-primary);
+        background: var(--background-tertiary);
+      }
+    }
+  }
+
+  // Window content area
+  .window-content {
+    background: var(--app-background, var(--background-primary));
+    color: var(--app-text, var(--text-primary));
+    padding: var(--space-md);
+    
+    // Ensure proper scrolling
+    overflow: auto;
+    
+    // Form elements inherit properly
+    input, select, textarea {
+      @include input-base;
+    }
+    
+    button, .button {
+      @include button-base;
+    }
+  }
+}
+
+// =============================================================================
+// SHEET-SPECIFIC V2 STYLES
+// =============================================================================
+
+.sheet.anarchy,
+.application.sheet {
+  .window-content {
+    padding: 0; // Sheets handle their own padding
+    
+    > form {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+  }
+
+  // Sheet header (name, image, etc.)
+  .sheet-header {
+    @include flex-container(row, center, space-between);
+    padding: var(--space-md);
+    background: var(--background-secondary);
+    border-bottom: 1px solid var(--border-primary);
+    flex-shrink: 0;
+    
+    .profile-img {
+      width: 64px;
+      height: 64px;
+      object-fit: cover;
+      border-radius: var(--border-radius-md);
+      border: 2px solid var(--border-primary);
+    }
+    
+    .header-fields {
+      flex: 1;
+      margin-left: var(--space-md);
+      
+      input.document-name {
+        font-size: var(--font-size-xl);
+        font-weight: var(--font-weight-bold);
+        border: none;
+        background: transparent;
+        width: 100%;
+        
+        &:focus {
+          outline: none;
+          border-bottom: 2px solid var(--interactive-primary);
+        }
+      }
+    }
+  }
+
+  // Sheet body (main content area)
+  .sheet-body {
+    flex: 1;
+    overflow: auto;
+    padding: var(--space-md);
+  }
+
+  // Sheet tabs navigation
+  .sheet-tabs {
+    @include flex-container(row, center, flex-start);
+    background: var(--background-tertiary);
+    border-bottom: 1px solid var(--border-primary);
+    flex-shrink: 0;
+    
+    .item {
+      padding: var(--space-sm) var(--space-md);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 200ms ease;
+      
+      &:hover {
+        background: var(--background-secondary);
+      }
+      
+      &.active {
+        border-bottom-color: var(--interactive-primary);
+        background: var(--background-primary);
+        font-weight: var(--font-weight-bold);
+      }
+    }
+  }
+}
+
+// =============================================================================
+// DIALOG-SPECIFIC V2 STYLES
+// =============================================================================
+
+.dialog.anarchy,
+.anarchy-dialog {
+  .window-content {
+    min-width: 300px;
+    max-width: 600px;
+  }
+
+  .dialog-content {
+    padding: var(--space-md);
+  }
+
+  .dialog-buttons,
+  .form-footer {
+    @include flex-container(row, center, flex-end);
+    gap: var(--space-sm);
+    padding: var(--space-md);
+    border-top: 1px solid var(--border-primary);
+    background: var(--background-secondary);
+    
+    button {
+      @include button-base;
+      min-width: 80px;
+      
+      &[type="submit"],
+      &.primary {
+        background: var(--interactive-primary);
+        color: var(--text-inverse);
+        
+        &:hover {
+          background: var(--interactive-primary-hover);
+        }
+      }
+      
+      &.default,
+      &.secondary {
+        background: var(--background-tertiary);
+        color: var(--text-primary);
+        border: 1px solid var(--border-primary);
+      }
+      
+      &.danger {
+        background: var(--state-error);
+        color: var(--text-inverse);
+      }
+    }
+  }
+}
+
+// =============================================================================
+// FORM CONTROLS STANDARDIZATION
+// =============================================================================
+
+.anarchy-app,
+.application.anarchy {
+  // Text inputs
+  input[type="text"],
+  input[type="number"],
+  input[type="email"],
+  input[type="password"] {
+    @include input-base;
+    width: 100%;
+    
+    // Glass theme: Inputs
+    .style-darkglass &,
+    .style-darkglass & {
+      background: rgb(0 0 0 / 30%);
+      border: none;
+      border-bottom: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      
+      &:focus {
+        background: rgb(0 0 0 / 50%);
+        border-bottom-color: var(--interactive-primary);
+        box-shadow: 0 4px 6px -2px rgb(0 0 0 / 20%);
+      }
+      
+      &::placeholder {
+        color: var(--text-muted);
+      }
+    }
+  }
+  
+  // Number inputs - smaller width
+  input[type="number"] {
+    width: 4rem;
+    text-align: center;
+  }
+  
+  // Select dropdowns
+  select {
+    @include input-base;
+    cursor: pointer;
+    
+    // Glass theme: Selects
+    .style-darkglass &,
+    .style-darkglass & {
+      background: rgb(0 0 0 / 30%);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-primary);
+      
+      option {
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+      }
+      
+      &:hover {
+        border-color: var(--interactive-primary);
+      }
+    }
+    
+    &:hover {
+      border-color: var(--interactive-primary);
+    }
+  }
+  
+  // Textareas
+  textarea {
+    @include input-base;
+    min-height: 80px;
+    resize: vertical;
+  }
+  
+  // Checkboxes and radio buttons
+  input[type="checkbox"],
+  input[type="radio"] {
+    width: 1rem;
+    height: 1rem;
+    margin-right: var(--space-xs);
+    cursor: pointer;
+    accent-color: var(--interactive-primary);
+  }
+  
+  // Labels
+  label {
+    font-size: var(--font-size-sm);
+    font-weight: var(--font-weight-medium);
+    color: var(--text-primary);
+    
+    &.required::after {
+      content: " *";
+      color: var(--state-error);
+    }
+  }
+  
+  // Form groups
+  .form-group {
+    margin-bottom: var(--space-md);
+    
+    > label {
+      display: block;
+      margin-bottom: var(--space-xs);
+    }
+  }
+  
+  // Inline form elements
+  .form-row {
+    @include flex-container(row, center, flex-start);
+    gap: var(--space-md);
+    margin-bottom: var(--space-md);
+    
+    .form-group {
+      margin-bottom: 0;
+    }
+  }
+}
+
+// =============================================================================
+// SECTION STYLING
+// =============================================================================
+
+.anarchy-app,
+.application.anarchy {
+  // Collapsible sections
+  .section {
+    margin-bottom: var(--space-md);
+    border: 1px solid var(--border-primary);
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    
+    .section-header {
+      @include flex-container(row, center, space-between);
+      padding: var(--space-sm) var(--space-md);
+      background: var(--background-secondary);
+      cursor: pointer;
+      
+      &:hover {
+        background: var(--background-tertiary);
+      }
+      
+      h3, h4 {
+        margin: 0;
+        font-size: var(--font-size-md);
+        font-weight: var(--font-weight-bold);
+      }
+      
+      .collapse-icon {
+        transition: transform 200ms ease;
+      }
+    }
+    
+    &.collapsed {
+      .section-header .collapse-icon {
+        transform: rotate(-90deg);
+      }
+      
+      .section-content {
+        display: none;
+      }
+    }
+    
+    .section-content {
+      padding: var(--space-md);
+    }
+  }
+  
+  // Grid layouts
+  .grid-2 {
+    @include grid-container(repeat(2, 1fr));
+  }
+  
+  .grid-3 {
+    @include grid-container(repeat(3, 1fr));
+  }
+  
+  .grid-4 {
+    @include grid-container(repeat(4, 1fr));
+  }
+}
+
+// =============================================================================
+// ITEM LIST STYLING
+// =============================================================================
+
+.anarchy-app,
+.application.anarchy {
+  .item-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    
+    .item {
+      @include anarchy-item;
+      @include flex-container(row, center, space-between);
+      
+      .item-name {
+        flex: 1;
+        font-weight: var(--font-weight-medium);
+      }
+      
+      .item-controls {
+        @include flex-container(row, center, flex-end);
+        gap: var(--space-xs);
+        
+        a, button {
+          padding: var(--space-xs);
+          color: var(--text-secondary);
+          cursor: pointer;
+          transition: color 200ms ease;
+          
+          &:hover {
+            color: var(--interactive-primary);
+          }
+          
+          &.delete:hover {
+            color: var(--state-error);
+          }
+        }
+      }
+    }
+  }
+}
+
+// =============================================================================
+// THEME COMPATIBILITY
+// =============================================================================
+
+.style-dark,
+.style-darkglass {
+  .anarchy-app,
+  .application.anarchy {
+    --app-background: var(--background-primary);
+    --app-text: var(--text-primary);
+    --header-background: rgb(0 0 0 / 30%);
+  }
+}
+

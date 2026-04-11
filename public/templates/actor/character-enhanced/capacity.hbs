@@ -2,12 +2,8 @@
   <div class="wrapper-hexabox">
     {{> "systems/anarchy/templates/actor/character-enhanced/hexabox.hbs"}}
     <div class="content">
-      <select name="system.capacity" {{#if @root.options.viewMode}}disabled{{/if}}>
-        {{#select system.capacity}}
-        {{> 'systems/anarchy/templates/common/enum-value-label.hbs'
-        entries=ENUMS.capacities noEmpty=true}}
-        {{/select }}
-      </select>
+      {{selectOptions ENUMS.capacity selected=system.capacity localize=true name="system.capacity" class="select-capacity"
+      data-dtype="String"}}
     </div>
   </div>
   <div class="view-mode">

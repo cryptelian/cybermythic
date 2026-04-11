@@ -1,0 +1,545 @@
+// =============================================================================
+// ICON & SYMBOL SIZING COMPONENT
+// =============================================================================
+// This file provides consistent icon sizing classes and utilities.
+// Icons include Font Awesome icons, item images, checkbar symbols, etc.
+// =============================================================================
+
+@use '../design-tokens' as *;
+
+// =============================================================================
+// ICON SIZE CLASSES
+// =============================================================================
+// General purpose icon sizing for Font Awesome and similar icon fonts
+
+.icon-xs {
+  font-size: var(--icon-xs) !important;
+  width: var(--icon-xs);
+  height: var(--icon-xs);
+}
+
+.icon-sm {
+  font-size: var(--icon-sm) !important;
+  width: var(--icon-sm);
+  height: var(--icon-sm);
+}
+
+.icon-md {
+  font-size: var(--icon-md) !important;
+  width: var(--icon-md);
+  height: var(--icon-md);
+}
+
+.icon-lg {
+  font-size: var(--icon-lg) !important;
+  width: var(--icon-lg);
+  height: var(--icon-lg);
+}
+
+.icon-xl {
+  font-size: var(--icon-xl) !important;
+  width: var(--icon-xl);
+  height: var(--icon-xl);
+}
+
+.icon-2xl {
+  font-size: var(--icon-2xl) !important;
+  width: var(--icon-2xl);
+  height: var(--icon-2xl);
+}
+
+.icon-3xl {
+  font-size: var(--icon-3xl) !important;
+  width: var(--icon-3xl);
+  height: var(--icon-3xl);
+}
+
+// =============================================================================
+// INLINE ICON UTILITIES
+// =============================================================================
+// For icons that appear inline with text
+
+.icon-inline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: middle;
+  line-height: 1;
+}
+
+.icon-inline-xs {
+  @extend .icon-inline;
+  font-size: var(--icon-xs);
+  width: var(--icon-xs);
+  height: var(--icon-xs);
+}
+
+.icon-inline-sm {
+  @extend .icon-inline;
+  font-size: var(--icon-sm);
+  width: var(--icon-sm);
+  height: var(--icon-sm);
+}
+
+.icon-inline-md {
+  @extend .icon-inline;
+  font-size: var(--icon-md);
+  width: var(--icon-md);
+  height: var(--icon-md);
+}
+
+// =============================================================================
+// HEADER ICON SIZES
+// =============================================================================
+// Icons that appear in section headers and titles
+
+.icon-header-sm {
+  font-size: var(--icon-md) !important;
+  margin-right: var(--space-xs);
+}
+
+.icon-header-md {
+  font-size: var(--icon-lg) !important;
+  margin-right: var(--space-sm);
+}
+
+.icon-header-lg {
+  font-size: var(--icon-xl) !important;
+  margin-right: var(--space-md);
+}
+
+// =============================================================================
+// ITEM IMAGE SIZES
+// =============================================================================
+// For item icons (skills, weapons, gear, etc.)
+
+.item-img-xs {
+  width: var(--item-img-xs);
+  height: var(--item-img-xs);
+  object-fit: cover;
+  object-position: center;
+}
+
+.item-img-sm {
+  width: var(--item-img-sm);
+  height: var(--item-img-sm);
+  object-fit: cover;
+  object-position: center;
+}
+
+.item-img-md {
+  width: var(--item-img-md);
+  height: var(--item-img-md);
+  object-fit: cover;
+  object-position: center;
+}
+
+.item-img-lg {
+  width: var(--item-img-lg);
+  height: var(--item-img-lg);
+  object-fit: cover;
+  object-position: center;
+}
+
+.item-img-xl {
+  width: var(--item-img-xl);
+  height: var(--item-img-xl);
+  object-fit: cover;
+  object-position: center;
+}
+
+// =============================================================================
+// ANARCHY ITEM IMAGES
+// =============================================================================
+// Standard Anarchy item image class with consistent sizing
+
+.anarchy-img {
+  width: var(--item-img-md);
+  height: var(--item-img-md);
+  object-fit: cover;
+  object-position: center;
+  border: none;
+  flex-shrink: 0;
+  
+  &.anarchy-img--xs {
+    width: var(--item-img-xs);
+    height: var(--item-img-xs);
+  }
+  
+  &.anarchy-img--sm {
+    width: var(--item-img-sm);
+    height: var(--item-img-sm);
+  }
+  
+  &.anarchy-img--lg {
+    width: var(--item-img-lg);
+    height: var(--item-img-lg);
+  }
+  
+  &.anarchy-img--xl {
+    width: var(--item-img-xl);
+    height: var(--item-img-xl);
+  }
+}
+
+// =============================================================================
+// CHECKBAR ICON SIZES
+// =============================================================================
+// For monitor checkboxes (physical, stun, edge, etc.)
+
+.checkbar-img {
+  width: var(--checkbar-icon-md);
+  height: var(--checkbar-icon-md);
+  object-fit: contain;
+  background-position: center;
+  background-size: cover;
+  border: none;
+  margin: 0;
+  display: inline-block;
+  flex-shrink: 0;
+  transition: transform var(--duration-normal) var(--ease-out),
+              filter var(--duration-normal) var(--ease-out);
+  
+  &:hover {
+    transform: scale(1.1);
+    filter: brightness(1.2);
+  }
+  
+  &:active {
+    transform: translateY(1px);
+  }
+  
+  &.checkbar-img--sm {
+    width: var(--checkbar-icon-sm);
+    height: var(--checkbar-icon-sm);
+  }
+  
+  &.checkbar-img--lg {
+    width: var(--checkbar-icon-lg);
+    height: var(--checkbar-icon-lg);
+  }
+  
+  &.checkbar-img--xl {
+    width: var(--checkbar-icon-xl);
+    height: var(--checkbar-icon-xl);
+  }
+}
+
+// =============================================================================
+// AVATAR/PORTRAIT SIZES
+// =============================================================================
+
+.avatar-xs {
+  width: var(--avatar-xs);
+  height: var(--avatar-xs);
+  object-fit: cover;
+  object-position: center;
+  border-radius: var(--radius-md);
+}
+
+.avatar-sm {
+  width: var(--avatar-sm);
+  height: var(--avatar-sm);
+  object-fit: cover;
+  object-position: center;
+  border-radius: var(--radius-md);
+}
+
+.avatar-md {
+  width: var(--avatar-md);
+  height: var(--avatar-md);
+  object-fit: cover;
+  object-position: center;
+  border-radius: var(--radius-md);
+}
+
+.avatar-lg {
+  width: var(--avatar-lg);
+  height: var(--avatar-lg);
+  object-fit: cover;
+  object-position: center;
+  border-radius: var(--radius-md);
+}
+
+.avatar-xl {
+  width: var(--avatar-xl);
+  height: var(--avatar-xl);
+  object-fit: cover;
+  object-position: center;
+  border-radius: var(--radius-md);
+}
+
+// =============================================================================
+// PASSPORT IMAGE (ACTOR PORTRAITS)
+// =============================================================================
+
+.passport-img {
+  position: relative;
+  flex-shrink: 0;
+  
+  img {
+    border-radius: var(--radius-md);
+    object-fit: cover;
+    object-position: center;
+  }
+  
+  // Character sheet portrait (large)
+  &.passport-img--character {
+    width: var(--avatar-lg);
+    height: var(--avatar-lg);
+    
+    img {
+      width: var(--avatar-lg);
+      height: var(--avatar-lg);
+    }
+  }
+  
+  // NPC/Vehicle portrait (medium)
+  &.passport-img--npc {
+    width: var(--avatar-md);
+    height: var(--avatar-md);
+    
+    img {
+      width: var(--avatar-md);
+      height: var(--avatar-md);
+    }
+  }
+  
+  // Device portrait (small)
+  &.passport-img--device {
+    width: var(--avatar-sm);
+    height: var(--avatar-sm);
+    
+    img {
+      width: var(--avatar-sm);
+      height: var(--avatar-sm);
+    }
+  }
+}
+
+// =============================================================================
+// LOGO SIZES
+// =============================================================================
+
+.logo-sm {
+  width: var(--logo-sm);
+  height: calc(var(--logo-sm) * var(--logo-aspect));
+}
+
+.logo-md {
+  width: var(--logo-md);
+  height: calc(var(--logo-md) * var(--logo-aspect));
+}
+
+.logo-lg {
+  width: var(--logo-lg);
+  height: calc(var(--logo-lg) * var(--logo-aspect));
+}
+
+// =============================================================================
+// WEAPON IMAGE SIZES
+// =============================================================================
+
+.weapon-img {
+  width: var(--item-img-lg);
+  
+  .item-img {
+    width: var(--item-img-lg);
+    height: var(--item-img-lg);
+    object-fit: cover;
+    object-position: center;
+  }
+}
+
+// =============================================================================
+// ICON BUTTONS
+// =============================================================================
+// Clickable icons with proper hit areas
+
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-sm);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  transition: all var(--duration-normal) var(--ease-out);
+  
+  &:hover {
+    background: var(--bg-secondary);
+    transform: scale(1.1);
+  }
+  
+  &:active {
+    transform: translateY(1px);
+  }
+  
+  &:focus-visible {
+    outline: 2px solid var(--interactive-primary);
+    outline-offset: 2px;
+  }
+  
+  i, svg {
+    font-size: var(--icon-md);
+  }
+  
+  &.icon-button--xs {
+    padding: var(--space-xs);
+    
+    i, svg {
+      font-size: var(--icon-xs);
+    }
+  }
+  
+  &.icon-button--sm {
+    padding: var(--space-xs);
+    
+    i, svg {
+      font-size: var(--icon-sm);
+    }
+  }
+  
+  &.icon-button--lg {
+    padding: var(--space-md);
+    
+    i, svg {
+      font-size: var(--icon-lg);
+    }
+  }
+}
+
+// =============================================================================
+// ITEM CONTROLS ICONS
+// =============================================================================
+// Edit, delete, configure buttons on items
+
+.item-control {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xs);
+  cursor: pointer;
+  color: var(--text-tertiary);
+  transition: color var(--duration-normal) var(--ease-out),
+              transform var(--duration-normal) var(--ease-out);
+  
+  i {
+    font-size: var(--icon-sm);
+  }
+  
+  &:hover {
+    color: var(--interactive-primary);
+    transform: scale(1.1);
+  }
+  
+  &.item-control--delete:hover {
+    color: var(--state-error);
+  }
+  
+  &.item-control--edit:hover {
+    color: var(--state-info);
+  }
+  
+  &.item-control--favorite {
+    i {
+      color: var(--state-warning);
+    }
+    
+    &:hover i {
+      color: var(--state-success);
+    }
+  }
+}
+
+// =============================================================================
+// MATRIX CONNECTION ICONS
+// =============================================================================
+
+.matrix-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  
+  i {
+    font-size: var(--icon-md);
+    transition: color var(--duration-normal) var(--ease-out);
+  }
+  
+  &.matrix-icon--augmented i {
+    color: var(--color-matrix-augmented);
+  }
+  
+  &.matrix-icon--virtual i {
+    color: var(--color-matrix-virtual);
+  }
+  
+  &.matrix-icon--disconnected i {
+    color: var(--color-matrix-disconnected);
+  }
+}
+
+// =============================================================================
+// ATTRIBUTE BUTTON ICON (HEXABOX)
+// =============================================================================
+// Small icon in the corner of attribute action buttons
+
+.attribute-button-icon {
+  position: absolute;
+  top: calc(var(--space-sm) * -1);
+  left: calc(var(--space-sm) * -1);
+  width: var(--icon-xl);
+  --wrapper-background-color: var(--color-anarchy-gold);
+}
+
+// =============================================================================
+// DICE ICONS
+// =============================================================================
+
+.dice-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  
+  i {
+    font-size: var(--icon-lg);
+    transition: color var(--duration-normal) var(--ease-out);
+  }
+  
+  &.dice-icon--glitch i {
+    color: var(--color-dice-glitch);
+  }
+  
+  &.dice-icon--mixed i {
+    color: var(--color-dice-mixed);
+  }
+  
+  &.dice-icon--prowess i {
+    color: var(--color-dice-prowess);
+  }
+}
+
+// =============================================================================
+// RESPONSIVE ICON SCALING
+// =============================================================================
+
+@container (max-width: 500px) {
+  .icon-responsive {
+    &.icon-lg { font-size: var(--icon-md) !important; }
+    &.icon-xl { font-size: var(--icon-lg) !important; }
+    &.icon-2xl { font-size: var(--icon-xl) !important; }
+  }
+  
+  .item-img-responsive {
+    &.item-img-lg {
+      width: var(--item-img-sm);
+      height: var(--item-img-sm);
+    }
+    &.item-img-xl {
+      width: var(--item-img-md);
+      height: var(--item-img-md);
+    }
+  }
+}
+

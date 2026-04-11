@@ -1,30 +1,36 @@
-import { ChatManager, CAN_USE_EDGE, MESSAGE_DATA, OWNING_ACTOR } from '../chat/chat-manager.js';
-import { ANARCHY } from '../config.js';
-import { TEMPLATES_PATH } from '../constants.js';
-import { Enums } from '../enums.js';
-import { Misc } from '../misc.js';
-import { Tokens } from '../token/tokens.js';
-import { AnarchyRoll } from './anarchy-roll.js';
-import { ROLL_PARAMETER_CATEGORY } from './roll-parameters.js';
+import {
+  ChatManager,
+  CAN_USE_EDGE,
+  MESSAGE_DATA,
+  OWNING_ACTOR,
+} from "../chat/chat-manager.js";
+import { ANARCHY } from "../core/config.js";
+import { templatePath } from "../core/constants.js";
+import { Enums } from "../core/enums.js";
+import { Misc } from "../core/utils.js";
+import { Tokens } from "../token/tokens.js";
+import { AnarchyRoll } from "./roll.js";
+import { ROLL_PARAMETER_CATEGORY } from "./roll-parameters.js";
+import { loadTemplatesSafe, renderTemplateSafe } from "../handlebars-utils.js";
 
-const HBS_TEMPLATE_CHAT_ANARCHY_ROLL = `${TEMPLATES_PATH}/chat/anarchy-roll.hbs`;
+const HBS_TEMPLATE_CHAT_ANARCHY_ROLL = templatePath("chat", "anarchy-roll.hbs");
 
 const HBS_CHAT_TEMPLATES = [
-  `${TEMPLATES_PATH}/chat/risk-outcome.hbs`,
-  `${TEMPLATES_PATH}/chat/edge-reroll-button.hbs`,
-  `${TEMPLATES_PATH}/chat/anarchy-roll-title.hbs`,
-  `${TEMPLATES_PATH}/chat/parts/actor-image.hbs`,
-  `${TEMPLATES_PATH}/chat/parts/generic-parameter.hbs`,
-  `${TEMPLATES_PATH}/chat/parts/result-mode-weapon.hbs`,
+  templatePath("chat", "risk-outcome.hbs"),
+  templatePath("chat", "edge-reroll-button.hbs"),
+  templatePath("chat", "anarchy-roll-title.hbs"),
+  templatePath("chat", "parts", "actor-image.hbs"),
+  templatePath("chat", "parts", "generic-parameter.hbs"),
+  templatePath("chat", "parts", "result-mode-weapon.hbs"),
 ];
 
 export class RollManager {
   constructor() {
-    Hooks.once('ready', () => this.onReady());
+    Hooks.once("ready", () => this.onReady());
   }
 
   async onReady() {
-    await loadTemplates(Misc.distinct(HBS_CHAT_TEMPLATES));
+    await loadTemplatesSafe(Misc.distinct(HBS_CHAT_TEMPLATES));
   }
 
   async roll(roll) {
@@ -40,11 +46,16 @@ export class RollManager {
     )
       ? 1
       : 0;
-    roll.param.anarchy = roll.parameters.filter((it) => it.flags?.isAnarchy && it.used).length;
+    roll.param.anarchy = roll.parameters.filter(
+      (it) => it.flags?.isAnarchy && it.used,
+    ).length;
     roll.options.canUseEdge = roll.options.canUseEdge && !roll.param.edge;
     roll.param.social = {
-      credibility: roll.parameters.find((it) => it.code == 'credibility' && it.used)?.value ?? 0,
-      rumor: roll.parameters.find((it) => it.code == 'rumor' && it.used)?.value ?? 0,
+      credibility:
+        roll.parameters.find((it) => it.code == "credibility" && it.used)
+          ?.value ?? 0,
+      rumor:
+        roll.parameters.find((it) => it.code == "rumor" && it.used)?.value ?? 0,
     };
     await roll.actor.spendAnarchy(roll.param.anarchy);
     await roll.actor.spendEdge(roll.param.edge);
@@ -78,21 +89,32 @@ export class RollManager {
     hbsRoll.options.classes = [game.system.anarchy.styles.selectCssClass()];
 
     const flags = {};
-    ChatManager.prepareFlag(flags, MESSAGE_DATA, RollManager.deflateAnarchyRoll(hbsRoll));
+    ChatManager.prepareFlag(
+      flags,
+      MESSAGE_DATA,
+      RollManager.deflateAnarchyRoll(hbsRoll),
+    );
     ChatManager.prepareFlag(flags, CAN_USE_EDGE, hbsRoll.options.canUseEdge);
-    ChatManager.prepareFlag(flags, OWNING_ACTOR, ChatManager.messageActorRights(hbsRoll.actor));
+    ChatManager.prepareFlag(
+      flags,
+      OWNING_ACTOR,
+      ChatManager.messageActorRights(hbsRoll.actor),
+    );
 
-    const flavor = await foundry.applications.handlebars.renderTemplate(
+    const flavor = await renderTemplateSafe(
       HBS_TEMPLATE_CHAT_ANARCHY_ROLL,
       hbsRoll,
     );
-    const rollMessage = await hbsRoll.roll.toMessage({ flavor: flavor, flags: flags });
+    const rollMessage = await hbsRoll.roll.toMessage({
+      flavor: flavor,
+      flags: flags,
+    });
     hbsRoll.chatMessageId = rollMessage.id;
   }
 
   static deflateAnarchyRoll(roll) {
     if (roll) {
-      roll = deepClone(roll);
+      roll = foundry.utils.deepClone(roll);
       roll.actor = RollManager._reduceToId(roll.actor);
       roll.skill = RollManager._reduceToId(roll.skill);
       roll.skill = RollManager._reduceToId(roll.skill);
@@ -109,7 +131,7 @@ export class RollManager {
 
   static inflateAnarchyRoll(roll) {
     if (roll) {
-      roll = deepClone(roll);
+      roll = foundry.utils.deepClone(roll);
       roll.actor = RollManager._reloadActorFromId(roll.actor, roll.tokenId);
       roll.skill = RollManager._reloadItemFromId(roll.actor, roll.skill);
       roll.item = RollManager._reloadItemFromId(roll.actor, roll.item);

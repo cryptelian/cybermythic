@@ -1,53 +1,53 @@
-import { CharacterActorEssence } from './actor/character-actor-essence.js';
-import { CHECKBARS, Checkbars } from './common/checkbars.js';
-import { ANARCHY } from './config.js';
-import { LOG_HEAD, SYSTEM_NAME } from './constants.js';
+import { CharacterActorEssence } from "./actor/character-actor-essence.js";
+import { CHECKBARS, Checkbars } from "./common/checkbars.js";
+import { ANARCHY } from "./core/config.js";
+import { LOG_HEAD, SYSTEM_NAME } from "./core/constants.js";
 
 export const ANARCHY_HOOKS = {
   /**
    * Hook to declare template data migrations
    */
-  DECLARE_MIGRATIONS: 'anarchy-declareMigration',
+  DECLARE_MIGRATIONS: "anarchy-declareMigration",
   /**
    * Hook used to declare additional styles available
    */
-  REGISTER_STYLES: 'anarchy-registerStyles',
+  REGISTER_STYLES: "anarchy-registerStyles",
   /**
    * Hook allowing to register additional roll parameters
    */
-  REGISTER_ROLL_PARAMETERS: 'anarchy-registerRollParameters',
+  REGISTER_ROLL_PARAMETERS: "anarchy-registerRollParameters",
   /**
    * Hook allowing to modify some parameters (from Anarchy hacks modules).
    * Setting property ignore=true allows to remove the parameter.
    */
-  MODIFY_ROLL_PARAMETER: 'anarchy-forbidRollParameter',
+  MODIFY_ROLL_PARAMETER: "anarchy-forbidRollParameter",
   /**
    * Hook allowing to provide alternate skill sets for Anarchy hack modules
    */
-  PROVIDE_SKILL_SET: 'anarchy-provideSkillSet',
+  PROVIDE_SKILL_SET: "anarchy-provideSkillSet",
   /**
    * Hook allowing to provide alternate way to apply damages for Anarchy hack modules
    */
-  PROVIDE_DAMAGE_MODE: 'anarchy-provideDamageMode',
+  PROVIDE_DAMAGE_MODE: "anarchy-provideDamageMode",
   /**
    * Hook allowing to define base essence
    */
-  PROVIDE_BASE_ESSENCE: 'anarchy-provideBaseEssence',
+  PROVIDE_BASE_ESSENCE: "anarchy-provideBaseEssence",
   /**
    * Hook allowing to define base essence
    */
-  PROVIDE_MALUS_ESSENCE: 'anarchy-provideMalusEssence',
+  PROVIDE_MALUS_ESSENCE: "anarchy-provideMalusEssence",
   /**
    * Hook allowing to provide alternate anarchy hack (TODO: document)
    */
-  ANARCHY_HACK: 'anarchy-hack',
+  ANARCHY_HACK: "anarchy-hack",
 };
 
 const SETTING_KEY_ANARCHY_HACK = `${SYSTEM_NAME}.${ANARCHY_HOOKS.ANARCHY_HACK}`;
 
 const SHADOWRUN_ANARCHY_NO_HACK = {
   id: SYSTEM_NAME,
-  name: 'Standard Shadowrun Anarchy',
+  name: "Standard Shadowrun Anarchy",
   hack: {
     checkbars: () => CHECKBARS,
   },
@@ -66,7 +66,9 @@ export class HooksManager {
     this.hookMethods = {};
     this._register(ANARCHY_HOOKS.ANARCHY_HACK);
     this._register(ANARCHY_HOOKS.PROVIDE_BASE_ESSENCE);
-    Hooks.on(ANARCHY_HOOKS.ANARCHY_HACK, (register) => register(SHADOWRUN_ANARCHY_NO_HACK));
+    Hooks.on(ANARCHY_HOOKS.ANARCHY_HACK, (register) =>
+      register(SHADOWRUN_ANARCHY_NO_HACK),
+    );
     Hooks.on(ANARCHY_HOOKS.PROVIDE_BASE_ESSENCE, (provide) =>
       provide(SHADOWRUN_ANARCHY_NO_HACK, (actor) => 6),
     );
@@ -75,10 +77,10 @@ export class HooksManager {
         CharacterActorEssence.getMalus(actor, essence),
       ),
     );
-    Hooks.on('updateSetting', async (setting, update, options, id) =>
+    Hooks.on("updateSetting", async (setting, update, options, id) =>
       this.onUpdateSetting(setting, update, options, id),
     );
-    Hooks.once('ready', () => this.onReady());
+    Hooks.once("ready", () => this.onReady());
   }
 
   async onReady() {
@@ -87,7 +89,7 @@ export class HooksManager {
       this.hackNames[hack.id] = hack.name;
     });
     game.settings.register(SYSTEM_NAME, ANARCHY_HOOKS.ANARCHY_HACK, {
-      scope: 'world',
+      scope: "world",
       name: game.i18n.localize(ANARCHY.settings.anarchyHack.name),
       hint: game.i18n.localize(ANARCHY.settings.anarchyHack.hint),
       config: true,
@@ -112,7 +114,9 @@ export class HooksManager {
         ANARCHY_HOOKS.PROVIDE_BASE_ESSENCE,
         ANARCHY_HOOKS.PROVIDE_MALUS_ESSENCE,
       ];
-      overridableMethods.forEach((hookMethod) => this.selectHookMethod(selectedHack, hookMethod));
+      overridableMethods.forEach((hookMethod) =>
+        this.selectHookMethod(selectedHack, hookMethod),
+      );
     }
   }
 
@@ -125,7 +129,9 @@ export class HooksManager {
   }
 
   getSelectedHack() {
-    return this.hacks[game.settings.get(SYSTEM_NAME, ANARCHY_HOOKS.ANARCHY_HACK)];
+    return this.hacks[
+      game.settings.get(SYSTEM_NAME, ANARCHY_HOOKS.ANARCHY_HACK)
+    ];
   }
 
   getHookMethod(hookMethod, fallback) {
@@ -146,8 +152,8 @@ export class HooksManager {
   }
 
   _register(name) {
-    console.log(LOG_HEAD + 'HooksManager.register', name);
-    if (!name.startsWith(SYSTEM_NAME + '-')) {
+    console.log(LOG_HEAD + "HooksManager.register", name);
+    if (!name.startsWith(SYSTEM_NAME + "-")) {
       throw "For safety Anarchy Hooks names must be prefixed by anarchy'-'";
     }
     this.hooks.push(name);

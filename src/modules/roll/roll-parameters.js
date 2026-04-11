@@ -1,41 +1,50 @@
-import { ANARCHY } from '../config.js';
-import { ANARCHY_SYSTEM, LOG_HEAD, TEMPLATE, TEMPLATES_PATH } from '../constants.js';
-import { Enums } from '../enums.js';
-import { ANARCHY_HOOKS, HooksManager } from '../hooks-manager.js';
-import { MATRIX } from '../matrix-helper.js';
-import { Misc } from '../misc.js';
-import { Modifiers } from '../modifiers/modifiers.js';
+import { ANARCHY } from "../core/config.js";
+import {
+  ANARCHY_SYSTEM,
+  LOG_HEAD,
+  TEMPLATE,
+  TEMPLATES_PATH,
+} from "../core/constants.js";
+import { Enums } from "../core/enums.js";
+import { ANARCHY_HOOKS, HooksManager } from "../hooks-manager.js";
+import { MATRIX } from "../matrix-helper.js";
+import { Misc } from "../core/utils.js";
+import { Modifiers } from "../modifiers/modifiers.js";
+import { loadTemplatesSafe } from "../handlebars-utils.js";
 
 export const ROLL_PARAMETER_CATEGORY = {
-  title: 'title',
-  pool: 'pool',
-  reroll: 'reroll',
-  rerollForced: 'rerollForced',
-  successReroll: 'successReroll',
-  glitch: 'glitch',
-  drain: 'drain',
-  convergence: 'convergence',
-  edge: 'edge',
-  risk: 'risk',
-  opponentPool: 'opponentPool',
-  opponentReroll: 'opponentReroll',
+  title: "title",
+  pool: "pool",
+  reroll: "reroll",
+  rerollForced: "rerollForced",
+  successReroll: "successReroll",
+  glitch: "glitch",
+  drain: "drain",
+  convergence: "convergence",
+  edge: "edge",
+  risk: "risk",
+  opponentPool: "opponentPool",
+  opponentReroll: "opponentReroll",
 };
 
 const DEFAULT_ROLL_PARAMETERS = [
   // attribute1
   {
-    code: 'attribute1',
+    code: "attribute1",
     options: {
       order: 1,
       category: ROLL_PARAMETER_CATEGORY.pool,
       hbsTemplateRoll: `${TEMPLATES_PATH}/roll/parts/select-attribute.hbs`,
     },
-    condition: (context) => Object.values(ANARCHY_SYSTEM.rollType).includes(context.mode),
+    condition: (context) =>
+      Object.values(ANARCHY_SYSTEM.rollType).includes(context.mode),
     isUsed: (p) => true,
     factory: (context) => {
       const attribute = context.attribute1 ?? context.skill?.system.attribute;
       return {
-        labelkey: attribute ? ANARCHY.attributes[attribute] : ANARCHY.attributes.noAttributes,
+        labelkey: attribute
+          ? ANARCHY.attributes[attribute]
+          : ANARCHY.attributes.noAttributes,
         value: context.actor.getAttributeValue(attribute, context.activeItem),
         flags: { editable: context.skill },
         selected: attribute,
@@ -46,7 +55,7 @@ const DEFAULT_ROLL_PARAMETERS = [
 
   // attribute2
   {
-    code: 'attribute2',
+    code: "attribute2",
     options: {
       order: 1,
       category: ROLL_PARAMETER_CATEGORY.pool,
@@ -64,7 +73,9 @@ const DEFAULT_ROLL_PARAMETERS = [
     factory: (context) => {
       const attribute = context.attribute2;
       return {
-        labelkey: attribute ? ANARCHY.attributes[attribute] : ANARCHY.attributes.noAttributes,
+        labelkey: attribute
+          ? ANARCHY.attributes[attribute]
+          : ANARCHY.attributes.noAttributes,
         value: context.actor.getAttributeValue(attribute, context.activeItem),
         flags: { editable: ANARCHY_SYSTEM.rollType.attribute == context.mode },
         selected: attribute,
@@ -75,14 +86,14 @@ const DEFAULT_ROLL_PARAMETERS = [
 
   // skill
   {
-    code: 'skill',
+    code: "skill",
     options: {
       flags: {},
       order: 3,
       category: ROLL_PARAMETER_CATEGORY.pool,
       hbsTemplateRoll: `${TEMPLATES_PATH}/roll/parts/input-numeric.hbs`,
     },
-    condition: (context) => ['skill', 'weapon'].includes(context.mode),
+    condition: (context) => ["skill", "weapon"].includes(context.mode),
     factory: (context) => {
       return {
         label: context.skill?.name,
@@ -92,7 +103,7 @@ const DEFAULT_ROLL_PARAMETERS = [
   },
   // specialization
   {
-    code: 'specialization',
+    code: "specialization",
     options: {
       flags: { optional: true },
       value: 2,
@@ -102,8 +113,8 @@ const DEFAULT_ROLL_PARAMETERS = [
     },
     isUsed: (p) => p.used,
     condition: (context) =>
-      (context.mode == 'skill' && context.specialization) ||
-      (context.mode == 'weapon' && context.skill?.system.specialization),
+      (context.mode == "skill" && context.specialization) ||
+      (context.mode == "weapon" && context.skill?.system.specialization),
     onChecked: (p, checked) => {
       p.used = checked;
       p.value = checked ? 2 : 0;
@@ -118,7 +129,7 @@ const DEFAULT_ROLL_PARAMETERS = [
   },
   // credibility usage
   {
-    code: 'credibility',
+    code: "credibility",
     options: {
       flags: { editDice: true, editable: true },
       order: 5,
@@ -138,7 +149,7 @@ const DEFAULT_ROLL_PARAMETERS = [
   },
   // modifiers bonus
   {
-    code: 'poolModifiers',
+    code: "poolModifiers",
     options: {
       flags: { editDice: true, editable: true },
       labelkey: ANARCHY.common.roll.modifiers.poolModifiers,
@@ -149,11 +160,14 @@ const DEFAULT_ROLL_PARAMETERS = [
       max: 4,
     },
     factory: (context) =>
-      RollParameters.computeRollModifiers(ROLL_PARAMETER_CATEGORY.pool, context),
+      RollParameters.computeRollModifiers(
+        ROLL_PARAMETER_CATEGORY.pool,
+        context,
+      ),
   },
   // wounds
   {
-    code: 'wounds',
+    code: "wounds",
     options: {
       flags: { optional: true },
       order: 10,
@@ -180,7 +194,7 @@ const DEFAULT_ROLL_PARAMETERS = [
   },
   // modifier for deckers/technomancers connected in virtual reality
   {
-    code: 'virtualReality',
+    code: "virtualReality",
     options: {
       flags: { editDice: false, editable: false },
       order: 24,
@@ -206,7 +220,7 @@ const DEFAULT_ROLL_PARAMETERS = [
   },
   // other modifiers
   {
-    code: 'other',
+    code: "other",
     options: {
       flags: { editDice: true, editable: true },
       order: 25,
@@ -220,7 +234,7 @@ const DEFAULT_ROLL_PARAMETERS = [
   },
   // Drain
   {
-    code: 'drain',
+    code: "drain",
     options: {
       flags: { editDice: true, editable: true, forceDisplay: true },
       order: 40,
@@ -231,19 +245,27 @@ const DEFAULT_ROLL_PARAMETERS = [
       max: 6,
     },
     condition: (context) =>
-      (context.mode == 'skill' || context.mode == 'weapon') && context.skill?.system.hasDrain,
+      (context.mode == "skill" || context.mode == "weapon") &&
+      context.skill?.system.hasDrain,
     factory: (context) => {
       return {
         value:
-          context.mode == 'weapon' && context.weapon.hasDrain ? context.weapon.system.drain : 1,
+          context.mode == "weapon" && context.weapon.hasDrain
+            ? context.weapon.system.drain
+            : 1,
       };
     },
   },
   // convergence
   {
-    code: 'convergence',
+    code: "convergence",
     options: {
-      flags: { editDice: false, optional: true, used: true, hideParameter: true },
+      flags: {
+        editDice: false,
+        optional: true,
+        used: true,
+        hideParameter: true,
+      },
       order: 40,
       category: ROLL_PARAMETER_CATEGORY.convergence,
       value: 1,
@@ -252,7 +274,8 @@ const DEFAULT_ROLL_PARAMETERS = [
     },
     isUsed: (p) => p.used,
     condition: (context) =>
-      (context.mode == 'skill' || context.mode == 'weapon') && context.skill?.system.hasConvergence,
+      (context.mode == "skill" || context.mode == "weapon") &&
+      context.skill?.system.hasConvergence,
     onChecked: (p, checked) => {
       p.used = checked;
       p.value = checked ? 1 : 0;
@@ -260,7 +283,7 @@ const DEFAULT_ROLL_PARAMETERS = [
   },
   // glitch
   {
-    code: 'glitch',
+    code: "glitch",
     options: {
       flags: { editDice: true, editable: true, forceDisplay: true },
       order: 50,
@@ -279,13 +302,14 @@ const DEFAULT_ROLL_PARAMETERS = [
         context,
       );
       return {
-        value: (wounds == 0 ? 0 : 1) + (context.glitch ?? 0) + glitchModifiers.value,
+        value:
+          (wounds == 0 ? 0 : 1) + (context.glitch ?? 0) + glitchModifiers.value,
       };
     },
   },
   // social rumor
   {
-    code: 'rumor',
+    code: "rumor",
     options: {
       flags: { editDice: true, editable: true },
       order: 50,
@@ -297,11 +321,12 @@ const DEFAULT_ROLL_PARAMETERS = [
       min: 0,
       max: 1,
     },
-    condition: (context) => context.skill?.system.isSocial && context.actor.getRumorValue() > 0,
+    condition: (context) =>
+      context.skill?.system.isSocial && context.actor.getRumorValue() > 0,
   },
   // rerolls
   {
-    code: 'reroll',
+    code: "reroll",
     options: {
       flags: { editDice: true, editable: true },
       order: 30,
@@ -312,11 +337,14 @@ const DEFAULT_ROLL_PARAMETERS = [
       max: 4,
     },
     factory: (context) =>
-      RollParameters.computeRollModifiers(ROLL_PARAMETER_CATEGORY.reroll, context),
+      RollParameters.computeRollModifiers(
+        ROLL_PARAMETER_CATEGORY.reroll,
+        context,
+      ),
   },
   // reduction from opponent
   {
-    code: 'reduced',
+    code: "reduced",
     options: {
       order: 29,
       category: ROLL_PARAMETER_CATEGORY.pool,
@@ -336,7 +364,7 @@ const DEFAULT_ROLL_PARAMETERS = [
   },
   // forced success rerolls
   {
-    code: 'rerollForced',
+    code: "rerollForced",
     options: {
       order: 31,
       category: ROLL_PARAMETER_CATEGORY.rerollForced,
@@ -350,7 +378,8 @@ const DEFAULT_ROLL_PARAMETERS = [
         ROLL_PARAMETER_CATEGORY.successReroll,
         context,
       );
-      rerollForced.value = -rerollForced.value - (context.attackRoll?.param.opponentReroll ?? 0);
+      rerollForced.value =
+        -rerollForced.value - (context.attackRoll?.param.opponentReroll ?? 0);
       return foundry.utils.mergeObject(rerollForced, {
         flags: { editDice: true, used: true, editable: true },
       });
@@ -358,7 +387,7 @@ const DEFAULT_ROLL_PARAMETERS = [
   },
   // anarchy dispositions
   {
-    code: 'anarchyDisposition',
+    code: "anarchyDisposition",
     options: {
       flags: { optional: true, isAnarchy: true, forceDisplay: true },
       order: 70,
@@ -378,7 +407,7 @@ const DEFAULT_ROLL_PARAMETERS = [
   },
   // anarchy take risks
   {
-    code: 'anarchyRisk',
+    code: "anarchyRisk",
     options: {
       flags: { optional: true, isAnarchy: true, forceDisplay: true },
       order: 70,
@@ -397,7 +426,7 @@ const DEFAULT_ROLL_PARAMETERS = [
   },
   // edge
   {
-    code: 'edge',
+    code: "edge",
     options: {
       flags: { optional: true, forceDisplay: true },
       value: 0,
@@ -407,7 +436,8 @@ const DEFAULT_ROLL_PARAMETERS = [
       hbsTemplateRoll: `${TEMPLATES_PATH}/roll/parts/check-option.hbs`,
     },
     isUsed: (p) => p.used,
-    condition: (context) => context.options.canUseEdge && context.actor.getRemainingEdge(),
+    condition: (context) =>
+      context.options.canUseEdge && context.actor.getRemainingEdge(),
     onChecked: (p, checked) => {
       p.used = checked;
       p.value = checked ? 1 : 0;
@@ -415,7 +445,7 @@ const DEFAULT_ROLL_PARAMETERS = [
   },
   // reduce opponent pool
   {
-    code: 'opponentPool',
+    code: "opponentPool",
     options: {
       flags: { editDice: true, editable: true, forceDisplay: true },
       order: 100,
@@ -426,12 +456,15 @@ const DEFAULT_ROLL_PARAMETERS = [
       max: 4,
     },
     factory: (context) =>
-      RollParameters.computeRollModifiers(ROLL_PARAMETER_CATEGORY.opponentPool, context),
+      RollParameters.computeRollModifiers(
+        ROLL_PARAMETER_CATEGORY.opponentPool,
+        context,
+      ),
     condition: (context) => !context.attributeAction,
   },
   // force opponent rerolls
   {
-    code: 'opponentReroll',
+    code: "opponentReroll",
     options: {
       flags: { editDice: true, editable: true, forceDisplay: true },
       order: 100,
@@ -443,7 +476,10 @@ const DEFAULT_ROLL_PARAMETERS = [
       max: 4,
     },
     factory: (context) =>
-      RollParameters.computeRollModifiers(ROLL_PARAMETER_CATEGORY.opponentReroll, context),
+      RollParameters.computeRollModifiers(
+        ROLL_PARAMETER_CATEGORY.opponentReroll,
+        context,
+      ),
     condition: (context) => !context.attributeAction,
   },
 ];
@@ -457,36 +493,55 @@ export class RollParameters {
     Hooks.once(ANARCHY_HOOKS.REGISTER_ROLL_PARAMETERS, (register) =>
       DEFAULT_ROLL_PARAMETERS.forEach((parameter) => register(parameter)),
     );
-    Hooks.once('ready', () => this.onReady());
+    Hooks.once("ready", () => this.onReady());
   }
 
   async onReady() {
-    Hooks.callAll(ANARCHY_HOOKS.REGISTER_ROLL_PARAMETERS, async (rollParameter) => {
-      Hooks.callAll(ANARCHY_HOOKS.MODIFY_ROLL_PARAMETER, rollParameter);
-      if (!rollParameter.ignore) {
-        await this._register(rollParameter);
-      }
-    });
+    Hooks.callAll(
+      ANARCHY_HOOKS.REGISTER_ROLL_PARAMETERS,
+      async (rollParameter) => {
+        Hooks.callAll(ANARCHY_HOOKS.MODIFY_ROLL_PARAMETER, rollParameter);
+        if (!rollParameter.ignore) {
+          await this._register(rollParameter);
+        }
+      },
+    );
     const templates = Misc.distinct(
       []
-        .concat(Object.values(this.registeredParameters).map((p) => p.options.hbsTemplateRoll))
-        .concat(Object.values(this.registeredParameters).map((p) => p.options.hbsTemplateChat))
+        .concat(
+          Object.values(this.registeredParameters).map(
+            (p) => p.options.hbsTemplateRoll,
+          ),
+        )
+        .concat(
+          Object.values(this.registeredParameters).map(
+            (p) => p.options.hbsTemplateChat,
+          ),
+        )
         .filter((it) => it != undefined),
     );
-    await loadTemplates(Misc.distinct(templates));
-    await loadTemplates([`${TEMPLATES_PATH}/roll/parts/parameter-label.hbs`]);
+    await loadTemplatesSafe(Misc.distinct(templates));
+    await loadTemplatesSafe([
+      `${TEMPLATES_PATH}/roll/parts/parameter-label.hbs`,
+    ]);
   }
 
   _validate(parameter) {
     if (!parameter.code) {
-      console.error(`${LOG_HEAD} RollParameter does not have a code`, parameter);
+      console.error(
+        `${LOG_HEAD} RollParameter does not have a code`,
+        parameter,
+      );
       parameter.ignore = true;
     }
   }
 
   async _register(parameter) {
     if (this.registeredParameters[parameter.code]) {
-      console.error(`${LOG_HEAD} RollParameter ${parameter.code} is already registered`, parameter);
+      console.error(
+        `${LOG_HEAD} RollParameter ${parameter.code} is already registered`,
+        parameter,
+      );
       return;
     }
 
@@ -499,7 +554,7 @@ export class RollParameters {
 
   async _optionalLoadTemplate(hbsTemplate) {
     if (hbsTemplate) {
-      await loadTemplates([hbsTemplate]);
+      await loadTemplatesSafe([hbsTemplate]);
     }
   }
 
@@ -515,7 +570,10 @@ export class RollParameters {
     const sums = {};
     Object.values(byCategory).forEach(
       (list) =>
-        (sums[list[0].category] = Misc.sumValues(list, (it) => it.value ?? (it.optional ? 1 : 0))),
+        (sums[list[0].category] = Misc.sumValues(
+          list,
+          (it) => it.value ?? (it.optional ? 1 : 0),
+        )),
     );
     return sums;
   }
@@ -548,7 +606,10 @@ export class RollParameters {
     };
     foundry.utils.mergeObject(computed, param.options);
     if (param.factory) {
-      foundry.utils.mergeObject(computed, param.factory(context, param.options));
+      foundry.utils.mergeObject(
+        computed,
+        param.factory(context, param.options),
+      );
     }
     foundry.utils.mergeObject(computed, {
       used: computed.used || computed.value,
@@ -561,7 +622,8 @@ export class RollParameters {
 
   static computeRollModifiers(effect, context) {
     const itemsFilter = (it) =>
-      it.type != TEMPLATE.itemType.weapon || (context.weapon && it.id == context.weapon.id);
+      it.type != TEMPLATE.itemType.weapon ||
+      (context.weapon && it.id == context.weapon.id);
     const items = context.actor.items.filter(itemsFilter);
     return Modifiers.computeRollModifiers(items, context, effect);
   }

@@ -1,0 +1,15 @@
+<section class="attributes-grid">
+  {{#each system.attributes as |attr key|}}
+  <div class="attribute-box" data-attribute="{{key}}">
+    <label class="attribute-label">{{localize (concat "ANARCHY.attribute." key)}}</label>
+    <div class="attribute-value">
+      <input type="number" name="system.attributes.{{key}}.value" value="{{attr.value}}" data-dtype="Number"/>
+    </div>
+    <div class="attribute-roll">
+      <button type="button" class="roll-btn" data-action="roll-attribute" data-attribute="{{key}}">
+        <i class="fas fa-dice-d6"></i>
+      </button>
+    </div>
+  </div>
+  {{/each}}
+</section>

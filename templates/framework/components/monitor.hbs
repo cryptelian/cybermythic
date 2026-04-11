@@ -1,0 +1,15 @@
+<div class="af-monitor">
+  <div class="monitor-header">
+    <span class="label">{{label}}</span>
+    <span class="value">{{value}} / {{max}}</span>
+  </div>
+  <div class="monitor-track">
+    {{#each pips}}
+    <button type="button" 
+            class="pip {{classes}}" 
+            data-action="set-monitor" 
+            data-value="{{index}}">
+    </button>
+    {{/each}}
+  </div>
+</div>

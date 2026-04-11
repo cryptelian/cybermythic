@@ -47,11 +47,6 @@
       "lang": "en",
       "name": "English",
       "path": "lang/en.json"
-    },
-    {
-      "lang": "fr",
-      "name": "Français",
-      "path": "lang/fr.json"
     }
   ],
   "packs": [
@@ -72,16 +67,6 @@
       "system": "anarchy",
       "ownership": {
         "PLAYER": "NONE",
-        "ASSISTANT": "OWNER"
-      }
-    },
-    {
-      "name": "manual-fr",
-      "label": "Manuel SR Anarchy (FR)",
-      "type": "JournalEntry",
-      "system": "anarchy",
-      "ownership": {
-        "PLAYER": "OBSERVER",
         "ASSISTANT": "OWNER"
       }
     }

@@ -1,12 +1,3 @@
-import { BaseItemSheet } from './base-item-sheet.js';
+import { BaseItemSheet } from "./sheet.js";
 
-export class MetatypeItemSheet extends BaseItemSheet {
-  getData(options) {
-    let hbsData = super.getData(options);
-    return hbsData;
-  }
-
-  activateListeners(html) {
-    super.activateListeners(html);
-  }
-}
+export class MetatypeItemSheet extends BaseItemSheet {}

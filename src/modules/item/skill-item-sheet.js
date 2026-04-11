@@ -1,11 +1,12 @@
-import { BaseItemSheet } from './base-item-sheet.js';
-import { SkillItem } from './skill-item.js';
+import { BaseItemSheet } from "./sheet.js";
+import { SkillItem } from "./skill-item.js";
 
 export class SkillItemSheet extends BaseItemSheet {
-  activateListeners(html) {
-    super.activateListeners(html);
+  async activateListeners(element) {
+    await super.activateListeners?.(element);
 
-    html.find('.select-skill-code').change(async (event) => {
+    const html = element instanceof jQuery ? element : $(element);
+    html.find(".select-skill-code").on("change", async (event) => {
       const skillCode = event.currentTarget.value;
       const updates = SkillItem.prepareSkill(skillCode);
       if (updates) {

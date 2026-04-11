@@ -1,5 +1,6 @@
-import { AnarchySystem } from './modules/anarchy-system.js';
+import { AnarchySystem } from "./modules/system/anarchy.js";
 
 AnarchySystem.start();
 
-import './styles/global.scss';
+import "./styles/global.scss";
+import "./styles/main.scss";

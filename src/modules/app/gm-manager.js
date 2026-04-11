@@ -1,151 +1,131 @@
-import { HandleDragApplication } from './handle-drag.js';
-import { ANARCHY } from '../config.js';
-import { SYSTEM_NAME } from '../constants.js';
-import { GMDifficulty } from './gm-difficulty.js';
-import '../../styles/gm-manager.scss';
+import { HandleDragApplication } from "./handle-drag.js";
+import { AnarchyApplicationV2 } from "./application-v2.js";
+import { ANARCHY } from "../core/config.js";
+import { SYSTEM_NAME, templatePath } from "../core/constants.js";
+import { GMDifficulty } from "./gm-difficulty.js";
+// import '../../styles/gm-manager.scss'; // Legacy styles removed
 
-const GM_MANAGER = 'gm-manager';
-const GM_MANAGER_POSITION = 'gm-manager-position';
+const GM_MANAGER = "gm-manager";
+const GM_MANAGER_POSITION = "gm-manager-position";
 const GM_MANAGER_INITIAL_POSITION = { top: 200, left: 200 };
-const GM_MANAGER_TEMPLATE = 'systems/anarchy/templates/app/gm-manager.hbs';
+const GM_MANAGER_TEMPLATE = templatePath("app", "gm-manager.hbs");
 
-export class GMManager extends Application {
+export class GMManager extends AnarchyApplicationV2 {
   constructor(gmAnarchy, gmConvergence) {
-    super();
+    super({
+      customizationScope: "gm-manager",
+      dragHandleSelector: ".app-title-bar",
+    });
     this.gmAnarchy = gmAnarchy;
     this.gmConvergence = gmConvergence;
     this.gmDifficulty = new GMDifficulty();
-    this.handleDrag = new HandleDragApplication((doc) => doc.getElementById('gm-manager'), {
-      initial: GM_MANAGER_INITIAL_POSITION,
-      maxPos: { left: 200, top: 100 },
-      settings: {
-        system: SYSTEM_NAME,
-        keyPosition: GM_MANAGER_POSITION,
+    this.handleDrag = new HandleDragApplication(
+      (doc) => doc.getElementById(GM_MANAGER),
+      {
+        initial: GM_MANAGER_INITIAL_POSITION,
+        maxPos: { left: 200, top: 100 },
+        settings: {
+          system: SYSTEM_NAME,
+          keyPosition: GM_MANAGER_POSITION,
+        },
       },
-    });
-    Hooks.once('ready', () => this.onReady());
-    Hooks.on('renderChatLog', async (app, html, data) => {
-      const templatePath = 'systems/anarchy/templates/app/chat-tools.hbs';
-      const templateData = {
-        title: game.i18n.localize('ANARCHY.gmManager.title'),
-        rollDice: game.i18n.localize('ANARCHY.chat_actions.rollDice.title'),
-        isGM: game.user.isGM,
-      };
-      const templateHTML = await foundry.applications.handlebars.renderTemplate(
-        templatePath,
-        templateData,
-      );
-      const template = $(templateHTML);
-      $(html).find('form.chat-form').append(template[0]);
+    );
+    this.setDragController(this.handleDrag);
 
-      const buttonDICE = $(html).find('form.chat-form .rolldice');
-
-      buttonDICE.on('click', (event) => {
-        event.preventDefault();
-        new Dialog({
-          title: game.i18n.localize('ANARCHY.chat_actions.rollDice.title'),
-          content:
-            '<div style="display:flex;margin:4px 0 8px 0;align-items:center;gap:8px">' +
-            game.i18n.localize('ANARCHY.chat_actions.rollDice.instruction') +
-            '<input class="roll-dice-value" name="macro-roll-count-dice" type="number" value="3" /></div>',
-          buttons: {
-            cancel: {
-              label: game.i18n.localize('ANARCHY.common.cancel'),
-              icon: '<i class="fas fa-times"></i>',
-            },
-            submit: {
-              label: game.i18n.localize('ANARCHY.common.roll.button'),
-              icon: '<i class="fas fa-dice"></i>',
-              callback: async (html) => {
-                const count = $(html).find('input[name="macro-roll-count-dice"]').val();
-                if (!count || isNaN(count) || count <= 0) {
-                  ui.notifications.warn(game.i18n.localize('ANARCHY.chat_actions.rollDice.error'));
-                  return;
-                }
-
-                const roll = new Roll(`${count}d6cs>4`);
-                await roll.evaluate({ async: true });
-
-                const results = roll.terms[0].results;
-                const ones = results.filter((it) => it.result == 1).length;
-
-                const flavor = game.i18n.format('ANARCHY.chat_actions.rollDice.result', {
-                  count: count,
-                  success: roll.total,
-                  ones: ones,
-                });
-                const message = await roll.toMessage({ flavor: flavor }, { create: false });
-
-                ChatMessage.create(message);
-              },
-            },
-          },
-          default: 'submit',
-        }).render(true);
-      });
-
-      const buttonGM = $(html).find('form.chat-form .gmmanager');
-      buttonGM.on('click', (event) => {
-        event.preventDefault();
-        if (this._element) {
-          this.close();
-        } else {
-          this.render(true);
-        }
-      });
-    });
+    Hooks.once("ready", () => this.onReady());
   }
 
-  onReady() {
-    if (game.user.isGM) {
-      this.render(true);
-    }
-  }
-
-  /* -------------------------------------------- */
-  static get defaultOptions() {
-    let options = super.defaultOptions;
-    options.id = GM_MANAGER;
-    options.title = game.i18n.localize(ANARCHY.gmManager.title);
-    options.template = GM_MANAGER_TEMPLATE;
-    options.popOut = false;
-    options.resizable = false;
-    options.height = 'auto';
-    options.width = 'auto';
-    return options;
-  }
-  async render(force, options) {
-    if (game.user.isGM) {
-      await super.render(force, options);
-    }
-  }
-
-  getData() {
-    this.handleDrag.setPosition();
+  static get DEFAULT_OPTIONS() {
     return {
-      anarchy: this.gmAnarchy.getAnarchy(),
-      convergences: this.gmConvergence.getConvergences(),
-      difficultyPools: this.gmDifficulty.getDifficultyData(),
-      ANARCHY: ANARCHY,
-      options: {
-        classes: [game.system.anarchy.styles.selectCssClass()],
+      ...super.DEFAULT_OPTIONS,
+      id: GM_MANAGER,
+      window: {
+        ...super.DEFAULT_OPTIONS.window,
+        title: game.i18n.localize(ANARCHY.gmManager.title),
+        controls: [
+          {
+            icon: "fa-solid fa-eye-slash",
+            label: "Hide",
+            action: "hide",
+          },
+        ],
+        resizable: true,
+      },
+      classes: [
+        ...(super.DEFAULT_OPTIONS.classes ?? []),
+        "anarchy-sheet-v2",
+        "gm-manager",
+      ],
+      position: {
+        width: 300, // Fixed width for GM manager
+        height: "auto",
+      },
+      actions: {
+        hide: GMManager.prototype._onHide,
       },
     };
   }
 
-  async activateListeners(html) {
-    super.activateListeners(html);
+  static PARTS = {
+    main: {
+      template: GM_MANAGER_TEMPLATE,
+    },
+  };
 
-    // Apply UI customizations to GM Manager
-    if (game.system.anarchy?.uiCustomization) {
-      game.system.anarchy.uiCustomization.applyCustomizationsToElement(html[0], 'gm-manager');
+  _onHide() {
+    this.close();
+  }
+
+  async render(force, options) {
+    if (!game.user.isGM) {
+      return this.close();
     }
+    return super.render(force, options);
+  }
 
-    html.find('.app-title-bar').mousedown((event) => this.handleDrag.onMouseDown(event));
-    html.find('.gm-manager-hide-button').mousedown((event) => this.close());
+  onReady() {
+    if (game.user.isGM) {
+      this.render({ force: true, focus: true });
+    }
+  }
 
-    this.gmAnarchy.activateListeners(html);
-    this.gmConvergence.activateListeners(html);
-    this.gmDifficulty.activateListeners(html);
+  async _prepareContext(options) {
+    const context = await super._prepareContext(options);
+
+    return foundry.utils.mergeObject(
+      context,
+      {
+        anarchy: this.gmAnarchy.getAnarchy(),
+        convergences: this.gmConvergence.getConvergences(),
+        difficultyPools: this.gmDifficulty.getDifficultyData(),
+        ANARCHY: ANARCHY,
+        options: {
+          ...context.options,
+          classes: foundry.utils.deepClone(context.options?.classes ?? []),
+        },
+      },
+      { inplace: false },
+    );
+  }
+
+  async activateListeners(element) {
+    await super.activateListeners(element);
+    const html = $(element);
+
+    await this.gmAnarchy.activateListeners(html);
+    await this.gmConvergence.activateListeners(html);
+    await this.gmDifficulty.activateListeners(html);
+  }
+
+  // V2 Compatibility: Ensure sidebar click can re-open the app
+  async _render(force, options) {
+    this._closing = false; // Reset closing flag if any
+    return super._render(force, options);
+  }
+
+  async close(options) {
+    this._closing = true;
+    await super.close(options);
+    return this;
   }
 }

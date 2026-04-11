@@ -1,11 +1,24 @@
-import { ANARCHY } from '../config.js';
-import { TEMPLATES_PATH } from '../constants.js';
-import { Misc } from '../misc.js';
-import { Modifiers } from '../modifiers/modifiers.js';
+import { ANARCHY } from "../core/config.js";
+import { templatePath } from "../core/constants.js";
+import { Misc } from "../core/utils.js";
+import { Modifiers } from "../modifiers/modifiers.js";
+import { renderTemplateSafe } from "../handlebars-utils.js";
+import { AnarchyApplicationV2 } from "../app/application-v2.js";
 
-const HBS_TEMPLATE_CHAT_CELEBRITY_ROLL = `${TEMPLATES_PATH}/chat/celebrity-roll.hbs`;
+const HBS_TEMPLATE_CHAT_CELEBRITY_ROLL = templatePath(
+  "chat",
+  "celebrity-roll.hbs",
+);
+const HBS_TEMPLATE_ROLL_CELEBRITY = templatePath(
+  "dialog",
+  "roll-celebrite.hbs",
+);
+const HBS_TEMPLATE_ROLL_CELEBRITY_TITLE = templatePath(
+  "dialog",
+  "roll-celebrite-title.hbs",
+);
 
-export class RollCelebrity extends Dialog {
+export class RollCelebrity extends AnarchyApplicationV2 {
   static async create(actor) {
     const rollData = {
       actor: actor,
@@ -15,7 +28,7 @@ export class RollCelebrity extends Dialog {
       },
       modifiers: foundry.utils.mergeObject(
         { labelkey: ANARCHY.item.tabs.modifiers },
-        Modifiers.computeModifiers(actor.items, 'other', 'celebrity'),
+        Modifiers.computeModifiers(actor.items, "other", "celebrity"),
       ),
       other: {
         labelkey: ANARCHY.common.roll.modifiers.other,
@@ -24,44 +37,66 @@ export class RollCelebrity extends Dialog {
       ANARCHY: ANARCHY,
     };
 
-    const title = await foundry.applications.handlebars.renderTemplate(
-      `${TEMPLATES_PATH}/dialog/roll-celebrite-title.hbs`,
+    const title = await renderTemplateSafe(
+      HBS_TEMPLATE_ROLL_CELEBRITY_TITLE,
       rollData,
     );
-    const html = await foundry.applications.handlebars.renderTemplate(
-      `${TEMPLATES_PATH}/dialog/roll-celebrite.hbs`,
-      rollData,
-    );
-    new RollCelebrity(title, html, rollData).render(true);
+    const dialog = new RollCelebrity(rollData, { title });
+    dialog.render({ focus: true });
   }
 
-  constructor(title, html, roll) {
-    const config = {
-      title: title,
-      content: html,
-      default: 'roll',
-      buttons: {
-        roll: {
-          label: game.i18n.localize(ANARCHY.common.roll.button),
-          callback: async () => RollCelebrity.doRoll(roll),
-        },
+  constructor(rollData, options = {}) {
+    super({
+      classes: [
+        ...(options.classes ?? []),
+        game.system.anarchy.styles.selectCssClass(),
+        "anarchy-dialog",
+        "roll-dialog",
+      ],
+      window: {
+        title: options.title,
+        positioned: true,
       },
-    };
-    const options = {
-      classes: [game.system.anarchy.styles.selectCssClass(), 'anarchy-dialog'],
-      width: 400,
-      height: 'fit-content',
-      'z-index': 99999,
-    };
+      position: {
+        width: 400,
+        height: "auto",
+      },
+    });
 
-    super(config, options);
+    this.roll = rollData;
   }
 
-  activateListeners(html) {
-    super.activateListeners(html);
-    this.bringToTop();
-    html.find('.input-celebrity-other').on('input', (event) => {
+  static PARTS = {
+    main: {
+      template: HBS_TEMPLATE_ROLL_CELEBRITY,
+    },
+  };
+
+  async _prepareContext(options) {
+    const context = await super._prepareContext(options);
+    return {
+      ...context,
+      ...this.roll,
+    };
+  }
+
+  async activateListeners(element) {
+    await super.activateListeners?.(element);
+
+    const html = element instanceof jQuery ? element : $(element);
+    html.find(".input-celebrity-other").on("input", (event) => {
       this.roll.other.value = Number.parseInt(event.currentTarget.value) ?? 0;
+    });
+
+    html.find('[data-action="roll"]').on("click", async (event) => {
+      event.preventDefault();
+      await RollCelebrity.doRoll(this.roll);
+      await this.close();
+    });
+
+    html.find('[data-action="cancel"]').on("click", async (event) => {
+      event.preventDefault();
+      await this.close();
     });
   }
 
@@ -78,9 +113,9 @@ export class RollCelebrity extends Dialog {
       ANARCHY: ANARCHY,
     };
     const roll = new Roll(`${pool}d6cs>=5`);
-    await roll.evaluate();
+    roll.evaluateSync();
 
-    const flavor = await foundry.applications.handlebars.renderTemplate(
+    const flavor = await renderTemplateSafe(
       HBS_TEMPLATE_CHAT_CELEBRITY_ROLL,
       hbsCelebrityRoll,
     );

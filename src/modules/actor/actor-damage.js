@@ -1,11 +1,11 @@
-import { Checkbars } from '../common/checkbars.js';
-import { ANARCHY } from '../config.js';
-import { SYSTEM_NAME, TEMPLATE } from '../constants.js';
-import { ErrorManager } from '../error-manager.js';
-import { ANARCHY_HOOKS, HooksManager } from '../hooks-manager.js';
-import { Modifiers } from '../modifiers/modifiers.js';
+import { Checkbars } from "../common/checkbars.js";
+import { ANARCHY } from "../core/config.js";
+import { SYSTEM_NAME, TEMPLATE } from "../core/constants.js";
+import { ErrorManager } from "../core/errors.js";
+import { ANARCHY_HOOKS, HooksManager } from "../hooks-manager.js";
+import { Modifiers } from "../modifiers/modifiers.js";
 
-const DAMAGE_MODE = 'damage-mode';
+const DAMAGE_MODE = "damage-mode";
 const SETTING_KEY_DAMAGE_MODE = `${SYSTEM_NAME}.${DAMAGE_MODE}`;
 
 const damageModeChoices = {};
@@ -14,33 +14,33 @@ const damageModeMethods = {};
 export class ActorDamageManager {
   static init() {
     HooksManager.register(ANARCHY_HOOKS.PROVIDE_DAMAGE_MODE);
-    Hooks.on('updateSetting', async (setting, update, options, id) =>
+    Hooks.on("updateSetting", async (setting, update, options, id) =>
       ActorDamageManager.onUpdateSetting(setting, update, options, id),
     );
 
     Hooks.on(ANARCHY_HOOKS.PROVIDE_DAMAGE_MODE, (provide) => {
       provide(
-        'resistanceArmorMonitor',
+        "resistanceArmorMonitor",
         ANARCHY.settings.damageMode.values.resistanceArmorMonitor,
         ActorDamageManager.sufferDamageResistanceArmorMonitor,
       );
       provide(
-        'armorResistanceMonitor',
+        "armorResistanceMonitor",
         ANARCHY.settings.damageMode.values.armorResistanceMonitor,
         ActorDamageManager.sufferDamageArmorResistanceMonitor,
       );
       provide(
-        'armorGivesResistance',
+        "armorGivesResistance",
         ANARCHY.settings.damageMode.values.armorGivesResistance,
         ActorDamageManager.sufferDamageArmorAsResistance_Earthdawn,
       );
       provide(
-        'armorGiveResistanceHitsAvoid',
+        "armorGiveResistanceHitsAvoid",
         ANARCHY.settings.damageMode.values.armorGiveResistanceHitsAvoid,
         ActorDamageManager.sufferDamageArmorAsResistance_Cyberpunk,
       );
     });
-    Hooks.once('ready', () => ActorDamageManager.onReady());
+    Hooks.once("ready", () => ActorDamageManager.onReady());
   }
 
   static onReady() {
@@ -49,12 +49,15 @@ export class ActorDamageManager {
   }
 
   static _registerDamageModeSetting() {
-    Hooks.callAll(ANARCHY_HOOKS.PROVIDE_DAMAGE_MODE, (code, labelkey, method) => {
-      damageModeChoices[code] = game.i18n.localize(labelkey);
-      damageModeMethods[code] = method;
-    });
+    Hooks.callAll(
+      ANARCHY_HOOKS.PROVIDE_DAMAGE_MODE,
+      (code, labelkey, method) => {
+        damageModeChoices[code] = game.i18n.localize(labelkey);
+        damageModeMethods[code] = method;
+      },
+    );
     game.settings.register(SYSTEM_NAME, DAMAGE_MODE, {
-      scope: 'world',
+      scope: "world",
       name: game.i18n.localize(ANARCHY.settings.damageMode.name),
       hint: game.i18n.localize(ANARCHY.settings.damageMode.hint),
       config: true,
@@ -91,16 +94,29 @@ export class ActorDamageManager {
     const monitor = defender.getDamageMonitor(damageType);
     ErrorManager.checkActorCanReceiveDamage(damageType, monitor, defender);
     const sufferDamageMethod =
-      ActorDamageManager.damageModeMethod ?? ActorDamageManager.sufferDamageResistanceArmorMonitor;
-    await sufferDamageMethod(defender, monitor, damage, success, avoidArmor, attacker);
+      ActorDamageManager.damageModeMethod ??
+      ActorDamageManager.sufferDamageResistanceArmorMonitor;
+    await sufferDamageMethod(
+      defender,
+      monitor,
+      damage,
+      success,
+      avoidArmor,
+      attacker,
+    );
     await defender.applyArmorDamage(
       damageType,
-      Modifiers.sumModifiers([attackWeapon], 'other', 'damageArmor'),
+      Modifiers.sumModifiers([attackWeapon], "other", "damageArmor"),
     );
   }
 
   static async sufferMarks(actor, sourceActor) {
-    await Checkbars.addCounter(actor, TEMPLATE.monitors.marks, 1, sourceActor.id);
+    await Checkbars.addCounter(
+      actor,
+      TEMPLATE.monitors.marks,
+      1,
+      sourceActor.id,
+    );
   }
 
   static async sufferDamageResistanceArmorMonitor(
@@ -188,7 +204,7 @@ export class ActorDamageManager {
         ActorDamageManager._computeArmorResistance(actor) - ignoredArmor,
       );
       if (armorResistance > 0) {
-        await Checkbars.addCounter(actor, 'armor', 1);
+        await Checkbars.addCounter(actor, "armor", 1);
         total -= armorResistance;
       }
     }
@@ -215,7 +231,7 @@ export class ActorDamageManager {
     if (Checkbars.useArmor(monitor) && !avoidArmor && total > 0) {
       const armorResistance = ActorDamageManager._computeArmorResistance(actor);
       if (armorResistance > 0) {
-        await Checkbars.addCounter(actor, 'armor', 1);
+        await Checkbars.addCounter(actor, "armor", 1);
         total -= armorResistance;
       }
     }
@@ -232,7 +248,10 @@ export class ActorDamageManager {
       const armorMax = Checkbars.max(actor, TEMPLATE.monitors.armor);
       const armor = Checkbars.getCounterValue(actor, TEMPLATE.monitors.armor);
       const armorReduction = Math.min(armorMax - armor, value);
-      const armorResistance = Checkbars.resistance(actor, TEMPLATE.monitors.armor);
+      const armorResistance = Checkbars.resistance(
+        actor,
+        TEMPLATE.monitors.armor,
+      );
       const armorDmg = Math.max(0, armorReduction - armorResistance);
       if (armorDmg > 0) {
         await Checkbars.addCounter(actor, TEMPLATE.monitors.armor, armorDmg);
@@ -244,8 +263,8 @@ export class ActorDamageManager {
   }
 
   static _computeArmorResistance(actor) {
-    const armorMax = Checkbars.max(actor, 'armor');
-    const armorDamage = Checkbars.getCounterValue(actor, 'armor');
+    const armorMax = Checkbars.max(actor, "armor");
+    const armorDamage = Checkbars.getCounterValue(actor, "armor");
     const armor = Math.max(0, armorMax - armorDamage);
     return Math.max(0, Math.ceil(armor / 3));
   }

@@ -1,0 +1,78 @@
+<section class="sheet-body">
+  <div class="tab active" data-tab="overview">
+    <div class="section-group">
+      {{> "systems/anarchy/templates/actor/parts/attributebuttons.hbs"}}
+    </div>
+    <div class="section-group">
+      {{> "systems/anarchy/templates/actor/parts/attributes.hbs"}}
+    </div>
+    <div class="section-group monitors-row">
+      <div class="anarchy-block">
+        {{> "systems/anarchy/templates/monitors/armor.hbs"}}
+      </div>
+      <div class="anarchy-block">
+        {{> "systems/anarchy/templates/monitors/physical.hbs"}}
+      </div>
+      <div class="anarchy-block">
+        {{> "systems/anarchy/templates/monitors/stun.hbs"}}
+      </div>
+      <div class="anarchy-block flexcol">
+        {{> "systems/anarchy/templates/monitors/edge.hbs"}}
+        {{> "systems/anarchy/templates/monitors/anarchy-actor.hbs"}}
+      </div>
+    </div>
+    <div class="section-group anarchy-words-section">
+      <div class="anarchy-words anarchy-keywords">
+        {{> "systems/anarchy/templates/actor/parts/words.hbs" wordType='keywords' values=system.keywords}}
+      </div>
+      <div class="anarchy-words anarchy-cues">
+        {{> "systems/anarchy/templates/actor/parts/words.hbs" wordType='cues' values=system.cues}}
+      </div>
+      <div class="anarchy-words anarchy-dispositions">
+        {{> "systems/anarchy/templates/actor/parts/words.hbs" wordType='dispositions' values=system.dispositions}}
+      </div>
+    </div>
+  </div>
+
+  <div class="tab" data-tab="actions">
+    <div class="section-group items-group">
+      {{> "systems/anarchy/templates/actor/parts/skills.hbs"}}
+    </div>
+    <div class="section-group items-group">
+      {{> "systems/anarchy/templates/actor/parts/shadowamps.hbs"}}
+    </div>
+    <div class="section-group items-group">
+      {{> "systems/anarchy/templates/actor/parts/qualities.hbs"}}
+    </div>
+    <div class="section-group items-group">
+      {{> "systems/anarchy/templates/actor/parts/weapons.hbs"}}
+    </div>
+  </div>
+
+  <div class="tab" data-tab="gear">
+    <div class="section-group items-group">
+      {{> "systems/anarchy/templates/actor/parts/cyberdecks.hbs"}}
+    </div>
+    <div class="section-group">
+      <div class="items-group third-width">
+        {{> "systems/anarchy/templates/actor/parts/owned-actors.hbs"}}
+        {{> "systems/anarchy/templates/actor/parts/gears.hbs"}}
+      </div>
+      <div class="items-group third-width">
+        {{> "systems/anarchy/templates/actor/parts/contacts.hbs"}}
+      </div>
+      <div class="items-group third-width">
+        {{> "systems/anarchy/templates/actor/character/social-celebrity.hbs"}}
+        {{> "systems/anarchy/templates/monitors/social-credibility.hbs"}}
+        {{> "systems/anarchy/templates/monitors/social-rumor.hbs"}}
+      </div>
+    </div>
+  </div>
+
+  <div class="tab" data-tab="story">
+    <div class="anarchy-block">
+      {{> "systems/anarchy/templates/actor/parts/description.hbs"}}
+      {{> "systems/anarchy/templates/actor/parts/gmnotes.hbs"}}
+    </div>
+  </div>
+</section>

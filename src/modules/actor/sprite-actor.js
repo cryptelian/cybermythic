@@ -1,5 +1,5 @@
-import { ICONS_PATH, TEMPLATE } from '../constants.js';
-import { AnarchyBaseActor } from './base-actor.js';
+import { ICONS_PATH, TEMPLATE } from "../core/constants.js";
+import { AnarchyBaseActor } from "./document.js";
 
 const SPRITE_ATTRIBUTES = [TEMPLATE.attributes.logic, TEMPLATE.attributes.edge];
 
@@ -9,7 +9,7 @@ export class SpriteActor extends AnarchyBaseActor {
   }
 
   static get initiative() {
-    return AnarchyBaseActor.initiative + ' + @attributes.logic.value';
+    return AnarchyBaseActor.initiative + " + @attributes.logic.value";
   }
 
   getMatrixDetails() {

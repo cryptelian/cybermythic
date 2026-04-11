@@ -6,14 +6,24 @@
 // =============================================================================
 @use 'sass:map';
 
-// Core system (design tokens, variables, etc.)
-// Note: These would be recreated from the previous implementation
-// For now, using basic fallbacks to demonstrate the modular structure
+// Design Tokens (MUST be imported first - establishes CSS custom properties)
+@use 'design-tokens';
 
 // =============================================================================
-// COMPONENT IMPORTS
+// COMPONENT IMPORTS (Standardized)
 // =============================================================================
+// Order matters: foundation → layout → typography → icons → components
+
+// Foundation components
 @use 'components/core-components';
+
+// New standardized system components
+@use 'components/layout';              // Spacing, grids, section layouts
+@use 'components/typography';          // Text styles, headings, labels
+@use 'components/icons';               // Icon sizing, symbols, images
+
+// Application components
+@use 'components/app-components';      // V2 application base styles
 @use 'components/sheet-components';
 @use 'components/item-components';
 @use 'components/dialog-components';
@@ -22,6 +32,11 @@
 @use 'components/utility-components';
 @use 'components/character-enhanced';
 @use 'components/ui-customization';
+
+// Standalone application styles
+@use 'gm-manager';                      // GM Manager specific styles
+@use 'v2/sheet';                        // V2 Sheet styles
+@use '../framework/styles/framework';   // New Anarchy Framework styles
 
 // =============================================================================
 // FONT DEFINITIONS
@@ -37,150 +52,307 @@
 }
 
 // =============================================================================
-// ROOT VARIABLES (BASIC FALLBACKS)
+// ROOT VARIABLE EXTENSIONS
 // =============================================================================
+// Core design tokens are defined in _design-tokens.scss
+// This section adds legacy compatibility aliases and system-specific overrides
+
 :root {
-  // Basic spacing
-  --space-xs: 2px;
-  --space-sm: 4px;
-  --space-md: 8px;
-  --space-lg: 16px;
-  --space-xl: 24px;
+  // --- Legacy Compatibility Aliases ---
+  // These map old variable names to the new token system
   
-  // Basic colors
-  --text-primary: hsl(0deg 0% 10%);
-  --text-secondary: hsl(0deg 0% 40%);
-  --text-tertiary: hsl(0deg 0% 60%);
-  --text-inverse: hsl(0deg 0% 100%);
-  
-  --background-primary: hsl(0deg 0% 100%);
-  --background-secondary: hsl(0deg 0% 95%);
-  --background-tertiary: hsl(0deg 0% 90%);
+  // Background aliases (for backward compatibility)
+  --background-primary: var(--bg-primary);
+  --background-secondary: var(--bg-secondary);
+  --background-tertiary: var(--bg-tertiary);
   --background-inactive: repeating-linear-gradient(
     60deg,
     hsl(0deg 0% 40% / 20%) 0px 5px,
     hsl(0deg 0% 80% / 20%) 5px 10px
   );
   
-  --border-primary: hsl(0deg 0% 80%);
-  --border-secondary: hsl(0deg 0% 90%);
+  // Border aliases
+  --border-primary: var(--border-default);
+  --border-secondary: var(--border-subtle);
   
-  --interactive-primary: hsl(210deg 80% 50%);
-  --interactive-primary-hover: hsl(210deg 80% 40%);
-  --interactive-secondary: hsl(0deg 0% 60%);
-  --interactive-secondary-hover: hsl(0deg 0% 50%);
+  // Legacy font size aliases
+  --font-size-xs: var(--text-xs);
+  --font-size-sm: var(--text-sm);
+  --font-size-md: var(--text-base);
+  --font-size-lg: var(--text-lg);
+  --font-size-xl: var(--text-xl);
+  --font-size-2xl: var(--heading-2xl);
   
-  --state-success: hsl(160deg 50% 40%);
-  --state-warning: hsl(40deg 90% 50%);
-  --state-error: hsl(0deg 80% 50%);
-  --state-info: hsl(210deg 80% 60%);
+  // Legacy border radius aliases
+  --border-radius-sm: var(--radius-sm);
+  --border-radius-md: var(--radius-md);
+  --border-radius-lg: var(--radius-lg);
   
-  // Anarchy-specific variables
-  --anarchy-background-attributes: hsl(47deg 90% 50% / 50%);
-  --anarchy-background-secondary-attributes: hsl(47deg 75% 75% / 50%);
-  --anarchy-background-item: hsl(44deg 0% 100% / 50%);
-  --anarchy-background-item-img: hsl(207deg 40% 60% / 70%);
-  --anarchy-background-positive: hsl(180deg 80% 20% / 20%);
-  --anarchy-background-negative: hsl(300deg 80% 20% / 20%);
-  --anarchy-background-tooltip: hsl(207deg 40% 70%);
-  --anarchy-background-weapon: hsl(0deg 0% 80% / 30%);
+  // Legacy z-index aliases
+  --z-index-dropdown: var(--z-dropdown);
+  --z-index-tooltip: var(--z-tooltip);
   
+  // --- Anarchy-specific Background Colors ---
+  // (extended from design tokens)
+  --anarchy-background-attributes: var(--anarchy-bg-attributes);
+  --anarchy-background-secondary-attributes: var(--anarchy-bg-attributes-secondary);
+  --anarchy-background-item: var(--anarchy-bg-item);
+  --anarchy-background-item-img: var(--anarchy-bg-item-img);
+  --anarchy-background-positive: var(--anarchy-bg-positive);
+  --anarchy-background-negative: var(--anarchy-bg-negative);
+  --anarchy-background-tooltip: var(--anarchy-bg-tooltip);
+  --anarchy-background-weapon: var(--anarchy-bg-weapon);
+  
+  // Weapon row alternating colors
   --anarchy-tint-weapon-odd: hsl(0deg 0% 70% / 30%);
   --anarchy-tint-weapon-even: hsl(0deg 0% 50% / 30%);
   --anarchy-tint-weapon-hover: hsl(200deg 10% 60% / 40%);
   
+  // Control colors (map to design tokens)
   --anarchy-color-controls: hsl(207deg 40% 60% / 70%);
-  --anarchy-color-controls-disconnected: hsl(47deg 30% 30% / 50%);
-  --anarchy-color-controls-augmented: hsl(47deg 80% 50% / 90%);
-  --anarchy-color-controls-virtual: hsl(47deg 100% 70% / 90%);
+  --anarchy-color-controls-disconnected: var(--color-matrix-disconnected);
+  --anarchy-color-controls-augmented: var(--color-matrix-augmented);
+  --anarchy-color-controls-virtual: var(--color-matrix-virtual);
   
-  --anarchy-color-resource-checked: hsl(207deg 100% 80%);
-  --anarchy-color-monitor-checked: hsl(9deg 70% 30% / 90%);
-  --anarchy-color-unchecked: hsl(207deg 10% 50%);
+  // Monitor colors (map to design tokens)
+  --anarchy-color-resource-checked: var(--color-resource-checked);
+  --anarchy-color-monitor-checked: var(--color-monitor-checked);
+  --anarchy-color-unchecked: var(--color-unchecked);
   
-  // Dice colors
-  --color-dice-glitch: hsl(300deg 80% 20%);
-  --color-dice-mixed: hsl(230deg 80% 30%);
-  --color-dice-prowess: hsl(160deg 80% 40%);
+  // --- V2 Application Variables ---
+  --app-background: var(--bg-primary);
+  --app-text: var(--text-primary);
+  --header-background: var(--bg-secondary);
+  --button-background: var(--bg-tertiary);
+  --input-background: var(--bg-primary);
+  --input-color: var(--text-primary);
+  --editor-background: var(--bg-secondary);
+  --editor-color: var(--text-primary);
   
-  // Typography
-  --font-size-xs: 0.75rem;
-  --font-size-sm: 0.875rem;
-  --font-size-md: 1rem;
-  --font-size-lg: 1.125rem;
-  --font-size-xl: 1.25rem;
-  --font-size-2xl: 1.5rem;
-  
-  --font-weight-light: 300;
-  --font-weight-normal: 400;
-  --font-weight-medium: 500;
-  --font-weight-bold: 700;
-  
-  --line-height-normal: 1.5;
-  
-  // Layout
-  --border-radius-sm: 2px;
-  --border-radius-md: 4px;
-  --border-radius-lg: 6px;
-  
-  // Z-index
-  --z-index-dropdown: 1000;
-  --z-index-tooltip: 1070;
-  
-  // Legacy compatibility
+  // --- Additional Legacy Aliases ---
   --transparent: hsl(0deg 0% 0% / 0%);
   --hover-tint: var(--interactive-primary-hover);
   --color-button: var(--text-inverse);
   --color-editor-font: var(--text-primary);
-  --background-editor: var(--background-secondary);
+  --background-editor: var(--bg-secondary);
   --color-chat: var(--text-primary);
+  
+  // Gradient for silver buttons
+  --gradient-silver: linear-gradient(180deg, #fff 0%, #dcdddf 50%, #989999 100%);
 }
 
 // =============================================================================
 // GLOBAL ELEMENTS
 // =============================================================================
 
+@keyframes slow-rotation {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
 #logo {
-  content: url("anarchy-logo.webp");
+  content: url("../style/anarchy-logo.webp");
   width: 100px;
   height: 57px;
 }
 
 #pause > img {
-  content: url("anarchy-pause.webp");
+  content: url("../style/anarchy-pause.webp");
   height: 192px;
   width: 192px;
   top: -35px;
   left: calc(50% - 96px);
+  animation: slow-rotation 10s infinite linear !important; // Slow down the spin
+}
+
+// Sidebar fixes
+#sidebar {
+  // Ensure tabs function correctly
+  .tab:not(.active) {
+    display: none !important;
+  }
+}
+
+// Developer Mode sidebar button
+.anarchy-dev-mode-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  padding: 0.5rem 1rem;
+  width: 100%;
+  background: linear-gradient(135deg, hsl(350deg 80% 25%) 0%, hsl(350deg 60% 15%) 100%);
+  border: 1px solid hsl(40deg 80% 50% / 60%);
+  border-radius: 4px;
+  color: hsl(40deg 90% 85%);
+  font-family: 'BebasNeue', 'Impact', sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: linear-gradient(135deg, hsl(350deg 80% 35%) 0%, hsl(350deg 60% 20%) 100%);
+    border-color: hsl(40deg 90% 60%);
+    box-shadow: 0 0 8px hsl(40deg 80% 50% / 40%);
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: inset 0 2px 4px hsl(0deg 0% 0% / 30%);
+  }
+
+  i {
+    font-size: 0.875rem;
+    color: hsl(40deg 90% 70%);
+  }
+}
+
+// Hotbar fixes
+#hotbar {
+  bottom: 10px;
+  position: absolute;
+  z-index: 60; // Ensure it stays above other elements
+  width: 100%;
 }
 
 // =============================================================================
-// BASIC THEME SUPPORT
+// THEME SUPPORT
 // =============================================================================
+// Theme classes override design tokens for different visual styles
 
-// Basic theme classes for the existing themes
+// --- Default Shadowrun Theme ---
 .style-anarchy-shadowrun {
-  // Default theme - uses root variables as-is
+  // Uses default root variables from design tokens
+  // Light theme with Anarchy gold accents
 }
 
+// --- Dark Theme ---
+// A warm, red-tinted dark theme with gold accents
 .style-dark {
-  --background-primary: hsl(350deg 30% 10% / 90%);
-  --background-secondary: hsl(0deg 0% 15%);
+  // Core backgrounds
+  --bg-primary: hsl(350deg 30% 10% / 90%);
+  --bg-secondary: hsl(0deg 0% 15%);
+  --bg-tertiary: hsl(0deg 0% 20%);
+  --bg-elevated: hsl(350deg 20% 15%);
+  --bg-sunken: hsl(0deg 0% 8%);
+  
+  // Legacy background aliases
+  --background-primary: var(--bg-primary);
+  --background-secondary: var(--bg-secondary);
+  --background-tertiary: var(--bg-tertiary);
+  
+  // Text colors
   --text-primary: hsl(40deg 80% 90%);
   --text-secondary: hsl(40deg 60% 70%);
-  --border-primary: hsl(0deg 90% 30% / 80%);
+  --text-tertiary: hsl(40deg 40% 50%);
+  --text-muted: hsl(40deg 20% 40%);
+  
+  // Borders
+  --border-default: hsl(0deg 90% 30% / 80%);
+  --border-subtle: hsl(0deg 50% 20% / 60%);
+  --border-strong: hsl(0deg 100% 40%);
+  --border-primary: var(--border-default);
+  
+  // Interactive elements
   --interactive-primary: hsl(47deg 100% 55%);
-  --anarchy-background-attributes: hsl(47deg 100% 55% / 75%);
+  --interactive-primary-hover: hsl(47deg 100% 45%);
+  --interactive-primary-active: hsl(47deg 100% 40%);
+  
+  // Anarchy specific
+  --anarchy-bg-attributes: hsl(47deg 100% 55% / 75%);
+  --anarchy-background-attributes: var(--anarchy-bg-attributes);
+  
+  // V2 App overrides
+  --app-background: rgb(20 15 15 / 95%);
+  --header-background: rgb(30 20 20 / 90%);
+  --button-background: rgb(40 30 30 / 80%);
+  --input-background: rgb(30 25 25 / 90%);
+  --input-color: var(--text-primary);
 }
 
+// --- Darkglass Theme ---
+// A cool, blue-tinted glass-effect dark theme
 .style-darkglass {
-  --background-primary: hsl(0deg 0% 5% / 95%);
-  --background-secondary: hsl(230deg 30% 15%);
-  --text-primary: hsl(40deg 90% 95%);
-  --text-secondary: hsl(230deg 50% 70% / 70%);
-  --border-primary: hsl(200deg 20% 40% / 70%);
-  --interactive-primary: hsl(210deg 90% 50%);
-  --anarchy-background-attributes: hsl(40deg 50% 50% / 70%);
+  // Core backgrounds - More transparent for glass effect
+  --bg-primary: hsl(230deg 20% 10% / 60%);
+  --bg-secondary: hsl(230deg 25% 15% / 60%);
+  --bg-tertiary: hsl(230deg 20% 20% / 60%);
+  --bg-elevated: hsl(230deg 30% 25% / 70%);
+  --bg-sunken: hsl(230deg 20% 5% / 50%);
+
+  // Legacy background aliases
+  --background-primary: var(--bg-primary);
+  --background-secondary: var(--bg-secondary);
+  --background-tertiary: var(--bg-tertiary);
+
+  // Text colors - Brighter for contrast against dark glass
+  --text-primary: hsl(220deg 100% 95%);
+  --text-secondary: hsl(220deg 60% 80%);
+  --text-tertiary: hsl(220deg 40% 60%);
+  --text-muted: hsl(220deg 30% 50%);
+
+  // Borders - Glowing edges
+  --border-default: hsl(210deg 50% 50% / 30%);
+  --border-subtle: hsl(210deg 30% 40% / 20%);
+  --border-strong: hsl(210deg 70% 60% / 50%);
+  --border-primary: var(--border-default);
+
+  // Interactive elements - Neon blue accents
+  --interactive-primary: hsl(190deg 100% 50%);
+  --interactive-primary-hover: hsl(190deg 100% 60%);
+  --interactive-primary-active: hsl(190deg 100% 70%);
+
+  // Anarchy specific
+  --anarchy-bg-attributes: hsl(210deg 60% 30% / 40%);
+  --anarchy-background-attributes: var(--anarchy-bg-attributes);
+
+  // V2 App overrides
+  --app-background: var(--bg-primary);
+  --header-background: hsl(230deg 30% 12% / 80%);
+  --button-background: hsl(230deg 30% 25% / 60%);
+  --input-background: hsl(230deg 20% 8% / 50%);
+  --input-color: var(--text-primary);
+
+  // Glassmorphism specific
+  --glass-blur: 12px;
+  --glass-border: 1px solid rgb(255 255 255 / 10%);
+  --glass-shadow: 0 8px 32px 0 rgb(0 0 0 / 37%);
+
+  // Apply glass effect to main windows
+  &.window-app .window-content,
+  .window-content {
+    backdrop-filter: blur(var(--glass-blur));
+    backdrop-filter: blur(var(--glass-blur));
+    box-shadow: var(--glass-shadow);
+    border: var(--glass-border);
+  }
+
+  // Prevent double backgrounds on internal sheets/dialogs
+  &.sheet, 
+  &.anarchy-dialog, 
+  .window-content form {
+    background: transparent;
+  }
+
+  .window-header {
+    backdrop-filter: blur(var(--glass-blur));
+    backdrop-filter: blur(var(--glass-blur));
+    border-bottom: 1px solid rgb(255 255 255 / 10%);
+  }
+
+  // Glassmorphism for popups and floating elements
+  .dropdown-menu,
+  .tooltip .tooltiptext {
+    backdrop-filter: blur(var(--glass-blur));
+    backdrop-filter: blur(var(--glass-blur));
+    background: var(--bg-elevated);
+    box-shadow: var(--glass-shadow);
+    border: var(--glass-border);
+  }
 }
 
 // =============================================================================

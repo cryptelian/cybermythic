@@ -1,19 +1,30 @@
-import { AnarchyActorSheet } from './anarchy-actor-sheet.js';
+import { templatePath } from "../core/constants.js";
+import { AnarchyActorSheet } from "./sheet.js";
 
 export class DeviceSheet extends AnarchyActorSheet {
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      width: 450,
-      height: 550,
+  /** V2 PARTS - defines the template for this sheet */
+  static PARTS = {
+    main: {
+      template: templatePath("actor", "device.hbs"),
+      scrollable: [".window-content"],
+    },
+  };
+
+  static get DEFAULT_OPTIONS() {
+    return foundry.utils.mergeObject(super.DEFAULT_OPTIONS, {
+      position: {
+        width: 450,
+        height: 550,
+      },
     });
   }
 
-  getData(options) {
-    let hbsData = foundry.utils.mergeObject(super.getData(options), {});
-    return hbsData;
+  async getData(options) {
+    const data = super.getData ? await super.getData(options) : {};
+    return foundry.utils.mergeObject({}, data, { inplace: false });
   }
 
-  activateListeners(html) {
-    super.activateListeners(html);
+  async activateListeners(element) {
+    await super.activateListeners?.(element);
   }
 }

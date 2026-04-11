@@ -1,12 +1,17 @@
-import { LOG_HEAD, SYSTEM_NAME } from "../modules/constants.js";
+import { LOG_HEAD, SYSTEM_NAME } from "../modules/core/constants.js";
 
 function resolveIntegrationsEnabled() {
   try {
-    const env = (typeof import.meta !== 'undefined' && import.meta && import.meta.env) ? import.meta.env : {};
-    const explicit = (env.VITE_ENABLE_INTEGRATIONS ?? '').toString().toLowerCase();
-    if (explicit === '1' || explicit === 'true') return true;
-    const systemId = (env.VITE_SYSTEM_ID ?? '').toString().trim();
-    if (systemId === 'ninjanarchy') return true;
+    const env =
+      typeof import.meta !== "undefined" && import.meta && import.meta.env
+        ? import.meta.env
+        : {};
+    const explicit = (env.VITE_ENABLE_INTEGRATIONS ?? "")
+      .toString()
+      .toLowerCase();
+    if (explicit === "1" || explicit === "true") return true;
+    const systemId = (env.VITE_SYSTEM_ID ?? "").toString().trim();
+    if (systemId === "ninjanarchy") return true;
   } catch (_) {
     // ignore
   }
@@ -22,4 +27,3 @@ export async function loadIntegrationsIfEnabled() {
   // const { initMyIntegration } = await import('./plugins/my-integration.js');
   // await initMyIntegration();
 }
-

@@ -1,4 +1,4 @@
-<form class="anarchy-dialog roll-dialog">
+<div class="anarchy-dialog roll-dialog">
   <div class="flexrow">
     <div class="column-images">
       <img class="anarchy-img actor-img" src="{{actor.img}}" alt="{{actor.name}}" data-tooltip="{{actor.name}}"/>
@@ -46,4 +46,14 @@
       </div>
     </div>
   </div>
-</form>
+  <footer class="dialog-buttons">
+    <button type="button" data-action="roll" class="dialog-button dialog-button-primary">
+      <i class="fas fa-dice"></i>
+      {{localize 'ANARCHY.common.roll.button'}}
+    </button>
+    <button type="button" data-action="cancel" class="dialog-button dialog-button-secondary">
+      <i class="fas fa-times"></i>
+      {{localize 'ANARCHY.common.cancel'}}
+    </button>
+  </footer>
+  </div>

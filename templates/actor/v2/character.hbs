@@ -1,0 +1,38 @@
+{{!-- Main Layout --}}
+{{> "systems/anarchy/templates/actor/v2/parts/header.hbs" }}
+
+{{> "systems/anarchy/templates/actor/v2/parts/tabs.hbs" }}
+
+<div class="sheet-body">
+  <div class="tab active" data-tab="main">
+    
+    {{#> "systems/anarchy/templates/common/v2/collapsible.hbs" title=(localize "ANARCHY.attributes.title") }}
+      {{> "systems/anarchy/templates/actor/v2/parts/attributes.hbs" }}
+    {{/"systems/anarchy/templates/common/v2/collapsible.hbs"}}
+
+    {{#> "systems/anarchy/templates/common/v2/collapsible.hbs" title=(localize "ANARCHY.actor.monitors.conditionMonitors") }}
+      {{> "systems/anarchy/templates/actor/v2/parts/monitors.hbs" }}
+    {{/"systems/anarchy/templates/common/v2/collapsible.hbs"}}
+    
+    {{#> "systems/anarchy/templates/common/v2/collapsible.hbs" title=(localize "ANARCHY.itemType.plural.weapon") }}
+      {{> "systems/anarchy/templates/actor/v2/parts/items-list.hbs" items=items.weapons}}
+    {{/"systems/anarchy/templates/common/v2/collapsible.hbs"}}
+
+  </div>
+
+  <div class="tab" data-tab="skills">
+    {{#> "systems/anarchy/templates/common/v2/collapsible.hbs" title=(localize "ANARCHY.itemType.plural.skill") }}
+      {{> "systems/anarchy/templates/actor/v2/parts/items-list.hbs" items=items.skills}}
+    {{/"systems/anarchy/templates/common/v2/collapsible.hbs"}}
+  </div>
+
+  <div class="tab" data-tab="gear">
+    {{#> "systems/anarchy/templates/common/v2/collapsible.hbs" title=(localize "ANARCHY.itemType.plural.gear") }}
+      {{> "systems/anarchy/templates/actor/v2/parts/items-list.hbs" items=items.gear}}
+    {{/"systems/anarchy/templates/common/v2/collapsible.hbs"}}
+  </div>
+
+  <div class="tab" data-tab="biography">
+    {{editor system.description.description target="system.description.description" button=true editable=editable engine="prosemirror"}}
+  </div>
+</div>

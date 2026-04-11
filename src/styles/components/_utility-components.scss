@@ -310,6 +310,33 @@
   border: 0;
 }
 
+// Skip links for keyboard accessibility - visible only on focus
+.skip-links {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+
+  .skip-link {
+    position: absolute;
+    left: -9999px;
+    padding: 0.5rem 1rem;
+    background: var(--background-primary, #1a1a2e);
+    color: var(--text-primary, #fff);
+    border: 2px solid var(--interactive-primary, #4a9eff);
+    border-radius: 4px;
+    font-size: 0.875rem;
+    text-decoration: none;
+    cursor: pointer;
+
+    &:focus {
+      left: 0.5rem;
+      top: 0.5rem;
+      outline: none;
+    }
+  }
+}
+
 .focus-visible:focus {
   outline: 2px solid var(--interactive-primary);
   outline-offset: 2px;

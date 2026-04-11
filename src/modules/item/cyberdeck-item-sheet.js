@@ -1,15 +1,13 @@
-import { BaseItemSheet } from './base-item-sheet.js';
+import { BaseItemSheet } from "./sheet.js";
 
 export class CyberdeckItemSheet extends BaseItemSheet {
-  getData(options) {
-    let hbsData = super.getData(options);
-    return hbsData;
-  }
+  async activateListeners(element) {
+    await super.activateListeners?.(element);
 
-  activateListeners(html) {
-    html.find('a.click-matrix-connectionMode').click(async (event) => {
+    const html = element instanceof jQuery ? element : $(element);
+    html.find("a.click-matrix-connectionMode").on("click", async (event) => {
+      event.preventDefault();
       await this.item.nextConnectionMode();
     });
-    super.activateListeners(html);
   }
 }

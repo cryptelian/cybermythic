@@ -1,15 +1,15 @@
-import { ICONS_PATH, TEMPLATE, TEMPLATES_PATH } from '../constants.js';
-import { ANARCHY } from '../config.js';
-import { Enums } from '../enums.js';
-import { AnarchyBaseItem } from './anarchy-base-item.js';
-import { Checkbars } from '../common/checkbars.js';
-import { AnarchyUsers } from '../users.js';
-import { ROLL_PARAMETER_CATEGORY } from '../roll/roll-parameters.js';
-import { ANARCHY_HOOKS } from '../hooks-manager.js';
-import { AttributeActions } from '../attribute-actions.js';
-import { ErrorManager } from '../error-manager.js';
-import { Misc } from '../misc.js';
-import { SkillItem } from './skill-item.js';
+import { ICONS_PATH, TEMPLATE, templatePath } from "../core/constants.js";
+import { ANARCHY } from "../core/config.js";
+import { Enums } from "../core/enums.js";
+import { AnarchyBaseItem } from "./document.js";
+import { Checkbars } from "../common/checkbars.js";
+import { AnarchyUsers } from "../users.js";
+import { ROLL_PARAMETER_CATEGORY } from "../roll/roll-parameters.js";
+import { ANARCHY_HOOKS } from "../hooks-manager.js";
+import { AttributeActions } from "../attribute-actions.js";
+import { ErrorManager } from "../core/errors.js";
+import { Misc } from "../core/utils.js";
+import { SkillItem } from "./skill-item.js";
 
 const AREA_TARGETS = {
   none: { targets: 1, adjust: [0] },
@@ -22,13 +22,13 @@ const AREA_TARGETS = {
 
 // weapon range
 const WEAPON_RANGE_PARAMETER = {
-  code: 'weapon-range',
+  code: "weapon-range",
   options: {
     flags: { editable: true },
     order: 20,
     category: ROLL_PARAMETER_CATEGORY.pool,
     labelkey: ANARCHY.common.roll.modifiers.weaponRange,
-    hbsTemplateRoll: `${TEMPLATES_PATH}/roll/parts/select-option.hbs`,
+    hbsTemplateRoll: templatePath("roll", "parts", "select-option.hbs"),
     hbsTemplateChat: undefined, //``
   },
   isUsed: (p) => true,
@@ -46,17 +46,18 @@ const WEAPON_RANGE_PARAMETER = {
   },
 };
 const WEAPON_AREA_PARAMETER = {
-  code: 'weapon-area',
+  code: "weapon-area",
   options: {
     used: true,
     order: 20,
     category: ROLL_PARAMETER_CATEGORY.pool,
     labelkey: ANARCHY.common.roll.modifiers.weaponArea,
-    hbsTemplateRoll: `${TEMPLATES_PATH}/roll/parts/input-numeric.hbs`,
+    hbsTemplateRoll: templatePath("roll", "parts", "input-numeric.hbs"),
     hbsTemplateChat: undefined, //``
   },
   isUsed: (p) => p.used,
-  condition: (context) => context.weapon && context.weapon.getArea() != TEMPLATE.area.none,
+  condition: (context) =>
+    context.weapon && context.weapon.getArea() != TEMPLATE.area.none,
   factory: (context) => {
     const countTargets = context.targeting.targetedTokenIds?.length ?? 1;
     const areaModifier = context.weapon.getAreaModifier(countTargets);
@@ -82,7 +83,7 @@ export class WeaponItem extends AnarchyBaseItem {
   }
 
   isWeaponSkill(item) {
-    return item.type == 'skill' && item.system.code === this.system.skill;
+    return item.type == "skill" && item.system.code === this.system.skill;
   }
 
   get hasDrain() {
@@ -96,7 +97,9 @@ export class WeaponItem extends AnarchyBaseItem {
   }
 
   getWeaponSkill() {
-    const actorSkill = this.actor?.items.find((skill) => this.isWeaponSkill(skill));
+    const actorSkill = this.actor?.items.find((skill) =>
+      this.isWeaponSkill(skill),
+    );
     if (actorSkill) {
       return actorSkill;
     }
@@ -140,7 +143,7 @@ export class WeaponItem extends AnarchyBaseItem {
       if (actorAttribute !== undefined) {
         damage = damage + Math.ceil(Number(actorAttribute) / 2);
       } else {
-        console.warn('Weapon not attached to an actor');
+        console.warn("Weapon not attached to an actor");
         return game.i18n.localize(ANARCHY.item.weapon.weaponWithoutActor);
       }
     }
@@ -157,13 +160,15 @@ export class WeaponItem extends AnarchyBaseItem {
 
   static damageCode(monitor, damage, damageAttribute) {
     if (monitor == TEMPLATE.monitors.marks) {
-      return '1';
+      return "1";
     }
-    let code = '';
+    let code = "";
     if (damageAttribute && ANARCHY.attributes[damageAttribute]) {
       code +=
-        game.i18n.localize(ANARCHY.attributes[damageAttribute]).substring(0, 3).toUpperCase() +
-        '/2 + ';
+        game.i18n
+          .localize(ANARCHY.attributes[damageAttribute])
+          .substring(0, 3)
+          .toUpperCase() + "/2 + ";
     }
     code += String(damage);
     return code;
@@ -171,18 +176,18 @@ export class WeaponItem extends AnarchyBaseItem {
 
   static armorMode(monitor, noArmor) {
     if (Checkbars.useArmor(monitor)) {
-      return noArmor ? 'noArmor' : 'withArmor';
+      return noArmor ? "noArmor" : "withArmor";
     }
-    return '';
+    return "";
   }
 
   getRanges() {
-    let ranges = [this._getRange('short')];
-    if (this.system.range.max != 'short') {
-      ranges.push(this._getRange('medium'));
+    let ranges = [this._getRange("short")];
+    if (this.system.range.max != "short") {
+      ranges.push(this._getRange("medium"));
     }
-    if (this.system.range.max == 'long') {
-      ranges.push(this._getRange('long'));
+    if (this.system.range.max == "long") {
+      ranges.push(this._getRange("long"));
     }
     return ranges;
   }
@@ -207,7 +212,9 @@ export class WeaponItem extends AnarchyBaseItem {
     // use actorCannotApplyDamage?
     const monitor = this.getDamage()?.monitor;
     const targets = AnarchyUsers.getTargetTokens(game.user);
-    const validTargets = targets.filter((token) => token.actor?.canReceiveDamage(monitor));
+    const validTargets = targets.filter((token) =>
+      token.actor?.canReceiveDamage(monitor),
+    );
     const invalidTargets = targets
       .filter((token) => !token.actor?.canReceiveDamage(monitor))
       .map((token) => token.name);
@@ -215,14 +222,15 @@ export class WeaponItem extends AnarchyBaseItem {
     if (invalidTargets.length > 0) {
       ui.notifications.info(
         game.i18n.format(ANARCHY.common.errors.ignoredTargets, {
-          targets: invalidTargets.reduce(Misc.joiner(', ')),
+          targets: invalidTargets.reduce(Misc.joiner(", ")),
         }),
       );
     }
     if (validTargets.length == 0) {
       ui.notifications.info(
         game.i18n.format(ANARCHY.common.errors.noTargetSelected, {
-          weapon: this.name ?? game.i18n.localize(ANARCHY.itemType.singular.weapon),
+          weapon:
+            this.name ?? game.i18n.localize(ANARCHY.itemType.singular.weapon),
         }),
       );
     } else {
@@ -241,14 +249,18 @@ export class WeaponItem extends AnarchyBaseItem {
   getAreaModifier(countTargets) {
     const area = this.getArea();
     const areaTargets = AREA_TARGETS[area] ?? {};
-    if (areaTargets.targets && areaTargets.adjust && countTargets <= areaTargets.targets) {
+    if (
+      areaTargets.targets &&
+      areaTargets.adjust &&
+      countTargets <= areaTargets.targets
+    ) {
       return areaTargets.adjust[countTargets - 1] ?? 0;
     }
     return 0;
   }
 
   getArea() {
-    if (this.system.area == '') {
+    if (this.system.area == "") {
       return TEMPLATE.area.none;
     }
     return this.system.area ?? TEMPLATE.area.none;

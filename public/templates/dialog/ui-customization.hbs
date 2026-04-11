@@ -1,0 +1,261 @@
+<div class="ui-customization-content">
+  <form class="ui-customization-form">
+    <div class="customization-tabs">
+      <nav class="tab-navigation">
+        <button class="tab-button active" data-tab="presets">Presets</button>
+        <button class="tab-button" data-tab="layout">Layout</button>
+        <button class="tab-button" data-tab="visual">Visual</button>
+        <button class="tab-button" data-tab="components">Components</button>
+        <button class="tab-button" data-tab="hud">HUD</button>
+        <button class="tab-button" data-tab="advanced">Advanced</button>
+      </nav>
+
+      <div class="tab-content">
+        <div class="tab-panel active" data-tab="presets">
+          <h3>Quick Presets</h3>
+          <p>Apply pre-configured customization sets for common use cases.</p>
+          <div class="preset-grid">
+            {{#each presets}}
+              <div class="preset-card" data-preset="{{id}}">
+                <h4>{{name}}</h4>
+                <p>{{description}}</p>
+                <button type="button" class="apply-preset-btn" data-preset="{{id}}">Apply</button>
+              </div>
+            {{/each}}
+          </div>
+        </div>
+
+        <div class="tab-panel" data-tab="layout">
+          <h3>Layout &amp; Positioning</h3>
+          <div class="customization-grid">
+            <div class="setting-group">
+              <label>Sheet Width</label>
+              <select name="layout.sheetWidth">
+                <option value="auto">Auto</option>
+                <option value="compact">Compact</option>
+                <option value="wide">Wide</option>
+                <option value="full">Full Width</option>
+              </select>
+            </div>
+            <div class="setting-group">
+              <label>Sheet Height</label>
+              <select name="layout.sheetHeight">
+                <option value="auto">Auto</option>
+                <option value="compact">Compact</option>
+                <option value="tall">Tall</option>
+                <option value="full">Full Height</option>
+              </select>
+            </div>
+            <div class="setting-group">
+              <label>
+                <input type="checkbox" name="layout.compactMode"/> Compact Mode
+              </label>
+            </div>
+            <div class="setting-group">
+              <label>Tab Layout</label>
+              <select name="layout.tabLayout">
+                <option value="horizontal">Horizontal</option>
+                <option value="vertical">Vertical</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-panel" data-tab="visual">
+          <h3>Visual Appearance</h3>
+          <div class="customization-grid">
+            <div class="setting-group">
+              <label>Font Size</label>
+              <select name="visual.fontSize">
+                <option value="small">Small</option>
+                <option value="default">Default</option>
+                <option value="large">Large</option>
+                <option value="xl">Extra Large</option>
+              </select>
+            </div>
+            <div class="setting-group">
+              <label>Icon Size</label>
+              <select name="visual.iconSize">
+                <option value="small">Small</option>
+                <option value="default">Default</option>
+                <option value="large">Large</option>
+              </select>
+            </div>
+            <div class="setting-group">
+              <label>Element Spacing</label>
+              <select name="visual.spacing">
+                <option value="tight">Tight</option>
+                <option value="default">Default</option>
+                <option value="loose">Loose</option>
+              </select>
+            </div>
+            <div class="setting-group">
+              <label>Animation Speed</label>
+              <select name="visual.animationSpeed">
+                <option value="none">None</option>
+                <option value="fast">Fast</option>
+                <option value="normal">Normal</option>
+                <option value="slow">Slow</option>
+              </select>
+            </div>
+            <div class="setting-group">
+              <label>Shadow Intensity</label>
+              <select name="visual.shadowIntensity">
+                <option value="none">None</option>
+                <option value="light">Light</option>
+                <option value="medium">Medium</option>
+                <option value="strong">Strong</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-panel" data-tab="components">
+          <h3>Component Visibility</h3>
+          <div class="customization-grid">
+            <div class="setting-group">
+              <label>
+                <input type="checkbox" name="components.showPassportImages"/> Show Passport Images
+              </label>
+            </div>
+            <div class="setting-group">
+              <label>
+                <input type="checkbox" name="components.showItemImages"/> Show Item Images
+              </label>
+            </div>
+            <div class="setting-group">
+              <label>
+                <input type="checkbox" name="components.showSkillIcons"/> Show Skill Icons
+              </label>
+            </div>
+            <div class="setting-group">
+              <label>
+                <input type="checkbox" name="components.showTooltips"/> Show Tooltips
+              </label>
+            </div>
+            <div class="setting-group">
+              <label>
+                <input type="checkbox" name="components.showAnimations"/> Show Animations
+              </label>
+            </div>
+            <div class="setting-group">
+              <label>
+                <input type="checkbox" name="components.showShadows"/> Show Shadows
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-panel" data-tab="hud">
+          <h3>HUD Elements</h3>
+          <div class="customization-grid">
+            <div class="setting-group">
+              <label>HUD Size</label>
+              <select name="hud.hudSize">
+                <option value="small">Small</option>
+                <option value="medium">Medium</option>
+                <option value="large">Large</option>
+              </select>
+            </div>
+            <div class="setting-group">
+              <label>GM Manager Position</label>
+              <select name="hud.gmManagerPosition">
+                <option value="top-left">Top Left</option>
+                <option value="top-right">Top Right</option>
+                <option value="bottom-left">Bottom Left</option>
+                <option value="bottom-right">Bottom Right</option>
+              </select>
+            </div>
+            <div class="setting-group">
+              <label>Shortcut Position</label>
+              <select name="hud.shortcutPosition">
+                <option value="left">Left</option>
+                <option value="right">Right</option>
+                <option value="top">Top</option>
+                <option value="bottom">Bottom</option>
+              </select>
+            </div>
+            <div class="setting-group">
+              <label>
+                <input type="checkbox" name="hud.hideInactiveElements"/> Hide Inactive Elements
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-panel" data-tab="advanced">
+          <h3>Advanced Customization</h3>
+          <div class="customization-grid">
+            <div class="setting-group full-width">
+              <label>Custom CSS</label>
+              <textarea name="advanced.customCSS" rows="10" placeholder="Enter custom CSS rules..."></textarea>
+              <small>Advanced users can add custom CSS rules here. Use with caution.</small>
+            </div>
+            <div class="setting-group">
+              <button type="button" class="validate-css-btn">Validate CSS</button>
+              <button type="button" class="clear-css-btn">Clear CSS</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="customization-preview">
+      <h4>Live Preview</h4>
+      <div class="preview-area">
+        <div class="preview-sheet">
+          <div class="preview-header">
+            <div class="preview-passport">
+              <img src="systems/anarchy/img/sample-character.webp" alt="Preview">
+            </div>
+            <div class="preview-info">
+              <h3>Sample Character</h3>
+              <div class="preview-attributes">
+                <div class="attribute-box">
+                  <span class="attribute-label">AGI</span>
+                  <span class="attribute-value">4</span>
+                </div>
+                <div class="attribute-box">
+                  <span class="attribute-label">STR</span>
+                  <span class="attribute-value">3</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="preview-content">
+            <div class="preview-section">
+              <h4>Skills</h4>
+              <div class="preview-item">
+                <img src="systems/anarchy/icons/skills/athletics.svg" alt="Athletics">
+                <span>Athletics</span>
+                <span class="skill-rating">6</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<footer class="dialog-buttons">
+  <button type="button" data-action="apply" class="dialog-button dialog-button-primary">
+    <i class="fas fa-check"></i>
+    Apply
+  </button>
+  <button type="button" data-action="reset" class="dialog-button dialog-button-secondary">
+    <i class="fas fa-undo"></i>
+    Reset All
+  </button>
+  <button type="button" data-action="export" class="dialog-button">
+    <i class="fas fa-download"></i>
+    Export
+  </button>
+  <button type="button" data-action="import" class="dialog-button">
+    <i class="fas fa-upload"></i>
+    Import
+  </button>
+  <button type="button" data-action="close" class="dialog-button">
+    <i class="fas fa-times"></i>
+    Close
+  </button>
+</footer>

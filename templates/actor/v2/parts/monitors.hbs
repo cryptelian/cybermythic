@@ -1,0 +1,33 @@
+<section class="monitors-panel">
+  {{!-- Physical Monitor --}}
+  <div class="monitor-track physical">
+    <label>{{localize "ANARCHY.monitor.physical"}}</label>
+    <div class="track-pips">
+      {{#each monitors.physical.pips}}
+      <span class="pip {{#if this.filled}}filled{{/if}}" data-action="toggle-monitor" data-monitor="physical" data-index="{{this.index}}"></span>
+      {{/each}}
+    </div>
+  </div>
+
+  {{!-- Stun Monitor --}}
+  <div class="monitor-track stun">
+    <label>{{localize "ANARCHY.monitor.stun"}}</label>
+    <div class="track-pips">
+      {{#each monitors.stun.pips}}
+      <span class="pip {{#if this.filled}}filled{{/if}}" data-action="toggle-monitor" data-monitor="stun" data-index="{{this.index}}"></span>
+      {{/each}}
+    </div>
+  </div>
+  
+  {{!-- Armor Monitor --}}
+  {{#if monitors.armor}}
+  <div class="monitor-track armor">
+    <label>{{localize "ANARCHY.monitor.armor"}}</label>
+    <div class="track-pips">
+      {{#each monitors.armor.pips}}
+      <span class="pip {{#if this.filled}}filled{{/if}}" data-action="toggle-monitor" data-monitor="armor" data-index="{{this.index}}"></span>
+      {{/each}}
+    </div>
+  </div>
+  {{/if}}
+</section>

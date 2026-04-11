@@ -1,16 +1,26 @@
-import { TEMPLATES_PATH } from '../constants.js';
-import { CharacterBaseSheet } from './character-base-sheet.js';
+import { templatePath } from "../core/constants.js";
+import { CharacterBaseSheet } from "./character-base-sheet.js";
 
 export class CharacterActorSheet extends CharacterBaseSheet {
+  /** V2 PARTS - defines the template for this sheet */
+  static PARTS = {
+    main: {
+      template: templatePath("actor", "character.hbs"),
+      scrollable: [".window-content"],
+    },
+  };
+
   get template() {
-    return `${TEMPLATES_PATH}/actor/character.hbs`;
+    return templatePath("actor", "character.hbs");
   }
 
   /** @override */
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      width: 720,
-      height: 700,
+  static get DEFAULT_OPTIONS() {
+    return foundry.utils.mergeObject(super.DEFAULT_OPTIONS, {
+      position: {
+        width: 720,
+        height: 700,
+      },
     });
   }
 }

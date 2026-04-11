@@ -1,43 +1,48 @@
-import { Misc } from '../misc.js';
+import { Misc } from "../core/utils.js";
+import { loadTemplatesSafe, renderTemplateSafe } from "../handlebars-utils.js";
 
 const DICE_FAS_ICONS = {
   highlighted: [
-    'far fa-times-circle',
-    'fas fa-dice-one',
-    'fas fa-dice-two',
-    'fas fa-dice-three',
-    'fas fa-dice-four',
-    'fas fa-dice-five',
-    'fas fa-dice-six',
+    "far fa-times-circle",
+    "fas fa-dice-one",
+    "fas fa-dice-two",
+    "fas fa-dice-three",
+    "fas fa-dice-four",
+    "fas fa-dice-five",
+    "fas fa-dice-six",
   ],
   dimmed: [
-    'far fa-times-circle',
-    'far fa-dice-one',
-    'far fa-dice-two',
-    'far fa-dice-three',
-    'far fa-dice-four',
-    'far fa-dice-five',
-    'far fa-dice-six',
+    "far fa-times-circle",
+    "far fa-dice-one",
+    "far fa-dice-two",
+    "far fa-dice-three",
+    "far fa-dice-four",
+    "far fa-dice-five",
+    "far fa-dice-six",
   ],
 };
 
 export class DiceCursor {
   static init() {
-    Hooks.once('ready', async () => await this.onReady());
-    Handlebars.registerHelper('dice-cursor-array', (min, max) =>
+    Hooks.once("ready", async () => await this.onReady());
+    Handlebars.registerHelper("dice-cursor-array", (min, max) =>
       DiceCursor.array(min ?? 0, max ?? 5),
     );
-    Handlebars.registerHelper('dice-cursor-fas', (dice, value) => DiceCursor.fasClass(dice, value));
-    Handlebars.registerHelper('dice-cursor-active', (dice, value) =>
+    Handlebars.registerHelper("dice-cursor-fas", (dice, value) =>
+      DiceCursor.fasClass(dice, value),
+    );
+    Handlebars.registerHelper("dice-cursor-active", (dice, value) =>
       DiceCursor.activeClass(dice, value),
     );
-    Handlebars.registerHelper('dice-cursor-color', (dice, editable) =>
+    Handlebars.registerHelper("dice-cursor-color", (dice, editable) =>
       DiceCursor.colorClass(dice, editable),
     );
   }
 
   static async onReady() {
-    await loadTemplates(['systems/anarchy/templates/roll/parts/dice-cursor.hbs']);
+    await loadTemplatesSafe([
+      "systems/anarchy/templates/roll/parts/dice-cursor.hbs",
+    ]);
   }
 
   static array(min, max) {
@@ -52,7 +57,7 @@ export class DiceCursor {
   }
 
   static activeClass(dice, value) {
-    return DiceCursor.isActive(dice, value) ? 'active' : 'inactive';
+    return DiceCursor.isActive(dice, value) ? "active" : "inactive";
   }
 
   static fasClass(dice, value) {
@@ -60,14 +65,13 @@ export class DiceCursor {
       ? DICE_FAS_ICONS.highlighted
       : DICE_FAS_ICONS.dimmed;
     return DiceCursor.$getFas(fasSource, Math.abs(dice));
-    return fas;
   }
 
   static colorClass(dice, editable) {
     if (dice == 0 || !editable) {
-      return dice < 0 ? 'fixed-dice-malus' : 'fixed-dice-bonus';
+      return dice < 0 ? "fixed-dice-malus" : "fixed-dice-bonus";
     }
-    return dice < 0 ? 'variable-dice-malus' : 'variable-dice-bonus';
+    return dice < 0 ? "variable-dice-malus" : "variable-dice-bonus";
   }
 
   static $getFas(fasArray, dice) {
@@ -75,8 +79,8 @@ export class DiceCursor {
   }
 
   static async diceCursor({ value, min, max, editable }) {
-    return await foundry.applications.handlebars.renderTemplate(
-      'systems/anarchy/templates/roll/parts/dice-cursor.hbs',
+    return await renderTemplateSafe(
+      "systems/anarchy/templates/roll/parts/dice-cursor.hbs",
       {
         value,
         min,

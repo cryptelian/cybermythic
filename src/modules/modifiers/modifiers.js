@@ -1,8 +1,8 @@
-import { AttributeActions } from '../attribute-actions.js';
-import { ANARCHY } from '../config.js';
-import { TEMPLATE } from '../constants.js';
-import { Enums } from '../enums.js';
-import { Misc } from '../misc.js';
+import { AttributeActions } from "../attribute-actions.js";
+import { ANARCHY } from "../core/config.js";
+import { TEMPLATE } from "../core/constants.js";
+import { Enums } from "../core/enums.js";
+import { Misc } from "../core/utils.js";
 
 const SHADOWAMP_TYPES = [
   TEMPLATE.itemType.shadowamp,
@@ -15,45 +15,54 @@ const SHADOWAMP_TYPES = [
 export class Modifiers {
   constructor() {
     this.modifiers = {
-      groups: Enums.mapObjetToKeyValue(ANARCHY.modifier.group, 'key', 'label'),
-      roll: Modifiers._buildGroupOptions('roll'),
-      attribute: Modifiers._buildGroupOptions('attribute'),
-      monitor: Modifiers._buildGroupOptions('monitor'),
-      other: Modifiers._buildGroupOptions('other'),
+      groups: Enums.mapObjetToKeyValue(ANARCHY.modifier.group, "key", "label"),
+      roll: Modifiers._buildGroupOptions("roll"),
+      attribute: Modifiers._buildGroupOptions("attribute"),
+      monitor: Modifiers._buildGroupOptions("monitor"),
+      other: Modifiers._buildGroupOptions("other"),
     };
-    Hooks.once('ready', () => this.onReady());
+    Hooks.once("ready", () => this.onReady());
   }
 
   static _buildGroupOptions(group) {
     switch (group) {
-      case 'attribute':
+      case "attribute":
         return {
           label: ANARCHY.modifier.group[group],
           effects: Enums.hbsAttributes.map((it) => {
-            return { key: it['value'], label: it['labelkey'] };
+            return { key: it["value"], label: it["labelkey"] };
           }),
           categories: [],
         };
     }
     return {
       label: ANARCHY.modifier.group[group],
-      effects: Enums.mapObjetToKeyValue(ANARCHY.modifier[group].effect, 'key', 'label'),
-      categories: Enums.mapObjetToKeyValue(ANARCHY.modifier[group].category, 'key', 'label'),
+      effects: Enums.mapObjetToKeyValue(
+        ANARCHY.modifier[group].effect,
+        "key",
+        "label",
+      ),
+      categories: Enums.mapObjetToKeyValue(
+        ANARCHY.modifier[group].category,
+        "key",
+        "label",
+      ),
     };
   }
 
   async onReady() {
-    Handlebars.registerHelper('modifierHasSubCategory', (group, effect, category) =>
-      this.hasSubCategory(group, effect, category),
+    Handlebars.registerHelper(
+      "modifierHasSubCategory",
+      (group, effect, category) => this.hasSubCategory(group, effect, category),
     );
-    Handlebars.registerHelper('modifierSelectOption', (value, options) =>
+    Handlebars.registerHelper("modifierSelectOption", (value, options) =>
       this.getSelectOptions(value, options),
     );
   }
 
   hasSubCategory(group, effect, category) {
     switch (group) {
-      case 'roll':
+      case "roll":
         return true;
     }
     return false;
@@ -61,15 +70,15 @@ export class Modifiers {
 
   getSelectOptions(select, options) {
     switch (select) {
-      case 'group':
+      case "group":
         return this.modifiers.groups;
-      case 'effect':
+      case "effect":
         return this.modifiers[options.hash.group]?.effects;
-      case 'category':
+      case "category":
         return this.modifiers[options.hash.group]?.categories;
-      case 'subCategory':
+      case "subCategory":
         switch (options.hash.group) {
-          case 'roll': {
+          case "roll": {
             return this.getSelectRollSubCategories(options.hash.category);
           }
         }
@@ -80,15 +89,15 @@ export class Modifiers {
 
   getSelectRollSubCategories(category) {
     switch (category) {
-      case 'attribute':
+      case "attribute":
         return Enums.getAttributes().map((attr) => {
           return { key: attr.value, label: attr.labelkey };
         });
-      case 'skill':
+      case "skill":
         return game.system.anarchy.skills.getSkills().map((it) => {
           return { key: it.code, label: it.labelkey };
         });
-      case 'attributeAction':
+      case "attributeAction":
         const actions = AttributeActions.all().map((action) => {
           return { key: action.code, label: action.labelkey };
         });
@@ -105,16 +114,21 @@ export class Modifiers {
 
   static buildRollModifiersFilter(context, effect) {
     return (m) => {
-      if (m.group == 'roll' && m.effect == effect) {
+      if (m.group == "roll" && m.effect == effect) {
         switch (m.category) {
-          case 'attribute':
-            return [context.attribute1, context.attribute2].includes(m.subCategory);
-          case 'skill':
+          case "attribute":
+            return [context.attribute1, context.attribute2].includes(
+              m.subCategory,
+            );
+          case "skill":
             return m.subCategory == context.skill?.system.code;
-          case 'attributeAction':
+          case "attributeAction":
             return (
               m.subCategory == context.attributeAction ||
-              m.subCategory == AttributeActions.getDefenseAttributeAction(context.defenseAction)
+              m.subCategory ==
+                AttributeActions.getDefenseAttributeAction(
+                  context.defenseAction,
+                )
             );
         }
       }
@@ -124,7 +138,8 @@ export class Modifiers {
 
   static computeRollModifiers(items, context, effect) {
     const contextFilter = Modifiers.buildRollModifiersFilter(context, effect);
-    const filter = (m) => m.group == 'roll' && m.effect == effect && contextFilter(m);
+    const filter = (m) =>
+      m.group == "roll" && m.effect == effect && contextFilter(m);
 
     const itemModifiers = Modifiers._activeItems(items)
       .map((item) => Modifiers.itemModifiers(item, filter))
@@ -150,12 +165,20 @@ export class Modifiers {
   static $sumShadowampModifiers(shadowampModifiers) {
     const maxPositive = shadowampModifiers.find((v) => v > 3) ?? 0;
     const negative = Misc.sumValues(shadowampModifiers.filter((v) => v < 0));
-    const positive = Math.min(3, Misc.sumValues(shadowampModifiers.filter((v) => v > 0 && v <= 3)));
+    const positive = Math.min(
+      3,
+      Misc.sumValues(shadowampModifiers.filter((v) => v > 0 && v <= 3)),
+    );
     // allow only one item with modifier above 3 that replaces usual max of 3 to positive modifiers (for deltaware option in French rulebook)
     return negative + Math.max(positive, maxPositive);
   }
 
-  static computeModifiers(items, group, effect = undefined, category = undefined) {
+  static computeModifiers(
+    items,
+    group,
+    effect = undefined,
+    category = undefined,
+  ) {
     const filter = Modifiers._createFilter(group, effect, category);
     const itemModifiers = Modifiers._activeItems(items)
       .map((item) => Modifiers.itemModifiers(item, filter))
@@ -168,7 +191,12 @@ export class Modifiers {
   }
 
   static sumMonitorModifiers(items, monitor, category) {
-    return Modifiers.sumModifiers(Modifiers._activeItems(items), 'monitor', monitor, category);
+    return Modifiers.sumModifiers(
+      Modifiers._activeItems(items),
+      "monitor",
+      monitor,
+      category,
+    );
   }
 
   static sumModifiers(items, group, effect, category) {
@@ -187,7 +215,12 @@ export class Modifiers {
       m.category == (category == undefined ? m.category : category);
   }
 
-  static countModifiers(items, group, effect = undefined, category = undefined) {
+  static countModifiers(
+    items,
+    group,
+    effect = undefined,
+    category = undefined,
+  ) {
     const filter = Modifiers._createFilter(group, effect, category);
     const itemModifiers = Modifiers._activeItems(items)
       .map((item) => Modifiers.itemModifiers(item, filter))
@@ -197,7 +230,9 @@ export class Modifiers {
   }
 
   static itemModifiers(item, filter) {
-    return Modifiers._listItemModifiers(item, filter).map((m) => Modifiers._itemModifier(item, m));
+    return Modifiers._listItemModifiers(item, filter).map((m) =>
+      Modifiers._itemModifier(item, m),
+    );
   }
 
   static _listItemModifiers(item, filter = (m) => true) {

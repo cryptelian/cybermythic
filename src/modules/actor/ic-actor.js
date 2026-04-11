@@ -1,5 +1,5 @@
-import { ICONS_PATH, TEMPLATE } from '../constants.js';
-import { AnarchyBaseActor } from './base-actor.js';
+import { ICONS_PATH, TEMPLATE } from "../core/constants.js";
+import { AnarchyBaseActor } from "./document.js";
 
 const IC_ATTRIBUTES = [TEMPLATE.attributes.logic, TEMPLATE.attributes.firewall];
 
@@ -9,7 +9,7 @@ export class ICActor extends AnarchyBaseActor {
   }
 
   static get initiative() {
-    return AnarchyBaseActor.initiative + ' + @attributes.logic.value';
+    return AnarchyBaseActor.initiative + " + @attributes.logic.value";
   }
 
   getMatrixDetails() {

@@ -1,5 +1,5 @@
-import { ICONS_PATH } from '../constants.js';
-import { AnarchyBaseItem } from './anarchy-base-item.js';
+import { ICONS_PATH } from "../core/constants.js";
+import { AnarchyBaseItem } from "./document.js";
 
 export class SkillItem extends AnarchyBaseItem {
   static get defaultIcon() {
@@ -13,7 +13,7 @@ export class SkillItem extends AnarchyBaseItem {
         img: this.defaultIcon,
         system: {
           code: skillCode,
-          attribute: '',
+          attribute: "",
           hasDrain: false,
           hasConvergence: false,
         },
@@ -29,25 +29,28 @@ export class SkillItem extends AnarchyBaseItem {
         hasConvergence: skill.hasConvergence ? true : false,
       },
     };
-    if (skill.code != 'knowledge') {
+    if (skill.code != "knowledge") {
       updates.name = game.i18n.localize(skill.labelkey);
     }
     return updates;
   }
 
   isKnowledgeSkill() {
-    return this.system.code == 'knowledge';
+    return this.system.code == "knowledge";
   }
 
   isGeneralSkill() {
-    return this.system.code != 'knowledge';
+    return this.system.code != "knowledge";
   }
 
   prepareShortcut() {
     return {
       img: this.img,
-      label: this.system.specialization ? `${this.name}: ${this.system.specialization}` : this.name,
-      callback: (token) => token.actor.rollSkill(this, this.system.specialization),
+      label: this.system.specialization
+        ? `${this.name}: ${this.system.specialization}`
+        : this.name,
+      callback: (token) =>
+        token.actor.rollSkill(this, this.system.specialization),
     };
   }
 }

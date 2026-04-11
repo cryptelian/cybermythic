@@ -1,5 +1,8 @@
 // Core Components - Foundation for all UI components
 // This file provides the base styles and utilities used across all components
+// Uses design tokens for consistent sizing, spacing, and timing
+
+@use '../design-tokens' as tokens;
 
 // =============================================================================
 // COMPONENT FOUNDATION
@@ -11,31 +14,31 @@
   position: relative;
 }
 
-// Component spacing mixin
+// Component spacing mixin (uses design tokens)
 @mixin component-spacing($padding: var(--space-sm), $margin: var(--space-xs)) {
   padding: $padding;
   margin: $margin;
 }
 
-// Component border mixin
-@mixin component-border($radius: var(--border-radius-md), $color: var(--border-primary)) {
+// Component border mixin (uses design tokens)
+@mixin component-border($radius: var(--radius-md), $color: var(--border-default)) {
   border-radius: $radius;
   border: 1px solid $color;
 }
 
-// Component shadow mixin
+// Component shadow mixin (uses design token shadows)
 @mixin component-shadow($level: 'sm') {
   @if $level == 'sm' {
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-sm);
   } @else if $level == 'md' {
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-md);
   } @else if $level == 'lg' {
-    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-lg);
   }
 }
 
-// Component transition mixin
-@mixin component-transition($properties: all, $duration: 200ms, $easing: ease-out) {
+// Component transition mixin (uses design token durations)
+@mixin component-transition($properties: all, $duration: var(--duration-normal), $easing: var(--ease-out)) {
   transition: $properties $duration $easing;
 }
 
@@ -51,7 +54,7 @@
     transform: scale($scale);
     
     @if $shadow {
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 4px 8px rgb(0 0 0 / 15%);
     }
   }
 }
@@ -96,23 +99,30 @@
 // TEXT COMPONENT MIXINS
 // =============================================================================
 
-// Text style mixin
-@mixin text-style($size: var(--font-size-md), $weight: var(--font-weight-normal), $color: var(--text-primary)) {
+// Text style mixin (uses design tokens)
+@mixin text-style($size: var(--text-base), $weight: var(--font-weight-normal), $color: var(--text-primary)) {
   font-size: $size;
   font-weight: $weight;
   color: $color;
 }
 
-// Heading mixin
+// Heading mixin (uses design token heading sizes)
 @mixin heading($level: 2) {
+  font-family: var(--font-family-display);
+  line-height: var(--line-height-tight);
+  
   @if $level == 1 {
-    @include text-style(var(--font-size-2xl), var(--font-weight-bold));
+    @include text-style(var(--heading-3xl), var(--font-weight-bold));
   } @else if $level == 2 {
-    @include text-style(var(--font-size-xl), var(--font-weight-bold));
+    @include text-style(var(--heading-2xl), var(--font-weight-bold));
   } @else if $level == 3 {
-    @include text-style(var(--font-size-lg), var(--font-weight-bold));
+    @include text-style(var(--heading-lg), var(--font-weight-bold));
   } @else if $level == 4 {
-    @include text-style(var(--font-size-md), var(--font-weight-medium));
+    @include text-style(var(--heading-md), var(--font-weight-medium));
+  } @else if $level == 5 {
+    @include text-style(var(--heading-base), var(--font-weight-medium));
+  } @else if $level == 6 {
+    @include text-style(var(--heading-sm), var(--font-weight-medium));
   }
 }
 
@@ -120,7 +130,7 @@
 // FORM COMPONENT MIXINS
 // =============================================================================
 
-// Input base mixin
+// Input base mixin (uses design tokens)
 @mixin input-base {
   @include component-base;
   @include component-spacing(var(--space-sm), 0);
@@ -129,8 +139,9 @@
   
   background: var(--input-background);
   color: var(--input-color);
-  font-size: var(--font-size-md);
+  font-size: var(--text-base);
   line-height: var(--line-height-normal);
+  min-height: var(--input-height-md);
   
   &:disabled {
     opacity: 0.6;
@@ -138,24 +149,26 @@
   }
 }
 
-// Button base mixin
+// Button base mixin (uses design tokens)
 @mixin button-base {
   @include component-base;
   @include component-spacing(var(--space-sm) var(--space-md));
-  @include component-border(var(--border-radius-md), transparent);
+  @include component-border(var(--radius-md), transparent);
   @include hover-effect;
   @include focus-effect;
   @include active-effect;
   
   background: var(--button-background);
-  color: var(--button-color);
-  font-size: var(--font-size-md);
+  color: var(--button-color, var(--text-primary));
+  font-size: var(--text-base);
   font-weight: var(--font-weight-medium);
+  min-height: var(--button-height-md);
   cursor: pointer;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: var(--space-xs);
   
   &:disabled {
     opacity: 0.6;
@@ -200,21 +213,23 @@
   }
 }
 
-// Anarchy monitor mixin
+// Anarchy monitor mixin (uses design tokens)
 @mixin anarchy-monitor {
   @include component-base;
   @include flex-container(column, center, flex-start);
   @include component-spacing(var(--space-sm));
   
-  min-width: 4rem;
+  min-width: var(--monitor-min-width);
   
   .monitor-label {
-    @include text-style(var(--font-size-sm), var(--font-weight-medium));
+    font-family: var(--font-family-display);
+    font-size: var(--text-sm);
+    font-weight: var(--font-weight-medium);
     text-align: center;
   }
 }
 
-// Anarchy attribute mixin
+// Anarchy attribute mixin (uses design tokens)
 @mixin anarchy-attribute {
   @include component-base;
   @include flex-container(column, center, center);
@@ -223,16 +238,22 @@
   @include component-shadow(sm);
   
   background: var(--anarchy-background-attributes);
-  min-width: 4rem;
-  max-width: 8rem;
+  min-width: var(--attribute-min-width);
+  max-width: var(--attribute-max-width);
   
   .attribute-label {
-    @include text-style(var(--font-size-lg), var(--font-weight-bold));
+    font-family: var(--font-family-display);
+    font-size: var(--heading-base);
+    font-weight: var(--font-weight-bold);
+    letter-spacing: var(--tracking-wider);
+    text-transform: uppercase;
     text-align: center;
   }
   
   .attribute-value {
-    @include text-style(var(--font-size-md), var(--font-weight-normal));
+    font-family: var(--font-family-display);
+    font-size: var(--display-sm);
+    font-weight: var(--font-weight-bold);
     text-align: center;
     border: none;
     background: transparent;

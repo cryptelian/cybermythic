@@ -1,48 +1,51 @@
-import { ANARCHY } from '../config.js';
-import { SYSTEM_SCOPE } from '../constants.js';
-import { RemoteCall } from '../remotecall.js';
+import { ANARCHY } from "../core/config.js";
+import { SYSTEM_SCOPE } from "../core/constants.js";
+import { RemoteCall } from "../remotecall.js";
 
-export const PARENT_MESSAGE_ID = 'parent-message-id';
-export const MESSAGE_DATA = 'message-data';
-export const CAN_USE_EDGE = 'can-use-edge';
-export const OWNING_ACTOR = 'owning-actor';
+export const PARENT_MESSAGE_ID = "parent-message-id";
+export const MESSAGE_DATA = "message-data";
+export const CAN_USE_EDGE = "can-use-edge";
+export const OWNING_ACTOR = "owning-actor";
 
-const REMOVE_CHAT_MESSAGE = 'ChatManager.removeChatMessage';
-const CHAT_MANAGER_REMOVE_FAMILY = 'ChatManager.removeChatMessageFamily';
+const REMOVE_CHAT_MESSAGE = "ChatManager.removeChatMessage";
+const CHAT_MANAGER_REMOVE_FAMILY = "ChatManager.removeChatMessageFamily";
 
 const CHAT_MESSAGE_BUTTON_HANDLERS = [
   {
-    selector: '.anarchy-button.click-edge-reroll',
+    selector: ".anarchy-button.click-edge-reroll",
     controlVisibility: true,
     handler: async (chatMsg, event) => await ChatManager.edgeReroll(chatMsg),
   },
   {
-    selector: '.anarchy-button.click-defend-attack',
+    selector: ".anarchy-button.click-defend-attack",
     controlVisibility: true,
     handler: async (chatMsg, event) => await ChatManager.defendAttack(chatMsg),
   },
   {
-    selector: '.anarchy-button.click-defend-pilot-attack',
+    selector: ".anarchy-button.click-defend-pilot-attack",
     controlVisibility: true,
-    handler: async (chatMsg, event) => await ChatManager.defendPilotAttack(chatMsg),
+    handler: async (chatMsg, event) =>
+      await ChatManager.defendPilotAttack(chatMsg),
   },
   {
-    selector: '.anarchy-button.click-apply-attack-damage',
+    selector: ".anarchy-button.click-apply-attack-damage",
     controlVisibility: true,
     handler: async (chatMsg, event) => await ChatManager.applyAttack(chatMsg),
   },
   {
-    selector: 'img.open-actor-sheet',
+    selector: "img.open-actor-sheet",
     controlVisibility: false,
-    handler: async (chatMsg, event) => await ChatManager.openActorSheet(chatMsg, event),
+    handler: async (chatMsg, event) =>
+      await ChatManager.openActorSheet(chatMsg, event),
   },
 ];
 
 export class ChatManager {
   static async init() {
     Hooks.on(
-      'renderChatMessage',
-      async (app, html, msg) => await ChatManager.onRenderChatMessage(app, html, msg),
+      "renderChatMessageHTML",
+      async (message, element, context) =>
+        await ChatManager.onRenderChatMessage(message, element, context),
     );
 
     RemoteCall.register(CHAT_MANAGER_REMOVE_FAMILY, {
@@ -56,26 +59,33 @@ export class ChatManager {
     });
   }
 
-  static async onRenderChatMessage(app, html, msg) {
-    const chatMessage = ChatManager.getChatMessageFromHtml(html);
+  static async onRenderChatMessage(message, element, context) {
+    const chatMessage = message;
     const showButtons = ChatManager.hasRight(chatMessage);
     CHAT_MESSAGE_BUTTON_HANDLERS.forEach((it) => {
-      const jQueryButtonSelector = html.find(it.selector);
-      if (!it.controlVisibility || showButtons) {
-        jQueryButtonSelector.show();
-        jQueryButtonSelector.click(
-          async (event) => await it.handler(ChatManager.getChatMessage(event), event),
-        );
-      } else {
-        jQueryButtonSelector.hide();
-        jQueryButtonSelector.click(async (event) => {});
-      }
+      const buttons = Array.from(element.querySelectorAll(it.selector));
+      buttons.forEach((button) => {
+        const shouldShow = !it.controlVisibility || showButtons;
+        button.style.display = shouldShow ? "" : "none";
+        button.onclick = shouldShow
+          ? async (event) =>
+              await it.handler(ChatManager.getChatMessage(event), event)
+          : null;
+      });
+    });
+
+    const openActorButtons = Array.from(
+      element.querySelectorAll("img.open-actor-sheet"),
+    );
+    openActorButtons.forEach((button) => {
+      button.onclick = async (event) =>
+        await ChatManager.openActorSheet(chatMessage, event);
     });
   }
 
   static async openActorSheet(chatMsg, event) {
-    const img = $(event.currentTarget).closest('img.open-actor-sheet');
-    const tokenId = img.attr('data-token-id');
+    const target = event.currentTarget;
+    const tokenId = target.dataset.tokenId;
     if (tokenId) {
       const token = canvas.tokens.get(tokenId);
       if (token?.actor) {
@@ -83,7 +93,7 @@ export class ChatManager {
         return;
       }
     }
-    const actorId = img.attr('data-actor-id');
+    const actorId = target.dataset.actorId;
     return game.actors.get(actorId)?.sheet.render(true);
   }
 
@@ -93,7 +103,9 @@ export class ChatManager {
       await game.system.anarchy.rollManager.edgeReroll(rollData);
       ChatManager.removeFamily(chatMsg.id);
     } else {
-      ui.notifications.info(game.i18n.localize(ANARCHY.common.errors.cannotUseEdgeAnymore));
+      ui.notifications.info(
+        game.i18n.localize(ANARCHY.common.errors.cannotUseEdgeAnymore),
+      );
     }
   }
 
@@ -116,13 +128,9 @@ export class ChatManager {
   }
 
   static getChatMessage(event) {
-    const chatMessageId = $(event.currentTarget).closest('.chat-message').attr('data-message-id');
-    return game.messages.get(chatMessageId);
-  }
-
-  static getChatMessageFromHtml(html) {
-    const chatMessageId = $(html).closest('.chat-message').attr('data-message-id');
-    return game.messages.get(chatMessageId);
+    const wrapper = event.currentTarget.closest(".chat-message");
+    const chatMessageId = wrapper?.dataset.messageId;
+    return chatMessageId ? game.messages.get(chatMessageId) : null;
   }
 
   /**
@@ -139,7 +147,9 @@ export class ChatManager {
   static removeFamily(chatMessageId) {
     if (!RemoteCall.call(CHAT_MANAGER_REMOVE_FAMILY, chatMessageId)) {
       game.messages
-        .filter((m) => m.getFlag(SYSTEM_SCOPE, PARENT_MESSAGE_ID) == chatMessageId)
+        .filter(
+          (m) => m.getFlag(SYSTEM_SCOPE, PARENT_MESSAGE_ID) == chatMessageId,
+        )
         .forEach((m) => m.delete());
       game.messages.get(chatMessageId)?.delete();
     }
@@ -151,7 +161,10 @@ export class ChatManager {
     }
   }
 
-  static messageActorRights(actor, right = CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER) {
+  static messageActorRights(
+    actor,
+    right = CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER,
+  ) {
     return {
       actorId: actor?.id,
       tokenId: actor?.token?.id,

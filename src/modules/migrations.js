@@ -1,19 +1,26 @@
-import { ANARCHY_SYSTEM, LOG_HEAD, SYSTEM_NAME, TEMPLATE } from './constants.js';
-import { ANARCHY_SKILLS } from './skills.js';
-import { ANARCHY_HOOKS, HooksManager } from './hooks-manager.js';
-import { Misc } from './misc.js';
-import { AttributeActions } from './attribute-actions.js';
+import {
+  ANARCHY_SYSTEM,
+  LOG_HEAD,
+  SYSTEM_NAME,
+  SYSTEM_SCOPE,
+  TEMPLATE,
+} from "./core/constants.js";
+import { ANARCHY_SKILLS } from "./skills.js";
+import { ANARCHY_HOOKS, HooksManager } from "./hooks-manager.js";
+import { Misc } from "./core/utils.js";
+import { AttributeActions } from "./attribute-actions.js";
+import { MESSAGE_DATA } from "./chat/chat-manager.js";
 
-export const DECLARE_MIGRATIONS = 'anarchy-declareMigration';
-const SYSTEM_MIGRATION_CURRENT_VERSION = 'systemMigrationVersion';
+export const DECLARE_MIGRATIONS = "anarchy-declareMigration";
+const SYSTEM_MIGRATION_CURRENT_VERSION = "systemMigrationVersion";
 
 export class Migration {
   get code() {
-    return 'sample';
+    return "sample";
   }
 
   get version() {
-    return '0.0.0';
+    return "0.0.0";
   }
 
   async migrate() {
@@ -21,17 +28,19 @@ export class Migration {
   }
 
   async applyItemsUpdates(computeUpdates) {
-    await game.actors.forEach(async (actor) => {
+    const actorUpdates = [];
+    for (const actor of game.actors.contents) {
       const actorItemUpdates = computeUpdates(actor.items);
       if (actorItemUpdates.length > 0) {
-        console.log(this.code, `Applying updates on actor ${actor.name} items`, actorItemUpdates);
-        await actor.updateEmbeddedDocuments('Item', actorItemUpdates);
+        actorUpdates.push(
+          actor.updateEmbeddedDocuments("Item", actorItemUpdates),
+        );
       }
-    });
+    }
+    await Promise.all(actorUpdates);
 
     const itemUpdates = computeUpdates(game.items);
     if (itemUpdates.length > 0) {
-      console.log(this.code, 'Applying updates on items', itemUpdates);
       await Item.updateDocuments(itemUpdates);
     }
   }
@@ -39,24 +48,30 @@ export class Migration {
 
 class _0_3_1_MigrationMoveWordsInObjects extends Migration {
   get version() {
-    return '0.3.1';
+    return "0.3.1";
   }
   get code() {
-    return 'move-words-in-objects';
+    return "move-words-in-objects";
   }
 
   async migrate() {
-    game.actors.forEach(async (actor) => {
-      await actor.update({
-        ['system.keywords']: this._createWordObject(actor.system.keywords),
-        ['system.cues']: this._createWordObject(actor.system.cues),
-        ['system.dispositions']: this._createWordObject(actor.system.dispositions),
-      });
-    });
+    await Promise.all(
+      game.actors.contents.map((actor) =>
+        actor.update({
+          ["system.keywords"]: this._createWordObject(actor.system.keywords),
+          ["system.cues"]: this._createWordObject(actor.system.cues),
+          ["system.dispositions"]: this._createWordObject(
+            actor.system.dispositions,
+          ),
+        }),
+      ),
+    );
   }
 
   _createWordObject(current) {
-    return Misc.reindexIds((current ?? []).map((k) => this._keywordToObject(k)));
+    return Misc.reindexIds(
+      (current ?? []).map((k) => this._keywordToObject(k)),
+    );
   }
   _keywordToObject(k) {
     if (k instanceof String) {
@@ -68,51 +83,62 @@ class _0_3_1_MigrationMoveWordsInObjects extends Migration {
 
 class _0_3_8_MigrateWeaponDamage extends Migration {
   get version() {
-    return '0.3.8';
+    return "0.3.8";
   }
   get code() {
-    return 'migrate-weapons-strength-damage';
+    return "migrate-weapons-strength-damage";
   }
 
   async migrate() {
-    const isStrengthDamageItem = (it) => it.type == TEMPLATE.itemType.weapon && it.system.strength;
+    const isStrengthDamageItem = (it) =>
+      it.type == TEMPLATE.itemType.weapon && it.system.strength;
     const fixItemDamage = (it) => {
       return {
         _id: it.id,
-        'system.damageAttribute': TEMPLATE.attributes.strength,
-        'system.strength': undefined,
+        "system.damageAttribute": TEMPLATE.attributes.strength,
+        "system.strength": undefined,
       };
     };
 
-    this.applyItemsUpdates((items) => items.filter(isStrengthDamageItem).map(fixItemDamage));
+    await this.applyItemsUpdates((items) =>
+      items.filter(isStrengthDamageItem).map(fixItemDamage),
+    );
   }
 }
 
 class _0_3_14_MigrateSkillDrainConvergence extends Migration {
   get version() {
-    return '0.3.14';
+    return "0.3.14";
   }
   get code() {
-    return 'migrate-skill-drain-convergence';
+    return "migrate-skill-drain-convergence";
   }
 
   async migrate() {
-    const withDrain = ANARCHY_SKILLS.filter((it) => it.hasDrain).map((it) => it.code);
+    const withDrain = ANARCHY_SKILLS.filter((it) => it.hasDrain).map(
+      (it) => it.code,
+    );
     const hasDrain = (it) =>
       it.type == TEMPLATE.itemType.skill && withDrain.includes(it.system.code);
     const setDrain = (it) => {
-      return { _id: it.id, 'system.hasDrain': true };
+      return { _id: it.id, "system.hasDrain": true };
     };
 
-    const withConvergence = ANARCHY_SKILLS.filter((it) => it.hasConvergence).map((it) => it.code);
+    const withConvergence = ANARCHY_SKILLS.filter(
+      (it) => it.hasConvergence,
+    ).map((it) => it.code);
     const hasConvergence = (it) =>
-      it.type == TEMPLATE.itemType.skill && withConvergence.includes(it.system.code);
+      it.type == TEMPLATE.itemType.skill &&
+      withConvergence.includes(it.system.code);
     const setConvergence = (it) => {
-      return { _id: it.id, 'system.hasConvergence': true };
+      return { _id: it.id, "system.hasConvergence": true };
     };
 
     const computeUpdates = (items) =>
-      items.filter(hasDrain).map(setDrain).concat(items.filter(hasConvergence).map(setConvergence));
+      items
+        .filter(hasDrain)
+        .map(setDrain)
+        .concat(items.filter(hasConvergence).map(setConvergence));
 
     await this.applyItemsUpdates(computeUpdates);
   }
@@ -120,10 +146,10 @@ class _0_3_14_MigrateSkillDrainConvergence extends Migration {
 
 class _0_4_0_SelectWeaponDefense extends Migration {
   get version() {
-    return '0.4.0';
+    return "0.4.0";
   }
   get code() {
-    return 'migrate-select-weapon-defense';
+    return "migrate-select-weapon-defense";
   }
 
   async migrate() {
@@ -132,7 +158,7 @@ class _0_4_0_SelectWeaponDefense extends Migration {
     const setDefense = (weapon) => {
       return {
         _id: weapon.id,
-        'system.defense': AttributeActions.fixedDefenseCode(
+        "system.defense": AttributeActions.fixedDefenseCode(
           findWeaponSkillWithDefense(weapon)?.defense,
         ),
       };
@@ -149,14 +175,18 @@ class _0_4_0_SelectWeaponDefense extends Migration {
 
 class _0_5_0_MigrationBaseResistanceIsZero extends Migration {
   get version() {
-    return '0.5.0';
+    return "0.5.0";
   }
   get code() {
-    return 'base-resistance-is-zero';
+    return "base-resistance-is-zero";
   }
 
   async migrate() {
-    game.actors.forEach(async (actor) => await actor.update(this._resistanceUpdates(actor)));
+    await Promise.all(
+      game.actors.contents.map((actor) =>
+        actor.update(this._resistanceUpdates(actor)),
+      ),
+    );
   }
 
   _resistanceUpdates(actor) {
@@ -172,39 +202,44 @@ class _0_5_0_MigrationBaseResistanceIsZero extends Migration {
 
 class _0_6_0_MigrateSkillSocial extends Migration {
   get version() {
-    return '0.6.0';
+    return "0.6.0";
   }
   get code() {
-    return 'migrate-skill-social';
+    return "migrate-skill-social";
   }
 
   async migrate() {
-    const socialSkills = ANARCHY_SKILLS.filter((it) => it.isSocial).map((it) => it.code);
+    const socialSkills = ANARCHY_SKILLS.filter((it) => it.isSocial).map(
+      (it) => it.code,
+    );
     const isSocial = (it) =>
-      it.type == TEMPLATE.itemTypeskill && socialSkills.includes(it.system.code);
+      it.type == TEMPLATE.itemTypeskill &&
+      socialSkills.includes(it.system.code);
     const setSocial = (it) => {
-      return { _id: it.id, 'system.isSocial': true };
+      return { _id: it.id, "system.isSocial": true };
     };
-    await this.applyItemsUpdates((items) => items.filter(isSocial).map(setSocial));
+    await this.applyItemsUpdates((items) =>
+      items.filter(isSocial).map(setSocial),
+    );
   }
 }
 
 class _11_1_0_MigrateAndWarnAboutDefenseModifiers extends Migration {
   get version() {
-    return '11.1.0';
+    return "11.1.0";
   }
   get code() {
-    return 'migrate-defense-roll-modifiers';
+    return "migrate-defense-roll-modifiers";
   }
 
   constructor() {
     super();
     this.isDefenseModifier = (modifier) =>
-      modifier.group == 'roll' && modifier.category == 'defense';
+      modifier.group == "roll" && modifier.category == "defense";
     this.isCorrespondingActionModifier = (modifier, defense) =>
-      modifier.group == 'roll' &&
+      modifier.group == "roll" &&
       modifier.effect == defense.effect &&
-      modifier.category == 'attributeAction' &&
+      modifier.category == "attributeAction" &&
       modifier.subCategory == defense.subCategory;
     this.hasDefenseModifiers = (it) =>
       (it.system.modifiers ?? []).filter(this.isDefenseModifier).length > 0;
@@ -220,7 +255,7 @@ class _11_1_0_MigrateAndWarnAboutDefenseModifiers extends Migration {
     });
     if (actualUpdates.length > 0)
       ChatMessage.create({
-        whisper: ChatMessage.getWhisperRecipients('GM'),
+        whisper: ChatMessage.getWhisperRecipients("GM"),
         content:
           `${this.version} - Migration of defense modifiers:<ul>` +
           actualUpdates.reduce((a, b) => a + b) +
@@ -249,7 +284,7 @@ class _11_1_0_MigrateAndWarnAboutDefenseModifiers extends Migration {
         switch (actionAttributes.length) {
           case 0: {
             defense.category = ANARCHY_SYSTEM.rollType.attributeAction;
-            addNote('Changed category', oldDefense, defense);
+            addNote("Changed category", oldDefense, defense);
             break;
           }
           case 1: {
@@ -259,61 +294,71 @@ class _11_1_0_MigrateAndWarnAboutDefenseModifiers extends Migration {
               {
                 value: Math.max(defense.value, other.value),
                 condition: other.condition
-                  ? other.condition + (defense.condition ?? '')
+                  ? other.condition + (defense.condition ?? "")
                   : defense.condition,
               },
               { overwrite: true },
             );
             delete newModifiers[defense.id];
-            addNote('Merged with existing', defense, other);
+            addNote("Merged with existing", defense, other);
             break;
           }
           default: {
             delete newModifiers[defense.id];
-            addNote('Removed', defense, { category: '-', value: '-', condition: '-' });
+            addNote("Removed", defense, {
+              category: "-",
+              value: "-",
+              condition: "-",
+            });
             break;
           }
         }
       });
     if (itemNotes.length > 0) {
-      actualUpdates.push(`<li> ${item.actor ? item.actor.name : '-standalone-'} Item ${item.name} modifiers changed:
+      actualUpdates.push(`<li> ${item.actor ? item.actor.name : "-standalone-"} Item ${item.name} modifiers changed:
         <ul>${itemNotes.reduce(Misc.joiner())}</ul>
         </li>`);
     }
-    return { _id: item.id, 'system.modifiers': Object.values(newModifiers) };
+    return { _id: item.id, "system.modifiers": Object.values(newModifiers) };
   }
 }
 
 class _11_1_9_MigrateVehicleHandlingToAttribute extends Migration {
   get version() {
-    return '11.1.9';
+    return "11.1.9";
   }
   get code() {
-    return 'migrate-vehicle-handling';
+    return "migrate-vehicle-handling";
   }
 
   async migrate() {
-    game.actors
-      .filter((it) => it.isVehicle())
-      .forEach(async (actor) => await actor._migrateHandlingToAttribute());
+    await Promise.all(
+      game.actors
+        .filter((it) => it.isVehicle())
+        .map((actor) => actor._migrateHandlingToAttribute()),
+    );
   }
 }
 
 class _11_1_12_MigrateBackWords extends Migration {
   get version() {
-    return '11.1.12';
+    return "11.1.12";
   }
   get code() {
-    return 'migrate-back-words';
+    return "migrate-back-words";
   }
   async migrate() {
-    game.actors.forEach(async (actor) => {
-      await actor.update({
-        ['system.keywords']: this._migrateBackWords(actor.system.keywords),
-        ['system.cues']: this._migrateBackWords(actor.system.cues),
-        ['system.dispositions']: this._migrateBackWords(actor.system.dispositions),
-      });
-    });
+    await Promise.all(
+      game.actors.contents.map((actor) =>
+        actor.update({
+          ["system.keywords"]: this._migrateBackWords(actor.system.keywords),
+          ["system.cues"]: this._migrateBackWords(actor.system.cues),
+          ["system.dispositions"]: this._migrateBackWords(
+            actor.system.dispositions,
+          ),
+        }),
+      ),
+    );
   }
 
   _migrateBackWords(current) {
@@ -333,21 +378,21 @@ class _11_1_12_MigrateBackWords extends Migration {
 
 class _11_1_16_MigrateSkillsAttributes extends Migration {
   get version() {
-    return '11.1.16';
+    return "11.1.16";
   }
   get code() {
-    return 'migrate-skills-attributes';
+    return "migrate-skills-attributes";
   }
   async migrate() {
-    this.applyItemsUpdates((items) =>
+    await this.applyItemsUpdates((items) =>
       items
         .filter((it) => it.type == TEMPLATE.itemType.skill)
-        .filter((it) => it.system.attribute == '' || it.system.code == '')
+        .filter((it) => it.system.attribute == "" || it.system.code == "")
         .map((it) => {
           return {
             _id: it.id,
-            'system.attribute': '',
-            'system.code': TEMPLATE.attributes.knowledge,
+            "system.attribute": "",
+            "system.code": TEMPLATE.attributes.knowledge,
           };
         }),
     );
@@ -356,10 +401,10 @@ class _11_1_16_MigrateSkillsAttributes extends Migration {
 
 class _12_0_1_MigrateChatMessageFlags extends Migration {
   get version() {
-    return '12.0.1';
+    return "12.0.1";
   }
   get code() {
-    return 'migrate-chatmessage-flags-messagedata';
+    return "migrate-chatmessage-flags-messagedata";
   }
   async migrate() {
     await Promise.all(
@@ -375,20 +420,20 @@ class _12_0_1_MigrateChatMessageFlags extends Migration {
 
 class _12_0_4_MigrateWeaponDrain extends Migration {
   get version() {
-    return '12.0.2';
+    return "12.0.4";
   }
   get code() {
-    return 'migrate-weapon-drain';
+    return "migrate-weapon-drain";
   }
   async migrate() {
-    this.applyItemsUpdates((items) =>
+    await this.applyItemsUpdates((items) =>
       items
-        .filter((it) => (it.type = TEMPLATE.itemType.weapon))
+        .filter((it) => it.type == TEMPLATE.itemType.weapon)
         .filter((it) => it.hasDrain)
         .map((it) => {
           return {
             _id: it.id,
-            'system.drain': 1,
+            "system.drain": 1,
           };
         }),
     );
@@ -417,24 +462,28 @@ export class Migrations {
     );
 
     game.settings.register(SYSTEM_NAME, SYSTEM_MIGRATION_CURRENT_VERSION, {
-      name: 'System Migration Version',
-      scope: 'world',
+      name: "System Migration Version",
+      scope: "world",
       config: false,
       type: String,
-      default: '0.0.0',
+      default: "0.0.0",
     });
   }
 
-  migrate() {
-    const currentVersion = game.settings.get(SYSTEM_NAME, SYSTEM_MIGRATION_CURRENT_VERSION);
+  async migrate() {
+    const currentVersion = game.settings.get(
+      SYSTEM_NAME,
+      SYSTEM_MIGRATION_CURRENT_VERSION,
+    );
     if (foundry.utils.isNewerVersion(game.system.version, currentVersion)) {
-      //if (true) {
       let migrations = [];
       Hooks.callAll(
         ANARCHY_HOOKS.DECLARE_MIGRATIONS,
         (...addedMigrations) =>
           (migrations = migrations.concat(
-            addedMigrations.filter((m) => foundry.utils.isNewerVersion(m.version, currentVersion)),
+            addedMigrations.filter((m) =>
+              foundry.utils.isNewerVersion(m.version, currentVersion),
+            ),
           )),
       );
       Hooks.off(ANARCHY_HOOKS.DECLARE_MIGRATIONS, () => {});
@@ -447,21 +496,21 @@ export class Migrations {
               ? -1
               : 0,
         );
-        migrations.forEach(async (m) => {
+        for (const migration of migrations) {
           ui.notifications.info(
-            `Executing migration ${m.code}: version ${currentVersion} is lower than ${m.version}`,
+            `Executing migration ${migration.code}: version ${currentVersion} is lower than ${migration.version}`,
           );
-          await m.migrate();
-        });
-        ui.notifications.info(`Migrations done, version will change to ${game.system.version}`);
-      } else {
-        console.log(
-          LOG_HEAD + `No migration needeed, version will change to ${game.system.version}`,
+          await migration.migrate();
+        }
+        ui.notifications.info(
+          `Migrations done, version will change to ${game.system.version}`,
         );
       }
-      game.settings.set(SYSTEM_NAME, SYSTEM_MIGRATION_CURRENT_VERSION, game.system.version);
-    } else {
-      console.log(LOG_HEAD + `No system version changed`);
+      await game.settings.set(
+        SYSTEM_NAME,
+        SYSTEM_MIGRATION_CURRENT_VERSION,
+        game.system.version,
+      );
     }
   }
 }

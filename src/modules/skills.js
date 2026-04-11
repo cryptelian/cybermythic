@@ -1,157 +1,185 @@
-import { ANARCHY } from './config.js';
+import { ANARCHY } from "./core/config.js";
 import {
   ANARCHY_SYSTEM,
   ICONS_SKILLS_PATH,
   SYSTEM_NAME,
   SYSTEM_PATH,
   TEMPLATE,
-} from './constants.js';
-import { ANARCHY_HOOKS, HooksManager } from './hooks-manager.js';
-import { Misc } from './misc.js';
+} from "./core/constants.js";
+import { ANARCHY_HOOKS, HooksManager } from "./hooks-manager.js";
+import { Misc } from "./core/utils.js";
 
-const SELECTED_SKILL_LIST = 'selected-skill-list';
+const SELECTED_SKILL_LIST = "selected-skill-list";
 const SETTING_KEY_SELECTED_SKILL_LIST = `${SYSTEM_NAME}.${SELECTED_SKILL_LIST}`;
 
 const ATTR = TEMPLATE.attributes;
 const DEFENSE = ANARCHY_SYSTEM.defenses;
 
-const DEFAULT_SKILLSET_ANARCHY = 'shadowrun-anarchy-en';
+const DEFAULT_SKILLSET_ANARCHY = "shadowrun-anarchy-en";
 const KNOWLEDGE = {
-  code: 'knowledge',
+  code: "knowledge",
   attribute: ATTR.knowledge,
   icon: `${ICONS_SKILLS_PATH}/knowledge.svg`,
 };
 
 export const ANARCHY_SKILLS = [
-  { code: 'athletics', attribute: ATTR.strength, icon: `${ICONS_SKILLS_PATH}/athletics.svg` },
   {
-    code: 'acrobatics',
-    attribute: ATTR.agility,
-    icon: `${ICONS_SKILLS_PATH}/escape-artist.svg`,
-    lang: 'fr',
+    code: "athletics",
+    attribute: ATTR.strength,
+    icon: `${ICONS_SKILLS_PATH}/athletics.svg`,
   },
   {
-    code: 'closeCombat',
+    code: "acrobatics",
+    attribute: ATTR.agility,
+    icon: `${ICONS_SKILLS_PATH}/escape-artist.svg`,
+    lang: "fr",
+  },
+  {
+    code: "closeCombat",
     attribute: ATTR.agility,
     icon: `${ICONS_SKILLS_PATH}/close-combat.svg`,
     defense: DEFENSE.physicalDefense,
   },
   {
-    code: 'projectileWeapons',
+    code: "projectileWeapons",
     attribute: ATTR.agility,
     icon: `${ICONS_SKILLS_PATH}/projectile-weapons.svg`,
     defense: DEFENSE.physicalDefense,
   },
   {
-    code: 'firearms',
+    code: "firearms",
     attribute: ATTR.agility,
     icon: `${ICONS_SKILLS_PATH}/firearms.svg`,
     defense: DEFENSE.physicalDefense,
   },
   {
-    code: 'heavyWeapons',
+    code: "heavyWeapons",
     attribute: ATTR.agility,
     icon: `${ICONS_SKILLS_PATH}/heavy-weapons.svg`,
     defense: DEFENSE.physicalDefense,
   },
   {
-    code: 'vehicleWeapons',
+    code: "vehicleWeapons",
     attribute: ATTR.agility,
     icon: `${ICONS_SKILLS_PATH}/vehicle-weapons.svg`,
     defense: DEFENSE.physicalDefense,
   },
-  { code: 'stealth', attribute: ATTR.agility, icon: `${ICONS_SKILLS_PATH}/stealth.svg` },
   {
-    code: 'pilotingGround',
+    code: "stealth",
+    attribute: ATTR.agility,
+    icon: `${ICONS_SKILLS_PATH}/stealth.svg`,
+  },
+  {
+    code: "pilotingGround",
     attribute: ATTR.agility,
     icon: `${ICONS_SKILLS_PATH}/piloting-ground-steering-wheel.svg`,
   },
   {
-    code: 'pilotingOther',
+    code: "pilotingOther",
     attribute: ATTR.agility,
     icon: `${ICONS_SKILLS_PATH}/piloting-other.svg`,
   },
   {
-    code: 'escapeArtist',
+    code: "escapeArtist",
     attribute: ATTR.agility,
     icon: `${ICONS_SKILLS_PATH}/escape-artist.svg`,
-    lang: 'en',
+    lang: "en",
   },
   {
-    code: 'conjuring',
+    code: "conjuring",
     attribute: ATTR.willpower,
     hasDrain: true,
     icon: `${ICONS_SKILLS_PATH}/conjuring.svg`,
   },
   {
-    code: 'sorcery',
+    code: "sorcery",
     attribute: ATTR.willpower,
     hasDrain: true,
     icon: `${ICONS_SKILLS_PATH}/sorcery.svg`,
   },
   {
-    code: 'astralCombat',
+    code: "astralCombat",
     attribute: ATTR.willpower,
     icon: `${ICONS_SKILLS_PATH}/astral-combat.svg`,
     defense: DEFENSE.astralDefense,
   },
-  { code: 'survival', attribute: ATTR.willpower, icon: `${ICONS_SKILLS_PATH}/survival.svg` },
-  { code: 'biotech', attribute: ATTR.logic, icon: `${ICONS_SKILLS_PATH}/biotech.svg` },
   {
-    code: 'hacking',
+    code: "survival",
+    attribute: ATTR.willpower,
+    icon: `${ICONS_SKILLS_PATH}/survival.svg`,
+  },
+  {
+    code: "biotech",
+    attribute: ATTR.logic,
+    icon: `${ICONS_SKILLS_PATH}/biotech.svg`,
+  },
+  {
+    code: "hacking",
     attribute: ATTR.logic,
     hasConvergence: true,
     icon: `${ICONS_SKILLS_PATH}/hacking.svg`,
     defense: DEFENSE.matrixDefense,
   },
-  { code: 'electronics', attribute: ATTR.logic, icon: `${ICONS_SKILLS_PATH}/electronics.svg` },
-  { code: 'engineering', attribute: ATTR.logic, icon: `${ICONS_SKILLS_PATH}/engineering.svg` },
   {
-    code: 'tasking',
+    code: "electronics",
+    attribute: ATTR.logic,
+    icon: `${ICONS_SKILLS_PATH}/electronics.svg`,
+  },
+  {
+    code: "engineering",
+    attribute: ATTR.logic,
+    icon: `${ICONS_SKILLS_PATH}/engineering.svg`,
+  },
+  {
+    code: "tasking",
     attribute: ATTR.logic,
     hasDrain: true,
     icon: `${ICONS_SKILLS_PATH}/tasking.svg`,
   },
-  { code: 'tracking', attribute: ATTR.logic, icon: `${ICONS_SKILLS_PATH}/tracking.svg` },
   {
-    code: 'animals',
-    attribute: ATTR.charisma,
-    icon: `${ICONS_SKILLS_PATH}/animals.svg`,
-    lang: 'fr',
+    code: "tracking",
+    attribute: ATTR.logic,
+    icon: `${ICONS_SKILLS_PATH}/tracking.svg`,
   },
   {
-    code: 'con',
+    code: "animals",
+    attribute: ATTR.charisma,
+    icon: `${ICONS_SKILLS_PATH}/animals.svg`,
+    lang: "fr",
+  },
+  {
+    code: "con",
     attribute: ATTR.charisma,
     isSocial: true,
     icon: `${ICONS_SKILLS_PATH}/con-art.svg`,
   },
   {
-    code: 'etiquette',
+    code: "etiquette",
     attribute: ATTR.charisma,
     isSocial: true,
     icon: `${ICONS_SKILLS_PATH}/etiquette.svg`,
-    lang: 'fr',
+    lang: "fr",
   },
   {
-    code: 'intimidation',
+    code: "intimidation",
     attribute: ATTR.charisma,
     isSocial: true,
     icon: `${ICONS_SKILLS_PATH}/intimidation.svg`,
   },
   {
-    code: 'negotiation',
+    code: "negotiation",
     attribute: ATTR.charisma,
     isSocial: true,
     icon: `${ICONS_SKILLS_PATH}/negotiation.svg`,
   },
   {
-    code: 'disguise',
+    code: "disguise",
     attribute: ATTR.charisma,
     icon: `${ICONS_SKILLS_PATH}/disguise.svg`,
-    lang: 'en',
+    lang: "en",
   },
 ];
-export const MATRIX_SKILLS = ['tasking', 'hacking'];
+export const MATRIX_SKILLS = ["tasking", "hacking"];
 
 export class Skills {
   constructor() {
@@ -160,39 +188,42 @@ export class Skills {
     Hooks.on(ANARCHY_HOOKS.PROVIDE_SKILL_SET, (provide) =>
       provide(
         DEFAULT_SKILLSET_ANARCHY,
-        'Shadowrun Anarchy EN',
-        ANARCHY_SKILLS.filter((it) => !it.lang || it.lang == 'en'),
-        { lang: 'en' },
+        "Shadowrun Anarchy EN",
+        ANARCHY_SKILLS.filter((it) => !it.lang || it.lang == "en"),
+        { lang: "en" },
       ),
     );
     Hooks.on(ANARCHY_HOOKS.PROVIDE_SKILL_SET, (provide) =>
       provide(
-        'shadowrun-anarchy-fr',
-        'Shadowrun Anarchy FR',
-        ANARCHY_SKILLS.filter((it) => !it.lang || it.lang == 'fr'),
-        { lang: 'fr' },
+        "shadowrun-anarchy-fr",
+        "Shadowrun Anarchy FR",
+        ANARCHY_SKILLS.filter((it) => !it.lang || it.lang == "fr"),
+        { lang: "fr" },
       ),
     );
-    Hooks.on('updateSetting', async (setting, update, options, id) =>
+    Hooks.on("updateSetting", async (setting, update, options, id) =>
       this.onUpdateSetting(setting, update, options, id),
     );
-    Hooks.once('ready', () => this.onReady());
+    Hooks.once("ready", () => this.onReady());
   }
 
   async onReady() {
     this.$prepareSkill(KNOWLEDGE);
-    Hooks.callAll(ANARCHY_HOOKS.PROVIDE_SKILL_SET, (id, name, skills, details) => {
-      const skillSet = this.$prepareSkillSet(id, name, skills, details);
-      if (skillSet) {
-        this.skillSets[skillSet.id] = skillSet;
-      }
-    });
+    Hooks.callAll(
+      ANARCHY_HOOKS.PROVIDE_SKILL_SET,
+      (id, name, skills, details) => {
+        const skillSet = this.$prepareSkillSet(id, name, skills, details);
+        if (skillSet) {
+          this.skillSets[skillSet.id] = skillSet;
+        }
+      },
+    );
 
     const skillSetChoices = Object.fromEntries(
       Object.values(this.skillSets).map((e) => [e.id, e.name]),
     );
     game.settings.register(SYSTEM_NAME, SELECTED_SKILL_LIST, {
-      scope: 'world',
+      scope: "world",
       name: game.i18n.localize(ANARCHY.settings.skillSet.name),
       hint: game.i18n.localize(ANARCHY.settings.skillSet.hint),
       config: true,
@@ -210,11 +241,15 @@ export class Skills {
   }
 
   get(code) {
-    return this.getSkills({ withKnowledge: true }).find((it) => it.code == code);
+    return this.getSkills({ withKnowledge: true }).find(
+      (it) => it.code == code,
+    );
   }
 
   getSkills(options = { withKnowledge: false }) {
-    const skills = this.$getConfiguredSkills().sort(Misc.ascending((it) => it.label));
+    const skills = this.$getConfiguredSkills().sort(
+      Misc.ascending((it) => it.label),
+    );
     if (options.withKnowledge) {
       return [KNOWLEDGE, ...skills];
     }
@@ -223,12 +258,16 @@ export class Skills {
 
   $getConfiguredSkills() {
     const skillSet =
-      this.skillSets[this.selectedSkills] ?? this.skillSets[DEFAULT_SKILLSET_ANARCHY];
+      this.skillSets[this.selectedSkills] ??
+      this.skillSets[DEFAULT_SKILLSET_ANARCHY];
     return skillSet.skills;
   }
 
   $prepareSkillSet(id, name, skills, details) {
-    const skillSet = foundry.utils.mergeObject({ id: id, name: name, skills: skills }, details);
+    const skillSet = foundry.utils.mergeObject(
+      { id: id, name: name, skills: skills },
+      details,
+    );
     if (!this.$validateSkillSet(skillSet)) {
       return undefined;
     }
@@ -244,14 +283,17 @@ export class Skills {
   }
 
   $validateSkillSet(skillSet) {
-    function check(check, error = '') {
+    function check(check, error = "") {
       if (!check) {
         throw error;
       }
     }
 
     try {
-      check(skillSet.id && skillSet.name, `Skills list does not have an id or name`);
+      check(
+        skillSet.id && skillSet.name,
+        `Skills list does not have an id or name`,
+      );
       const existing = this.skillSets[skillSet.id];
       check(
         !existing,
@@ -274,7 +316,8 @@ export class Skills {
       return true;
     } catch (error) {
       console.warn(
-        error + (skillSet.id ? ` in list ${skillSet.id}` : ' in unidentified list'),
+        error +
+          (skillSet.id ? ` in list ${skillSet.id}` : " in unidentified list"),
         skillSet,
       );
       return false;

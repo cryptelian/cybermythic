@@ -10,6 +10,13 @@
 .sheet {
   @include anarchy-sheet;
   
+  // Ensure glass theme doesn't get double backgrounds
+  &.style-darkglass {
+    background: transparent;
+    box-shadow: none;
+    border: none;
+  }
+  
   &.actor {
     min-width: 600px;
     
@@ -35,6 +42,14 @@
   @include flex-container(row, flex-start, flex-start);
   @include component-spacing(var(--space-xs));
   
+  // Glass theme adjustments
+  .style-darkglass & {
+    background: var(--bg-secondary);
+    border-radius: var(--border-radius-lg);
+    border: 1px solid var(--border-subtle);
+    margin-bottom: var(--space-md);
+  }
+  
   .passport-img {
     @include component-base;
     @include component-spacing(0, var(--space-xs) var(--space-xs) 0);
@@ -43,6 +58,12 @@
       border-radius: var(--border-radius-md);
       object-fit: cover;
       object-position: center;
+      
+      // Glass theme: glow effect
+      .style-darkglass & {
+        box-shadow: 0 0 10px var(--interactive-primary);
+        border: 1px solid var(--interactive-primary);
+      }
     }
   }
   
@@ -121,6 +142,13 @@ nav.sheet-tabs {
   text-transform: uppercase;
   border: none;
   
+  // Glass theme: floating tabs
+  .style-darkglass & {
+    background: transparent;
+    border-bottom: 1px solid var(--border-subtle);
+    padding-bottom: 2px;
+  }
+  
   .sheet-tab {
     @include component-base;
     @include component-spacing(var(--space-xs) var(--space-sm));
@@ -129,6 +157,31 @@ nav.sheet-tabs {
     position: relative;
     min-height: 16px;
     cursor: pointer;
+    
+    // Glass theme overrides
+    .style-darkglass & {
+      background: transparent;
+      color: var(--text-secondary);
+      border-radius: var(--radius-sm);
+      margin-right: var(--space-xs);
+      
+      &:hover {
+        background: var(--bg-tertiary);
+        color: var(--text-primary);
+        text-shadow: 0 0 5px var(--interactive-primary);
+      }
+      
+      &.active {
+        background: var(--bg-elevated);
+        color: var(--interactive-primary);
+        border: 1px solid var(--interactive-primary);
+        box-shadow: 0 0 8px var(--interactive-primary);
+        
+        &::after {
+          display: none;
+        }
+      }
+    }
     
     &::after {
       content: '';
@@ -159,6 +212,14 @@ nav.sheet-tabs {
   
   width: 100%;
   
+  // Glass theme section background override
+  .style-darkglass &,
+  &.style-darkglass {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+  }
+  
   &.tab[data-tab]:not(.active) {
     display: none;
   }
@@ -174,6 +235,23 @@ nav.sheet-tabs {
     width: 100%;
     text-align: center;
     border: none;
+    
+    // Glass theme: hexabox glass effect
+    .style-darkglass &,
+    .style-darkglass & {
+      background: var(--bg-secondary);
+      color: var(--interactive-primary);
+      text-shadow: 0 0 5px var(--interactive-primary);
+      border: 1px solid var(--interactive-primary);
+      box-shadow: 0 0 10px var(--interactive-primary);
+      border-radius: var(--radius-lg); // Keep some rounding if we can't do full hex
+      
+      // If we want true hex shape we might need clip-path, but simple glass card is safer for now
+      backdrop-filter: blur(var(--glass-blur));
+      backdrop-filter: blur(var(--glass-blur));
+      
+      margin-bottom: var(--space-md);
+    }
     
     &.section-group-header {
       width: auto;
@@ -196,8 +274,41 @@ nav.sheet-tabs {
 .attribute-box {
   @include anarchy-attribute;
   
+  // Glass theme: Attribute Glass Cards
+  .style-darkglass &,
+  .style-darkglass & {
+    background: rgb(20 25 40 / 60%); // Semi-transparent dark blue
+    border: 1px solid var(--border-subtle);
+    box-shadow: 0 0 5px rgb(0 0 0 / 50%);
+    backdrop-filter: blur(4px);
+    
+    .attribute-label {
+      color: var(--text-secondary);
+      text-shadow: none; // Clean look
+    }
+    
+    .attribute-value {
+      color: var(--text-primary);
+      text-shadow: 0 0 5px var(--text-primary); // Glowing value
+    }
+    
+    &:hover {
+      border-color: var(--interactive-primary);
+      box-shadow: 0 0 10px var(--interactive-primary);
+      
+      .attribute-label {
+        color: var(--interactive-primary);
+      }
+    }
+  }
+  
   &.secondary-attribute {
     background: var(--anarchy-background-secondary-attributes);
+    
+    .style-darkglass &,
+    .style-darkglass & {
+      background: rgb(40 30 20 / 40%); // Slightly warmer for secondary
+    }
   }
 }
 
@@ -342,13 +453,13 @@ nav.sheet-tabs {
 // Responsive breakpoint mixin
 @mixin responsive($breakpoint) {
   @if $breakpoint == 'sm' {
-    @media (min-width: 576px) { @content; }
+    @media (width >= 576px) { @content; }
   } @else if $breakpoint == 'md' {
-    @media (min-width: 768px) { @content; }
+    @media (width >= 768px) { @content; }
   } @else if $breakpoint == 'lg' {
-    @media (min-width: 992px) { @content; }
+    @media (width >= 992px) { @content; }
   } @else if $breakpoint == 'xl' {
-    @media (min-width: 1200px) { @content; }
+    @media (width >= 1200px) { @content; }
   }
 }
 

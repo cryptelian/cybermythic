@@ -1,21 +1,23 @@
-import { ANARCHY } from '../config.js';
-import { TEMPLATE, TEMPLATES_PATH } from '../constants.js';
-import { AnarchyBaseActor } from './base-actor.js';
-import { ErrorManager } from '../error-manager.js';
-import { Misc } from '../misc.js';
-import { Modifiers } from '../modifiers/modifiers.js';
-import { Checkbars, DEFAULT_CHECKBARS } from '../common/checkbars.js';
-import { RollCelebrity } from '../dialog/roll-celebrity.js';
-import { ANARCHY_HOOKS } from '../hooks-manager.js';
-import { MATRIX, Matrix, NO_MATRIX_MONITOR } from '../matrix-helper.js';
+import { ANARCHY } from "../core/config.js";
+import { TEMPLATE, templatePath } from "../core/constants.js";
+import { AnarchyBaseActor } from "./document.js";
+import { ErrorManager } from "../core/errors.js";
+import { Misc } from "../core/utils.js";
+import { Modifiers } from "../modifiers/modifiers.js";
+import { Checkbars, DEFAULT_CHECKBARS } from "../common/checkbars.js";
+import { RollCelebrity } from "../dialog/roll-celebrity.js";
+import { ANARCHY_HOOKS } from "../hooks-manager.js";
+import { MATRIX, Matrix, NO_MATRIX_MONITOR } from "../matrix-helper.js";
+import { renderTemplateSafe } from "../handlebars-utils.js";
 
-const HBS_TEMPLATE_ACTOR_DRAIN = `${TEMPLATES_PATH}/chat/actor-drain.hbs`;
-const HBS_TEMPLATE_ACTOR_SAY_WORD = `${TEMPLATES_PATH}/chat/actor-say-word.hbs`;
+const HBS_TEMPLATE_ACTOR_DRAIN = templatePath("chat", "actor-drain.hbs");
+const HBS_TEMPLATE_ACTOR_SAY_WORD = templatePath("chat", "actor-say-word.hbs");
 
 export class CharacterActor extends AnarchyBaseActor {
   static get initiative() {
     return (
-      AnarchyBaseActor.initiative + ' + max(@attributes.agility.value, @attributes.logic.value)'
+      AnarchyBaseActor.initiative +
+      " + max(@attributes.agility.value, @attributes.logic.value)"
     );
   }
 
@@ -24,23 +26,36 @@ export class CharacterActor extends AnarchyBaseActor {
   }
 
   prepareDerivedData() {
-    this.system.monitors.physical.max = this._getMonitorMax(TEMPLATE.attributes.strength);
-    this.system.monitors.stun.max = this._getMonitorMax(TEMPLATE.attributes.willpower);
+    this.system.monitors.physical.max = this._getMonitorMax(
+      TEMPLATE.attributes.strength,
+    );
+    this.system.monitors.stun.max = this._getMonitorMax(
+      TEMPLATE.attributes.willpower,
+    );
     super.prepareDerivedData();
-    this.system.ignoreWounds = Modifiers.sumModifiers(this.items, 'other', 'ignoreWounds');
+    this.system.ignoreWounds = Modifiers.sumModifiers(
+      this.items,
+      "other",
+      "ignoreWounds",
+    );
   }
 
   computePhysicalState() {
     const maxMonitor =
-      Math.max(this.system.monitors.physical.max, this.system.monitors.stun.max) +
-      this.system.monitors.armor.max;
-    const dead = this.system.monitors.physical.value == this.system.monitors.physical.max;
+      Math.max(
+        this.system.monitors.physical.max,
+        this.system.monitors.stun.max,
+      ) + this.system.monitors.armor.max;
+    const dead =
+      this.system.monitors.physical.value == this.system.monitors.physical.max;
     const ko = this.system.monitors.stun.max == this.system.monitors.stun.value;
     const current =
       dead || ko
         ? maxMonitor
-        : Math.max(this.system.monitors.physical.value, this.system.monitors.stun.value) +
-          this.system.monitors.armor.value;
+        : Math.max(
+            this.system.monitors.physical.value,
+            this.system.monitors.stun.value,
+          ) + this.system.monitors.armor.value;
     return {
       max: maxMonitor,
       value: maxMonitor - current,
@@ -55,10 +70,16 @@ export class CharacterActor extends AnarchyBaseActor {
     );
     // spent essence: from cyberware/bioware
     const spentEssence = Misc.sumValues(
-      this.items.filter((it) => it.type == 'shadowamp').map((it) => Math.abs(it.system.essence)),
+      this.items
+        .filter((it) => it.type == "shadowamp")
+        .map((it) => Math.abs(it.system.essence)),
     );
     // adjustments: from quality (that gives a "free" essence point), or essence losses due to vampire
-    const essenceAdjustment = Modifiers.sumModifiers(this.items, 'other', 'essenceAdjustment');
+    const essenceAdjustment = Modifiers.sumModifiers(
+      this.items,
+      "other",
+      "essenceAdjustment",
+    );
     return baseEssence + essenceAdjustment - Math.max(0, spentEssence);
   }
 
@@ -101,7 +122,8 @@ export class CharacterActor extends AnarchyBaseActor {
         firewall: TEMPLATE.attributes.firewall,
         monitor: cyberdeck.system.monitors.matrix,
         overflow: cyberdeck.getMatrixOverflow(),
-        setMatrixMonitor: async (path, value) => cyberdeck.setMatrixMonitor(path, value),
+        setMatrixMonitor: async (path, value) =>
+          cyberdeck.setMatrixMonitor(path, value),
       };
     }
     if (this.isEmerged()) {
@@ -113,7 +135,11 @@ export class CharacterActor extends AnarchyBaseActor {
         overflow: TEMPLATE.monitors.physical,
         setMatrixMonitor: async (path, value) => {
           if (path == DEFAULT_CHECKBARS.matrix.path) {
-            return await Checkbars.setCheckbar(this, TEMPLATE.monitors.stun, value);
+            return await Checkbars.setCheckbar(
+              this,
+              TEMPLATE.monitors.stun,
+              value,
+            );
           }
         },
       };
@@ -138,7 +164,10 @@ export class CharacterActor extends AnarchyBaseActor {
       connectionMode = this.system.connectionMode;
     }
     if (mode == undefined) {
-      return Matrix.resolveConnectionMode(connectionMode) != MATRIX.connectionMode.disconnected;
+      return (
+        Matrix.resolveConnectionMode(connectionMode) !=
+        MATRIX.connectionMode.disconnected
+      );
     }
     return Matrix.resolveConnectionMode(connectionMode) == mode;
   }
@@ -146,8 +175,10 @@ export class CharacterActor extends AnarchyBaseActor {
     if (cyberdeck) {
       await cyberdeck.nextConnectionMode();
     } else if (this.isEmerged()) {
-      const newConnectionMode = Matrix.getNextConnectionMode(this.system.connectionMode);
-      await this.update({ 'system.connectionMode': newConnectionMode });
+      const newConnectionMode = Matrix.getNextConnectionMode(
+        this.system.connectionMode,
+      );
+      await this.update({ "system.connectionMode": newConnectionMode });
     }
   }
 
@@ -156,14 +187,11 @@ export class CharacterActor extends AnarchyBaseActor {
     if (cyberdeck) {
       cyberdeck.system.monitors.matrix.maxBonus = Modifiers.sumMonitorModifiers(
         this.items,
-        'matrix',
-        'max',
+        "matrix",
+        "max",
       );
-      cyberdeck.system.monitors.matrix.resistanceBonus = Modifiers.sumMonitorModifiers(
-        this.items,
-        'matrix',
-        'resistance',
-      );
+      cyberdeck.system.monitors.matrix.resistanceBonus =
+        Modifiers.sumMonitorModifiers(this.items, "matrix", "resistance");
     }
   }
 
@@ -177,7 +205,9 @@ export class CharacterActor extends AnarchyBaseActor {
   }
 
   async createWord(wordType, added) {
-    this._mutateWords(wordType, (values) => values.concat([{ word: added, audio: '' }]));
+    this._mutateWords(wordType, (values) =>
+      values.concat([{ word: added, audio: "" }]),
+    );
   }
 
   async sayWord(wordType, wordId) {
@@ -185,7 +215,7 @@ export class CharacterActor extends AnarchyBaseActor {
     if (wordsToSay) {
       ChatMessage.create({
         speaker: { alias: this.token?.name ?? this.name },
-        content: await foundry.applications.handlebars.renderTemplate(HBS_TEMPLATE_ACTOR_SAY_WORD, {
+        content: await renderTemplateSafe(HBS_TEMPLATE_ACTOR_SAY_WORD, {
           actor: this,
           wordsToSay: wordsToSay,
         }),
@@ -194,7 +224,9 @@ export class CharacterActor extends AnarchyBaseActor {
   }
 
   getWord(wordType, wordId) {
-    return wordType ? this.system[wordType].find((it) => it.id == wordId) : undefined;
+    return wordType
+      ? this.system[wordType].find((it) => it.id == wordId)
+      : undefined;
   }
 
   async updateWord(wordType, id, updated) {
@@ -215,7 +247,9 @@ export class CharacterActor extends AnarchyBaseActor {
   }
 
   async deleteWord(wordType, deletedId) {
-    this._mutateWords(wordType, (values) => values.filter((it) => it.id != deletedId));
+    this._mutateWords(wordType, (values) =>
+      values.filter((it) => it.id != deletedId),
+    );
   }
 
   async _mutateWords(wordType, mutate = (values) => values) {
@@ -266,7 +300,11 @@ export class CharacterActor extends AnarchyBaseActor {
       const useAnarchy = count - useSceneAnarchy;
 
       if (useSceneAnarchy > 0) {
-        Checkbars.addCounter(this, TEMPLATE.monitors.sceneAnarchy, -useSceneAnarchy);
+        Checkbars.addCounter(
+          this,
+          TEMPLATE.monitors.sceneAnarchy,
+          -useSceneAnarchy,
+        );
       }
       if (this.hasPlayerOwner) {
         await game.system.anarchy.gmAnarchy.actorGivesAnarchyToGM(this, count);
@@ -313,20 +351,17 @@ export class CharacterActor extends AnarchyBaseActor {
       const rollDrain = new Roll(
         `${drain}dgcf=1[${game.i18n.localize(ANARCHY.common.roll.rollTheme.drain)}]`,
       );
-      await rollDrain.evaluate({ async: true });
+      rollDrain.evaluateSync();
       await this.sufferDrain(rollDrain.total);
 
-      const flavor = await foundry.applications.handlebars.renderTemplate(
-        HBS_TEMPLATE_ACTOR_DRAIN,
-        {
-          ANARCHY: ANARCHY,
-          actor: this,
-          drain: rollDrain.total,
-          options: {
-            classes: game.system.anarchy.styles.selectCssClass(),
-          },
+      const flavor = await renderTemplateSafe(HBS_TEMPLATE_ACTOR_DRAIN, {
+        ANARCHY: ANARCHY,
+        actor: this,
+        drain: rollDrain.total,
+        options: {
+          classes: game.system.anarchy.styles.selectCssClass(),
         },
-      );
+      });
       await rollDrain.toMessage({ flavor: flavor });
     }
   }

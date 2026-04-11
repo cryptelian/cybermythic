@@ -1,54 +1,54 @@
-import { ErrorManager } from '../error-manager.js';
-import { ANARCHY } from '../config.js';
-import { AnarchyUsers } from '../users.js';
-import { Icons } from '../icons.js';
-import { TEMPLATE } from '../constants.js';
+import { ErrorManager } from "../core/errors.js";
+import { ANARCHY } from "../core/config.js";
+import { AnarchyUsers } from "../users.js";
+import { Icons } from "../icons.js";
+import { TEMPLATE } from "../core/constants.js";
 
 const MONITORS = ANARCHY.actor.monitors;
 const COUNTERS = ANARCHY.actor.counters;
 
 export const DEFAULT_CHECKBARS = {
   armor: {
-    path: 'system.monitors.armor.value',
+    path: "system.monitors.armor.value",
     monitor: (it) => it.system.monitors.armor,
-    iconChecked: Icons.fontAwesome('fas fa-shield-slash'),
-    iconUnchecked: Icons.fontAwesome('fas fa-shield-alt'),
-    iconHit: Icons.fontAwesome('fas fa-bahai'),
+    iconChecked: Icons.fontAwesome("fas fa-shield-slash"),
+    iconUnchecked: Icons.fontAwesome("fas fa-shield-alt"),
+    iconHit: Icons.fontAwesome("fas fa-bahai"),
     resource: MONITORS.armor,
   },
   stun: {
-    path: 'system.monitors.stun.value',
+    path: "system.monitors.stun.value",
     monitor: (it) => it.system.monitors.stun,
-    iconChecked: Icons.fontAwesome('fas fa-grimace'),
-    iconUnchecked: Icons.fontAwesome('far fa-smile'),
-    iconHit: Icons.fontAwesome('fas fa-bahai'),
+    iconChecked: Icons.fontAwesome("fas fa-grimace"),
+    iconUnchecked: Icons.fontAwesome("far fa-smile"),
+    iconHit: Icons.fontAwesome("fas fa-bahai"),
     resource: MONITORS.stun,
     overflow: (actor) => TEMPLATE.monitors.physical,
     useArmor: true,
   },
   physical: {
-    path: 'system.monitors.physical.value',
+    path: "system.monitors.physical.value",
     monitor: (it) => it.system.monitors.physical,
-    iconChecked: Icons.fontAwesome('fas fa-heartbeat'),
-    iconUnchecked: Icons.fontAwesome('far fa-heart'),
-    iconHit: Icons.fontAwesome('fas fa-bahai'),
+    iconChecked: Icons.fontAwesome("fas fa-heartbeat"),
+    iconUnchecked: Icons.fontAwesome("far fa-heart"),
+    iconHit: Icons.fontAwesome("fas fa-bahai"),
     resource: MONITORS.physical,
     useArmor: true,
   },
   structure: {
-    path: 'system.monitors.structure.value',
+    path: "system.monitors.structure.value",
     monitor: (it) => it.system.monitors.structure,
-    iconChecked: Icons.fontAwesome('fas fa-car-crash'),
-    iconUnchecked: Icons.fontAwesome('fas fa-car-alt'),
-    iconHit: Icons.fontAwesome('fas fa-bahai'),
+    iconChecked: Icons.fontAwesome("fas fa-car-crash"),
+    iconUnchecked: Icons.fontAwesome("fas fa-car-alt"),
+    iconHit: Icons.fontAwesome("fas fa-bahai"),
     resource: MONITORS.structure,
   },
   matrix: {
-    path: 'system.monitors.matrix.value',
+    path: "system.monitors.matrix.value",
     monitor: (it) => it.getMatrixMonitor(),
-    iconChecked: Icons.fontAwesome('fas fa-laptop-medical'),
-    iconUnchecked: Icons.fontAwesome('fas fa-laptop'),
-    iconHit: Icons.fontAwesome('fas fa-laptop-code'),
+    iconChecked: Icons.fontAwesome("fas fa-laptop-medical"),
+    iconUnchecked: Icons.fontAwesome("fas fa-laptop"),
+    iconHit: Icons.fontAwesome("fas fa-laptop-code"),
     overflow: (actor) => actor.getMatrixOverflow(),
     recomputeOverflow: (value) => 3,
     resource: MONITORS.matrix,
@@ -58,9 +58,9 @@ export const DEFAULT_CHECKBARS = {
     monitor: (it) => {
       return { value: 0, max: 5 };
     },
-    iconChecked: Icons.fontAwesome('fas fa-bookmark'),
-    iconUnchecked: Icons.fontAwesome('far fa-bookmark'),
-    iconHit: Icons.fontAwesome('fas fa-fingerprint'),
+    iconChecked: Icons.fontAwesome("fas fa-bookmark"),
+    iconUnchecked: Icons.fontAwesome("far fa-bookmark"),
+    iconHit: Icons.fontAwesome("fas fa-fingerprint"),
     resource: MONITORS.marks,
   },
   convergence: {
@@ -68,77 +68,89 @@ export const DEFAULT_CHECKBARS = {
     monitor: (it) => {
       return { value: 0, max: 5 };
     },
-    iconChecked: Icons.fontAwesome('far fa-eye'),
-    iconUnchecked: Icons.fontAwesome('fas fa-eye-slash'),
-    iconHit: Icons.fontAwesome('fas fa-eye'),
+    iconChecked: Icons.fontAwesome("far fa-eye"),
+    iconUnchecked: Icons.fontAwesome("fas fa-eye-slash"),
+    iconHit: Icons.fontAwesome("fas fa-eye"),
     resource: MONITORS.convergence,
   },
   anarchy: {
-    path: 'system.counters.anarchy.value',
+    path: "system.counters.anarchy.value",
     monitor: (it) => {
       return {
         value: it.system.counters.anarchy.value,
         max: 6,
       };
     },
-    iconChecked: Icons.iconSystemPath('anarchy-point.webp', 'checkbar-img'),
-    iconUnchecked: Icons.iconSystemPath('anarchy-point-off.webp', 'checkbar-img'),
+    iconChecked: Icons.iconSystemPath("anarchy-point.webp", "checkbar-img"),
+    iconUnchecked: Icons.iconSystemPath(
+      "anarchy-point-off.webp",
+      "checkbar-img",
+    ),
     resource: COUNTERS.anarchy,
   },
   plot: {
-    path: 'system.counters.anarchy.value',
+    path: "system.counters.anarchy.value",
     monitor: (it) => {
       const value = it.system.counters.anarchy.value;
       return { value: value, max: value + 1 };
     },
-    iconChecked: Icons.iconSystemPath('danger-point.webp', 'checkbar-img'),
-    iconUnchecked: Icons.iconSystemPath('danger-point-off.webp', 'checkbar-img'),
+    iconChecked: Icons.iconSystemPath("danger-point.webp", "checkbar-img"),
+    iconUnchecked: Icons.iconSystemPath(
+      "danger-point-off.webp",
+      "checkbar-img",
+    ),
     resource: COUNTERS.anarchy,
   },
   sceneAnarchy: {
-    path: 'system.counters.sceneAnarchy.value',
+    path: "system.counters.sceneAnarchy.value",
     monitor: (it) => {
       const value = it.system.counters.sceneAnarchy.value;
       return { value: value, max: 3 };
     },
-    iconChecked: Icons.iconSystemPath('anarchy-point-scene.webp', 'checkbar-img'),
-    iconUnchecked: Icons.iconSystemPath('anarchy-point-off.webp', 'checkbar-img'),
+    iconChecked: Icons.iconSystemPath(
+      "anarchy-point-scene.webp",
+      "checkbar-img",
+    ),
+    iconUnchecked: Icons.iconSystemPath(
+      "anarchy-point-off.webp",
+      "checkbar-img",
+    ),
     resource: COUNTERS.sceneAnarchy,
   },
   edge: {
-    path: 'system.counters.edge.value',
+    path: "system.counters.edge.value",
     monitor: (it) => {
       return {
         value: it.system.counters.edge.value,
         max: it.getAttributeValue(TEMPLATE.attributes.edge),
       };
     },
-    iconChecked: Icons.fontAwesome('fas fa-star'),
-    iconUnchecked: Icons.fontAwesome('far fa-star'),
+    iconChecked: Icons.fontAwesome("fas fa-star"),
+    iconUnchecked: Icons.fontAwesome("far fa-star"),
     resource: COUNTERS.edge,
   },
   credibility: {
-    path: 'system.counters.social.credibility.value',
+    path: "system.counters.social.credibility.value",
     monitor: (it) => {
       return {
         value: it.system.counters.social.credibility.value,
         max: it.system.counters.social.credibility.max,
       };
     },
-    iconChecked: Icons.fontAwesome('fas fa-handshake'),
-    iconUnchecked: Icons.fontAwesome('far fa-handshake'),
+    iconChecked: Icons.fontAwesome("fas fa-handshake"),
+    iconUnchecked: Icons.fontAwesome("far fa-handshake"),
     resource: COUNTERS.social.credibility,
   },
   rumor: {
-    path: 'system.counters.social.rumor.value',
+    path: "system.counters.social.rumor.value",
     monitor: (it) => {
       return {
         value: it.system.counters.social.rumor.value,
         max: it.system.counters.social.rumor.max,
       };
     },
-    iconChecked: Icons.fontAwesome('fas fa-grimace'),
-    iconUnchecked: Icons.fontAwesome('far fa-grimace'),
+    iconChecked: Icons.fontAwesome("fas fa-grimace"),
+    iconUnchecked: Icons.fontAwesome("far fa-grimace"),
     resource: COUNTERS.social.rumor,
   },
 };
@@ -146,8 +158,8 @@ export const CHECKBARS = foundry.utils.mergeObject(DEFAULT_CHECKBARS, {});
 
 export class Checkbars {
   static init() {
-    Handlebars.registerHelper('iconCheckbar', Checkbars.iconCheckbar);
-    Handlebars.registerHelper('iconCheckbarHit', Checkbars.iconHit);
+    Handlebars.registerHelper("iconCheckbar", Checkbars.iconCheckbar);
+    Handlebars.registerHelper("iconCheckbarHit", Checkbars.iconHit);
   }
 
   static hackCheckbars(overrides) {
@@ -159,7 +171,9 @@ export class Checkbars {
   }
 
   static iconCheckbar(monitor, checked) {
-    return checked ? Checkbars.iconChecked(monitor) : Checkbars.iconUnchecked(monitor);
+    return checked
+      ? Checkbars.iconChecked(monitor)
+      : Checkbars.iconUnchecked(monitor);
   }
 
   static iconChecked(monitor) {
@@ -216,15 +230,32 @@ export class Checkbars {
 
   static async addCounter(target, monitor, value, sourceActorId = undefined) {
     if (value != 0) {
-      const current = Checkbars.getCounterValue(target, monitor, sourceActorId) ?? 0;
-      await Checkbars.setCounter(target, monitor, current + value, sourceActorId);
+      const current =
+        Checkbars.getCounterValue(target, monitor, sourceActorId) ?? 0;
+      await Checkbars.setCounter(
+        target,
+        monitor,
+        current + value,
+        sourceActorId,
+      );
     }
   }
 
-  static async setCounter(target, monitor, value, sourceActorId = undefined, item = undefined) {
+  static async setCounter(
+    target,
+    monitor,
+    value,
+    sourceActorId = undefined,
+    item = undefined,
+  ) {
     switch (monitor) {
       case TEMPLATE.monitors.marks:
-        return await Checkbars.setActorMarks(target, value, sourceActorId, item);
+        return await Checkbars.setActorMarks(
+          target,
+          value,
+          sourceActorId,
+          item,
+        );
       case TEMPLATE.monitors.matrix:
         ErrorManager.checkMatrixMonitor(target);
         return await Checkbars.setCheckbar(target, monitor, value, item);
@@ -269,7 +300,9 @@ export class Checkbars {
 
   static async _manageOverflow(checkbar, target, monitor, value, max) {
     if (value > max) {
-      const overflowMonitor = checkbar.overflow ? checkbar.overflow(target) : undefined;
+      const overflowMonitor = checkbar.overflow
+        ? checkbar.overflow(target)
+        : undefined;
       const overflow = checkbar.recomputeOverflow
         ? checkbar.recomputeOverflow(value - max)
         : value - max;
@@ -284,9 +317,11 @@ export class Checkbars {
     ui.notifications.warn(
       game.i18n.format(ANARCHY.actor.monitors.overflow, {
         actor: target.name,
-        monitor: game.i18n.format('ANARCHY.actor.monitors.' + monitor),
+        monitor: game.i18n.format("ANARCHY.actor.monitors." + monitor),
         overflow: overflow,
-        overflowMonitor: game.i18n.format('ANARCHY.actor.monitors.' + overflowMonitor),
+        overflowMonitor: game.i18n.format(
+          "ANARCHY.actor.monitors." + overflowMonitor,
+        ),
       }),
     );
   }
@@ -309,11 +344,19 @@ export class Checkbars {
       return;
     }
 
-    await Checkbars._setAnarchyMonitor(target, TEMPLATE.monitors.anarchy, newValue);
+    await Checkbars._setAnarchyMonitor(
+      target,
+      TEMPLATE.monitors.anarchy,
+      newValue,
+    );
   }
 
   static async setSceneAnarchy(target, newValue) {
-    await Checkbars._setAnarchyMonitor(target, TEMPLATE.monitors.sceneAnarchy, newValue);
+    await Checkbars._setAnarchyMonitor(
+      target,
+      TEMPLATE.monitors.sceneAnarchy,
+      newValue,
+    );
   }
 
   static async _setAnarchyMonitor(target, monitor, newValue) {
@@ -354,22 +397,33 @@ export class Checkbars {
   }
 
   static getActorMarks(target, sourceActorId) {
-    return Checkbars._findActorMarks(target.getMatrixMarks(), sourceActorId)?.marks ?? 0;
+    return (
+      Checkbars._findActorMarks(target.getMatrixMarks(), sourceActorId)
+        ?.marks ?? 0
+    );
   }
 
   static async addActorMark(target, sourceActorId, item = undefined) {
-    const previous = Checkbars._findActorMarks(target.getMatrixMarks(), sourceActorId);
-    Checkbars.setActorMarks(target, (previous.marks ?? 0) + 1, sourceActorId, item);
+    const previous = Checkbars._findActorMarks(
+      target.getMatrixMarks(),
+      sourceActorId,
+    );
+    Checkbars.setActorMarks(
+      target,
+      (previous.marks ?? 0) + 1,
+      sourceActorId,
+      item,
+    );
   }
 
   static async setActorMarks(target, value, sourceActorId, item = undefined) {
     if (target.canReceiveMarks()) {
-      let marks = deepClone(target.getMatrixMarks());
+      let marks = foundry.utils.deepClone(target.getMatrixMarks());
       ErrorManager.checkOutOfRange(
         CHECKBARS.marks.resource,
         value,
         0,
-        Checkbars.max(target, 'marks'),
+        Checkbars.max(target, "marks"),
       );
       const sourceActorMarks = Checkbars._findActorMarks(marks, sourceActorId);
       if (sourceActorMarks.marks == undefined) {
@@ -377,12 +431,16 @@ export class Checkbars {
       }
       sourceActorMarks.marks = Math.max(0, value);
       marks = marks.filter((target) => target.marks > 0);
-      await target.setCheckbarValue('system.monitors.matrix.marks', marks);
+      await target.setCheckbarValue("system.monitors.matrix.marks", marks);
     }
   }
 
   static _findActorMarks(marks, sourceActorId) {
-    return marks.find((source) => source.actorId == sourceActorId) ?? { actorId: sourceActorId };
+    return (
+      marks.find((source) => source.actorId == sourceActorId) ?? {
+        actorId: sourceActorId,
+      }
+    );
   }
 
   static getActorConvergence(target) {

@@ -44,6 +44,25 @@
     
     cursor: pointer;
     
+    // Glass theme: Neon Checkboxes
+    .style-darkglass &,
+    .style-darkglass & {
+      &[data-checked='true'] i {
+        color: var(--interactive-primary);
+        text-shadow: 0 0 5px var(--interactive-primary);
+      }
+      
+      &[data-checked='false'] i {
+        color: var(--text-muted);
+        opacity: 0.5;
+      }
+      
+      &:hover i {
+        color: var(--interactive-primary-hover);
+        text-shadow: 0 0 8px var(--interactive-primary);
+      }
+    }
+    
     &[data-checked='true'] i {
       color: var(--anarchy-color-monitor-checked, red);
     }
@@ -218,6 +237,24 @@
       border: 1px solid var(--border-primary);
       cursor: pointer;
       
+      // Glass theme: Health Boxes
+      .style-darkglass &,
+      .style-darkglass & {
+        background: transparent;
+        border: 1px solid var(--border-subtle);
+        
+        &.filled {
+          background: var(--state-error);
+          box-shadow: 0 0 8px var(--state-error);
+          border-color: var(--state-error);
+        }
+        
+        &:hover {
+          border-color: var(--interactive-primary);
+          box-shadow: 0 0 5px var(--interactive-primary);
+        }
+      }
+      
       &.filled {
         background: var(--state-error);
       }
@@ -234,10 +271,22 @@
   
   &.physical-monitor .health-box.filled {
     background: var(--state-error);
+    
+    .style-darkglass &,
+    .style-darkglass & {
+      background: var(--state-error);
+      box-shadow: 0 0 8px var(--state-error);
+    }
   }
   
   &.stun-monitor .health-box.filled {
     background: var(--state-warning);
+    
+    .style-darkglass &,
+    .style-darkglass & {
+      background: var(--state-warning);
+      box-shadow: 0 0 8px var(--state-warning);
+    }
   }
 }
 
@@ -328,19 +377,19 @@
 // =============================================================================
 
 // Responsive monitor layout
-@media (min-width: 576px) {
+@media (width >= 576px) {
   .monitors-row {
     @include flex-container(row, flex-start, space-evenly);
   }
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .anarchy-monitor {
     min-width: 5rem;
   }
 }
 
-@media (min-width: 992px) {
+@media (width >= 992px) {
   .monitors-row {
     gap: var(--space-lg);
   }

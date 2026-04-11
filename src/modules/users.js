@@ -1,9 +1,9 @@
-import { ANARCHY } from './config.js';
-import { ErrorManager } from './error-manager.js';
-import { Misc } from './misc.js';
-import { RemoteCall } from './remotecall.js';
+import { ANARCHY } from "./core/config.js";
+import { ErrorManager } from "./core/errors.js";
+import { Misc } from "./core/utils.js";
+import { RemoteCall } from "./remotecall.js";
 
-const BLIND_MESSAGE_TO_GM = 'Users.blindMessageToGM';
+const BLIND_MESSAGE_TO_GM = "Users.blindMessageToGM";
 
 export class AnarchyUsers {
   static init() {
@@ -17,7 +17,7 @@ export class AnarchyUsers {
     if (!RemoteCall.call(BLIND_MESSAGE_TO_GM, message)) {
       ChatMessage.create({
         user: message.user,
-        whisper: ChatMessage.getWhisperRecipients('GM'),
+        whisper: ChatMessage.getWhisperRecipients("GM"),
         blind: true,
         content: game.i18n.format(ANARCHY.chat.blindMessageToGM, {
           user: game.user.name,
@@ -52,7 +52,9 @@ export class AnarchyUsers {
     }
     return (
       AnarchyUsers.getUsers(
-        (u) => u.active && document.testUserPermission(u, CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER),
+        (u) =>
+          u.active &&
+          document.testUserPermission(u, CONST.DOCUMENT_OWNERSHIP_LEVELS.OWNER),
       ) == game.user
     );
   }

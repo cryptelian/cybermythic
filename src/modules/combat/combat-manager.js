@@ -1,16 +1,21 @@
-import { ActorDamageManager } from '../actor/actor-damage.js';
+import { ActorDamageManager } from "../actor/actor-damage.js";
 import {
   ChatManager,
   CAN_USE_EDGE,
   MESSAGE_DATA,
   OWNING_ACTOR,
   PARENT_MESSAGE_ID,
-} from '../chat/chat-manager.js';
-import { ANARCHY } from '../config.js';
-import { ANARCHY_SYSTEM, SYSTEM_SCOPE, TEMPLATES_PATH } from '../constants.js';
-import { RollManager } from '../roll/roll-manager.js';
+} from "../chat/chat-manager.js";
+import { ANARCHY } from "../core/config.js";
+import {
+  ANARCHY_SYSTEM,
+  SYSTEM_SCOPE,
+  templatePath,
+} from "../core/constants.js";
+import { RollManager } from "../roll/roll-manager.js";
+import { renderTemplateSafe } from "../handlebars-utils.js";
 
-const TEMPLATE_INFORM_DEFENDER = `${TEMPLATES_PATH}/combat/inform-defender.hbs`;
+const TEMPLATE_INFORM_DEFENDER = templatePath("combat", "inform-defender.hbs");
 
 export class CombatManager {
   async manageCombat(roll) {
@@ -51,7 +56,8 @@ export class CombatManager {
     const defender = this.getTokenActor(defenderTokenId);
 
     const attackHits = attackRoll.roll.total;
-    const defenseHits = defenseRoll?.roll.total ?? defensePilotRoll?.roll.total ?? 0;
+    const defenseHits =
+      defenseRoll?.roll.total ?? defensePilotRoll?.roll.total ?? 0;
     const attack = {
       attackerTokenId: attackerTokenId,
       defenderTokenId: defenderTokenId,
@@ -89,7 +95,7 @@ export class CombatManager {
     const notifyMessage = await ChatMessage.create({
       user: game.user.id,
       whisper: defender.getAllowedUserIds(defender.getRightToDefend()),
-      content: await foundry.applications.handlebars.renderTemplate(
+      content: await renderTemplateSafe(
         TEMPLATE_INFORM_DEFENDER,
         foundry.utils.mergeObject(
           {
@@ -121,11 +127,13 @@ export class CombatManager {
   }
 
   _preventObsoleteChoices(roll) {
-    const defenseChoiceChatMessage = game.messages.get(roll.choiceChatMessageId);
+    const defenseChoiceChatMessage = game.messages.get(
+      roll.choiceChatMessageId,
+    );
     if (defenseChoiceChatMessage) {
       // prevent edge on attack, remove the previous defense message
       const attackChatMessageId =
-        defenseChoiceChatMessage.getFlag(SYSTEM_SCOPE, PARENT_MESSAGE_ID) ?? '';
+        defenseChoiceChatMessage.getFlag(SYSTEM_SCOPE, PARENT_MESSAGE_ID) ?? "";
       const attackChatMessage = game.messages.get(attackChatMessageId);
       attackChatMessage?.setFlag(SYSTEM_SCOPE, CAN_USE_EDGE, false);
       ChatManager.removeChatMessage(roll.choiceChatMessageId);

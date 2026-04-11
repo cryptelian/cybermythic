@@ -1,28 +1,29 @@
-import { ANARCHY } from '../config.js';
-import { ANARCHY_SYSTEM, TEMPLATE, TEMPLATES_PATH } from '../constants.js';
-import { Enums } from '../enums.js';
-import { Misc } from '../misc.js';
-import { DiceCursor } from './dice-cursor.js';
-import { ROLL_PARAMETER_CATEGORY } from './roll-parameters.js';
+import { ANARCHY } from "../core/config.js";
+import { ANARCHY_SYSTEM, TEMPLATE, templatePath } from "../core/constants.js";
+import { Enums } from "../core/enums.js";
+import { Misc } from "../core/utils.js";
+import { DiceCursor } from "./dice-cursor.js";
+import { ROLL_PARAMETER_CATEGORY } from "./roll-parameters.js";
+import { loadTemplatesSafe, renderTemplateSafe } from "../handlebars-utils.js";
+import { AnarchyApplicationV2 } from "../app/application-v2.js";
 
-/**
- * Extend the base Dialog to select roll parameters
- * @extends {Dialog}
- */
-export class RollDialog extends Dialog {
+const TEMPLATE_PATH_ROLL = templatePath("roll", "roll-dialog.hbs");
+const TEMPLATE_PATH_TITLE = templatePath("roll", "roll-dialog-title.hbs");
+
+export class RollDialog extends AnarchyApplicationV2 {
   static init() {
-    Hooks.once('ready', async () => await this.onReady());
+    Hooks.once("ready", async () => await this.onReady());
   }
 
   static async onReady() {
-    await loadTemplates([
-      'systems/anarchy/templates/roll/roll-parameters-category.hbs',
-      'systems/anarchy/templates/roll/parts/generic.hbs',
-      'systems/anarchy/templates/roll/parts/image-attribute.hbs',
-      'systems/anarchy/templates/roll/parts/image-attributeAction.hbs',
-      'systems/anarchy/templates/roll/parts/image-defense.hbs',
-      'systems/anarchy/templates/roll/parts/image-skill.hbs',
-      'systems/anarchy/templates/roll/parts/image-weapon.hbs',
+    await loadTemplatesSafe([
+      templatePath("roll", "roll-parameters-category.hbs"),
+      templatePath("roll", "parts", "generic.hbs"),
+      templatePath("roll", "parts", "image-attribute.hbs"),
+      templatePath("roll", "parts", "image-attributeAction.hbs"),
+      templatePath("roll", "parts", "image-defense.hbs"),
+      templatePath("roll", "parts", "image-skill.hbs"),
+      templatePath("roll", "parts", "image-weapon.hbs"),
     ]);
   }
 
@@ -37,74 +38,84 @@ export class RollDialog extends Dialog {
     };
   }
 
-  static async rollAttribute(actor, attribute) {
-    const rollData = foundry.utils.mergeObject(RollDialog.prepareActorRoll(actor), {
-      mode: ANARCHY_SYSTEM.rollType.attribute,
-      attribute1: attribute,
-    });
-    await RollDialog.create(rollData);
-  }
-
   static async rollAttributeAction(actor, action) {
-    const rollData = foundry.utils.mergeObject(RollDialog.prepareActorRoll(actor), {
-      mode: ANARCHY_SYSTEM.rollType.attributeAction,
-      attributeAction: action.code,
-      attribute1: action.attributeFunction1(actor),
-      attribute2: action.attributeFunction2(actor),
-    });
+    const rollData = foundry.utils.mergeObject(
+      RollDialog.prepareActorRoll(actor),
+      {
+        mode: ANARCHY_SYSTEM.rollType.attributeAction,
+        attributeAction: action.code,
+        attribute1: action.attributeFunction1(actor),
+        attribute2: action.attributeFunction2(actor),
+      },
+    );
     await RollDialog.create(rollData);
   }
 
   static async rollAttribute(actor, attribute) {
-    const rollData = foundry.utils.mergeObject(RollDialog.prepareActorRoll(actor), {
-      mode: ANARCHY_SYSTEM.rollType.attribute,
-      attribute1: attribute,
-    });
+    const rollData = foundry.utils.mergeObject(
+      RollDialog.prepareActorRoll(actor),
+      {
+        mode: ANARCHY_SYSTEM.rollType.attribute,
+        attribute1: attribute,
+      },
+    );
     await RollDialog.create(rollData);
   }
 
   static async rollSkill(actor, skill, specialization) {
-    const rollData = foundry.utils.mergeObject(RollDialog.prepareActorRoll(actor), {
-      mode: ANARCHY_SYSTEM.rollType.skill,
-      skill: skill,
-      attribute1: skill?.system.attribute ?? TEMPLATE.attributes.agility,
-      specialization: specialization,
-    });
+    const rollData = foundry.utils.mergeObject(
+      RollDialog.prepareActorRoll(actor),
+      {
+        mode: ANARCHY_SYSTEM.rollType.skill,
+        skill: skill,
+        attribute1: skill?.system.attribute ?? TEMPLATE.attributes.agility,
+        specialization: specialization,
+      },
+    );
     await RollDialog.create(rollData);
   }
 
   static async rollWeapon(actor, skill, weapon, targeting) {
-    const rollData = foundry.utils.mergeObject(RollDialog.prepareActorRoll(actor), {
-      mode: ANARCHY_SYSTEM.rollType.weapon,
-      weapon: weapon,
-      skill: skill,
-      attribute1: skill?.system.attribute ?? actor.getPhysicalAgility(),
-      specialization: skill?.system.specialization,
-      targeting: targeting,
-    });
+    const rollData = foundry.utils.mergeObject(
+      RollDialog.prepareActorRoll(actor),
+      {
+        mode: ANARCHY_SYSTEM.rollType.weapon,
+        weapon: weapon,
+        skill: skill,
+        attribute1: skill?.system.attribute ?? actor.getPhysicalAgility(),
+        specialization: skill?.system.specialization,
+        targeting: targeting,
+      },
+    );
     await RollDialog.create(rollData);
   }
 
   static async rollDefense(actor, action, attack, pilot = undefined) {
-    const rollData = foundry.utils.mergeObject(RollDialog.prepareActorRoll(actor), {
-      mode: ANARCHY_SYSTEM.rollType.defense,
-      attribute1: action.attributeFunction1(actor),
-      attribute2: action.attributeFunction2(actor),
-      defenseAction: action.code,
-      attackRoll: attack.attackRoll,
-      tokenId: attack.defenderTokenId,
-      choiceChatMessageId: attack.choiceChatMessageId,
-    });
+    const rollData = foundry.utils.mergeObject(
+      RollDialog.prepareActorRoll(actor),
+      {
+        mode: ANARCHY_SYSTEM.rollType.defense,
+        attribute1: action.attributeFunction1(actor),
+        attribute2: action.attributeFunction2(actor),
+        defenseAction: action.code,
+        attackRoll: attack.attackRoll,
+        tokenId: attack.defenderTokenId,
+        choiceChatMessageId: attack.choiceChatMessageId,
+      },
+    );
     await RollDialog.create(rollData);
   }
 
   static async itemAttributeRoll(item, attribute) {
-    const rollData = foundry.utils.mergeObject(RollDialog.prepareActorRoll(item.actor), {
-      mode: ANARCHY_SYSTEM.rollType.attribute,
-      item: item,
-      attribute1: attribute,
-      attributes: item.actor.getUsableAttributes(item),
-    });
+    const rollData = foundry.utils.mergeObject(
+      RollDialog.prepareActorRoll(item.actor),
+      {
+        mode: ANARCHY_SYSTEM.rollType.attribute,
+        item: item,
+        attribute1: attribute,
+        attributes: item.actor.getUsableAttributes(item),
+      },
+    );
     await RollDialog.create(rollData);
   }
 
@@ -113,52 +124,88 @@ export class RollDialog extends Dialog {
       .build(roll)
       .sort(Misc.ascending((p) => p.order ?? 200));
     foundry.utils.mergeObject(roll, {
-      ENUMS: Enums.getEnums((attributeName) => roll.attributes.includes(attributeName)),
+      ENUMS: Enums.getEnums((attributeName) =>
+        roll.attributes.includes(attributeName),
+      ),
       ANARCHY: ANARCHY,
       parameters: rollParameters,
     });
 
-    const title = await foundry.applications.handlebars.renderTemplate(
-      `${TEMPLATES_PATH}/roll/roll-dialog-title.hbs`,
-      roll,
-    );
-    const html = await foundry.applications.handlebars.renderTemplate(
-      `${TEMPLATES_PATH}/roll/roll-dialog.hbs`,
-      roll,
-    );
-    new RollDialog(title, html, roll).render(true);
+    const title = await renderTemplateSafe(TEMPLATE_PATH_TITLE, roll);
+    // V2: Content is handled by template parts now, but we keep this for consistency if needed
+    // However, RollDialog uses a dynamic template part in V2.
+    const dialog = new RollDialog(roll, { title });
+    dialog.render({ focus: true });
   }
 
-  constructor(title, html, roll) {
-    const config = {
-      title: title,
-      content: html,
-      default: 'roll',
-      buttons: {
-        roll: {
-          label: game.i18n.localize(ANARCHY.common.roll.button),
-          callback: async () => await game.system.anarchy.rollManager.roll(roll),
-        },
+  constructor(roll, options = {}) {
+    super({
+      ...options,
+      window: {
+        title: options.title,
       },
-    };
-    const options = {
-      classes: [game.system.anarchy.styles.selectCssClass(), 'anarchy-dialog'],
-      width: 500,
-      height: 'fit-content',
-      'z-index': 99999,
-    };
-
-    super(config, options);
+      roll: roll,
+    });
 
     this.roll = roll;
   }
 
-  activateListeners(html) {
-    super.activateListeners(html);
-    this.html = html;
-    this.bringToTop();
+  static get DEFAULT_OPTIONS() {
+    return {
+      ...super.DEFAULT_OPTIONS,
+      classes: [
+        ...(super.DEFAULT_OPTIONS.classes ?? []),
+        game.system.anarchy.styles.selectCssClass(),
+        "anarchy-dialog",
+        "roll-dialog",
+      ],
+      window: {
+        ...super.DEFAULT_OPTIONS.window,
+        positioned: true,
+      },
+      position: {
+        width: 500,
+        height: "auto",
+      },
+    };
+  }
 
-    this.html.find('.select-attribute-parameter').change(async (event) => {
+  static PARTS = {
+    main: {
+      template: TEMPLATE_PATH_ROLL,
+    },
+  };
+
+  async _prepareContext(options) {
+    const context = await super._prepareContext(options);
+    return {
+      ...context,
+      roll: this.roll,
+      actor: this.roll.actor,
+      parameters: this.roll.parameters,
+      mode: this.roll.mode,
+    };
+  }
+
+  async activateListeners(element) {
+    await super.activateListeners?.(element);
+
+    const html = element instanceof jQuery ? element : $(element);
+    this.html = html;
+    this._bindControls(html);
+  }
+
+  _bindControls(html) {
+    const submitButton = html.find('[data-action="roll"]').first();
+    if (submitButton.length) {
+      submitButton.on("click", async (event) => {
+        event.preventDefault();
+        await game.system.anarchy.rollManager.roll(this.roll);
+        await this.close();
+      });
+    }
+
+    this.html.find(".select-attribute-parameter").change(async (event) => {
       const parameter = this._getRollParameter(event);
       const item = this._getEventItem(event, this.roll.actor);
       const selected = event.currentTarget.value;
@@ -167,7 +214,7 @@ export class RollDialog extends Dialog {
       await this._setParameterSelectedOption(parameter, selected, value);
     });
 
-    this.html.find('.check-optional').click(async (event) => {
+    this.html.find(".check-optional").click(async (event) => {
       const parameter = this._getRollParameter(event);
       parameter.onChecked(parameter, event.currentTarget.checked);
       if (parameter.category == ROLL_PARAMETER_CATEGORY.pool) {
@@ -177,13 +224,15 @@ export class RollDialog extends Dialog {
 
     this.activateDiceParameterClick();
 
-    this.html.find('input.parameter-value:not(:disabled)').on('input', async (event) => {
-      const parameter = this._getRollParameter(event);
-      const value = Number.parseInt(event.currentTarget.value) ?? 0;
-      await this._updateParameterValue(parameter, value);
-    });
+    this.html
+      .find("input.parameter-value:not(:disabled)")
+      .on("input", async (event) => {
+        const parameter = this._getRollParameter(event);
+        const value = Number.parseInt(event.currentTarget.value) ?? 0;
+        await this._updateParameterValue(parameter, value);
+      });
 
-    this.html.find('.select-option-parameter').change(async (event) => {
+    this.html.find(".select-option-parameter").change(async (event) => {
       const parameter = this._getRollParameter(event);
       const selected = event.currentTarget.value;
       const value = Number.parseInt(selected);
@@ -192,11 +241,13 @@ export class RollDialog extends Dialog {
   }
 
   activateDiceParameterClick() {
-    this.html.find('.input-cursor-parameter a').click(async (event) => {
+    this.html.find(".input-cursor-parameter a").on("click", async (event) => {
       const parameter = this._getRollParameter(event);
       if (parameter.flags?.editDice) {
         const clickedValue =
-          Number.parseInt(this.html.find(event.currentTarget).attr('data-dice')) ?? 0;
+          Number.parseInt(
+            this.html.find(event.currentTarget).attr("data-dice"),
+          ) ?? 0;
         const value =
           parameter.value != clickedValue || clickedValue == 0
             ? clickedValue
@@ -218,7 +269,9 @@ export class RollDialog extends Dialog {
     parameter.onValue(parameter, value);
 
     this.html
-      .find(`.parameter[data-parameter-code='${parameter.code}'] .parameter-value`)
+      .find(
+        `.parameter[data-parameter-code='${parameter.code}'] .parameter-value`,
+      )
       .text(value);
 
     const diceCursorHtml = await this.renderDiceCursor(parameter);
@@ -252,15 +305,18 @@ export class RollDialog extends Dialog {
   }
 
   _getEventItem(event, actor) {
-    const itemId = this.html.find(event.currentTarget).closest('.parameter').attr('data-item-id');
+    const itemId = this.html
+      .find(event.currentTarget)
+      .closest(".parameter")
+      .attr("data-item-id");
     return itemId ? actor.items.get(itemId) : undefined;
   }
 
   _getRollParameter(event) {
     const code = this.html
       .find(event.currentTarget)
-      .closest('.parameter')
-      .attr('data-parameter-code');
+      .closest(".parameter")
+      .attr("data-parameter-code");
     return this.roll.parameters.find((it) => it.code == code);
   }
 }

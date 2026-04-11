@@ -1,27 +1,52 @@
-import { ANARCHY } from '../config.js';
-import { AnarchyActorSheet } from './anarchy-actor-sheet.js';
-import { TEMPLATES_PATH } from '../constants.js';
+import { ANARCHY } from "../core/config.js";
+import { AnarchyActorSheet } from "./sheet.js";
+import { templatePath } from "../core/constants.js";
 
 export class CharacterBaseSheet extends AnarchyActorSheet {
+  /** V2 PARTS - defines the template for this sheet */
+  static PARTS = {
+    main: {
+      template: templatePath("actor", "character.hbs"),
+      scrollable: [".window-content"],
+    },
+  };
+
   get template() {
-    return `${TEMPLATES_PATH}/actor/character.hbs`;
+    return templatePath("actor", "character.hbs");
   }
 
   /** @override */
-  static get defaultOptions() {
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      width: 720,
-      height: 700,
-      tabs: [{ navSelector: '.sheet-tabs', contentSelector: '.sheet-body', initial: 'main' }],
+  static get DEFAULT_OPTIONS() {
+    return foundry.utils.mergeObject(super.DEFAULT_OPTIONS, {
+      position: {
+        width: 720,
+        height: 700,
+      },
+      tabs: [
+        {
+          navSelector: ".sheet-tabs",
+          contentSelector: ".sheet-body",
+          initial: "main",
+        },
+      ],
     });
   }
 
-  getData(options) {
+  /** @deprecated Use DEFAULT_OPTIONS */
+  static get defaultOptions() {
+    return this.DEFAULT_OPTIONS;
+  }
+
+  async getData(options) {
     if (this.viewMode == undefined) {
       this.viewMode = true;
     }
+    // Call parent getData() to get base context
+    const parentData = await super.getData(options);
+
+    // Add essence data for templates
     const essence = this.actor.computeEssence();
-    const hbsData = foundry.utils.mergeObject(super.getData(options), {
+    const hbsData = foundry.utils.mergeObject(parentData, {
       essence: {
         value: essence,
         adjust: this.actor.computeMalusEssence(essence),
@@ -38,27 +63,34 @@ export class CharacterBaseSheet extends AnarchyActorSheet {
     this.render();
   }
 
-  activateListeners(html) {
-    super.activateListeners(html);
+  async activateListeners(element) {
+    const html = element instanceof jQuery ? element : $(element);
 
-    html.find('.click-toggle-view-mode').click(async (event) => this.toggleViewMode());
+    await super.activateListeners?.(html);
+
+    html
+      .find(".click-toggle-view-mode")
+      .on("click", async () => this.toggleViewMode());
 
     // cues, dispositions, keywords
-    html.find('.click-word-add').click(async (event) => {
+    html.find(".click-word-add").on("click", async (event) => {
       event.stopPropagation();
       this.createNewWord(this.getEventWordType(event));
     });
 
-    html.find('.click-word-say').click(async (event) => {
+    html.find(".click-word-say").on("click", async (event) => {
       event.stopPropagation();
-      this.actor.sayWord(this.getEventWordType(event), this.getEventWordId(event));
+      this.actor.sayWord(
+        this.getEventWordType(event),
+        this.getEventWordId(event),
+      );
     });
 
-    html.find('.change-word-value').click(async (event) => {
+    html.find(".change-word-value").on("click", async (event) => {
       event.stopPropagation();
     });
 
-    html.find('.change-word-value').change(async (event) => {
+    html.find(".change-word-value").on("change", async (event) => {
       event.stopPropagation();
       const newWordValue = event.currentTarget.value;
       await this.actor.updateWord(
@@ -68,12 +100,15 @@ export class CharacterBaseSheet extends AnarchyActorSheet {
       );
     });
 
-    html.find('.click-word-delete').click(async (event) => {
+    html.find(".click-word-delete").on("click", async (event) => {
       event.stopPropagation();
-      this.actor.deleteWord(this.getEventWordType(event), this.getEventWordId(event));
+      this.actor.deleteWord(
+        this.getEventWordType(event),
+        this.getEventWordId(event),
+      );
     });
 
-    html.find('.click-celebrity-roll').click(async (event) => {
+    html.find(".click-celebrity-roll").on("click", async (event) => {
       event.stopPropagation();
       this.actor.rollCelebrity();
     });
@@ -85,10 +120,14 @@ export class CharacterBaseSheet extends AnarchyActorSheet {
   }
 
   getEventWordType(event) {
-    return $(event.currentTarget).closest('.define-wordType').attr('data-word-type');
+    return $(event.currentTarget)
+      .closest(".define-wordType")
+      .attr("data-word-type");
   }
 
   getEventWordId(event) {
-    return $(event.currentTarget).closest('.define-wordType').attr('data-word-id');
+    return $(event.currentTarget)
+      .closest(".define-wordType")
+      .attr("data-word-id");
   }
 }

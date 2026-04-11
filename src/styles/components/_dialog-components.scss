@@ -15,11 +15,31 @@
   color: var(--text-primary);
   border-radius: var(--border-radius-lg);
   
+  // Glass theme integration
+  .style-darkglass &,
+  &.style-darkglass {
+    background: transparent;
+    box-shadow: none;
+    border: none;
+    
+    // Ensure content within dialog has glass effect if not inherited
+    .dialog-content {
+      background: transparent;
+    }
+  }
+  
   .dialog-header {
     @include flex-container(row, center, space-between);
     @include component-spacing(var(--space-md));
     
     border-bottom: 1px solid var(--border-primary);
+    
+    // Glass theme header
+    .style-darkglass &,
+    .style-darkglass & {
+      border-bottom: 1px solid rgb(255 255 255 / 10%);
+      background: rgb(255 255 255 / 5%);
+    }
     
     h2 {
       @include heading(2);
@@ -50,6 +70,13 @@
     
     gap: var(--space-sm);
     border-top: 1px solid var(--border-primary);
+    
+    // Glass theme footer
+    .style-darkglass &,
+    .style-darkglass & {
+      border-top: 1px solid rgb(255 255 255 / 10%);
+      background: rgb(0 0 0 / 20%);
+    }
     
     .dialog-button {
       @include button-base;

@@ -1,0 +1,105 @@
+<div class="framework-body">
+  {{!-- SECTION: Attributes --}}
+  <details class="af-collapsible" {{#if sections.attributes.open}}open{{/if}}>
+    <summary>
+      <i class="fas fa-chart-bar"></i>
+      {{sections.attributes.label}}
+    </summary>
+    <div class="af-content">
+      <div class="af-attribute-grid">
+        {{#each mockAttributes}}
+        <div class="af-attribute">
+          <span class="af-attr-abbrev">{{abbrev}}</span>
+          <span class="af-attr-value">{{value}}</span>
+          <span class="af-attr-label">{{label}}</span>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+  </details>
+
+  {{!-- SECTION: Condition Monitors --}}
+  <details class="af-collapsible" {{#if sections.monitors.open}}open{{/if}}>
+    <summary>
+      <i class="fas fa-heart-pulse"></i>
+      {{sections.monitors.label}}
+    </summary>
+    <div class="af-content">
+      <div class="af-monitor-row">
+        {{#each mockMonitors}}
+        <div class="af-monitor af-monitor-{{type}}">
+          <div class="af-monitor-label">{{label}}</div>
+          <div class="af-monitor-track">
+            {{!-- Monitor boxes rendered via helper or manual loop --}}
+          </div>
+          <div class="af-monitor-value">{{value}} / {{max}}</div>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+  </details>
+
+  {{!-- SECTION: Skills --}}
+  <details class="af-collapsible" {{#if sections.skills.open}}open{{/if}}>
+    <summary>
+      <i class="fas fa-graduation-cap"></i>
+      {{sections.skills.label}}
+    </summary>
+    <div class="af-content">
+      <div class="af-skill-list">
+        {{#each mockSkills}}
+        <div class="af-skill-row">
+          <span class="af-skill-name">{{name}}</span>
+          <span class="af-skill-attr">({{attribute}})</span>
+          <span class="af-skill-value">{{value}}</span>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+  </details>
+
+  {{!-- SECTION: Gear --}}
+  <details class="af-collapsible" {{#if sections.gear.open}}open{{/if}}>
+    <summary>
+      <i class="fas fa-briefcase"></i>
+      {{sections.gear.label}}
+    </summary>
+    <div class="af-content">
+      <div class="af-gear-list">
+        {{#each mockGear}}
+        <div class="af-gear-item">
+          <i class="fas {{icon}}"></i>
+          <span class="af-gear-name">{{name}}</span>
+          <span class="af-gear-type">{{type}}</span>
+        </div>
+        {{/each}}
+      </div>
+    </div>
+  </details>
+
+  {{!-- SECTION: Debug Info --}}
+  <details class="af-collapsible" {{#if sections.debug.open}}open{{/if}}>
+    <summary>
+      <i class="fas fa-bug"></i>
+      {{sections.debug.label}}
+    </summary>
+    <div class="af-content">
+      <div class="af-debug-panel">
+        <h4>Framework Info</h4>
+        <ul>
+          <li><strong>Shell Class:</strong> AnarchyShell</li>
+          <li><strong>Sheet Class:</strong> ShellTestSheet</li>
+          <li><strong>Editable:</strong> {{isEditable}}</li>
+          <li><strong>Debug Mode:</strong> {{debug}}</li>
+        </ul>
+        <h4>CSS Variables (Theming Knobs)</h4>
+        <ul>
+          <li><code>--af-bg-window</code>: Background color</li>
+          <li><code>--af-text-primary</code>: Main text color</li>
+          <li><code>--af-space-unit</code>: Spacing (0.5rem)</li>
+          <li><code>--af-radius</code>: Border radius (4px)</li>
+        </ul>
+      </div>
+    </div>
+  </details>
+</div>

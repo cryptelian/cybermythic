@@ -1,7 +1,7 @@
-import { ICONS_PATH } from '../constants.js';
-import { TEMPLATE } from '../constants.js';
-import { MATRIX, Matrix } from '../matrix-helper.js';
-import { AnarchyBaseItem } from './anarchy-base-item.js';
+import { ICONS_PATH } from "../core/constants.js";
+import { TEMPLATE } from "../core/constants.js";
+import { MATRIX, Matrix } from "../matrix-helper.js";
+import { AnarchyBaseItem } from "./document.js";
 
 export class CyberdeckItem extends AnarchyBaseItem {
   static get defaultIcon() {
@@ -43,7 +43,9 @@ export class CyberdeckItem extends AnarchyBaseItem {
   }
 
   async nextConnectionMode() {
-    const newConnectionMode = Matrix.getNextConnectionMode(this.system.connectionMode);
-    await this.update({ 'system.connectionMode': newConnectionMode });
+    const newConnectionMode = Matrix.getNextConnectionMode(
+      this.system.connectionMode,
+    );
+    await this.update({ "system.connectionMode": newConnectionMode });
   }
 }

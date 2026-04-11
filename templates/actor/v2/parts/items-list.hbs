@@ -1,0 +1,20 @@
+<section class="items-list">
+  <div class="list-header">
+    <span class="name">Name</span>
+    <span class="controls">Controls</span>
+  </div>
+  <div class="list-body">
+    {{#each items}}
+    <div class="item-row" data-item-id="{{this.id}}">
+      <div class="item-image">
+        <img src="{{this.img}}" width="24" height="24"/>
+      </div>
+      <div class="item-name">{{this.name}}</div>
+      <div class="item-controls">
+        <a class="control" data-action="item-edit"><i class="fas fa-edit"></i></a>
+        <a class="control" data-action="item-delete"><i class="fas fa-trash"></i></a>
+      </div>
+    </div>
+    {{/each}}
+  </div>
+</section>
