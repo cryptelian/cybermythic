@@ -315,7 +315,7 @@ command: |-
         for (let token of canvas.tokens.controlled) {
           let visionType = html.find('[name="vision-type"]')[0].value || "none";
           let lightSource = html.find('[name="light-source"]')[0].value || "none";
-          let tokenSettings = duplicate(token.document);
+          let tokenSettings = foundry.utils.duplicate(token.document);
           
           console.warn('before: ');
           console.warn(tokenSettings);
