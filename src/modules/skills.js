@@ -1,6 +1,7 @@
 import { ANARCHY } from "./core/config.js";
 import {
   ANARCHY_SYSTEM,
+  iconAssetPath,
   ICONS_SKILLS_PATH,
   SYSTEM_NAME,
   SYSTEM_PATH,
@@ -279,7 +280,7 @@ export class Skills {
 
   $prepareSkill(skill) {
     skill.labelkey = skill.labelkey ?? ANARCHY.skill[skill.code];
-    skill.icon = skill.icon ?? `${SYSTEM_PATH}/icons/skills/skills.svg`;
+    skill.icon = skill.icon ?? iconAssetPath("skills", "skills.svg");
   }
 
   $validateSkillSet(skillSet) {

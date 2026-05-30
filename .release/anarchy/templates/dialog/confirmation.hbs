@@ -1,0 +1,15 @@
+<div class="anarchy-dialog confirmation-dialog">
+  <div class="confirmation-message">
+    {{{message}}}
+  </div>
+  <footer class="dialog-buttons">
+    {{#each buttons as |button action|}}
+      <button type="button"
+              class="dialog-button {{#if button.primary}}dialog-button-primary{{else}}dialog-button-secondary{{/if}}"
+              data-action="{{action}}">
+        {{#if button.icon}}<i class="{{button.icon}}"></i>{{/if}}
+        {{button.label}}
+      </button>
+    {{/each}}
+  </footer>
+</div>

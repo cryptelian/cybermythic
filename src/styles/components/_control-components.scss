@@ -72,7 +72,7 @@
       border-bottom-left-radius: 0;
     }
     
-    &:not(:first-child):not(:last-child) {
+    &:not(:first-child, :last-child) {
       border-radius: 0;
     }
   }

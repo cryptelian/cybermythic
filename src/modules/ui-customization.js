@@ -1,7 +1,8 @@
 // UI/HUD Customization System - User preference storage and runtime adjustments
 // This module provides comprehensive UI/HUD customization capabilities
 
-import { LOG_HEAD, SYSTEM_NAME } from "./core/constants.js";
+import { LOG_HEAD, SYSTEM_NAME, systemAssetPath } from "./core/constants.js";
+import { toElement } from "./ui/dom.js";
 
 /**
  * UI Customization Manager - Handles all UI/HUD customization features
@@ -431,8 +432,8 @@ export class UICustomization {
   /**
    * Background rotation and fallback
    * Priority:
-   * 1) files under systems/anarchy/img/backgrounds/
-   * 2) fallback file systems/anarchy/img/2025.10_Bckgrnd.img.01.png if present
+   * 1) files under the system `img/` package directory
+   * 2) fallback file `img/2025.10_Bckgrnd.img.01.png` if present
    * 3) transparent 1x1 png data URI
    */
   async applyBackgroundRotation() {
@@ -440,7 +441,7 @@ export class UICustomization {
       const root = document.documentElement;
 
       // Candidate list
-      const base = "/systems/anarchy/img";
+      const base = `/${systemAssetPath("img")}`;
 
       // Only probe files we actually ship to avoid noisy 404s in production logs.
       const candidateNames = [
@@ -922,7 +923,10 @@ export class UICustomization {
       app.constructor.name.includes("Sheet") ||
       app.constructor.name.includes("Dialog")
     ) {
-      this.applyCustomizationsToElement(html[0]);
+      const element = toElement(html);
+      if (element) {
+        this.applyCustomizationsToElement(element);
+      }
     }
   }
 

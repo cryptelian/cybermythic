@@ -1,4 +1,5 @@
 import { Misc } from "../core/utils.js";
+import { templatePath } from "../core/constants.js";
 import { loadTemplatesSafe, renderTemplateSafe } from "../handlebars-utils.js";
 
 const DICE_FAS_ICONS = {
@@ -22,6 +23,8 @@ const DICE_FAS_ICONS = {
   ],
 };
 
+const TEMPLATE_DICE_CURSOR = templatePath("roll", "parts", "dice-cursor.hbs");
+
 export class DiceCursor {
   static init() {
     Hooks.once("ready", async () => await this.onReady());
@@ -40,9 +43,7 @@ export class DiceCursor {
   }
 
   static async onReady() {
-    await loadTemplatesSafe([
-      "systems/anarchy/templates/roll/parts/dice-cursor.hbs",
-    ]);
+    await loadTemplatesSafe([TEMPLATE_DICE_CURSOR]);
   }
 
   static array(min, max) {
@@ -79,14 +80,11 @@ export class DiceCursor {
   }
 
   static async diceCursor({ value, min, max, editable }) {
-    return await renderTemplateSafe(
-      "systems/anarchy/templates/roll/parts/dice-cursor.hbs",
-      {
-        value,
-        min,
-        max,
-        editable,
-      },
-    );
+    return await renderTemplateSafe(TEMPLATE_DICE_CURSOR, {
+      value,
+      min,
+      max,
+      editable,
+    });
   }
 }

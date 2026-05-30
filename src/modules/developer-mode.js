@@ -1,6 +1,7 @@
 import { LOG_HEAD, SYSTEM_NAME } from "./core/constants.js";
 import { StyleGuideApp } from "../framework/ui/style-guide.js";
 import { getDocumentSheetConfig } from "./document-sheet-config.js";
+import { toElement } from "./ui/dom.js";
 
 export class DeveloperMode {
   static init() {
@@ -21,7 +22,8 @@ export class DeveloperMode {
       if (devMode) return; // Dev mode on - show everything
 
       // Find and hide the shell-test option
-      const select = html[0]?.querySelector?.('select[name="type"]');
+      const root = toElement(html);
+      const select = root?.querySelector?.('select[name="type"]');
       if (!select) return;
 
       const shellTestOption = select.querySelector(
@@ -48,6 +50,7 @@ export class DeveloperMode {
       );
       const DSC = getDocumentSheetConfig();
       const ActorDoc = CONFIG.Actor?.documentClass || Actor;
+      if (!DSC?.registerSheet) return;
 
       DSC.registerSheet(ActorDoc, SYSTEM_NAME, ShellTestSheet, {
         label: "🧪 Shell Test (Framework Preview)",
@@ -65,23 +68,21 @@ export class DeveloperMode {
   }
 
   static _injectSidebarButton(html) {
-    // Locate the "Game Settings" section to append our button
-    const settingsGame = html.find("#settings-game");
+    const root = toElement(html);
+    const settingsGame = root?.querySelector("#settings-game");
+    if (!settingsGame || settingsGame.querySelector(".anarchy-dev-mode-btn")) {
+      return;
+    }
 
-    // Create the button
-    const button = $(`
-      <button class="anarchy-dev-mode-btn">
-        <i class="fas fa-terminal"></i> Anarchy Shell
-      </button>
-    `);
-
-    // Add click listener
-    button.on("click", (event) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "anarchy-dev-mode-btn";
+    button.innerHTML = '<i class="fas fa-terminal"></i> Anarchy Shell';
+    button.addEventListener("click", (event) => {
       event.preventDefault();
       new StyleGuideApp().render(true);
     });
 
-    // Insert the button at the end of the Game Settings section
     settingsGame.append(button);
   }
 }

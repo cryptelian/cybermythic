@@ -1,4 +1,6 @@
 // src/framework/ui/anarchy-shell.js
+import { templatePath } from "../../modules/core/constants.js";
+
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
 /**
@@ -28,9 +30,9 @@ export class AnarchyShell extends HandlebarsApplicationMixin(ApplicationV2) {
 
   static PARTS = {
     // Standard shell layout: Header -> Body (Scrollable) -> Footer (Optional)
-    header: { template: "systems/anarchy/templates/framework/header.hbs" },
+    header: { template: templatePath("framework", "header.hbs") },
     body: {
-      template: "systems/anarchy/templates/framework/body.hbs",
+      template: templatePath("framework", "body.hbs"),
       scrollable: [".framework-body"],
     },
   };

@@ -68,7 +68,9 @@ async function runNormalizers() {
   const start = performance.now();
   for (const pack of NORMALIZE_ORDER) {
     console.log(`[bundle] normalizing pack: ${pack}`);
-    await execNode('tools/compendium-normalizer.mjs', { env: { CMP_PACK: pack } });
+    await execNode('scripts/compendium/compendium-normalizer.mjs', {
+      env: { CMP_PACK: pack },
+    });
   }
   const elapsed = ((performance.now() - start) / 1000).toFixed(1);
   console.log(`[bundle] normalization complete in ${elapsed}s`);
@@ -95,10 +97,10 @@ async function stagePackDirs() {
 }
 
 async function packagePacks() {
-  await execNode('tools/packCompendiumsWithRewrite.mjs', {
+  await execNode('scripts/build/packCompendiumsWithRewrite.mjs', {
     env: {
       PACK_SRC: PACKS_ROOT,
-      OUT_DIR: 'dist-compendiums',
+      OUT_DIR: path.join('workspace', 'compendium', 'dist-compendiums'),
     },
   });
 }

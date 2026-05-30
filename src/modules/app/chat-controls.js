@@ -1,6 +1,9 @@
 import { renderTemplateSafe } from "../handlebars-utils.js";
 import { ANARCHY } from "../core/config.js";
+import { templatePath } from "../core/constants.js";
 import { GMRollDiceDialog } from "./gm-roll-dice-dialog.js";
+
+const TEMPLATE_CHAT_TOOLS = templatePath("app", "chat-tools.hbs");
 
 export class ChatControls {
   constructor() {
@@ -14,13 +17,15 @@ export class ChatControls {
     if (!game.user.isGM) return;
 
     console.log("Anarchy | Injecting Chat Controls");
-    const templatePath = "systems/anarchy/templates/app/chat-tools.hbs";
     const templateData = {
       title: game.i18n.localize("ANARCHY.gmManager.title"),
       rollDice: game.i18n.localize("ANARCHY.chat_actions.rollDice.title"),
       isGM: game.user.isGM,
     };
-    const templateHTML = await renderTemplateSafe(templatePath, templateData);
+    const templateHTML = await renderTemplateSafe(
+      TEMPLATE_CHAT_TOOLS,
+      templateData,
+    );
     const $chatForm = $(html).find("form.chat-form");
 
     // Ensure we don't have duplicate listeners if re-rendered

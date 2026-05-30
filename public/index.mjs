@@ -1,5 +1,7 @@
-// Production-first loader with optional dev enhancements
-// This ensures the Anarchy system always loads, even without dev server
+// Production-first loader with optional dev enhancements.
+// Foundry production installs load `dist/index.mjs` via `public/system.json`.
+// This file is copied into the package root to support local proxy/dev flows
+// and provide a last-resort manual loader during troubleshooting.
 
 window.global = window; // some dependencies expect window.global
 

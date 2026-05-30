@@ -48,6 +48,8 @@ The repository has been reorganized from a scattered structure to an organized, 
 
 | Old Path                            | New Path                                      |
 | ----------------------------------- | --------------------------------------------- |
+| `./tools/copyDist.mjs`              | `./scripts/build/copyDist.mjs`                |
+| `./tools/prepareRelease.mjs`        | `./scripts/build/prepareRelease.mjs`          |
 | `./tools/packCompendiumsToDist.mjs` | `./scripts/build/packCompendiumsToDist.mjs`   |
 | `./tools/validateSystemJson.mjs`    | `./scripts/validation/validateSystemJson.mjs` |
 | `./tools/style-analyzer.js`         | `./scripts/validation/style-analyzer.js`      |
@@ -80,6 +82,7 @@ npm run dev              # Start development
 npm run build           # Build for production
 npm run validate        # Run validations
 npm run validate:dist   # Validate the assembled dist package after build
+npm run release:prepare # Create .release artifacts from dist/
 npm run lint            # Lint code
 ```
 
@@ -169,6 +172,10 @@ npm run build:copy-dist
 
 # Test compendium management
 npm run packCompendiumsToDist
+npm run unpackCompendiumsFromDist
+
+# Test release packaging
+npm run release:prepare
 
 # Test development server
 npm run dev

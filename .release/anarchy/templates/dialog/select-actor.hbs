@@ -1,4 +1,4 @@
-<form class="anarchy-dialog select-actor">
+<div class="anarchy-dialog select-actor">
   <div class="flexcol">
     {{#each actors as |actor key|}}
       <a class="click-select-actor" data-actor-id="{{actor.id}}">
@@ -6,4 +6,10 @@
       </a>
     {{/each}}
   </div>
-</form>
+  <footer class="dialog-buttons">
+    <button type="button" data-action="cancel" class="dialog-button dialog-button-secondary">
+      <i class="fas fa-times"></i>
+      {{localize 'ANARCHY.common.cancel'}}
+    </button>
+  </footer>
+  </div>

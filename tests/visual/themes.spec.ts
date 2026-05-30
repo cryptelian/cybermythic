@@ -1,15 +1,16 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
 
 const themeCss = [
-  'public/style/anarchy.css',
-  'public/style/anarchy-shadowrun.css',
-  'public/style/anarchy-dark.css',
-  'public/style/anarchy-darkglass.css',
+  "public/style/anarchy.css",
+  "public/style/anarchy-shadowrun.css",
+  "public/style/anarchy-dark.css",
+  "public/style/anarchy-darkglass.css",
 ];
 
 themeCss.forEach((cssPath) => {
   test(`theme: ${cssPath}`, async ({ page }) => {
-    await page.goto('/');
+    const snapshotName = `${cssPath.replace(/[/.]/g, "-")}.png`;
+    await page.goto("/");
     await page.addStyleTag({ path: cssPath });
     await page.setContent(
       `
@@ -25,8 +26,11 @@ themeCss.forEach((cssPath) => {
         <div class="content">Theme preview</div>
       </div>
     `,
-      { waitUntil: 'domcontentloaded' },
+      { waitUntil: "domcontentloaded" },
     );
-    await expect(page.locator('.wrapper-hexabox')).toHaveScreenshot({ maxDiffPixelRatio: 0.02 });
+    await expect(page.locator(".wrapper-hexabox")).toHaveScreenshot(
+      snapshotName,
+      { maxDiffPixelRatio: 0.02 },
+    );
   });
 });

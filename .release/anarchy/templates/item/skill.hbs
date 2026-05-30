@@ -25,9 +25,8 @@
     <div class="form-group">
       <label for="system.attribute">{{localize 'ANARCHY.item.skill.attribute'}} </label>
       <select class="item-field-value" name="system.attribute" data-dtype="String">
-        {{#select system.attribute}}
-        {{> 'systems/anarchy/templates/common/enum-value-label.hbs' entries=ENUMS.attributes}}
-        {{/select}}
+        {{selectOptions ENUMS.attributes selected=system.attribute localize=true name="system.attribute"
+        class="select-attribute" data-dtype="String"}}
       </select>
     </div>
     <div class="form-group">

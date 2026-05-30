@@ -43,12 +43,12 @@
 // =============================================================================
 @font-face {
   font-family: Impact;
-  src: url('../fonts/Impact.ttf');
+  src: url('/fonts/Impact.ttf') format('truetype');
 }
 
 @font-face {
   font-family: BebasNeue;
-  src: url('../fonts/BebasNeue.ttf');
+  src: url('/fonts/BebasNeue.ttf') format('truetype');
 }
 
 // =============================================================================
@@ -151,13 +151,13 @@
 }
 
 #logo {
-  content: url("../style/anarchy-logo.webp");
+  content: url("/style/anarchy-logo.webp");
   width: 100px;
   height: 57px;
 }
 
 #pause > img {
-  content: url("../style/anarchy-pause.webp");
+  content: url("/style/anarchy-pause.webp");
   height: 192px;
   width: 192px;
   top: -35px;

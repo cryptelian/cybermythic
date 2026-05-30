@@ -5,6 +5,7 @@ window.global = window; // some dependencies expect window.global
 
 (async function loadAnarchySystem() {
   const LOG_HEAD = '[ANARCHY] | ';
+  const systemId = globalThis.game?.system?.id || 'anarchy';
   
   try {
     // In production, always load the built dist/index.mjs directly
@@ -51,6 +52,8 @@ window.global = window; // some dependencies expect window.global
     // Production mode or dev mode unavailable - load the built bundle
     // This is the critical path that ensures sheets always load
     console.log(LOG_HEAD + 'Loading production bundle');
+    // NOTE: In the dist build, this file is at root, so dist/index.mjs is at ./dist/index.mjs relative to it
+    // But since we copy everything to dist/, the relative path remains ./dist/index.mjs
     await import('./dist/index.mjs');
     console.log(LOG_HEAD + 'Production bundle loaded successfully');
     
@@ -60,7 +63,7 @@ window.global = window; // some dependencies expect window.global
     // Last resort - try to load dist directly with full path
     try {
       console.warn(LOG_HEAD + 'Attempting emergency fallback to dist/index.mjs');
-      await import('/systems/anarchy/dist/index.mjs');
+      await import(`/systems/${systemId}/dist/index.mjs`);
       console.log(LOG_HEAD + 'Emergency fallback successful');
     } catch (fallbackError) {
       console.error(LOG_HEAD + 'Complete system load failure', fallbackError);

@@ -22,9 +22,8 @@
       <div class="form-group">
         <label for="system.skill">{{localize 'ANARCHY.item.weapon.skill'}} </label>
         <select class="select-weapon-skill" name="system.skill" data-dtype="String">
-            {{#select system.skill}}
-            {{> 'systems/anarchy/templates/common/enum-value-label.hbs' entries=ENUMS.skills}}
-            {{/select}}
+            {{selectOptions ENUMS.skills selected=system.skill localize=true name="system.skill" class="select-weapon-skill"
+            data-dtype="String"}}
         </select>
       </div>
       {{#if hasDrain}}
@@ -45,9 +44,8 @@
           />
           <span>+
           <select name="system.damageAttribute" data-dtype="String">
-              {{#select system.damageAttribute}}
-              {{> 'systems/anarchy/templates/common/enum-value-label.hbs' entries=ENUMS.attributes}}
-              {{/select}}
+              {{selectOptions ENUMS.attributes selected=system.damageAttribute localize=true name="system.damageAttribute"
+              class="select-attribute" data-dtype="String"}}
           </select>
           /2</span>
         </div>
@@ -63,9 +61,7 @@
         </label>
         <div>
           <select name="system.monitor" data-dtype="String">
-            {{#select system.monitor}}
-            {{> 'systems/anarchy/templates/common/enum-value-label.hbs' entries=ENUMS.monitors}}
-            {{/select}}
+            {{selectOptions ENUMS.monitors selected=system.monitor localize=true}}
           </select>
 
           <input class="item-field-value" name="system.noArmor" type="checkbox" {{checked system.noArmor}}>
@@ -76,24 +72,20 @@
       <div class="form-group">
         <label for="system.area" >{{localize 'ANARCHY.item.weapon.area'}} </label>
         <select name="system.area" data-dtype="String">
-          {{#select system.area}}
-          {{> 'systems/anarchy/templates/common/enum-value-label.hbs' entries=ENUMS.areas}}
-          {{/select}}
+          {{selectOptions ENUMS.areas selected=system.area localize=true}}
         </select>
       </div>
       <div class="form-group">
           <label for="system.defense" >{{localize 'ANARCHY.item.weapon.defense'}} </label>
           <select name="system.defense">
-            {{selectOptions ENUMS.defenses selected=(fixedDefenseCode system.defense)
-            nameAttr="code" labelAttr="labelkey" localize=true blank=''}}
+            {{selectOptions ENUMS.defenses selected=(fixedDefenseCode system.defense) nameAttr="code" labelAttr="labelkey"
+            localize=true blank=""}}
           </select>
       </div>
       <div class="form-group">
           <label for="system.range.max" >{{localize 'ANARCHY.item.weapon.range.max'}} </label>
           <select name="system.range.max">
-            {{#select system.range.max}}
-            {{> 'systems/anarchy/templates/common/enum-value-label.hbs' entries=ENUMS.ranges}}
-            {{/select}}
+            {{selectOptions ENUMS.ranges selected=system.range.max localize=true}}
           </select>
       </div>
       <div class="form-group">

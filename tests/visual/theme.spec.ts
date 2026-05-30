@@ -1,8 +1,8 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from "@playwright/test";
 
-test('global wrapper renders correctly', async ({ page }) => {
-  await page.goto('/');
-  await page.addStyleTag({ path: 'dist/style.css' });
+test("global wrapper renders correctly", async ({ page }) => {
+  await page.goto("/");
+  await page.addStyleTag({ path: "dist/style.css" });
   await page.setContent(
     `
     <div class="wrapper-hexabox" style="--wrapper-padding: 8px; --wrapper-background-color: #fff; --wrapper-border-color: #000; width: 240px; height: 120px;">
@@ -17,11 +17,14 @@ test('global wrapper renders correctly', async ({ page }) => {
       <div class="content">Sample</div>
     </div>
   `,
-    { waitUntil: 'domcontentloaded' },
+    { waitUntil: "domcontentloaded" },
   );
 
   await page.waitForTimeout(50);
-  await expect(page.locator('.wrapper-hexabox')).toHaveScreenshot({
-    maxDiffPixelRatio: 0.01,
-  });
+  await expect(page.locator(".wrapper-hexabox")).toHaveScreenshot(
+    "global-wrapper-renders-correctly.png",
+    {
+      maxDiffPixelRatio: 0.01,
+    },
+  );
 });

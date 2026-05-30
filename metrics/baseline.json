@@ -1,36 +1,51 @@
 {
-  "timestamp": "2025-10-02T07:54:55.409Z",
-  "buildMs": 1569,
+  "timestamp": "2026-04-12T00:20:59.977Z",
+  "buildMs": null,
   "css": {
     "files": [
       {
-        "path": "dist/style/anarchy-dark.css",
-        "bytes": 8990,
-        "gzipBytes": 1751
+        "path": "dist\\dist\\style.css",
+        "bytes": 152929,
+        "gzipBytes": 19103
       },
       {
-        "path": "dist/style/anarchy-darkglass.css",
-        "bytes": 12013,
-        "gzipBytes": 2218
+        "path": "dist\\style\\anarchy-dark.css",
+        "bytes": 50130,
+        "gzipBytes": 5229
       },
       {
-        "path": "dist/style/anarchy-shadowrun.css",
-        "bytes": 9045,
-        "gzipBytes": 1635
+        "path": "dist\\style\\anarchy-darkglass.css",
+        "bytes": 50130,
+        "gzipBytes": 5229
       },
       {
-        "path": "dist/style/anarchy.css",
-        "bytes": 22549,
-        "gzipBytes": 4729
+        "path": "dist\\style\\anarchy-shadowrun.css",
+        "bytes": 50130,
+        "gzipBytes": 5229
       },
       {
-        "path": "dist/style.css",
-        "bytes": 49846,
-        "gzipBytes": 5100
+        "path": "dist\\style\\anarchy.css",
+        "bytes": 50130,
+        "gzipBytes": 5229
+      },
+      {
+        "path": "dist\\style\\compiled.css",
+        "bytes": 135487,
+        "gzipBytes": 14922
+      },
+      {
+        "path": "dist\\style\\critical.css",
+        "bytes": 3519,
+        "gzipBytes": 1027
+      },
+      {
+        "path": "dist\\style.css",
+        "bytes": 50130,
+        "gzipBytes": 5229
       }
     ],
-    "totalBytes": 102443,
-    "totalGzipBytes": 15433
+    "totalBytes": 542585,
+    "totalGzipBytes": 61197
   },
   "system": {
     "id": "anarchy",
@@ -41,7 +56,7 @@
     }
   },
   "git": {
-    "tag": null,
-    "commit": "7921425"
+    "tag": "backup-pre-cleanup-",
+    "commit": "4d3a5a7"
   }
 }

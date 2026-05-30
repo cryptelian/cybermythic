@@ -1,6 +1,8 @@
 // src/framework/ui/shell-test-sheet.js
-const { HandlebarsApplicationMixin } = foundry.applications.api;
-const { DocumentSheetV2 } = foundry.applications.sheets;
+import { templatePath } from "../../modules/core/constants.js";
+
+const { DocumentSheetV2, HandlebarsApplicationMixin } =
+  foundry.applications.api;
 
 /**
  * A test sheet for visualizing and testing the AnarchyShell UI container.
@@ -38,10 +40,10 @@ export class ShellTestSheet extends HandlebarsApplicationMixin(
 
   static PARTS = {
     header: {
-      template: "systems/anarchy/templates/framework/shell-test-header.hbs",
+      template: templatePath("framework", "shell-test-header.hbs"),
     },
     body: {
-      template: "systems/anarchy/templates/framework/shell-test-body.hbs",
+      template: templatePath("framework", "shell-test-body.hbs"),
       scrollable: [".framework-body"],
     },
   };

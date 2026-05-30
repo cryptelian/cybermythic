@@ -2,10 +2,6 @@ import { ANARCHY } from "../core/config.js";
 import { Enums } from "../core/enums.js";
 import { Misc } from "../core/utils.js";
 
-function mergeContext(base, extra = {}) {
-  return foundry.utils.mergeObject(base, extra, { inplace: false });
-}
-
 function getThemeClass() {
   return (
     game.system.anarchy?.styles?.selectCssClass?.() ?? "style-anarchy-shadowrun"
@@ -72,62 +68,65 @@ export function createApplicationContext(
   scope = "application",
 ) {
   const uiCustomization = getUiCustomizationContext(scope);
-  return mergeContext(
-    {
-      title: application.title,
-      document: application.document,
-      options: createUiOptions(
-        application,
-        context.options,
-        uiCustomization.customizationClasses,
-      ),
-      ANARCHY,
-      ...getThemeContext(),
-    },
-    {
-      ...context,
-      uiCustomizations: uiCustomization.uiCustomizations,
-    },
-  );
+  const {
+    options: contextOptions,
+    uiCustomizations: _ignoredUiCustomizations,
+    ...restContext
+  } = context;
+
+  return {
+    ...restContext,
+    title: application.title,
+    document: application.document,
+    options: createUiOptions(
+      application,
+      contextOptions,
+      uiCustomization.customizationClasses,
+    ),
+    ANARCHY,
+    ...getThemeContext(),
+    uiCustomizations: uiCustomization.uiCustomizations,
+  };
 }
 
 export function createActorSheetContext(sheet, context = {}) {
   const actor = sheet.actor;
   const uiCustomization = getUiCustomizationContext("actor");
-  const options = createUiOptions(sheet, context.options, [
-    `actor-${actor.type}`,
-    ...uiCustomization.customizationClasses,
-  ]);
+  const {
+    items: _ignoredItems,
+    options: contextOptions,
+    uiCustomizations: _ignoredUiCustomizations,
+    ...restContext
+  } = context;
   const enums = Enums.getEnums();
 
-  const merged = mergeContext(
-    {
-      actor,
-      document: sheet.document,
-      data: sheet.document,
-      system: actor.system,
-      items: {},
-      anarchy: actor.getAnarchy?.() ?? { value: 0, max: 0, scene: 0 },
-      ownerActor: actor.getOwnerActor?.() ?? null,
-      ownedActors: actor.getOwnedActors?.() ?? [],
-      options,
-      ENUMS: foundry.utils.mergeObject(
-        {
-          attributeAction: actor.getAttributeActions?.() ?? [],
-          capacity: enums.capacities,
-          shadowampCapacity: enums.capacities,
-          defenses: Enums.mapObjetToKeyValue(ANARCHY.defense),
-        },
-        enums,
-      ),
-      ANARCHY,
-      ...getThemeContext(),
-    },
-    {
-      ...context,
-      uiCustomizations: uiCustomization.uiCustomizations,
-    },
-  );
+  const merged = {
+    ...restContext,
+    actor,
+    document: sheet.document,
+    data: sheet.document,
+    system: actor.system,
+    items: {},
+    anarchy: actor.getAnarchy?.() ?? { value: 0, max: 0, scene: 0 },
+    ownerActor: actor.getOwnerActor?.() ?? null,
+    ownedActors: actor.getOwnedActors?.() ?? [],
+    options: createUiOptions(sheet, contextOptions, [
+      `actor-${actor.type}`,
+      ...uiCustomization.customizationClasses,
+    ]),
+    ENUMS: foundry.utils.mergeObject(
+      {
+        attributeAction: actor.getAttributeActions?.() ?? [],
+        capacity: enums.capacities,
+        shadowampCapacity: enums.capacities,
+        defenses: Enums.mapObjetToKeyValue(ANARCHY.defense),
+      },
+      enums,
+    ),
+    ANARCHY,
+    ...getThemeContext(),
+    uiCustomizations: uiCustomization.uiCustomizations,
+  };
 
   Misc.classifyInto(merged.items, actor.items);
   return merged;
@@ -142,32 +141,33 @@ export function createItemSheetContext(sheet, context = {}, options = {}) {
       : () => true;
   const withKnowledge = options.withKnowledge ?? item.type === "skill";
   const uiCustomization = getUiCustomizationContext("item");
+  const {
+    options: contextOptions,
+    uiCustomizations: _ignoredUiCustomizations,
+    ...restContext
+  } = context;
   const itemOptions = createUiOptions(
     sheet,
-    context.options,
+    contextOptions,
     uiCustomization.customizationClasses,
   );
   itemOptions.isGM = game.user.isGM;
   itemOptions.isOwned = item.actor != null;
 
-  return mergeContext(
-    {
-      item,
-      document: sheet.document,
-      system: item.system,
-      options: itemOptions,
-      ENUMS: foundry.utils.mergeObject(
-        Enums.getEnums(usableAttribute, withKnowledge),
-        game.system.anarchy?.modifiers?.getEnums?.() ?? {},
-      ),
-      ANARCHY,
-      ...getThemeContext(),
-    },
-    {
-      ...context,
-      uiCustomizations: uiCustomization.uiCustomizations,
-    },
-  );
+  return {
+    ...restContext,
+    item,
+    document: sheet.document,
+    system: item.system,
+    options: itemOptions,
+    ENUMS: foundry.utils.mergeObject(
+      Enums.getEnums(usableAttribute, withKnowledge),
+      game.system.anarchy?.modifiers?.getEnums?.() ?? {},
+    ),
+    ANARCHY,
+    ...getThemeContext(),
+    uiCustomizations: uiCustomization.uiCustomizations,
+  };
 }
 
 export function applyThemeClass(element) {

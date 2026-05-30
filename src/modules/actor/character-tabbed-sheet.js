@@ -1,17 +1,17 @@
-import { TEMPLATES_PATH } from "../core/constants.js";
+import { templatePath } from "../core/constants.js";
 import { CharacterBaseSheet } from "./character-base-sheet.js";
 
 export class CharacterTabbedSheet extends CharacterBaseSheet {
   /** V2 PARTS - defines the template for this sheet */
   static PARTS = {
     main: {
-      template: "systems/anarchy/templates/actor/character-tabbed.hbs",
+      template: templatePath("actor", "character-tabbed.hbs"),
       scrollable: [".window-content"],
     },
   };
 
   get template() {
-    return `${TEMPLATES_PATH}/actor/character-tabbed.hbs`;
+    return templatePath("actor", "character-tabbed.hbs");
   }
 
   /** @override */
@@ -31,8 +31,8 @@ export class CharacterTabbedSheet extends CharacterBaseSheet {
     });
   }
 
-  getData(options) {
-    let hbsData = super.getData(options);
+  async getData(options) {
+    let hbsData = await super.getData(options);
     hbsData.options.classes.push("tabbed-sheet");
     return hbsData;
   }

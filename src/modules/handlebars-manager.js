@@ -157,11 +157,22 @@ export class HandlebarsManager {
 
     // Dynamically construct paths to support any system ID (e.g. anarchy, cybermythic)
     const systemId = game.system.id;
-    const templatePaths = HBS_PARTIAL_TEMPLATES.map((path) =>
+    const legacyTemplatePaths = Misc.distinct(HBS_PARTIAL_TEMPLATES);
+    const templatePaths = legacyTemplatePaths.map((path) =>
       path.replace("systems/anarchy/", `systems/${systemId}/`),
     );
 
     await loadTemplatesSafe(Misc.distinct(templatePaths));
+
+    if (systemId !== "anarchy") {
+      legacyTemplatePaths.forEach((legacyPath, index) => {
+        const runtimePath = templatePaths[index];
+        const partial = Handlebars.partials?.[runtimePath];
+        if (partial) {
+          Handlebars.registerPartial(legacyPath, partial);
+        }
+      });
+    }
   }
 
   registerBasicHelpers() {

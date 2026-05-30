@@ -1,0 +1,25 @@
+<form class="gm-roll-dice-form">
+  <div class="gm-roll-dice instruction">
+    <label for="gm-roll-dice-count">{{instruction}}</label>
+    <input
+      id="gm-roll-dice-count"
+      class="gm-roll-dice-input"
+      name="macro-roll-count-dice"
+      type="number"
+      value="3"
+      min="1"
+      step="1"
+    />
+  </div>
+  <footer class="gm-roll-dice footer">
+    <button type="button" class="gm-roll-dice-cancel">
+      <i class="fas fa-times"></i>
+      {{cancel}}
+    </button>
+    <button type="submit" class="gm-roll-dice-submit">
+      <i class="fas fa-dice"></i>
+      {{roll}}
+    </button>
+  </footer>
+</form>
+

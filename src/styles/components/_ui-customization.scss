@@ -273,9 +273,9 @@ i.fab {
 
 // Shadow intensity scaling
 :root {
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
-  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+  --shadow-sm: 0 1px 3px rgb(0 0 0 / 10%);
+  --shadow-md: 0 4px 6px rgb(0 0 0 / 10%);
+  --shadow-lg: 0 10px 15px rgb(0 0 0 / 10%);
 }
 
 // Shadow intensity classes
@@ -402,7 +402,7 @@ i.fab {
 // =============================================================================
 
 // Responsive customization adjustments
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .ui-compact-mode {
     --spacing-scale: 0.75;
     --font-scale: 0.9;
@@ -410,7 +410,7 @@ i.fab {
   }
 }
 
-@media (max-width: 576px) {
+@media (width <= 576px) {
   .ui-compact-mode {
     --spacing-scale: 0.6;
     --font-scale: 0.85;

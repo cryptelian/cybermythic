@@ -1,7 +1,13 @@
 // UI Customization Dialog - User interface for customizing UI/HUD elements
 // This module provides a user-friendly interface for UI customization
 
-import { LOG_HEAD, SYSTEM_NAME, templatePath } from "./core/constants.js";
+import {
+  LOG_HEAD,
+  SYSTEM_NAME,
+  iconAssetPath,
+  systemAssetPath,
+  templatePath,
+} from "./core/constants.js";
 import { AnarchyApplicationV2 } from "./app/application-v2.js";
 import { renderTemplateSafe } from "./handlebars-utils.js";
 
@@ -67,6 +73,8 @@ export class UICustomizationDialog extends AnarchyApplicationV2 {
           game.user.character ||
           game.actors.find((a) => a.isOwner) ||
           game.actors.contents[0],
+        passportImage: `/${systemAssetPath("img", "sample-character.webp")}`,
+        skillIcon: `/${iconAssetPath("skills", "athletics.svg")}`,
       },
     });
 
@@ -130,8 +138,13 @@ export class UICustomizationDialog extends AnarchyApplicationV2 {
   async _onSave(event) {
     event.preventDefault();
     // Implementation of save logic
-    const formData = new FormDataExtended(this.element.querySelector("form"))
-      .object;
+    const FormDataExtendedClass = globalThis.FormDataExtended;
+    if (!FormDataExtendedClass) {
+      throw new Error("FormDataExtended is unavailable");
+    }
+    const formData = new FormDataExtendedClass(
+      this.element.querySelector("form"),
+    ).object;
 
     for (const [key, value] of Object.entries(formData)) {
       // Parse key structure if needed, e.g., "category.setting"

@@ -48,6 +48,7 @@ import { DiceCursor } from "../roll/dice-cursor.js";
 import { loadIntegrationsIfEnabled } from "../../integrations/index.js";
 import { getDocumentSheetConfig } from "../document-sheet-config.js";
 import { DeveloperMode } from "../developer-mode.js";
+import { toElement } from "../ui/dom.js";
 import {
   ACTIVE_ACTOR_SHEETS,
   ACTIVE_ITEM_SHEETS,
@@ -194,7 +195,9 @@ export class AnarchySystem {
 
     // Register sheets as early and as safely as possible so we never fall back to core sheets
     this.sheetsRegistered = false;
-    this._ensureSheetsWhenAvailable();
+    Hooks.once("setup", () => {
+      void this._ensureSheetsWhenAvailable();
+    });
 
     // Remaining feature initialization should not gate sheet availability
     Checkbars.init();
@@ -234,7 +237,7 @@ export class AnarchySystem {
   async onReady() {
     // As a backstop, ensure sheets are registered if init-time registration raced core
     if (!this.sheetsRegistered) {
-      this._ensureSheetsWhenAvailable();
+      await this._ensureSheetsWhenAvailable();
     }
 
     // Fix truncated sheet names and other database issues
@@ -285,22 +288,21 @@ export class AnarchySystem {
     );
   }
 
-  _ensureSheetsWhenAvailable() {
-    const attempt = () => {
-      try {
-        if (this.sheetsRegistered) return true;
-        this.loadActorSheets();
-        this.loadItemSheets();
-        this.sheetsRegistered = true;
-        return true;
-      } catch (e) {
-        console.error(LOG_HEAD + "Failed to register sheets", e);
-        return false;
+  async _ensureSheetsWhenAvailable() {
+    try {
+      if (this.sheetsRegistered) return true;
+      this.loadActorSheets();
+      this.loadItemSheets();
+      const DSC = getDocumentSheetConfig();
+      if (typeof DSC?.initializeSheets === "function") {
+        await DSC.initializeSheets();
       }
-    };
-
-    if (attempt()) return;
-    Hooks.once("setup", () => attempt() || Hooks.once("ready", attempt));
+      this.sheetsRegistered = true;
+      return true;
+    } catch (e) {
+      console.error(LOG_HEAD + "Failed to register sheets", e);
+      return false;
+    }
   }
 
   _registerCreationBias() {
@@ -330,7 +332,8 @@ export class AnarchySystem {
           data?.documentClass?.name ===
           (CONFIG.Item?.documentClass?.name || "Item");
         if (!isActor && !isItem) return;
-        const select = html[0]?.querySelector?.('select[name="type"]');
+        const root = toElement(html);
+        const select = root?.querySelector?.('select[name="type"]');
         if (!select) return;
         const preferredActorTypes = [
           "character",
@@ -564,7 +567,11 @@ export class AnarchySystem {
     const registerViaDSC = typeof DSC?.registerSheet === "function";
     const configRoot = documentType === "Actor" ? CONFIG.Actor : CONFIG.Item;
     const coreSheets = this._safeGetCoreSheetSettings();
-    const defaultsToApply = {};
+    const defaultsToApply = foundry.utils.duplicate(coreSheets) ?? {};
+    if (!defaultsToApply[documentType]) {
+      defaultsToApply[documentType] = {};
+    }
+    let hasDefaultUpdates = false;
     const fallbackCoreUpdates = {};
 
     sheets.forEach((sheetConfig) => {
@@ -576,8 +583,11 @@ export class AnarchySystem {
 
       if (registerViaDSC) {
         DSC.registerSheet(DocumentClass, SYSTEM_NAME, sheetConfig.class, {
+          id: sheetId,
           label,
           types: sheetConfig.types,
+          canBeDefault: true,
+          canConfigure: true,
           makeDefault: sheetConfig.makeDefault,
         });
       }
@@ -609,16 +619,14 @@ export class AnarchySystem {
 
         const coreDefault = coreSheets?.[documentType]?.[type];
         if (sheetConfig.makeDefault && coreDefault !== sheetId) {
-          defaultsToApply[`${documentType}.${type}`] = sheetId;
+          defaultsToApply[documentType][type] = sheetId;
+          hasDefaultUpdates = true;
           if (!registerViaDSC) fallbackCoreUpdates[type] = sheetId;
         }
       });
     });
 
-    if (
-      typeof DSC?.updateDefaultSheets === "function" &&
-      Object.keys(defaultsToApply).length
-    ) {
+    if (typeof DSC?.updateDefaultSheets === "function" && hasDefaultUpdates) {
       DSC.updateDefaultSheets(defaultsToApply);
     } else if (!registerViaDSC && Object.keys(fallbackCoreUpdates).length) {
       try {

@@ -5,7 +5,8 @@
       "vehicle": "Vehicle/drone",
       "device": "Matrix device",
       "sprite": "Sprite",
-      "ic": "IC"
+      "ic": "IC",
+      "shell-test": "🧪 Shell Test (Dev)"
     },
     "Item": {
       "contact": "Contact",
@@ -59,6 +60,10 @@
       "preferCoreSheets": {
         "name": "Prefer core sheets (this user)",
         "hint": "Disable render-time sheet hot-swap for this client"
+      },
+      "developerMode": {
+        "name": "Developer Mode",
+        "hint": "Enable developer options, experimental framework features, and the Anarchy Shell in the sidebar."
       }
     },
     "gmManager": {
@@ -80,7 +85,7 @@
     "chat_actions": {
       "rollDice": {
         "title": "Roll Anarchy dice",
-        "instruction": "Number of dice to roll: ",
+        "instruction": "Number of dice to roll",
         "error": "Veuillez entrer un nombre valide de dés.",
         "result": "Roll of {count}d6, {success} success! {ones} dice with a value of 1"
       }
@@ -192,9 +197,10 @@
       "gmnotes": "GM notes"
     },
     "actor": {
-      "characterSheet": "Character sheet",
-      "characterTabbedSheet": "Character sheet (tabs)",
-      "characterEnhancedSheet": "Character enhanced sheet (tabs)",
+      "characterSheet": "Character sheet (Legacy)",
+      "characterSheetV2": "Character sheet (V2)",
+      "characterTabbedSheet": "Character sheet (tabs - Legacy)",
+      "characterEnhancedSheet": "Character enhanced sheet (tabs - Legacy)",
       "vehicleSheet": "Vehicle sheet",
       "deviceSheet": "Device sheet",
       "spriteSheet": "Sprite sheet",
@@ -264,7 +270,8 @@
       "vehicle": "Vehicle",
       "device": "Device",
       "sprite": "Sprite",
-      "ic": "IC"
+      "ic": "IC",
+      "shell-test": "Shell Test"
     },
     "item": {
       "sheet": "Sheet for ",
@@ -376,6 +383,7 @@
       "special": "Special"
     },
     "attributes": {
+      "title": "Attributes",
       "strength": "Strength",
       "agility": "Agility",
       "willpower": "Willpower",

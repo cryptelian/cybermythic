@@ -1,6 +1,6 @@
 {
   "Actor": {
-    "types": ["character", "vehicle", "device", "sprite", "ic"],
+    "types": ["character", "vehicle", "device", "sprite", "ic", "shell-test"],
     "templates": {
       "description": {
         "ownerId": "",
@@ -160,7 +160,12 @@
       "cues": []
     },
     "vehicle": {
-      "templates": ["description", "matrix-monitor", "attribute-autopilot", "attribute-handling"],
+      "templates": [
+        "description",
+        "matrix-monitor",
+        "attribute-autopilot",
+        "attribute-handling"
+      ],
       "attributes": {
         "system": {
           "value": 6
@@ -195,7 +200,12 @@
       }
     },
     "sprite": {
-      "templates": ["description", "matrix-monitor", "attribute-logic", "attribute-edge"]
+      "templates": [
+        "description",
+        "matrix-monitor",
+        "attribute-logic",
+        "attribute-edge"
+      ]
     },
     "ic": {
       "templates": ["description", "matrix-monitor", "attribute-logic"],
@@ -203,6 +213,13 @@
         "firewall": {
           "value": 4
         }
+      }
+    },
+    "shell-test": {
+      "templates": ["description"],
+      "testData": {
+        "headerTitle": "Shell Test Actor",
+        "sections": ["identity", "attributes", "skills", "gear"]
       }
     }
   },

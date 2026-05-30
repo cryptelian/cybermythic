@@ -1,0 +1,21 @@
+<div class="framework-header">
+  <div class="af-avatar {{#if isEditable}}editable{{/if}}">
+    <img src="{{actor.img}}" data-edit="img" title="{{actor.name}}"/>
+  </div>
+  <div class="af-identity">
+    <h1 class="af-title">{{actor.name}}</h1>
+    <div class="af-subtitle">Framework UI Test Sheet</div>
+    <div class="af-meta">
+      <span class="af-badge">Developer Mode</span>
+      <span class="af-type">Type: {{actor.type}}</span>
+    </div>
+  </div>
+  <div class="af-quick-stats">
+    {{#each mockMonitors}}
+    <div class="af-stat-pill af-stat-{{type}}">
+      <span class="af-stat-label">{{label}}</span>
+      <span class="af-stat-value">{{value}}/{{max}}</span>
+    </div>
+    {{/each}}
+  </div>
+</div>

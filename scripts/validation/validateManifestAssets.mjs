@@ -37,6 +37,35 @@ async function validateManifestTargets() {
 
   const missing = [];
 
+  const manifestAssetPaths = [];
+  if (typeof manifest.background === 'string') {
+    manifestAssetPaths.push(manifest.background);
+  }
+  if (Array.isArray(manifest.media)) {
+    manifest.media.forEach((media) => {
+      if (typeof media?.url === 'string') {
+        manifestAssetPaths.push(media.url);
+      }
+    });
+  }
+
+  const resolvePackageAsset = (assetPath) => {
+    if (
+      typeof assetPath !== 'string' ||
+      assetPath.length === 0 ||
+      assetPath.startsWith('http://') ||
+      assetPath.startsWith('https://') ||
+      assetPath.startsWith('data:')
+    ) {
+      return null;
+    }
+
+    const normalized = assetPath
+      .replace(/^\/+/, '')
+      .replace(/^systems\/[^/]+\//, '');
+    return resolve(projectRoot, 'dist', normalized);
+  };
+
   for (const relPath of [...esmodules, ...styles]) {
     const absolute = resolve(projectRoot, 'dist', relPath);
     try {
@@ -44,6 +73,20 @@ async function validateManifestTargets() {
     } catch (error) {
       if (error?.code === 'ENOENT') {
         missing.push(relPath);
+      } else {
+        throw error;
+      }
+    }
+  }
+
+  for (const assetPath of manifestAssetPaths) {
+    const absolute = resolvePackageAsset(assetPath);
+    if (!absolute) continue;
+    try {
+      await stat(absolute);
+    } catch (error) {
+      if (error?.code === 'ENOENT') {
+        missing.push(assetPath);
       } else {
         throw error;
       }
